@@ -40,6 +40,7 @@ Current vendor sources:
 
 - `vendor/shadcn-ui/` — `https://github.com/shadcn-ui/ui.git`
 - `vendor/remix/` — `https://github.com/remix-run/remix.git`
+- `vendor/react-router/` — `https://github.com/remix-run/react-router.git`
 
 Keep vendor directories listed in `vendor/.gitignore`. If a vendor checkout
 needs local agent instructions, add both `AGENTS.md` and `CLAUDE.md` inside that
