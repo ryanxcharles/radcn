@@ -220,3 +220,88 @@ Non-blocking implementation note:
 - The data-table recipe should avoid quietly depending on unavailable
   notification or drag/drop behavior; omitted dashboard behavior should be
   visibly documented as application-code responsibility.
+
+## Result
+
+**Result:** Pass
+
+Experiment 23 completed the data-display cluster.
+
+The implementation added a RadCN-native `chart` source module with
+dependency-free SVG bar and line series, accessible figure semantics, chart
+title/description support, config-derived CSS variables, legend output,
+tooltip/details output, responsive sizing, and stable `data-radcn-chart*`
+hooks. The `chart` parts are exported from `radcn/chart` and from the root
+package index.
+
+The implementation intentionally did not add `radcn/data-table`. The data-table
+outcome is recorded as a block/recipe disposition that composes existing RadCN
+primitives (`Table`, `Button`, `Checkbox`, `Input`, `Pagination`, and `Select`)
+with app-owned route/query/state behavior. The recipe fixtures cover bounded
+sorting/filtering, selection, pagination, row actions, responsive detail
+composition, and custom token hooks without adding `@tanstack/react-table`,
+`@dnd-kit/*`, `recharts`, `zod`, or `sonner` to core RadCN.
+
+Added scenario and fixture coverage:
+
+- `chart/bar`
+- `chart/line`
+- `chart/legend`
+- `chart/tooltip`
+- `chart/accessibility`
+- `chart/custom-token`
+- `data-table/default`
+- `data-table/sort-filter`
+- `data-table/selection`
+- `data-table/pagination`
+- `data-table/row-actions`
+- `data-table/responsive-detail`
+- `data-table/custom-token`
+
+Documentation now explains the Recharts divergence, the bounded chart source
+contract, the data-table block/recipe disposition, dependency policy, and the
+remaining application-code responsibilities for dashboard behavior. Issue
+learnings were updated with reusable rules for later Stage 5 work.
+
+Verification:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed with the existing React Router
+  `module.register()` deprecation warning.
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/data-display.spec.ts`
+  passed 5 tests.
+- `pnpm fixtures:artifacts` passed 641 tests.
+- `git diff --check` passed.
+- `git status --short -- vendor` returned no output.
+
+## Conclusion
+
+The data-display cluster is resolved. RadCN should carry a small accessible
+chart core for bounded static SVG charts, while dashboard data tables remain
+recipe/block code because their most important behavior belongs to app data
+flow, routing, persistence, and optional third-party systems.
+
+Stage 5 remains open. Later experiments still need final outcomes for
+`sonner`, `toast`, `resizable`, `sidebar`, and any remaining block
+dispositions.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Harvey` and
+returned **Pass**.
+
+Harvey approved Experiment 23 for the result commit and confirmed:
+
+- `chart` has RadCN-native source, package/root exports, accessible SVG bar and
+  line output, legend, tooltip/details, custom tokens, and no Recharts
+  dependency;
+- `data-table` has a real block/recipe disposition with no `radcn/data-table`
+  export, documented rationale, focused tests, and fixture scenarios for
+  sorting/filtering, selection, pagination, row actions, responsive detail, and
+  custom tokens;
+- the semantic cleanup is correct: `ChartLegend` no longer creates a second
+  `figcaption`, and table sort state now lives on `th[aria-sort]`;
+- README status/learnings and the experiment result are recorded;
+- current `git diff --check` and vendor cleanliness pass;
+- no React-only data-display dependencies are present in `packages/radcn`.

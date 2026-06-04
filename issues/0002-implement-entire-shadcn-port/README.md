@@ -571,6 +571,19 @@ committed work.
   Applies to: `form`, Stage 5 recipe/block policy. Evidence:
   [Experiment 22](22-stage-5-form-input-cluster.md),
   `docs/radcn-source.md`.
+- **2026-06-04, Experiment 23:** Charting can be core when the contract is
+  bounded to accessible, dependency-free SVG output with explicit legend,
+  tooltip/details, color, and data hooks; Recharts remains outside core RadCN.
+  Applies to: `chart`, future data-display recipes. Evidence:
+  [Experiment 23](23-stage-5-data-display-and-table-block.md),
+  `packages/radcn/src/components/chart.tsx`.
+- **2026-06-04, Experiment 23:** Dashboard data tables are block/recipe code,
+  not a generic core primitive. Existing RadCN primitives cover the portable
+  pieces, while sorting, filtering, pagination, selection, detail panels, and
+  reordering remain recipe/application responsibilities. Applies to:
+  `data-table`, future blocks. Evidence:
+  [Experiment 23](23-stage-5-data-display-and-table-block.md),
+  `docs/radcn-source.md`.
 
 ## Five Porting Stages
 
@@ -837,4 +850,4 @@ This issue is complete when:
 - [Experiment 22: Stage 5 form and input cluster](22-stage-5-form-input-cluster.md)
   — **Pass**
 - [Experiment 23: Stage 5 data display and table block](23-stage-5-data-display-and-table-block.md)
-  — **Designed**
+  — **Pass**

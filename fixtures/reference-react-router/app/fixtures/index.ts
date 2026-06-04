@@ -6,9 +6,11 @@ import { renderAvatarFixture } from "./avatar"
 import { renderButtonFixture } from "./button"
 import { renderCalendarFixture } from "./calendar"
 import { renderCarouselFixture } from "./carousel"
+import { renderChartFixture } from "./chart"
 import { renderCollapsibleFixture } from "./collapsible"
 import { renderComboboxFixture } from "./combobox"
 import { renderCommandFixture } from "./command"
+import { renderDataTableFixture } from "./data-table"
 import { renderDatePickerFixture } from "./date-picker"
 import { renderDialogFixture } from "./dialog"
 import { renderDrawerFixture } from "./drawer"
@@ -80,6 +82,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderCarouselFixture(fixture.id)
     case "card":
       return renderCardFixture(fixture.id)
+    case "chart":
+      return renderChartFixture(fixture.id)
     case "checkbox":
       return renderCheckboxFixture(fixture.id)
     case "collapsible":
@@ -90,6 +94,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderCommandFixture(fixture.id)
     case "context-menu":
       return renderContextMenuFixture(fixture.id)
+    case "data-table":
+      return renderDataTableFixture(fixture.id)
     case "date-picker":
       return renderDatePickerFixture(fixture.id)
     case "dialog":

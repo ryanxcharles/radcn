@@ -1540,6 +1540,81 @@ Install/source parity for `form` is recipe-based: docs and fixtures demonstrate
 the supported composition, but `packages/radcn/package.json` intentionally does
 not export `./form`.
 
+## Stage 5 Data Display and Table Block
+
+Experiment 23 resolves the data-display cluster:
+
+- `Chart`
+- `data-table` disposition recipes
+
+### Chart
+
+`chart` is a core RadCN data-display component set, but it does not use
+Recharts. The upstream shadcn/ui chart module is a React wrapper around
+Recharts context, payload objects, tooltip components, and responsive container
+behavior. RadCN replaces that with dependency-free SVG primitives and explicit
+data hooks.
+
+Supported parts:
+
+- `ChartContainer`
+- `ChartBarSeries`
+- `ChartLineSeries`
+- `ChartLegend`
+- `ChartLegendItem`
+- `ChartTooltip`
+- `ChartTooltipItem`
+
+The core chart contract is intentionally bounded:
+
+- charts render as plain SVG inside a `role="img"` figure;
+- the chart has an explicit accessible name through `ariaLabel` or
+  `ariaLabelledby`;
+- descriptions can be provided through visible text and `aria-describedby`;
+- bar and line series render deterministic `data-radcn-chart-bar`,
+  `data-radcn-chart-line`, and `data-radcn-chart-point` hooks;
+- legend and tooltip/details output are normal DOM, not Recharts payload
+  render callbacks;
+- colors use explicit props, `ChartConfig` variables, or public CSS variables;
+- sizing uses `viewBox`, CSS width, and an aspect-ratio hook.
+
+Approved divergences from shadcn/Recharts:
+
+- RadCN does not expose Recharts `ResponsiveContainer`, payload helpers,
+  `Tooltip`, `Legend`, or React context.
+- RadCN does not add `recharts` as a core dependency.
+- Advanced chart types and live interaction can be future recipes if a later
+  issue proves they are needed.
+
+### Data Table Disposition
+
+`data-table` is a block/recipe outcome, not a core RadCN package export.
+
+The upstream dashboard data table is application code. It combines TanStack
+Table, dnd-kit drag/drop, Zod schemas, Recharts, Sonner toasts, Drawer,
+DropdownMenu, Select, Tabs, Checkbox, Button, and Table. Copying that as a
+generic `radcn/data-table` primitive would bring application state and several
+React-specific libraries into core RadCN.
+
+RadCN's supported data-table strategy is:
+
+- keep `Table` as the semantic core primitive;
+- compose `Button`, `Checkbox`, `DropdownMenu`, `Drawer`, `Select`, `Tabs`, and
+  `Chart` in recipe/block code;
+- model sorting, filtering, pagination, row selection, row actions, column
+  visibility, row detail panels, and reordering in Remix route/action or local
+  recipe code;
+- document omitted dashboard behaviors instead of pretending unavailable
+  notification or drag/drop systems exist in core;
+- keep install/source parity recipe-based, with no `radcn/data-table` package
+  subpath.
+
+The fixture block demonstrates the portable pieces: semantic table output,
+sort/filter controls, selected rows, pagination, row actions, responsive detail
+composition, and custom tokens. Drag/drop persistence, schema validation,
+server-backed filtering, and notification side effects remain application-code
+responsibilities.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -1601,6 +1676,10 @@ Navigation, collection, and typography probes continue that pattern:
   tokens.
 - `navigation-menu/custom-token` overrides navigation menu border, panel, and
   foreground tokens.
+- `chart/custom-token` overrides chart border, background, series, and tooltip
+  tokens.
+- `data-table/custom-token` overrides the recipe block border and background
+  tokens.
 
 ## Stage 1 Status
 

@@ -15,6 +15,10 @@ export interface TablePartProps {
   style?: string
 }
 
+export interface TableHeadProps extends TablePartProps {
+  ariaSort?: 'ascending' | 'descending' | 'none' | 'other'
+}
+
 export function Table(handle: Handle<TableProps>) {
   return () => {
     let { children, class: className, dense, style } = handle.props
@@ -61,11 +65,11 @@ export function TableRow(handle: Handle<TablePartProps>) {
   }
 }
 
-export function TableHead(handle: Handle<TablePartProps>) {
+export function TableHead(handle: Handle<TableHeadProps>) {
   return () => {
-    let { children, class: className, style } = handle.props
+    let { ariaSort, children, class: className, style } = handle.props
 
-    return <th class={classes('radcn-table-head', className)} data-radcn-table-head scope="col" style={style}>{children}</th>
+    return <th aria-sort={ariaSort} class={classes('radcn-table-head', className)} data-radcn-table-head scope="col" style={style}>{children}</th>
   }
 }
 
