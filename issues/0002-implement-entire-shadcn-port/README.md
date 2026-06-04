@@ -865,3 +865,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 24: Stage 5 notifications](24-stage-5-notifications.md)
   — **Pass**
+- [Experiment 25: Stage 5 application shell and closure](25-stage-5-application-shell-and-closure.md)
+  — **Designed**
