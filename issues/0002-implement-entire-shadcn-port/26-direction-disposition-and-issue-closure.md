@@ -127,3 +127,72 @@ Raman confirmed:
   completion review;
 - resolving `direction` plus a final inventory audit is the correct closure
   boundary because Stage 5 identified `direction` as the only remaining gap.
+
+## Result
+
+**Result:** Pass
+
+Experiment 26 resolved `direction` and closed Issue 2.
+
+RadCN now includes `packages/radcn/src/components/direction.tsx` with
+`DirectionProvider` and `Direction`. The provider renders a real `dir`
+attribute plus `data-direction` and `data-radcn-direction-provider` hooks. The
+`direction` prop takes precedence over `dir`, matching upstream's
+`direction ?? dir` alias behavior. Nested providers override direction through
+normal DOM inheritance.
+
+The upstream `useDirection` hook is an approved divergence. RadCN does not
+export it because Remix 3 can use route/request locale state, explicit props,
+DOM `dir`, and CSS logical properties instead of React/Radix direction context.
+No React, React DOM, Radix direction, or `radix-ui` dependency was added to
+`packages/radcn`.
+
+The final audit was added in [final-audit.md](final-audit.md). It accounts for
+every Issue 1 inventory row and confirms that each row now has a core source,
+helper/event source, recipe/block disposition, or documented divergence.
+
+Issue 2 was closed:
+
+- frontmatter now has `status = "closed"` and `closed = "2026-06-04"`;
+- the issue README includes a conclusion;
+- `issues/README.md` was regenerated and reports `0 open, 2 closed`.
+
+Verification passed:
+
+- `pnpm radcn:typecheck`
+- `pnpm fixtures:candidate:typecheck`
+- `pnpm fixtures:reference:typecheck` with the existing React Router
+  `module.register()` deprecation warning
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/direction.spec.ts`
+  passed: 3 tests
+- `pnpm fixtures:artifacts` passed: 716 tests
+- `git status --short -- vendor` returned no output
+
+## Conclusion
+
+`direction` is complete, the final inventory audit passes, and Issue 2 is
+closed.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Raman` and returned
+**Pass**.
+
+Raman confirmed:
+
+- `DirectionProvider` renders native `dir`, `data-direction`, and
+  `data-radcn-direction-provider`, with `direction ?? dir` precedence;
+- package and root exports are present;
+- shared scenarios cover `ltr`, `rtl`, alias, nested override, and custom token
+  output;
+- focused tests cover dependency avoidance, no `useDirection`, native
+  attributes, alias behavior, nested direction, and custom token hooks;
+- documentation records the native `dir` strategy and approved `useDirection`
+  divergence;
+- Experiment 26 records result, verification, and closure outcome;
+- the final audit accounts for `direction` and the full inventory disposition
+  table;
+- Issue 2 frontmatter and conclusion are closed;
+- `issues/README.md` is regenerated with Issue 2 under closed issues.
+
+No blocker findings remained.

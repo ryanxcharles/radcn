@@ -518,6 +518,36 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Data-table block customized through public recipe hooks.",
   },
   {
+    component: "direction",
+    id: "ltr",
+    title: "LTR Direction",
+    description: "Direction provider rendering left-to-right document flow.",
+  },
+  {
+    component: "direction",
+    id: "rtl",
+    title: "RTL Direction",
+    description: "Direction provider rendering right-to-left document flow.",
+  },
+  {
+    component: "direction",
+    id: "prop-alias",
+    title: "Direction Prop Alias",
+    description: "Direction prop overriding dir prop like upstream.",
+  },
+  {
+    component: "direction",
+    id: "nested",
+    title: "Nested Direction",
+    description: "Nested provider overriding inherited text direction.",
+  },
+  {
+    component: "direction",
+    id: "custom-token",
+    title: "Custom Direction Token",
+    description: "Direction provider styling through public CSS variables.",
+  },
+  {
     component: "sonner",
     id: "default",
     title: "Default Toaster",

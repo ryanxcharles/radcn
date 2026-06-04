@@ -34,6 +34,8 @@ export { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, Comma
 export type { CommandDialogProps, CommandInputProps, CommandItemProps, CommandPartProps, CommandProps } from './components/command.tsx'
 export { ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, enhanceContextMenu } from './components/context-menu.tsx'
 export type { ContextMenuItemVariant, ContextMenuProps, ContextMenuTriggerProps } from './components/context-menu.tsx'
+export { Direction, DirectionProvider } from './components/direction.tsx'
+export type { DirectionProviderProps, DirectionValue } from './components/direction.tsx'
 export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, enhanceDialog } from './components/dialog.tsx'
 export type { DialogButtonProps, DialogContentProps, DialogPartProps, DialogProps } from './components/dialog.tsx'
 export { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, enhanceDrawer } from './components/drawer.tsx'

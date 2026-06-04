@@ -3527,3 +3527,36 @@ body {
   background: #f0fdfa;
   color: #134e4a;
 }
+
+.reference-direction-provider {
+  display: grid;
+  width: min(100%, 384px);
+  gap: 12px;
+  border: 1px solid #e4e4e7;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #18181b;
+  padding: 16px;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+.reference-direction-sample {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px dashed #e4e4e7;
+  border-radius: 4px;
+  padding-block: 12px;
+  padding-inline: 12px 20px;
+}
+
+.reference-direction-nested {
+  width: 100%;
+  background: #f4f4f5;
+}
+
+.reference-fixture-custom-direction {
+  border-color: #0f766e;
+  background: #f0fdfa;
+  color: #134e4a;
+}

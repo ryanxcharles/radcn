@@ -1,6 +1,7 @@
 +++
-status = "open"
+status = "closed"
 opened = "2026-06-04"
+closed = "2026-06-04"
 +++
 
 # Issue 2: Implement the Entire shadcn/ui Port
@@ -613,6 +614,17 @@ committed work.
   list. Stage 5 is complete, but Issue 2 remains open because `direction` lacks
   a final experiment/disposition record. Applies to: issue closure workflow.
   Evidence: [Stage 5 audit](stage-5-audit.md).
+- **2026-06-04, Experiment 26:** Direction should use the platform `dir`
+  attribute and CSS logical properties instead of React/Radix context. RadCN
+  exports `DirectionProvider`, but intentionally omits `useDirection`.
+  Applies to: `direction`, RTL recipes, future locale-aware components.
+  Evidence:
+  [Experiment 26](26-direction-disposition-and-issue-closure.md),
+  `packages/radcn/src/components/direction.tsx`.
+- **2026-06-04, Experiment 26:** The final audit shows every Issue 1 inventory
+  row has a RadCN source, helper, recipe/block, or documented divergence
+  outcome. Applies to: Issue 2 closure. Evidence:
+  [Final audit](final-audit.md).
 
 ## Five Porting Stages
 
@@ -885,4 +897,17 @@ This issue is complete when:
 - [Experiment 25: Stage 5 application shell and closure](25-stage-5-application-shell-and-closure.md)
   — **Pass**
 - [Experiment 26: Direction disposition and issue closure](26-direction-disposition-and-issue-closure.md)
-  — **Designed**
+  — **Pass**
+
+## Conclusion
+
+Issue 2 is closed. The full Issue 1 shadcn/ui inventory now has RadCN source,
+helper/event source, recipe/block disposition, or documented divergence
+coverage. The final unresolved row, `direction`, was resolved in Experiment 26
+with a native `dir`-attribute provider and explicit no-`useDirection`
+divergence.
+
+Evidence is recorded in [the final audit](final-audit.md). The last full
+verification pass included package and fixture typechecks, focused direction
+tests, artifact generation for every shared scenario, vendor cleanliness, and
+independent completion review.

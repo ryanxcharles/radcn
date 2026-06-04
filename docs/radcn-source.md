@@ -1772,6 +1772,46 @@ Approved divergences from shadcn/ui sidebar:
 - Application-specific persistence can listen for `radcn-sidebar-change` and
   write route, cookie, or storage state outside core RadCN.
 
+## Direction
+
+Experiment 26 resolves the final inventory row:
+
+- `DirectionProvider`
+- `Direction`
+
+`direction` is a core RadCN source component, but it does not use Radix
+DirectionProvider, React context, or a `useDirection` hook. The upstream
+shadcn/ui module is a React client wrapper around Radix direction context.
+RadCN replaces that with the platform primitive: a real `dir` attribute on
+server-rendered markup.
+
+Supported behavior:
+
+- `DirectionProvider` accepts `dir` and `direction`;
+- `direction` takes precedence over `dir`, matching upstream's
+  `direction ?? dir` alias behavior;
+- the rendered wrapper exposes `dir`, `data-direction`, and
+  `data-radcn-direction-provider`;
+- nested providers override inherited direction through normal DOM `dir`
+  inheritance;
+- styling should use CSS logical properties such as `padding-inline`,
+  `margin-inline`, `border-inline`, `inset-inline`, and `text-align: start`
+  where direction-aware layout is needed.
+
+Approved divergences from upstream direction:
+
+- RadCN does not export `useDirection`; route state, request locale, authored
+  props, or DOM `dir` should be the source of truth in Remix 3 apps.
+- RadCN does not add `@radix-ui/react-direction`, `radix-ui`, React, or React
+  DOM to core.
+- Components that need RTL-aware behavior should read authored props or DOM
+  direction at their own enhancement boundary rather than relying on hidden
+  React context.
+
+Install/source parity is source-based: applications can import
+`DirectionProvider` from `radcn` or `radcn/direction` and own the wrapper just
+like any other RadCN component.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -1843,6 +1883,8 @@ Navigation, collection, and typography probes continue that pattern:
   handle, and grip tokens.
 - `sidebar/custom-token` overrides sidebar background, foreground, border,
   accent, and icon-width tokens.
+- `direction/custom-token` overrides direction provider border, background,
+  and foreground tokens.
 
 ## Stage 1 Status
 

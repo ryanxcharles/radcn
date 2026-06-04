@@ -12,6 +12,7 @@ import { renderComboboxFixture } from './combobox.tsx'
 import { renderCommandFixture } from './command.tsx'
 import { renderDataTableFixture } from './data-table.tsx'
 import { renderDatePickerFixture } from './date-picker.tsx'
+import { renderDirectionFixture } from './direction.tsx'
 import { renderDialogFixture } from './dialog.tsx'
 import { renderDrawerFixture } from './drawer.tsx'
 import { renderFieldFixture } from './field.tsx'
@@ -102,6 +103,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderDataTableFixture(fixture)
     case 'date-picker':
       return renderDatePickerFixture(fixture)
+    case 'direction':
+      return renderDirectionFixture(fixture)
     case 'dialog':
       return renderDialogFixture(fixture)
     case 'drawer':

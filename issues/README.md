@@ -2,12 +2,12 @@
 
 ## Open
 
-| #                                                   | Title                               | Opened     |
-| --------------------------------------------------- | ----------------------------------- | ---------- |
-| [0002](0002-implement-entire-shadcn-port/README.md) | Implement the Entire shadcn/ui Port | 2026-06-04 |
+| #   | Title | Opened |
+| --- | ----- | ------ |
 
 ## Closed
 
-| #                                        | Title                               | Opened     | Closed     |
-| ---------------------------------------- | ----------------------------------- | ---------- | ---------- |
-| [0001](0001-shadcn-port-scope/README.md) | Scope the shadcn/ui Port to Remix 3 | 2026-06-04 | 2026-06-04 |
+| #                                                   | Title                               | Opened     | Closed     |
+| --------------------------------------------------- | ----------------------------------- | ---------- | ---------- |
+| [0002](0002-implement-entire-shadcn-port/README.md) | Implement the Entire shadcn/ui Port | 2026-06-04 | 2026-06-04 |
+| [0001](0001-shadcn-port-scope/README.md)            | Scope the shadcn/ui Port to Remix 3 | 2026-06-04 | 2026-06-04 |

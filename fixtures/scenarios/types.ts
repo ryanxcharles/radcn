@@ -19,6 +19,7 @@ export type FixtureComponent =
   | "context-menu"
   | "data-table"
   | "date-picker"
+  | "direction"
   | "dialog"
   | "drawer"
   | "dropdown-menu"
