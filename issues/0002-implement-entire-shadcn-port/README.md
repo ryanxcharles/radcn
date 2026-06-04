@@ -290,3 +290,8 @@ This issue is complete when:
 - Do not count placeholder fixture components as completed RadCN ports.
 - Do not use exact DOM-tree equality as the default success condition.
 - Do not silently skip high-risk components; record a disposition for each one.
+
+## Experiments
+
+- [Experiment 1: Stage 1 source and native control foundation](01-stage-1-source-and-native-control-foundation.md)
+  — **Designed**
