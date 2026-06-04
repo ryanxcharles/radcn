@@ -351,3 +351,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 2: Stage 1 static display primitives](02-stage-1-static-display-primitives.md)
   — **Pass**
+- [Experiment 3: Stage 1 navigation collection and typography primitives](03-stage-1-navigation-collection-and-typography-primitives.md)
+  — **Designed**
