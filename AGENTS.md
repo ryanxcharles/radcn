@@ -30,6 +30,21 @@ Project-local skills live in the top-level `skills/` directory. Keep
 `.claude/skills` and `.codex/skills` as symlinks to `../skills`; do not let them
 become divergent copies.
 
+## Vendor Sources
+
+Upstream reference repositories live under `vendor/` as ignored nested git
+checkouts. They are for reading, diffing, and porting guidance only. Do not
+commit their source into the RadCN repository.
+
+Current vendor sources:
+
+- `vendor/shadcn-ui/` — `https://github.com/shadcn-ui/ui.git`
+- `vendor/remix/` — `https://github.com/remix-run/remix.git`
+
+Keep vendor directories listed in `vendor/.gitignore`. If a vendor checkout
+needs local agent instructions, add both `AGENTS.md` and `CLAUDE.md` inside that
+nested checkout, following the compatibility policy above.
+
 ### Issue Structure
 
 Each issue is a folder. The `README.md` is the issue spine: frontmatter, goal,

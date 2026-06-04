@@ -1,0 +1,4 @@
+# Upstream reference repos. These are nested git checkouts for study/porting and
+# are not committed into RadCN.
+shadcn-ui/
+remix/
