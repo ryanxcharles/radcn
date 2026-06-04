@@ -1175,13 +1175,88 @@ Select customization tokens:
 - `--radcn-select-indicator-fg`
 - `--radcn-select-separator-bg`
 
-Future `combobox`, `command`, `menubar`, and `navigation-menu` work should
-reuse the boundary, not blindly share the implementation. `combobox` and
-`command` can reuse listbox option state, typeahead/search, portal capture, and
-form synchronization ideas, but they need input/filtering ownership. `menubar`
-should reuse menu-style item activation and submenu policy instead of select's
-single-value listbox. `navigation-menu` needs navigation and disclosure
-semantics rather than selected form value semantics.
+Future `menubar` and `navigation-menu` work should reuse the boundary, not
+blindly share the implementation. `menubar` should reuse menu-style item
+activation and submenu policy instead of select's single-value listbox.
+`navigation-menu` needs navigation and disclosure semantics rather than
+selected form value semantics.
+
+## Stage 4 Searchable Listbox Foundation
+
+Experiment 18 adds input-owned searchable widgets:
+
+- `Combobox` and its trigger, clear, portal, content, list, item, group, label,
+  empty, separator, chip, and indicator parts
+- `Command` and its dialog, input, list, empty, group, item, shortcut, and
+  separator parts
+- shared helper: `setupSearchableListbox()`
+
+`Combobox` is not a native input and is not the same as custom `Select`.
+`NativeSelect` owns native browser choice behavior. Custom `Select` owns a
+closed trigger plus a selectable listbox. `Combobox` owns a text input, an
+optional trigger and clear button, a filtered popup listbox, selected-value
+display, optional chips, and hidden form synchronization.
+
+`Command` is not a combobox or menu. It uses searchable option-like rows for
+active-descendant movement and disabled skipping, but activation records a
+command value and dispatches `radcn-command-select` instead of submitting a
+form value or closing a menu. Shortcuts are visual hints only in this
+experiment; there are no global keyboard listeners.
+
+`setupSearchableListbox()` owns the behavior that is shared by both widgets:
+query normalization, filtering, visible enabled item indexing, group hiding,
+empty-state visibility, active-descendant synchronization, highlighted item
+movement, and disabled skipping. Consumers own activation policy. Combobox
+maps activation to selected values and form state; command maps activation to
+command selection.
+
+Combobox reuses the Stage 3 portal and clamping policy. Content moves to the
+nearest fixture-stage portal root when present and falls back to a document
+portal root. `side`, `align`, and `sideOffset` metadata drive fixed
+positioning, available-height variables, and transform origin. Command renders
+inline by default. `CommandDialog` composes the existing RadCN dialog
+foundation for modal semantics, title/description, portal capture, focus trap,
+Escape/outside dismissal, and scroll lock.
+
+Search behavior is input-owned:
+
+- typing filters visible items and updates `data-query`;
+- matching groups stay visible and empty groups are hidden;
+- empty slots show only when no items match;
+- ArrowUp, ArrowDown, Home, and End move through visible enabled items;
+- Enter selects the active combobox item or activates the active command item;
+- pointer movement highlights enabled rows and pointer click activates them;
+- disabled rows stay visible when they match but cannot be highlighted or
+  activated.
+
+Combobox form behavior uses a hidden input when `name` is supplied. Single
+selection serializes the selected value directly. Multiple selection serializes
+selected values as a comma-separated string in selection order, such as
+`react,remix,svelte`; this is a documented interim policy rather than native
+multi-select equivalence. Form reset restores the initial/default selection and
+visible input display. Required validation for this custom widget remains an
+approved divergence; use `NativeSelect` when native constraint validation is
+the priority.
+
+Approved upstream divergences:
+
+- RadCN does not copy Base UI, cmdk, Radix, or shadcn DOM shape.
+- Combobox and command use Remix 3 server markup plus package-exported
+  enhancements instead of React context/state machines.
+- Command activation is local to the component and a custom event, not cmdk's
+  React callback model.
+- Combobox multiple values use hidden-input comma serialization until a later
+  form-array policy exists.
+- Command dialog is composition over the existing RadCN dialog rather than a
+  separate palette modal implementation.
+
+Later `menubar`, `navigation-menu`, `calendar`, `date-picker`, and `carousel`
+experiments should reuse only the pieces that fit their user contract.
+`menubar` should stay closer to menu activation and submenus. `navigation-menu`
+should prioritize navigation/disclosure semantics. `calendar` and
+`date-picker` may reuse roving and active-descendant lessons, but need date
+grid semantics and range/value policy. `carousel` should avoid listbox
+semantics unless a real selectable list is present.
 
 ## Styles and Tokens
 
@@ -1237,6 +1312,9 @@ Navigation, collection, and typography probes continue that pattern:
   panel, border, and item highlight tokens.
 - `select/custom-token` overrides custom select trigger, panel, highlight, and
   indicator tokens.
+- `combobox/custom-token` overrides combobox panel border and highlight tokens.
+- `command/custom-token` overrides command panel border and highlighted item
+  tokens.
 
 ## Stage 1 Status
 

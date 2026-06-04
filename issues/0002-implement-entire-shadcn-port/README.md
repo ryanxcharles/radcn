@@ -441,6 +441,41 @@ committed work.
   widgets with portalled or scrollable parts. Evidence:
   [Experiment 17](17-stage-4-select-listbox-foundation.md),
   `docs/radcn-source.md`.
+- **2026-06-04, Experiment 18:** Searchable listbox behavior belongs in a
+  helper boundary for query filtering, visible enabled item indexing,
+  group/empty visibility, active-descendant synchronization, and disabled
+  skipping, while each component owns activation policy. Applies to:
+  `combobox`, `command`, future searchable composites. Evidence:
+  [Experiment 18](18-stage-4-searchable-listbox-combobox-command.md),
+  `packages/radcn/src/utils/searchable-listbox.ts`.
+- **2026-06-04, Experiment 18:** Combobox is input-owned, not select-owned:
+  opening shows the full collection unless the user is actively typing, typing
+  filters, selection syncs the visible input and hidden form value, and
+  multiple selection serializes as a comma-separated hidden value. Applies to:
+  `combobox`, future custom form controls. Evidence:
+  [Experiment 18](18-stage-4-searchable-listbox-combobox-command.md),
+  `packages/radcn/src/components/combobox.tsx`,
+  `fixtures/tests/combobox-command.spec.ts`.
+- **2026-06-04, Experiment 18:** Command reuses searchable listbox movement but
+  activates commands instead of menu items or form values; activation records
+  `data-value` and dispatches `radcn-command-select`, while shortcuts are
+  visual hints only. Applies to: `command`, future command-palette surfaces.
+  Evidence:
+  [Experiment 18](18-stage-4-searchable-listbox-combobox-command.md),
+  `packages/radcn/src/components/command.tsx`.
+- **2026-06-04, Experiment 18:** `CommandDialog` should compose the existing
+  RadCN dialog foundation rather than owning a separate modal stack. Applies
+  to: `command`, future modal command/search surfaces. Evidence:
+  [Experiment 18](18-stage-4-searchable-listbox-combobox-command.md),
+  `packages/radcn/src/components/command.tsx`,
+  `fixtures/tests/combobox-command.spec.ts`.
+- **2026-06-04, Experiment 18:** Base UI, cmdk, Radix, and shadcn DOM
+  equivalence is an approved divergence for searchable widgets; RadCN preserves
+  visible behavior, ARIA relationships, keyboard/pointer behavior, form policy,
+  and customization hooks through Remix 3 server markup plus enhancements.
+  Applies to: `combobox`, `command`, later high-risk widgets. Evidence:
+  [Experiment 18](18-stage-4-searchable-listbox-combobox-command.md),
+  `docs/radcn-source.md`.
 
 ## Five Porting Stages
 
@@ -697,4 +732,4 @@ This issue is complete when:
 - [Experiment 17: Stage 4 select listbox foundation](17-stage-4-select-listbox-foundation.md)
   — **Pass**
 - [Experiment 18: Stage 4 searchable listbox, combobox, and command](18-stage-4-searchable-listbox-combobox-command.md)
-  — **Designed**
+  — **Pass**

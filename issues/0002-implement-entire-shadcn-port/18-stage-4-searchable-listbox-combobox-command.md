@@ -344,3 +344,58 @@ unrelated widgets, includes required implementation surfaces, scenarios,
 Playwright gates, documentation and learning requirements, independent
 completion review, and vendor cleanliness checks, and aligns with Experiment
 17's select/listbox learnings and the Issue 2 workflow.
+
+## Result
+
+**Result:** Pass
+
+Implemented the searchable-listbox helper, RadCN combobox and command component
+families, candidate enhancement loading, paired reference/candidate fixtures,
+focused Playwright coverage, artifact scenarios, source documentation, and
+issue-level learnings.
+
+Verification passed:
+
+- `pnpm radcn:typecheck`
+- `pnpm fixtures:candidate:typecheck`
+- `pnpm fixtures:reference:typecheck`
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/combobox-command.spec.ts`
+- `pnpm fixtures:artifacts` with 475 passing tests
+
+No files under `vendor/` were modified.
+
+Notable decisions:
+
+- `setupSearchableListbox()` owns filtering, visible enabled item indexing,
+  active-descendant synchronization, group/empty visibility, and disabled
+  skipping; combobox and command own their own activation policy.
+- Combobox opens to the full collection unless the user is actively typing,
+  then filters from the input query.
+- Combobox form integration uses a hidden input; multiple values serialize as
+  a comma-separated value in selection order.
+- Command activation records `data-value` and dispatches
+  `radcn-command-select`; command shortcuts remain visual hints only.
+- `CommandDialog` composes the existing RadCN dialog foundation.
+- DOM equivalence with Base UI, cmdk, Radix, or shadcn remains an approved
+  divergence where RadCN preserves visible behavior, accessibility,
+  interaction, form, and customization contracts.
+
+## Conclusion
+
+Experiment 18 establishes the reusable searchable-listbox boundary for Stage 4
+and completes the combobox/command cluster. Stage 4 is still open: later
+experiments should use these learnings selectively for `menubar`,
+`navigation-menu`, `calendar`, `date-picker`, and `carousel` rather than
+forcing those widgets into combobox or command semantics.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Copernicus`, which
+approved the result with **Pass** and no blocking findings.
+
+The review checked public exports and subpaths, candidate enhancement loading,
+combobox and command behavior, fixtures and scenarios, focused Playwright
+coverage, source documentation, issue learnings, vendor cleanliness, and the
+credibility of the verification claims. Copernicus independently reran the
+three typechecks and the focused combobox/command Playwright suite, and noted
+that the full artifact suite had already been run by the implementation pass.

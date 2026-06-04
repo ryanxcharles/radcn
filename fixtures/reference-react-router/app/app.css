@@ -2335,3 +2335,174 @@ body {
   --reference-select-highlight-bg: #ccfbf1;
   --reference-select-indicator-fg: #0f766e;
 }
+
+.reference-combobox,
+.reference-command {
+  position: relative;
+  width: min(100%, 26rem);
+  font-family: var(--font-sans);
+}
+
+.reference-combobox-control,
+.reference-command-input-wrapper {
+  display: flex;
+  min-height: var(--control-height);
+  align-items: center;
+  border: 1px solid var(--reference-combobox-border, var(--input));
+  border-radius: var(--radius);
+  background: var(--reference-combobox-trigger-bg, var(--background));
+  color: var(--foreground);
+}
+
+.reference-combobox-input,
+.reference-command-input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: transparent;
+  padding: 0.5rem 0.75rem;
+  font: 400 0.875rem/1 var(--font-sans);
+}
+
+.reference-combobox-trigger,
+.reference-combobox-clear {
+  width: 2rem;
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+}
+
+.reference-combobox-content,
+.reference-command {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--reference-combobox-border, var(--border));
+  border-radius: var(--radius);
+  background: var(--reference-combobox-bg, var(--background));
+  color: var(--reference-combobox-fg, var(--foreground));
+  box-shadow: 0 18px 48px rgb(0 0 0 / 0.16);
+}
+
+.reference-combobox-content {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  z-index: 50;
+  min-width: 14rem;
+}
+
+.reference-combobox-item[hidden],
+.reference-combobox-group[hidden],
+.reference-combobox-chip[hidden],
+.reference-combobox-empty[hidden],
+.reference-command-item[hidden],
+.reference-command-group[hidden],
+.reference-command-empty[hidden] {
+  display: none;
+}
+
+.reference-combobox-content--popper {
+  top: 0;
+  left: calc(100% + 0.25rem);
+}
+
+.reference-combobox-list,
+.reference-command-list {
+  display: grid;
+  gap: 0.125rem;
+  max-height: 14rem;
+  overflow-y: auto;
+  padding: 0.375rem;
+}
+
+.reference-combobox-group,
+.reference-command-group {
+  display: grid;
+  gap: 0.125rem;
+}
+
+.reference-combobox-label {
+  padding: 0.375rem 1.75rem 0.25rem;
+  color: var(--muted-foreground);
+  font: 600 0.75rem/1.2 var(--font-sans);
+}
+
+.reference-combobox-item,
+.reference-command-item {
+  display: grid;
+  min-height: 2rem;
+  grid-template-columns: 1rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: calc(var(--radius) - 0.125rem);
+  padding: 0.375rem 0.5rem;
+  font: 400 0.875rem/1.25 var(--font-sans);
+}
+
+.reference-command-item {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.reference-combobox-item[data-highlighted="true"],
+.reference-combobox-item[data-selected="true"],
+.reference-command-item[data-highlighted="true"] {
+  background: var(--reference-combobox-highlight-bg, var(--secondary));
+}
+
+.reference-combobox-item[data-disabled="true"],
+.reference-command-item[data-disabled="true"] {
+  color: var(--muted-foreground);
+  opacity: 0.5;
+}
+
+.reference-combobox-separator,
+.reference-command-separator {
+  height: 1px;
+  margin: 0.25rem 0.375rem;
+  background: var(--border);
+}
+
+.reference-combobox-chips {
+  display: flex;
+  gap: 0.375rem;
+  margin-bottom: 0.5rem;
+}
+
+.reference-combobox-chip {
+  border-radius: calc(var(--radius) - 0.125rem);
+  background: var(--secondary);
+  padding: 0.25rem 0.5rem;
+  font: 500 0.75rem/1 var(--font-sans);
+}
+
+.reference-command-input-wrapper {
+  border-width: 0 0 1px;
+  border-radius: 0;
+}
+
+.reference-command-empty {
+  padding: 1.25rem;
+  color: var(--muted-foreground);
+  text-align: center;
+}
+
+.reference-command-shortcut {
+  color: var(--muted-foreground);
+  font: 500 0.75rem/1 var(--font-sans);
+}
+
+.reference-combobox-edge {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding-top: 80px;
+}
+
+.reference-fixture-custom-combobox,
+.reference-fixture-custom-command {
+  --reference-combobox-border: #0f766e;
+  --reference-combobox-trigger-bg: #f0fdfa;
+  --reference-combobox-bg: #f0fdfa;
+  --reference-combobox-fg: #134e4a;
+  --reference-combobox-highlight-bg: #ccfbf1;
+}

@@ -5,6 +5,8 @@ import { renderAlertDialogFixture } from "./alert-dialog"
 import { renderAvatarFixture } from "./avatar"
 import { renderButtonFixture } from "./button"
 import { renderCollapsibleFixture } from "./collapsible"
+import { renderComboboxFixture } from "./combobox"
+import { renderCommandFixture } from "./command"
 import { renderDialogFixture } from "./dialog"
 import { renderDrawerFixture } from "./drawer"
 import { renderFieldFixture } from "./field"
@@ -70,6 +72,10 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderCheckboxFixture(fixture.id)
     case "collapsible":
       return renderCollapsibleFixture(fixture.id)
+    case "combobox":
+      return renderComboboxFixture(fixture.id)
+    case "command":
+      return renderCommandFixture(fixture.id)
     case "context-menu":
       return renderContextMenuFixture(fixture.id)
     case "dialog":

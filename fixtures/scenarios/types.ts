@@ -11,6 +11,8 @@ export type FixtureComponent =
   | "card"
   | "checkbox"
   | "collapsible"
+  | "combobox"
+  | "command"
   | "context-menu"
   | "dialog"
   | "drawer"
