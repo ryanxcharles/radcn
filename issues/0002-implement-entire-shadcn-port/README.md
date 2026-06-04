@@ -397,3 +397,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 4: Stage 1 native select and closure audit](04-stage-1-native-select-and-closure-audit.md)
   — **Pass**
+- [Experiment 5: Stage 2 native state and progress primitives](05-stage-2-native-state-and-progress-primitives.md)
+  — **Designed**
