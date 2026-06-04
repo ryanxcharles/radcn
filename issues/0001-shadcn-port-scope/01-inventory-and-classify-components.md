@@ -107,3 +107,45 @@ criteria:
 Manual review is required before implementation work proceeds. A reviewer should
 check whether the classification is complete enough to drive the first harness
 or component-port experiment.
+
+## Result
+
+**Result:** Pass
+
+Created `component-inventory.md` with an audited inventory of the current
+shadcn/ui component surface against Remix 3's UI model. The current
+`vendor/shadcn-ui/apps/v4/lib/components.ts` source lists 60 components, and the
+inventory covers all 60.
+
+The inventory records source locations, dependency summaries, React/Radix/Base
+surfaces, visual surfaces, behavior classes, Remix 3 mapping hypotheses, parity
+checks, risk levels, dependency clusters, Remix mapping assumptions, a first
+proof set, and the recommended next experiment.
+
+Automated/local verification:
+
+- Checked that every component from
+  `vendor/shadcn-ui/apps/v4/lib/components.ts` appears in
+  `component-inventory.md`.
+- Checked that all required sections exist in `component-inventory.md`.
+- Checked that vendor checkouts remain ignored and unmodified by the main repo.
+
+Review:
+
+- Independent reviewer: Codex sub-agent `Cicero`.
+- Review result: Approved.
+- Review evidence: the reviewer confirmed 60 components, no missing/extra or
+  duplicate names, complete per-row fields, required dependency clusters, Remix
+  mismatch assumptions, first proof set, next experiment recommendation, and no
+  modifications in `vendor/shadcn-ui` or `vendor/remix`.
+- Residual risk: some rows should be revalidated during harness work because
+  several documented components are demo/block surfaces rather than direct
+  `registry:ui` entries.
+
+## Conclusion
+
+The first component map is complete enough to guide implementation. The next
+experiment should build a minimal parity harness for `button`, `input`/`field`,
+and `accordion`, using paired upstream shadcn/ui and RadCN fixtures with
+Playwright screenshots plus DOM, accessibility, keyboard, and native form
+assertions.

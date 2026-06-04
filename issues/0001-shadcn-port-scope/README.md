@@ -100,4 +100,4 @@ Those differences must be explicit and documented, not accidental.
 ## Experiments
 
 - [Experiment 1: Inventory and classify components](01-inventory-and-classify-components.md)
-  — **Designed**
+  — **Pass**
