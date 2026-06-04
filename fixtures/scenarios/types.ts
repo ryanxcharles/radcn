@@ -10,6 +10,7 @@ export type FixtureComponent =
   | "card"
   | "checkbox"
   | "collapsible"
+  | "dialog"
   | "empty"
   | "field"
   | "kbd"

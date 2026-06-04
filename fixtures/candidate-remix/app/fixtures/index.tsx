@@ -4,6 +4,7 @@ import { renderAccordionFixture } from './accordion.tsx'
 import { renderAvatarFixture } from './avatar.tsx'
 import { renderButtonFixture } from './button.tsx'
 import { renderCollapsibleFixture } from './collapsible.tsx'
+import { renderDialogFixture } from './dialog.tsx'
 import { renderFieldFixture } from './field.tsx'
 import { renderNativeSelectFixture } from './native-select.tsx'
 import {
@@ -61,6 +62,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderCheckboxFixture(fixture)
     case 'collapsible':
       return renderCollapsibleFixture(fixture)
+    case 'dialog':
+      return renderDialogFixture(fixture)
     case 'empty':
       return renderEmptyFixture(fixture)
     case 'field':

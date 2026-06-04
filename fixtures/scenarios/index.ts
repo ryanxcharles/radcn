@@ -560,6 +560,36 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Scroll area customized through public tokens.",
   },
   {
+    component: "dialog",
+    id: "default",
+    title: "Default Dialog",
+    description: "Modal dialog opened from a trigger.",
+  },
+  {
+    component: "dialog",
+    id: "default-open",
+    title: "Default Open Dialog",
+    description: "Modal dialog initialized open.",
+  },
+  {
+    component: "dialog",
+    id: "close-button",
+    title: "Dialog Close Button",
+    description: "Dialog closed through an explicit close action.",
+  },
+  {
+    component: "dialog",
+    id: "outside-dismiss",
+    title: "Dialog Outside Dismiss",
+    description: "Dismissible dialog closed by interacting outside content.",
+  },
+  {
+    component: "dialog",
+    id: "custom-token",
+    title: "Custom Dialog Token",
+    description: "Dialog customized through public tokens.",
+  },
+  {
     component: "accordion",
     id: "single",
     title: "Single Accordion",

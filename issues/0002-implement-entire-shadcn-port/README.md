@@ -303,6 +303,26 @@ committed work.
   `Stage 2`, `Stage 3`. Evidence:
   [Stage 2 audit](stage-2-audit.md),
   [Experiment 11](11-stage-2-avatar-scroll-area-and-hover-card-disposition.md).
+- **2026-06-04, Experiment 12:** Modal overlays need a package-exported client
+  helper: server markup provides stable slots, while `enhanceDialog()` owns
+  portal movement, open/closed state, ARIA relationships, focus trap, focus
+  restoration, Escape/outside dismissal, and scroll lock. Applies to:
+  `dialog`, `alert-dialog`, `sheet`, future modal overlays. Evidence:
+  [Experiment 12](12-stage-3-dialog-overlay-foundation.md),
+  `packages/radcn/src/components/dialog.tsx`,
+  `fixtures/tests/dialog.spec.ts`.
+- **2026-06-04, Experiment 12:** Fixture screenshots need portal content inside
+  `data-fixture-stage`, while normal apps can use a body-level portal root.
+  Applies to: `dialog`, future overlay artifact coverage. Evidence:
+  [Experiment 12](12-stage-3-dialog-overlay-foundation.md),
+  `packages/radcn/src/components/dialog.tsx`,
+  `fixtures/tests/fixture-artifacts.spec.ts`.
+- **2026-06-04, Experiment 12:** Dialog establishes modal overlay behavior but
+  does not solve positioned or gesture overlays; `popover`, `tooltip`,
+  `hover-card`, menus, and `drawer` still need later positioning or gesture
+  experiments. Applies to: `Stage 3`. Evidence:
+  [Experiment 12](12-stage-3-dialog-overlay-foundation.md),
+  `docs/radcn-source.md`.
 
 ## Five Porting Stages
 
@@ -544,4 +564,4 @@ This issue is complete when:
 - [Experiment 11: Stage 2 avatar, scroll area, and hover card disposition](11-stage-2-avatar-scroll-area-and-hover-card-disposition.md)
   — **Pass**
 - [Experiment 12: Stage 3 dialog overlay foundation](12-stage-3-dialog-overlay-foundation.md)
-  — **Designed**
+  — **Pass**

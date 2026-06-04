@@ -627,6 +627,76 @@ create a one-off positioning primitive.
 Stage 2 is complete after Experiment 11. Evidence is recorded in
 `issues/0002-implement-entire-shadcn-port/stage-2-audit.md`.
 
+## Stage 3 Dialog Overlay Foundation
+
+Experiment 12 begins Stage 3 with the modal overlay proof:
+
+- `Dialog`
+- `DialogTrigger`
+- `DialogPortal`
+- `DialogOverlay`
+- `DialogContent`
+- `DialogClose`
+- `DialogHeader`
+- `DialogFooter`
+- `DialogTitle`
+- `DialogDescription`
+
+RadCN dialog uses server-rendered markup plus `enhanceDialog()` from
+`radcn/dialog`:
+
+```ts
+import { enhanceDialog } from 'radcn/dialog'
+
+enhanceDialog()
+```
+
+Public hooks:
+
+- `data-radcn-dialog`
+- `data-radcn-dialog-trigger`
+- `data-radcn-dialog-portal`
+- `data-radcn-dialog-overlay`
+- `data-radcn-dialog-content`
+- `data-radcn-dialog-close`
+- `data-radcn-dialog-header`
+- `data-radcn-dialog-footer`
+- `data-radcn-dialog-title`
+- `data-radcn-dialog-description`
+
+The server markup exposes stable parts and initial `data-state` hooks. The
+client helper owns browser-only modal behavior: opening and closing, generated
+title/description relationships, `role="dialog"`, `aria-modal="true"`, focus
+entry, focus trap, focus restoration, Escape dismissal, outside pointer
+dismissal, body scroll lock, and open/closed state updates.
+
+Portal strategy is progressive: dialog markup is rendered in place first, then
+`enhanceDialog()` moves the portal subtree into a `data-radcn-portal-root`. In
+fixture pages the portal root stays inside the screenshot stage; in normal apps
+it falls back to `document.body`.
+
+Closed dialog portals, overlays, and content are hidden. When JavaScript is
+absent or delayed, closed dialogs remain hidden and triggers are inert until the
+helper loads; `defaultOpen` dialogs become modal after enhancement. This is the
+current approved progressive-enhancement boundary for modal overlays.
+
+Customization tokens:
+
+- `--radcn-dialog-overlay-bg`
+- `--radcn-dialog-border`
+- `--radcn-dialog-bg`
+- `--radcn-dialog-fg`
+- `--radcn-dialog-trigger-bg`
+- `--radcn-dialog-trigger-fg`
+- `--radcn-dialog-width`
+- `--radcn-dialog-z`
+
+This experiment establishes the modal overlay baseline for later
+`alert-dialog` and `sheet` work. It does not solve positioned overlays:
+`popover`, `tooltip`, `hover-card`, dropdown menus, context menus, and drawer
+gestures still need positioning, collision, arrow, delay, non-modal, menu, or
+gesture-specific experiments.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -666,6 +736,7 @@ Navigation, collection, and typography probes continue that pattern:
 - `avatar/custom-token` overrides avatar fallback and badge tokens.
 - `scroll-area/custom-token` overrides scroll-area border, background, thumb,
   and corner tokens.
+- `dialog/custom-token` overrides dialog overlay, content, and trigger tokens.
 
 ## Stage 1 Status
 

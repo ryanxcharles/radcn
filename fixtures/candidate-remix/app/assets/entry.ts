@@ -1,4 +1,5 @@
 import { run } from 'remix/ui'
+import { enhanceDialog } from 'radcn/dialog'
 import { enhanceSlider } from 'radcn/slider'
 import { enhanceTabs } from 'radcn/tabs'
 import { enhanceToggle } from 'radcn/toggle'
@@ -12,6 +13,7 @@ run({
 })
 
 enhanceTabs()
+enhanceDialog()
 enhanceSlider()
 enhanceToggle()
 enhanceToggleGroup()

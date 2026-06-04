@@ -209,3 +209,100 @@ enhancement, focus trap and restoration, Escape dismissal, outside dismissal,
 scroll lock, ARIA relationships, state hooks, repeated dialog isolation,
 fixtures, tests, docs, learnings, package exports, vendor cleanliness, and
 independent completion review. `git status --short vendor` returned no output.
+
+## Result
+
+**Result:** Pass
+
+Experiment 12 implemented the RadCN dialog primitive family:
+
+- `Dialog`
+- `DialogTrigger`
+- `DialogPortal`
+- `DialogOverlay`
+- `DialogContent`
+- `DialogClose`
+- `DialogHeader`
+- `DialogFooter`
+- `DialogTitle`
+- `DialogDescription`
+
+RadCN source lives at `packages/radcn/src/components/dialog.tsx`. The package
+now exports `radcn/dialog`, root exports for the component family and types, and
+the client helper `enhanceDialog()`.
+
+`enhanceDialog()` establishes the first Stage 3 modal overlay foundation. It
+keeps server-rendered slots as the author surface, then handles browser-only
+modal behavior: portal placement, open/closed state, generated
+title/description relationships, `role="dialog"`, `aria-modal="true"`, focus
+entry, focus trap, focus restoration, Escape dismissal, outside pointer
+dismissal, body scroll lock, hidden closed content, and state hooks.
+
+The portal strategy uses a `data-radcn-portal-root`. During fixture runs the
+portal root is placed inside `data-fixture-stage` so open dialog screenshots
+capture the overlay. In normal apps it falls back to `document.body`.
+
+This experiment intentionally does not complete Stage 3. Dialog establishes the
+modal foundation for later `alert-dialog` and `sheet` work, but positioned
+overlays such as `popover`, `tooltip`, `hover-card`, dropdown menus, and
+context menus still need a positioning/collision proof. Drawer also needs a
+gesture and direction proof beyond dialog.
+
+Shared dialog scenarios now include:
+
+- `dialog/default`
+- `dialog/default-open`
+- `dialog/close-button`
+- `dialog/outside-dismiss`
+- `dialog/custom-token`
+
+Verification commands run:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/dialog.spec.ts
+pnpm fixtures:artifacts
+```
+
+All verification commands passed. The focused dialog Playwright file ran 4
+tests successfully. `pnpm fixtures:artifacts` ran 296 Playwright tests
+successfully.
+
+The generated artifact manifest contains:
+
+- 244 screenshot entries;
+- 122 shared scenarios;
+- 5 dialog scenarios;
+- paired `reference` and `candidate` artifacts;
+- reference app on port 4601 and candidate app on port 4602.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+**Reviewer:** Kierkegaard
+
+**Result:** Pass
+
+Kierkegaard found no blocking issues. The review confirmed the dialog component
+family, `enhanceDialog()`, portal movement, open/closed state, ARIA
+relationships, focus trap and restoration, Escape and outside dismissal, scroll
+lock, hidden closed state, package exports, candidate browser entry, real RadCN
+fixtures, shared scenarios, focused Playwright coverage, documentation,
+learnings, result evidence, artifact counts, and clean `vendor/` status.
+
+The only note was non-blocking: this experiment is correctly scoped as a modal
+overlay foundation and intentionally does not solve positioned overlays, nested
+dialog scenarios, or drawer gestures; those gaps are documented for later
+Stage 3 experiments.
+
+## Conclusion
+
+Experiment 12 establishes the modal overlay baseline for RadCN. Later modal
+components should reuse the dialog helper pattern rather than inventing
+separate focus, scroll-lock, and dismissal behavior. The next Stage 3
+experiment should either port `alert-dialog` and `sheet` on top of this modal
+foundation, or design the positioning foundation needed for `popover`,
+`tooltip`, `hover-card`, and menu overlays.

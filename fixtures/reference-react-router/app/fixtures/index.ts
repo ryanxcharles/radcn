@@ -4,6 +4,7 @@ import { renderAccordionFixture } from "./accordion"
 import { renderAvatarFixture } from "./avatar"
 import { renderButtonFixture } from "./button"
 import { renderCollapsibleFixture } from "./collapsible"
+import { renderDialogFixture } from "./dialog"
 import { renderFieldFixture } from "./field"
 import { renderNativeSelectFixture } from "./native-select"
 import {
@@ -61,6 +62,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderCheckboxFixture(fixture.id)
     case "collapsible":
       return renderCollapsibleFixture(fixture.id)
+    case "dialog":
+      return renderDialogFixture(fixture.id)
     case "empty":
       return renderEmptyFixture(fixture.id)
     case "field":
