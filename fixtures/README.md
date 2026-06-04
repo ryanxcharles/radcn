@@ -1,0 +1,69 @@
+# Fixture Apps
+
+These apps provide stable browser fixtures for comparing upstream shadcn/ui
+against RadCN.
+
+## Apps
+
+- Reference React Router app: `fixtures/reference-react-router`
+- Candidate Remix 3 app: `fixtures/candidate-remix`
+
+## Ports
+
+- Reference: `http://localhost:4601`
+- Candidate: `http://localhost:4602`
+
+Both apps accept a `PORT` environment variable, but browser comparison tooling
+should use the defaults unless a port conflict requires an override.
+
+## Install
+
+Install from the repository root:
+
+```bash
+pnpm install
+```
+
+The Remix candidate app uses workspace links to the vendored Remix packages
+under `vendor/remix/packages/*`.
+
+## Run
+
+In separate terminals:
+
+```bash
+pnpm fixtures:reference:dev
+pnpm fixtures:candidate:dev
+```
+
+## Shared Routes
+
+Both apps expose:
+
+- `/`
+- `/fixtures`
+- `/fixtures/:component`
+- `/fixtures/:component/:scenario`
+
+Proof-set routes:
+
+- `/fixtures/button/default`
+- `/fixtures/button/variants`
+- `/fixtures/button/disabled`
+- `/fixtures/button/as-child-or-link`
+- `/fixtures/field/input-default`
+- `/fixtures/field/input-invalid`
+- `/fixtures/field/input-disabled`
+- `/fixtures/accordion/single`
+- `/fixtures/accordion/multiple`
+- `/fixtures/accordion/disabled-item`
+
+Every scenario page renders:
+
+```html
+<main data-fixture-app="reference|candidate" data-component="..." data-scenario="...">
+  <section data-fixture-stage>
+    ...
+  </section>
+</main>
+```

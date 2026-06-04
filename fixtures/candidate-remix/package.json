@@ -1,0 +1,17 @@
+{
+  "name": "radcn-candidate-remix",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --import remix/node-tsx server.ts",
+    "start": "node --import remix/node-tsx server.ts",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "remix": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  }
+}

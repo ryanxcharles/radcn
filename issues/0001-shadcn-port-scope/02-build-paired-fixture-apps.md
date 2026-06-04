@@ -29,6 +29,14 @@ Use these vendored references:
 The paired apps should be intentionally boring. They exist only to render stable
 component scenarios in a browser.
 
+The default development ports are fixed so browser tooling has stable targets:
+
+- React Router reference app: `http://localhost:4601`
+- Remix 3 candidate app: `http://localhost:4602`
+
+Both ports may be overridden with environment variables, but Playwright and
+manual verification should use these defaults unless there is a conflict.
+
 ## Changes
 
 Create a test fixture workspace under `fixtures/`:
@@ -209,3 +217,89 @@ The experiment passes if:
 The experiment does not need to prove pixel parity. It only needs to prove that
 the paired app scaffold and fixture contract are ready for the first real
 browser comparison experiment.
+
+## Result
+
+**Result:** Pass
+
+Implemented the paired fixture scaffold:
+
+- `fixtures/scenarios/` defines the shared proof-set scenarios.
+- `fixtures/reference-react-router/` runs a React Router reference app on
+  `http://localhost:4601` by default.
+- `fixtures/candidate-remix/` runs a Remix 3 candidate app on
+  `http://localhost:4602` by default.
+- `fixtures/README.md` documents install, run commands, ports, shared route
+  contract, and all proof-set scenario URLs.
+- Root workspace scripts expose the fixture commands.
+
+Verification commands run from the repository root:
+
+```bash
+pnpm install
+pnpm fixtures:reference:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:dev
+pnpm fixtures:candidate:dev
+node <<'JS'
+const paths = [
+  '/fixtures/button/default',
+  '/fixtures/button/variants',
+  '/fixtures/button/disabled',
+  '/fixtures/button/as-child-or-link',
+  '/fixtures/field/input-default',
+  '/fixtures/field/input-invalid',
+  '/fixtures/field/input-disabled',
+  '/fixtures/accordion/single',
+  '/fixtures/accordion/multiple',
+  '/fixtures/accordion/disabled-item',
+]
+
+for (const [port, app] of [[4601, 'reference'], [4602, 'candidate']]) {
+  for (const path of paths) {
+    const response = await fetch(`http://localhost:${port}${path}`)
+    if (!response.ok) throw new Error(`${app} ${path} returned ${response.status}`)
+    const html = await response.text()
+    const [, , component, scenario] = path.split('/')
+    for (const expected of [
+      `data-fixture-app="${app}"`,
+      `data-component="${component}"`,
+      `data-scenario="${scenario}"`,
+      'data-fixture-stage',
+    ]) {
+      if (!html.includes(expected)) throw new Error(`${app} ${path} missing ${expected}`)
+    }
+    console.log(`ok ${app} ${path}`)
+  }
+}
+JS
+git status --short -- vendor
+```
+
+Both typechecks passed. Both dev servers started successfully on the default
+ports. The Node route probe passed for all ten proof-set routes in both apps,
+covering twenty scenario URLs total. `git status --short -- vendor` reported no
+vendor modifications.
+
+An initial `curl` route probe was attempted, but this environment does not have
+`curl` installed. The verification used Node's built-in `fetch` instead.
+
+Playwright smoke coverage was deferred to the next experiment. Experiment 2
+kept browser verification to manual server startup plus the Node route probe so
+the paired fixture app scaffold could land without expanding into screenshot
+harness design.
+
+Independent AI completion review was performed by subagent `Turing`, which
+approved the result. The review found no blocking issues. Residual risks were
+that the reviewer observed already-running listeners on ports `4601` and `4602`
+instead of freshly starting the servers, and that Playwright smoke coverage is
+not present yet.
+
+## Conclusion
+
+The paired fixture app approach is viable. RadCN now has a React Router
+reference app and a Remix 3 candidate app that expose the same scenario URLs on
+separate fixed ports with stable shell attributes. The next experiment should
+turn this scaffold into an automated Playwright smoke harness that starts both
+apps, visits every scenario, asserts the contract, and captures first
+comparison artifacts.

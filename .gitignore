@@ -2,3 +2,12 @@
 vendor/shadcn-ui/
 vendor/remix/
 vendor/react-router/
+
+# Dependency installs and build output
+node_modules/
+fixtures/**/node_modules/
+fixtures/**/build/
+fixtures/**/.react-router/
+fixtures/**/.vite/
+fixtures/**/test-results/
+fixtures/**/playwright-report/
