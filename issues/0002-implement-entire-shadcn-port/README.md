@@ -792,3 +792,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 20: Stage 4 calendar and date picker](20-stage-4-calendar-and-date-picker.md)
   — **Pass**
+- [Experiment 21: Stage 4 carousel and stage closure](21-stage-4-carousel-and-stage-closure.md)
+  — **Designed**
