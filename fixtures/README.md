@@ -36,6 +36,28 @@ pnpm fixtures:reference:dev
 pnpm fixtures:candidate:dev
 ```
 
+## Artifact Harness
+
+Capture the first paired browser artifacts from the repository root:
+
+```bash
+pnpm fixtures:artifacts
+```
+
+The harness starts or reuses the reference app on `http://localhost:4601` and
+the candidate app on `http://localhost:4602`. It visits every scenario from
+`fixtures/scenarios/`, asserts the stable fixture shell attributes, and captures
+screenshots of `[data-fixture-stage]`.
+
+Generated output is ignored by git and written to:
+
+```text
+fixtures/artifacts/
+├── manifest.json
+├── reference/
+└── candidate/
+```
+
 ## Shared Routes
 
 Both apps expose:

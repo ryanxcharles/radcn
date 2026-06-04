@@ -11,3 +11,4 @@ fixtures/**/.react-router/
 fixtures/**/.vite/
 fixtures/**/test-results/
 fixtures/**/playwright-report/
+fixtures/artifacts/

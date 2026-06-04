@@ -143,3 +143,83 @@ Residual risks:
   listeners.
 - This experiment intentionally defers pixel diff and parity rules, so it will
   not close the issue by itself.
+
+## Result
+
+**Result:** Pass
+
+Implemented the Playwright artifact harness:
+
+- `fixtures/playwright.config.ts` starts or reuses the React Router reference
+  app on `http://localhost:4601` and the Remix 3 candidate app on
+  `http://localhost:4602`.
+- `fixtures/tests/fixture-artifacts.spec.ts` reads scenarios from
+  `fixtures/scenarios/`, visits both apps for each scenario, asserts the stable
+  fixture shell contract, captures `[data-fixture-stage]` screenshots, and
+  writes `fixtures/artifacts/manifest.json`.
+- `pnpm fixtures:artifacts` runs the harness from the repository root.
+- `fixtures/README.md` documents the command and artifact output directory.
+- `.gitignore` keeps generated artifacts and Playwright output out of git.
+
+Verification commands run from the repository root:
+
+```bash
+pnpm install
+pnpm fixtures:reference:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:artifacts
+node <<'JS'
+const manifest = require('./fixtures/artifacts/manifest.json')
+const expected = manifest.scenarios.length * Object.keys(manifest.apps).length
+const screenshots = manifest.entries.map((entry) => `fixtures/artifacts/${entry.screenshot}`)
+console.log(`expected=${expected}`)
+console.log(`entries=${manifest.entries.length}`)
+console.log(`apps=${Object.keys(manifest.apps).join(',')}`)
+console.log(`viewport=${manifest.viewport.width}x${manifest.viewport.height}`)
+console.log(`first=${screenshots[0]}`)
+console.log(`last=${screenshots[screenshots.length - 1]}`)
+JS
+find fixtures/artifacts -type f -name '*.png' | wc -l | tr -d ' '
+git check-ignore -v fixtures/artifacts/manifest.json \
+  fixtures/artifacts/reference/button/default.png \
+  fixtures/test-results
+git status --short -- vendor
+```
+
+Both fixture typechecks passed. `pnpm fixtures:artifacts` passed with 20
+Playwright tests for 10 shared scenarios across 2 apps. The generated manifest
+contains 10 scenarios and 20 screenshot entries with viewport `1280x900`. The
+artifact directory contains 20 PNG screenshots plus `manifest.json`.
+
+Generated paths:
+
+```text
+fixtures/artifacts/manifest.json
+fixtures/artifacts/reference/{component}/{scenario}.png
+fixtures/artifacts/candidate/{component}/{scenario}.png
+```
+
+`git check-ignore` confirmed that `fixtures/artifacts/manifest.json`,
+`fixtures/artifacts/reference/button/default.png`, and `fixtures/test-results`
+are ignored. `git status --short -- vendor` reported no vendor modifications.
+
+Playwright emitted environment warnings about `NO_COLOR` being ignored because
+`FORCE_COLOR` is set, and Node emitted a `DEP0205` warning about
+`module.register()`. These warnings did not prevent the harness from starting
+the apps, visiting routes, or capturing artifacts.
+
+Independent AI completion review was performed by subagent `Helmholtz`, which
+approved the result. The review found no blocking issues. Residual risks were
+that `reuseExistingServer: true` is practical locally but CI should eventually
+prefer deterministic startup, and that the harness captures artifacts only:
+parity rules and pixel diffs remain intentionally deferred.
+
+## Conclusion
+
+The artifact pipeline is now in place. Future experiments can run
+`pnpm fixtures:artifacts` to produce paired screenshots and a manifest for every
+shared scenario without relying on exact DOM equivalence or premature pixel
+diffs. The next experiment should use these artifacts to define the actual
+RadCN parity model: visual review rules, customization probes, accessibility
+checks, interaction checks, and the rules for acceptable Remix 3 divergence from
+React shadcn/ui.

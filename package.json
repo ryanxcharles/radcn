@@ -4,9 +4,13 @@
   "type": "module",
   "packageManager": "pnpm@10.17.0",
   "scripts": {
+    "fixtures:artifacts": "playwright test -c fixtures/playwright.config.ts",
     "fixtures:reference:dev": "pnpm --dir fixtures/reference-react-router dev",
     "fixtures:candidate:dev": "pnpm --dir fixtures/candidate-remix dev",
     "fixtures:reference:typecheck": "pnpm --dir fixtures/reference-react-router typecheck",
     "fixtures:candidate:typecheck": "pnpm --dir fixtures/candidate-remix typecheck"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:"
   }
 }
