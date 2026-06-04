@@ -2,6 +2,7 @@ import type { FixtureScenario } from '../../../scenarios/types.ts'
 
 import { renderAccordionFixture } from './accordion.tsx'
 import { renderButtonFixture } from './button.tsx'
+import { renderCollapsibleFixture } from './collapsible.tsx'
 import { renderFieldFixture } from './field.tsx'
 import { renderNativeSelectFixture } from './native-select.tsx'
 import {
@@ -51,6 +52,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderCardFixture(fixture)
     case 'checkbox':
       return renderCheckboxFixture(fixture)
+    case 'collapsible':
+      return renderCollapsibleFixture(fixture)
     case 'empty':
       return renderEmptyFixture(fixture)
     case 'field':

@@ -8,6 +8,7 @@ export type FixtureComponent =
   | "button-group"
   | "card"
   | "checkbox"
+  | "collapsible"
   | "empty"
   | "field"
   | "kbd"

@@ -14,6 +14,7 @@
     "./button-group": "./src/components/button-group.tsx",
     "./card": "./src/components/card.tsx",
     "./checkbox": "./src/components/checkbox.tsx",
+    "./collapsible": "./src/components/collapsible.tsx",
     "./empty": "./src/components/empty.tsx",
     "./field": "./src/components/field.tsx",
     "./input": "./src/components/input.tsx",

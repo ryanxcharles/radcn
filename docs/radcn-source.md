@@ -238,7 +238,7 @@ Customization for this batch uses control-level and progress-level variables:
 
 Remaining Stage 2 questions are not answered by this native-state batch:
 
-- custom disclosure state for `collapsible` and `tabs`;
+- custom disclosure state for `tabs`;
 - pressed-state strategy for `toggle` and `toggle-group`;
 - pointer and keyboard strategy for `slider`;
 - fallback loading behavior for `avatar`;
@@ -306,6 +306,56 @@ Accordion answers the first Stage 2 disclosure question for simple disclosure:
 native details can cover default-open, collapsible, multiple-open, keyboard,
 pointer, and basic single-exclusivity behavior. It does not answer richer tab
 roving-focus behavior or arbitrary controlled state.
+
+## Stage 2 Collapsible Disclosure
+
+Experiment 7 adds the second bounded disclosure primitive:
+
+- `Collapsible`
+- `CollapsibleTrigger`
+- `CollapsibleContent`
+
+RadCN collapsible also uses native `<details>` and `<summary>`. Unlike
+accordion, a single-panel collapsible can map root `open` directly to the
+native `open` attribute, so initial open state is real behavior rather than
+metadata.
+
+The source is exported from the root `radcn` package and from
+`radcn/collapsible`.
+
+Public hooks:
+
+- `data-radcn-collapsible`
+- `data-radcn-collapsible-trigger`
+- `data-radcn-collapsible-trigger-text`
+- `data-radcn-collapsible-icon`
+- `data-radcn-collapsible-content`
+- `data-radcn-collapsible-content-inner`
+
+The root exposes `data-state="open"` or `data-state="closed"` for initial
+state and `data-disabled="true"` for disabled state. Live open styling should
+use `details[open]`, matching the accordion rule that server-rendered
+`data-state` is initial state only.
+
+Disabled collapsibles use explicit disabled props at each affected layer.
+`Collapsible disabled` renders the root as non-details wrapper markup with
+`data-disabled="true"`. `CollapsibleTrigger disabled` renders an
+`aria-disabled` non-summary trigger, and `CollapsibleContent disabled` hides the
+content. The root cannot automatically rewrite arbitrary trigger/content
+children in this server-rendered shape, so tests and fixtures pass disabled to
+the root, trigger, and content when the whole collapsible is disabled.
+
+Customization tokens:
+
+- `--radcn-collapsible-border`
+- `--radcn-collapsible-bg`
+- `--radcn-collapsible-fg`
+- `--radcn-collapsible-content-fg`
+
+Collapsible confirms that native details cover simple single-panel disclosure
+without a client-state primitive. Tabs still need a separate strategy because
+they require tablist semantics, roving focus, selected tab state, and panel
+relationships that native details do not provide.
 
 ## Styles and Tokens
 

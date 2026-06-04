@@ -186,10 +186,23 @@ export const radcnStyles = String.raw`
 .radcn-accordion-item[open] .radcn-accordion-icon{transform:rotate(180deg)}
 .radcn-accordion-content{overflow:hidden;color:var(--radcn-accordion-content-fg,var(--radcn-muted-foreground));font:400 .875rem/1.5 var(--radcn-font)}
 .radcn-accordion-content-inner{padding:0 0 1rem}
+.radcn-collapsible{display:block;width:min(100%,28rem);border:1px solid var(--radcn-collapsible-border,var(--radcn-border));border-radius:var(--radcn-radius);background:var(--radcn-collapsible-bg,var(--radcn-background));color:var(--radcn-collapsible-fg,var(--radcn-foreground));font-family:var(--radcn-font)}
+.radcn-collapsible[data-disabled="true"]{opacity:.5}
+.radcn-collapsible-trigger{display:flex;width:100%;align-items:center;justify-content:space-between;gap:1rem;padding:.875rem 1rem;cursor:pointer;font:500 .875rem/1.3 var(--radcn-font);list-style:none;outline:none;text-align:left}
+.radcn-collapsible-trigger::-webkit-details-marker{display:none}
+.radcn-collapsible-trigger::marker{content:""}
+.radcn-collapsible-trigger:hover{text-decoration:underline;text-underline-offset:.25rem}
+.radcn-collapsible-trigger:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--radcn-ring) 35%,transparent)}
+.radcn-collapsible[data-disabled="true"] .radcn-collapsible-trigger{cursor:not-allowed;pointer-events:none;text-decoration:none}
+.radcn-collapsible-icon{flex-shrink:0;color:var(--radcn-muted-foreground);font:600 .75rem/1 var(--radcn-font);transition:transform 120ms ease}
+.radcn-collapsible[open] .radcn-collapsible-icon{transform:rotate(180deg)}
+.radcn-collapsible-content{overflow:hidden;border-top:1px solid var(--radcn-collapsible-border,var(--radcn-border));color:var(--radcn-collapsible-content-fg,var(--radcn-muted-foreground));font:400 .875rem/1.5 var(--radcn-font)}
+.radcn-collapsible-content-inner{padding:1rem}
 .radcn-fixture-custom-breadcrumb{color:#0f766e}
 .radcn-fixture-custom-typography{--radcn-typography-h1-size:2.5rem;--radcn-typography-muted:#7c3aed}
 .radcn-fixture-custom-native-select{--radcn-native-select-border:#0f766e;--radcn-native-select-bg:#f0fdfa;--radcn-native-select-fg:#134e4a;--radcn-native-select-invalid:#7c3aed}
 .radcn-fixture-custom-checkbox,.radcn-fixture-custom-radio,.radcn-fixture-custom-switch{--radcn-control-checked-bg:#0f766e;--radcn-control-border:#0f766e;--radcn-control-invalid:#7c3aed}
 .radcn-fixture-custom-progress{--radcn-progress-bg:#ccfbf1;--radcn-progress-fg:#0f766e}
 .radcn-fixture-custom-accordion{--radcn-accordion-border:#0f766e;--radcn-accordion-trigger-fg:#134e4a;--radcn-accordion-content-fg:#0f766e}
+.radcn-fixture-custom-collapsible{--radcn-collapsible-border:#0f766e;--radcn-collapsible-bg:#f0fdfa;--radcn-collapsible-fg:#134e4a;--radcn-collapsible-content-fg:#0f766e}
 `

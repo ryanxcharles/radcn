@@ -16,6 +16,8 @@ export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader,
 export type { CardPartProps, CardProps, CardSize } from './components/card.tsx'
 export { Checkbox } from './components/checkbox.tsx'
 export type { CheckboxProps, CheckboxState } from './components/checkbox.tsx'
+export { Collapsible, CollapsibleContent, CollapsibleTrigger } from './components/collapsible.tsx'
+export type { CollapsibleContentProps, CollapsibleProps, CollapsibleTriggerProps } from './components/collapsible.tsx'
 export { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from './components/empty.tsx'
 export type { EmptyMediaProps, EmptyMediaVariant, EmptyPartProps, EmptyProps } from './components/empty.tsx'
 export { Field, FieldDescription, FieldError } from './components/field.tsx'

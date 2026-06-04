@@ -214,6 +214,27 @@ committed work.
   [Experiment 6](06-stage-2-accordion-disclosure-primitive.md),
   `packages/radcn/src/styles/tokens.css`,
   `fixtures/tests/accordion.spec.ts`.
+- **2026-06-04, Experiment 7:** Single-panel collapsible can map root `open`
+  directly to the native `<details open>` attribute, avoiding accordion's
+  root-to-item state propagation limitation. Applies to: `collapsible` and
+  future single-root disclosure primitives. Evidence:
+  [Experiment 7](07-stage-2-collapsible-disclosure-primitive.md),
+  `packages/radcn/src/components/collapsible.tsx`,
+  `fixtures/tests/collapsible.spec.ts`.
+- **2026-06-04, Experiment 7:** Server-rendered compound components cannot
+  assume root disabled state rewrites arbitrary child trigger/content markup.
+  Collapsible disabled behavior is explicit at each layer: disabled root,
+  disabled trigger, and disabled content. Applies to: `collapsible`, `tabs`,
+  and future compound state components. Evidence:
+  [Experiment 7](07-stage-2-collapsible-disclosure-primitive.md),
+  `docs/radcn-source.md`,
+  `fixtures/tests/collapsible.spec.ts`.
+- **2026-06-04, Experiment 7:** Simple disclosure is covered by native details
+  after accordion and collapsible, but tabs still need a separate strategy for
+  tablist semantics, roving focus, selected state, and panel relationships.
+  Applies to: `tabs` and future client-state planning. Evidence:
+  [Experiment 7](07-stage-2-collapsible-disclosure-primitive.md),
+  `docs/radcn-source.md`.
 
 ## Five Porting Stages
 
@@ -442,4 +463,4 @@ This issue is complete when:
 - [Experiment 6: Stage 2 accordion disclosure primitive](06-stage-2-accordion-disclosure-primitive.md)
   — **Pass**
 - [Experiment 7: Stage 2 collapsible disclosure primitive](07-stage-2-collapsible-disclosure-primitive.md)
-  — **Designed**
+  — **Pass**

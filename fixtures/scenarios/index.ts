@@ -487,6 +487,30 @@ export const fixtureScenarios: FixtureScenario[] = [
     title: "Custom Accordion Token",
     description: "Accordion customized through public tokens.",
   },
+  {
+    component: "collapsible",
+    id: "default",
+    title: "Default Collapsible",
+    description: "Closed single-panel disclosure.",
+  },
+  {
+    component: "collapsible",
+    id: "open",
+    title: "Open Collapsible",
+    description: "Open single-panel disclosure.",
+  },
+  {
+    component: "collapsible",
+    id: "disabled",
+    title: "Disabled Collapsible",
+    description: "Disabled non-interactive disclosure.",
+  },
+  {
+    component: "collapsible",
+    id: "custom-token",
+    title: "Custom Collapsible Token",
+    description: "Collapsible customized through public tokens.",
+  },
 ]
 
 export function getFixtureScenario(
