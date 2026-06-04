@@ -498,3 +498,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 9: Stage 2 toggle and toggle group primitives](09-stage-2-toggle-and-toggle-group-primitives.md)
   — **Pass**
+- [Experiment 10: Stage 2 slider form control primitive](10-stage-2-slider-form-control-primitive.md)
+  — **Designed**
