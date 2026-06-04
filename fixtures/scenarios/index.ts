@@ -481,6 +481,12 @@ export const fixtureScenarios: FixtureScenario[] = [
     title: "Disabled Accordion Item",
     description: "Accordion with one disabled trigger item.",
   },
+  {
+    component: "accordion",
+    id: "custom-token",
+    title: "Custom Accordion Token",
+    description: "Accordion customized through public tokens.",
+  },
 ]
 
 export function getFixtureScenario(

@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./accordion": "./src/components/accordion.tsx",
     "./alert": "./src/components/alert.tsx",
     "./aspect-ratio": "./src/components/aspect-ratio.tsx",
     "./badge": "./src/components/badge.tsx",

@@ -792,6 +792,12 @@ body {
   --reference-native-select-invalid: #7c3aed;
 }
 
+.reference-fixture-custom-accordion {
+  --border: #0f766e;
+  --foreground: #134e4a;
+  --muted-foreground: #0f766e;
+}
+
 .reference-checkbox-wrapper,
 .reference-radio-item,
 .reference-switch-wrapper {

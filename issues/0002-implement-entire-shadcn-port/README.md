@@ -192,6 +192,28 @@ committed work.
   [Experiment 5](05-stage-2-native-state-and-progress-primitives.md),
   `packages/radcn/src/components/checkbox.tsx`,
   `fixtures/tests/native-state.spec.ts`.
+- **2026-06-04, Experiment 6:** Simple disclosure can use native
+  `<details>/<summary>` in Remix 3 when live styling is driven by
+  `details[open]` and server-rendered `data-state` is treated as initial state
+  only. Applies to: `accordion` and future `collapsible` evaluation. Evidence:
+  [Experiment 6](06-stage-2-accordion-disclosure-primitive.md),
+  `packages/radcn/src/components/accordion.tsx`,
+  `fixtures/tests/accordion.spec.ts`.
+- **2026-06-04, Experiment 6:** Native single accordion exclusivity requires a
+  shared `<details name>` on the actual item elements; the server-rendered
+  `Accordion` root cannot propagate that attribute to arbitrary child items
+  without a client/context strategy. Applies to: `accordion`, `collapsible`,
+  and future client-state decisions. Evidence:
+  [Experiment 6](06-stage-2-accordion-disclosure-primitive.md),
+  `fixtures/candidate-remix/app/fixtures/accordion.tsx`,
+  `docs/radcn-source.md`.
+- **2026-06-04, Experiment 6:** `<details>` has no native disabled attribute.
+  Disabled accordion items should render non-interactive wrapper markup with
+  `data-disabled` instead of a focusable `<details>/<summary>` pair. Applies to:
+  `accordion` and future native disclosure decisions. Evidence:
+  [Experiment 6](06-stage-2-accordion-disclosure-primitive.md),
+  `packages/radcn/src/styles/tokens.css`,
+  `fixtures/tests/accordion.spec.ts`.
 
 ## Five Porting Stages
 
@@ -418,4 +440,4 @@ This issue is complete when:
 - [Experiment 5: Stage 2 native state and progress primitives](05-stage-2-native-state-and-progress-primitives.md)
   — **Pass**
 - [Experiment 6: Stage 2 accordion disclosure primitive](06-stage-2-accordion-disclosure-primitive.md)
-  — **Designed**
+  — **Pass**

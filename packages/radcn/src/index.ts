@@ -1,3 +1,5 @@
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './components/accordion.tsx'
+export type { AccordionContentProps, AccordionItemProps, AccordionProps, AccordionTriggerProps, AccordionType } from './components/accordion.tsx'
 export { Alert, AlertAction, AlertDescription, AlertTitle } from './components/alert.tsx'
 export type { AlertPartProps, AlertProps, AlertVariant } from './components/alert.tsx'
 export { AspectRatio } from './components/aspect-ratio.tsx'

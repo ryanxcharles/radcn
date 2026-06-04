@@ -59,6 +59,17 @@ function AccordionContent({
 }
 
 export function renderAccordionFixture(scenario: string) {
+  if (scenario === "custom-token") {
+    return (
+      <Accordion className="reference-fixture-custom-accordion" type="single" collapsible defaultValue="one">
+        <AccordionItem value="one">
+          <AccordionTrigger>Custom accordion</AccordionTrigger>
+          <AccordionContent>Accordion colors use documented RadCN tokens.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    )
+  }
+
   if (scenario === "multiple") {
     return (
       <Accordion type="multiple" defaultValue={["one", "two"]}>

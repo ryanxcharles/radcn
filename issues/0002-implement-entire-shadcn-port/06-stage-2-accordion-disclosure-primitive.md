@@ -151,3 +151,123 @@ from `radcn`, preserves reference parity without requiring exact DOM equality,
 covers scenarios, tests, docs, learnings, vendor cleanliness, and completion
 review, and frames the native `<details>/<summary>` direction carefully enough
 for shadcn/Radix parity risks.
+
+## Result
+
+**Result:** Pass
+
+Experiment 6 replaced the fixture-local candidate accordion placeholder with a
+RadCN accordion component family:
+
+- `Accordion`
+- `AccordionItem`
+- `AccordionTrigger`
+- `AccordionContent`
+
+RadCN source lives at `packages/radcn/src/components/accordion.tsx`. The package
+now exports `radcn/accordion` and root exports for the component family and
+types.
+
+The implementation uses native `<details>` and `<summary>` elements. This
+preserves browser pointer and keyboard disclosure behavior without introducing a
+client-state primitive for the first accordion port. Disabled items are the
+exception: because `<details>` has no native disabled attribute, disabled items
+render non-interactive wrapper markup instead of focusable disclosure controls.
+The candidate fixtures now import from `radcn`.
+
+The native implementation records initial state through `open` and `data-state`,
+but live visual state is driven by `details[open]` because server-rendered
+`data-state` does not update after user interaction.
+
+Approved divergences and limitations:
+
+- Single accordion exclusivity uses the platform `<details name>` behavior.
+  Because the server-rendered root cannot propagate that native attribute to
+  arbitrary child items, current single accordion items receive the shared
+  `name` explicitly.
+- `defaultValue` is accepted on the root and exposed as metadata, but it does
+  not drive item open state in the current server-rendered implementation.
+  Initial open state is set with `AccordionItem open` until RadCN has context
+  or client-state support that can propagate root state into arbitrary children.
+- `collapsible` is an intent marker on the root. Native details can collapse
+  the currently open item, but RadCN does not yet implement Radix controlled
+  state or non-collapsible enforcement.
+- Native `<details>` has no `disabled` attribute. Disabled accordion items use
+  `data-disabled="true"` and non-interactive trigger/content markup as a RadCN
+  convention.
+
+Shared accordion scenarios now include:
+
+- `accordion/single`
+- `accordion/multiple`
+- `accordion/disabled-item`
+- `accordion/custom-token`
+
+Verification commands:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm fixtures:artifacts
+```
+
+All verification commands passed. `pnpm fixtures:artifacts` ran 189 Playwright
+tests successfully.
+
+The generated artifact manifest contains:
+
+- 162 screenshot entries;
+- 81 shared scenarios;
+- 4 accordion scenarios;
+- paired `reference` and `candidate` artifacts;
+- reference app on port 4601 and candidate app on port 4602.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Goodall`.
+
+The first review result was **Fail**. Required findings were:
+
+- root `defaultValue` was read but did not drive accordion item open behavior,
+  while fixtures made it look like it did;
+- disabled accordion items used normal focusable `<details>/<summary>` markup
+  with only pointer-disabled CSS, leaving keyboard toggling unproven;
+- the Issue 2 experiment index still marked Experiment 6 as `Designed` after
+  the result was recorded.
+
+Those findings were fixed:
+
+- docs and result notes now record `defaultValue` as metadata-only in the
+  current server-rendered implementation, and fixtures use `AccordionItem open`
+  for initial open state;
+- disabled items now render non-interactive wrapper markup with an
+  `aria-disabled` trigger and hidden content instead of focusable disclosure
+  markup;
+- tests assert disabled item markup and behavior;
+- the Issue 2 experiment index now marks Experiment 6 as `Pass`.
+
+Verification was rerun after the fixes:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/accordion.spec.ts
+pnpm fixtures:artifacts
+```
+
+Independent AI completion re-review by subagent `Goodall` approved the fixed
+result with **Pass** and no remaining required fixes.
+
+## Conclusion
+
+Experiment 6 establishes the first Stage 2 disclosure strategy. Native
+`<details>/<summary>` is sufficient for RadCN accordion's default-open,
+collapsible, multiple-open, keyboard, pointer, styling, and basic single-group
+behavior when item-level names are used for single exclusivity.
+
+This strategy should inform `collapsible` next, but it does not settle `tabs`,
+which needs tablist semantics and keyboard behavior beyond native details.

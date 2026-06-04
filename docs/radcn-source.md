@@ -238,13 +238,74 @@ Customization for this batch uses control-level and progress-level variables:
 
 Remaining Stage 2 questions are not answered by this native-state batch:
 
-- custom disclosure state for `accordion`, `collapsible`, and `tabs`;
+- custom disclosure state for `collapsible` and `tabs`;
 - pressed-state strategy for `toggle` and `toggle-group`;
 - pointer and keyboard strategy for `slider`;
 - fallback loading behavior for `avatar`;
 - scroll behavior for `scroll-area`;
 - whether `hover-card` belongs in Stage 2 or should move to Stage 3 with
   positioned overlays.
+
+## Stage 2 Accordion Disclosure
+
+Experiment 6 adds the first bounded disclosure primitive:
+
+- `Accordion`
+- `AccordionItem`
+- `AccordionTrigger`
+- `AccordionContent`
+
+RadCN accordion uses native `<details>` and `<summary>` elements instead of a
+Radix client-state primitive. The goal is to preserve the browser's disclosure
+behavior in Remix 3 while exposing shadcn/ui-like slots and customization
+hooks.
+
+The source is exported from the root `radcn` package and from `radcn/accordion`.
+
+Public hooks:
+
+- `data-radcn-accordion`
+- `data-radcn-accordion-item`
+- `data-radcn-accordion-trigger`
+- `data-radcn-accordion-trigger-text`
+- `data-radcn-accordion-icon`
+- `data-radcn-accordion-content`
+- `data-radcn-accordion-content-inner`
+
+The root exposes `data-type="single"` or `data-type="multiple"`,
+`data-collapsible="true"` when requested, and `data-default-value` when authors
+provide a `defaultValue`. In the current server-rendered implementation,
+`defaultValue` is metadata only; initial open behavior is set on
+`AccordionItem open`. This is an approved interim divergence from Radix until
+RadCN has a context or client-state strategy that can propagate root state into
+arbitrary children. Items expose `data-value`, `data-state`, and
+`data-disabled` when applicable. Live open styling should use the native
+`details[open]` selector because a server-rendered `data-state` attribute only
+describes the initial state.
+
+Single accordion exclusivity uses the platform `<details name>` behavior. A
+server-rendered root cannot automatically propagate that native `name` to
+arbitrary child items, so current RadCN single accordion fixtures pass the same
+`name` to each `AccordionItem`. This is an approved interim divergence from the
+Radix API. Future client-state or context support may remove the item-level
+`name` requirement.
+
+Disabled accordion items render non-interactive wrapper markup with
+`data-disabled="true"`, `aria-disabled="true"` on the trigger, hidden content,
+and pointer-disabled trigger styling. Native HTML does not provide a real
+`disabled` attribute for `<details>`, so RadCN does not render disabled items as
+focusable disclosure controls.
+
+Customization tokens:
+
+- `--radcn-accordion-border`
+- `--radcn-accordion-trigger-fg`
+- `--radcn-accordion-content-fg`
+
+Accordion answers the first Stage 2 disclosure question for simple disclosure:
+native details can cover default-open, collapsible, multiple-open, keyboard,
+pointer, and basic single-exclusivity behavior. It does not answer richer tab
+roving-focus behavior or arbitrary controlled state.
 
 ## Styles and Tokens
 
@@ -280,6 +341,8 @@ Navigation, collection, and typography probes continue that pattern:
 - `checkbox/custom-token`, `radio-group/custom-token`, and
   `switch/custom-token` override shared native state control tokens.
 - `progress/custom-token` overrides progress track and indicator tokens.
+- `accordion/custom-token` overrides accordion border, trigger, and content
+  tokens.
 
 ## Stage 1 Status
 
