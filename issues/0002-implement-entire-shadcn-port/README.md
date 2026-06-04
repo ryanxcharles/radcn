@@ -1,0 +1,262 @@
++++
+status = "open"
+opened = "2026-06-04"
++++
+
+# Issue 2: Implement the Entire shadcn/ui Port
+
+## Goal
+
+Port the full shadcn/ui component surface to RadCN for Remix 3. The work should
+produce a usable Remix 3 component library, fixture coverage, parity artifacts,
+documentation, and reviewed divergence notes for every supported component.
+
+## Background
+
+Issue 1 established the porting model and is the foundation for this work:
+
+- [Component inventory and classification](../0001-shadcn-port-scope/component-inventory.md)
+  identifies the target component set, risk level, behavior class, likely
+  Remix 3 mapping, and parity checks for each shadcn/ui component.
+- [RadCN component parity model](../0001-shadcn-port-scope/parity-model.md)
+  defines the acceptance contract for future ports: visual parity,
+  customization parity, accessibility parity, interaction parity,
+  form/native-web parity, install/source parity, and acceptable Remix 3
+  divergence.
+- The fixture apps and artifact harness already exist under `fixtures/`:
+  - React Router shadcn reference app: `http://localhost:4601`
+  - Remix 3 RadCN candidate app: `http://localhost:4602`
+  - artifact command: `pnpm fixtures:artifacts`
+
+This issue intentionally owns the entire port, but it must proceed through one
+experiment at a time. Do not design all experiments upfront. Each experiment
+must finish, record results, pass independent review, and commit before the next
+experiment is designed.
+
+## Operating Rules
+
+Use the issue workflow from `AGENTS.md`.
+
+This issue has one ordered series of experiments. The experiments should fully
+solve one stage before moving to the next. The outcome of each experiment
+determines the next experiment inside the current stage.
+
+Every component port must satisfy the checklist in
+[the parity model](../0001-shadcn-port-scope/parity-model.md#component-done-checklist)
+or record an approved divergence.
+
+Do not treat exact DOM equivalence as the default pass criterion. RadCN should
+match shadcn/ui's user-visible behavior and author-visible customization value,
+while using Remix 3 and web-native architecture where that is the better fit.
+
+Do not edit vendored source under `vendor/`. Vendor checkouts are reference
+inputs only.
+
+## Five Porting Stages
+
+### Stage 1: Native Form and Static Foundations
+
+Complete the lowest-risk components that establish source layout, styling,
+tokens, variants, forms, and copy-own-customize behavior.
+
+Primary components:
+
+- `button`
+- `input`
+- `field`
+- `label`
+- `textarea`
+- `native-select`
+- `separator`
+- `badge`
+- `alert`
+- `card`
+- `skeleton`
+- `spinner`
+- `kbd`
+- `table`
+- `pagination`
+- `breadcrumb`
+- `aspect-ratio`
+- `empty`
+- `item`
+- `button-group`
+- `typography`
+
+Stage 1 must answer:
+
+- Where RadCN component source lives.
+- How components are installed or copied into apps.
+- How Tailwind, CSS variables, theme tokens, variants, and class hooks work.
+- How native form controls submit, reset, validate, disable, and progressively
+  enhance in Remix 3.
+- How customization probes are represented in fixtures.
+
+Stage 1 is complete only when all included components have reference fixtures,
+candidate RadCN implementations, artifact coverage, component-specific parity
+checks, documentation, and review.
+
+### Stage 2: Bounded Disclosure and Feedback Primitives
+
+Complete components with bounded local state or simple progressive enhancement.
+
+Primary components:
+
+- `accordion`
+- `collapsible`
+- `tabs`
+- `toggle`
+- `toggle-group`
+- `checkbox`
+- `radio-group`
+- `switch`
+- `slider`
+- `progress`
+- `avatar`
+- `scroll-area`
+- `hover-card` if its positioning and delay behavior stay bounded enough for
+  this stage; otherwise move it to Stage 3 with an explicit note.
+
+Stage 2 must answer:
+
+- How Remix UI client entries or small client scripts manage local state.
+- How state attributes are exposed for styling and customization.
+- How keyboard and pointer interaction tests are structured.
+- How native controls are preferred when they preserve or improve behavior.
+
+Stage 2 is complete only when these primitives have visual, accessibility,
+interaction, customization, and form checks where applicable.
+
+### Stage 3: Overlay, Portal, and Positioning Primitives
+
+Complete layered UI that requires focus management, portal strategy, scroll
+lock, collision handling, dismissal behavior, and animation states.
+
+Primary components:
+
+- `dialog`
+- `alert-dialog`
+- `popover`
+- `tooltip`
+- `sheet`
+- `dropdown-menu`
+- `context-menu`
+- `drawer`
+- `hover-card` if not completed in Stage 2
+
+Stage 3 must answer:
+
+- How RadCN handles portals in Remix 3.
+- How focus trap, focus restoration, escape key, outside click, modal state, and
+  scroll lock work.
+- How collision and positioning are implemented or delegated.
+- How overlay animations expose stable state hooks.
+
+Stage 3 is complete only when overlay behavior is verified through keyboard,
+pointer, accessibility, visual, and divergence checks.
+
+### Stage 4: Composite Keyboard Widgets
+
+Complete complex ARIA widgets and components with roving focus, typeahead,
+selection models, and multi-part keyboard behavior.
+
+Primary components:
+
+- `select`
+- `combobox`
+- `command`
+- `menubar`
+- `navigation-menu`
+- `calendar`
+- `date-picker`
+- `carousel`
+
+Stage 4 must answer:
+
+- Which React-specific upstream dependencies should be replaced.
+- How listbox, menu, combobox, calendar, and navigation behavior map to Remix 3.
+- How keyboard matrices are specified and tested.
+- How mobile/responsive variants interact with overlays from Stage 3.
+
+Stage 4 is complete only when each widget has scenario coverage for keyboard,
+pointer, accessibility, visual output, customization, and documented divergences.
+
+### Stage 5: React-Heavy Systems, Blocks, and Deferred Components
+
+Complete or explicitly replace the high-risk components and system-level pieces
+that depend on React-heavy libraries or application-level state.
+
+Primary components:
+
+- `chart`
+- `data-table`
+- `sonner`
+- `toast`
+- `resizable`
+- `sidebar`
+- `form`
+- `input-group`
+- `input-otp`
+- any component deferred from earlier stages
+
+Stage 5 must answer:
+
+- Which upstream examples are true RadCN components versus recipes or blocks.
+- How RadCN handles charting, data tables, notifications, sidebars, resizable
+  panels, and form orchestration in a Remix 3-first way.
+- Which components are included in the core library, which become recipes or
+  blocks, and which are intentionally not ported.
+- How install/source parity works for large composed systems.
+
+Stage 5 is complete only when each high-risk component has a documented outcome:
+ported, replaced with a Remix 3-native design, moved to recipes/blocks, or
+explicitly excluded with a reviewed rationale.
+
+## Analysis
+
+The full port should not be approached alphabetically. Similar components should
+be solved together because each cluster shares architecture:
+
+- Stage 1 establishes the static, form, styling, source, and customization
+  foundation.
+- Stage 2 establishes bounded state and progressive enhancement.
+- Stage 3 establishes overlays, portals, focus management, and positioning.
+- Stage 4 establishes composite keyboard behavior.
+- Stage 5 establishes policy for large React-heavy systems and application
+  blocks.
+
+Every stage should improve the shared fixtures and harness rather than creating
+one-off tests. If a component exposes a new behavior class, add reusable fixture
+helpers or verification helpers before porting many components in that class.
+
+The component inventory is the current source of truth for coverage. If upstream
+shadcn/ui changes during the port, open an experiment to update the inventory
+before continuing.
+
+## Completion Criteria
+
+This issue is complete when:
+
+1. Every component in
+   [the inventory](../0001-shadcn-port-scope/component-inventory.md#component-inventory)
+   has a final disposition: ported, replaced with a Remix 3-native design,
+   moved to recipes/blocks, deferred with explicit rationale, or excluded with
+   explicit rationale.
+2. Every ported component has candidate RadCN source, reference fixtures,
+   candidate fixtures, artifact coverage, and parity verification according to
+   [the parity model](../0001-shadcn-port-scope/parity-model.md).
+3. Every intentional divergence has a recorded rationale and review.
+4. The documentation site can demonstrate every supported component or
+   recipe/block outcome.
+5. Install/source workflow is documented and works for supported components.
+6. `pnpm fixtures:artifacts` and any component-specific checks pass.
+7. Independent completion review approves the full port outcome.
+
+## Constraints
+
+- Do not modify files under `vendor/`.
+- Do not design the full experiment list upfront.
+- Do not start Stage 2 until Stage 1 is complete, and so on.
+- Do not count placeholder fixture components as completed RadCN ports.
+- Do not use exact DOM-tree equality as the default success condition.
+- Do not silently skip high-risk components; record a disposition for each one.

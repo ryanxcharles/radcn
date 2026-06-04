@@ -2,8 +2,9 @@
 
 ## Open
 
-| #   | Title | Opened |
-| --- | ----- | ------ |
+| #                                                   | Title                               | Opened     |
+| --------------------------------------------------- | ----------------------------------- | ---------- |
+| [0002](0002-implement-entire-shadcn-port/README.md) | Implement the Entire shadcn/ui Port | 2026-06-04 |
 
 ## Closed
 
