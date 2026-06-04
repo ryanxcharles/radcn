@@ -539,6 +539,94 @@ controls for single-value behavior, add a focused helper only for reflected
 metadata and visuals, and defer multi-value custom primitives until a component
 explicitly needs them.
 
+## Stage 2 Avatar, Scroll Area, and Hover Card Disposition
+
+Experiment 11 closes the remaining Stage 2 surface with:
+
+- `Avatar`
+- `AvatarImage`
+- `AvatarFallback`
+- `AvatarBadge`
+- `AvatarGroup`
+- `AvatarGroupCount`
+- `ScrollArea`
+- `ScrollAreaViewport`
+- `ScrollBar`
+- `ScrollAreaThumb`
+- `ScrollAreaCorner`
+
+RadCN avatar is server-rendered. The root exposes size metadata and stable
+slots; image loading remains native browser behavior. Authors should provide
+fallback content that is meaningful without JavaScript. When an avatar image is
+decorative or repeats the same identity as visible text, the fallback can use
+`ariaHidden`; when fallback initials are the only identity, keep them exposed.
+
+Public avatar hooks:
+
+- `data-radcn-avatar`
+- `data-radcn-avatar-image`
+- `data-radcn-avatar-fallback`
+- `data-radcn-avatar-badge`
+- `data-radcn-avatar-group`
+- `data-radcn-avatar-group-count`
+
+Avatar supports `default`, `sm`, and `lg` root sizes, badge slots, grouped
+avatars, and count slots. It does not add a client delay timer or image-error
+state machine in Stage 2. This is an approved native-first divergence from
+Radix Avatar's load/error state management: the current RadCN contract is
+stable fallback markup and native image semantics, not JavaScript-mediated
+fallback timing.
+
+Avatar customization tokens:
+
+- `--radcn-avatar-bg`
+- `--radcn-avatar-fg`
+- `--radcn-avatar-border`
+- `--radcn-avatar-fallback-bg`
+- `--radcn-avatar-fallback-fg`
+- `--radcn-avatar-badge-bg`
+- `--radcn-avatar-badge-fg`
+- `--radcn-avatar-count-bg`
+- `--radcn-avatar-count-fg`
+
+RadCN scroll area is native-scroll-first. The viewport owns real `overflow:
+auto`, focus, keyboard scrolling, pointer wheel/touchpad scrolling, and browser
+scrollbar behavior. RadCN adds stable root, viewport, scrollbar, thumb, and
+corner hooks so authors can style the container and expose shadcn-like slots.
+
+Public scroll-area hooks:
+
+- `data-radcn-scroll-area`
+- `data-radcn-scroll-area-viewport`
+- `data-radcn-scroll-area-scrollbar`
+- `data-radcn-scroll-area-thumb`
+- `data-radcn-scroll-area-corner`
+
+`ScrollBar` exposes `data-orientation="vertical"` or
+`data-orientation="horizontal"`. In Stage 2, the scrollbar and thumb slots are
+decorative hooks layered over native scrolling; they are not draggable custom
+scrollbar controls. Radix-like thumb measurement, thumb position syncing, and
+drag behavior are deferred because they require client measurement and pointer
+coordination beyond the native-scroll surface verified here.
+
+Scroll-area customization tokens:
+
+- `--radcn-scroll-area-border`
+- `--radcn-scroll-area-bg`
+- `--radcn-scroll-area-fg`
+- `--radcn-scroll-area-thumb-bg`
+- `--radcn-scroll-area-corner-bg`
+
+`hover-card` moves to Stage 3. Useful hover-card parity depends on portal
+placement, floating positioning, side/align offsets, hover and focus open
+delay, dismissal policy, escape behavior, and animation state hooks. Those are
+overlay concerns shared with tooltip, popover, dropdown-menu, dialog, and
+sheet, so implementing hover-card before the Stage 3 overlay strategy would
+create a one-off positioning primitive.
+
+Stage 2 is complete after Experiment 11. Evidence is recorded in
+`issues/0002-implement-entire-shadcn-port/stage-2-audit.md`.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -575,11 +663,19 @@ Navigation, collection, and typography probes continue that pattern:
 - `progress/custom-token` overrides progress track and indicator tokens.
 - `accordion/custom-token` overrides accordion border, trigger, and content
   tokens.
+- `avatar/custom-token` overrides avatar fallback and badge tokens.
+- `scroll-area/custom-token` overrides scroll-area border, background, thumb,
+  and corner tokens.
 
 ## Stage 1 Status
 
 Stage 1 is complete as of Experiment 4. Evidence is recorded in
 `issues/0002-implement-entire-shadcn-port/stage-1-audit.md`.
+
+## Stage 2 Status
+
+Stage 2 is complete as of Experiment 11. Evidence is recorded in
+`issues/0002-implement-entire-shadcn-port/stage-2-audit.md`.
 
 ## Interim Install and Copy Workflow
 

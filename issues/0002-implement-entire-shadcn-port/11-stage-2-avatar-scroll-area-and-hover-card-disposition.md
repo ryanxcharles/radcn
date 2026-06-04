@@ -232,3 +232,113 @@ included before Stage 2 can be considered complete, verification includes
 typechecks, focused Playwright coverage, artifact generation, documentation,
 learnings, `vendor/` cleanliness, and completion review, and that
 `git status --short vendor` returned no output.
+
+## Result
+
+**Result:** Pass
+
+Experiment 11 implemented the remaining bounded Stage 2 primitives:
+
+- `Avatar`
+- `AvatarImage`
+- `AvatarFallback`
+- `AvatarBadge`
+- `AvatarGroup`
+- `AvatarGroupCount`
+- `ScrollArea`
+- `ScrollAreaViewport`
+- `ScrollBar`
+- `ScrollAreaThumb`
+- `ScrollAreaCorner`
+
+RadCN source lives at:
+
+- `packages/radcn/src/components/avatar.tsx`
+- `packages/radcn/src/components/scroll-area.tsx`
+
+The package now exports `radcn/avatar`, `radcn/scroll-area`, and root exports
+for both component families and their public types.
+
+Avatar uses server-rendered slots with native image behavior. RadCN does not
+add a client image loading/error state machine in Stage 2; authors provide
+fallback markup that remains meaningful without JavaScript, and can hide the
+fallback from assistive technology when the image already carries the
+accessible identity.
+
+Scroll area uses a native `overflow: auto` viewport for real scrolling,
+keyboard focus, wheel/touchpad input, and browser scrollbar behavior. RadCN
+adds stable scrollbar, thumb, and corner hooks for styling. Draggable custom
+thumb measurement and position syncing are deferred as an approved divergence
+from Radix ScrollArea.
+
+`hover-card` moves to Stage 3. Its useful parity depends on shared overlay
+infrastructure: portal placement, floating positioning, side/align offsets,
+hover/focus delay, dismissal, escape handling, and animation state hooks.
+
+Shared scenarios now include:
+
+- `avatar/default`
+- `avatar/fallback`
+- `avatar/badge`
+- `avatar/group`
+- `avatar/custom-token`
+- `scroll-area/vertical`
+- `scroll-area/horizontal`
+- `scroll-area/both`
+- `scroll-area/focus`
+- `scroll-area/custom-token`
+
+Stage 2 closure evidence is recorded in `stage-2-audit.md`.
+
+Verification commands run:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/avatar-scroll-area.spec.ts
+pnpm fixtures:artifacts
+```
+
+All verification commands passed. The focused avatar/scroll-area Playwright
+file ran 4 tests successfully. `pnpm fixtures:artifacts` ran 282 Playwright
+tests successfully.
+
+The generated artifact manifest contains:
+
+- 234 screenshot entries;
+- 117 shared scenarios;
+- 5 avatar scenarios;
+- 5 scroll-area scenarios;
+- paired `reference` and `candidate` artifacts;
+- reference app on port 4601 and candidate app on port 4602.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+**Reviewer:** Kant
+
+**Result:** Pass
+
+Kant found no blocking issues. The review confirmed avatar slots and fallback
+policy, scroll-area native viewport and orientation hooks, package exports,
+focused Playwright coverage, source documentation, issue learnings, Stage 2
+audit coverage, artifact manifest counts, and clean `vendor/` status.
+
+The only note was non-blocking: the focused tests validate candidate behavior
+and hooks rather than directly pixel-comparing candidate and reference
+screenshots. This matches the current artifact harness and Issue 2 visual
+parity strategy.
+
+## Conclusion
+
+Experiment 11 completes Stage 2. Avatar confirms that bounded feedback slots
+can stay server-rendered when fallback markup is meaningful without JavaScript.
+Scroll area confirms that native scrolling is the correct Stage 2 baseline, and
+that custom draggable scrollbar behavior should wait until a component really
+needs client measurement and pointer synchronization.
+
+The next experiment may begin Stage 3 by designing the shared overlay,
+portal, positioning, dismissal, focus, scroll-lock, and animation strategy
+before porting overlay components.

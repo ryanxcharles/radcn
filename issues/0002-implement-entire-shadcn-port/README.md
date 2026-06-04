@@ -278,6 +278,31 @@ committed work.
   range primitives. Evidence:
   [Experiment 10](10-stage-2-slider-form-control-primitive.md),
   `docs/radcn-source.md`.
+- **2026-06-04, Experiment 11:** Avatar fallback should stay meaningful in
+  server markup; RadCN does not need a client image loading state machine for
+  the Stage 2 avatar surface. Applies to: `avatar`, future feedback components.
+  Evidence:
+  [Experiment 11](11-stage-2-avatar-scroll-area-and-hover-card-disposition.md),
+  `packages/radcn/src/components/avatar.tsx`,
+  `fixtures/tests/avatar-scroll-area.spec.ts`.
+- **2026-06-04, Experiment 11:** Scroll area should prefer native `overflow:
+  auto` for real scrolling, with decorative scrollbar/thumb hooks for styling;
+  draggable custom thumb measurement is deferred. Applies to: `scroll-area`,
+  future custom-scrollbar components. Evidence:
+  [Experiment 11](11-stage-2-avatar-scroll-area-and-hover-card-disposition.md),
+  `packages/radcn/src/components/scroll-area.tsx`,
+  `fixtures/tests/avatar-scroll-area.spec.ts`.
+- **2026-06-04, Experiment 11:** Hover card belongs in Stage 3 because its
+  useful behavior shares overlay infrastructure: portal placement, floating
+  positioning, delays, dismissal, escape handling, and animation state. Applies
+  to: `hover-card`, `tooltip`, `popover`, `dropdown-menu`, `sheet`. Evidence:
+  [Experiment 11](11-stage-2-avatar-scroll-area-and-hover-card-disposition.md),
+  `docs/radcn-source.md`, `stage-2-audit.md`.
+- **2026-06-04, Experiment 11:** Stage 2 is complete after `avatar`,
+  `scroll-area`, and the reviewed `hover-card` Stage 3 disposition. Applies to:
+  `Stage 2`, `Stage 3`. Evidence:
+  [Stage 2 audit](stage-2-audit.md),
+  [Experiment 11](11-stage-2-avatar-scroll-area-and-hover-card-disposition.md).
 
 ## Five Porting Stages
 
@@ -356,6 +381,9 @@ Stage 2 must answer:
 
 Stage 2 is complete only when these primitives have visual, accessibility,
 interaction, customization, and form checks where applicable.
+
+Stage 2 status: complete as of Experiment 11. See
+[the Stage 2 audit](stage-2-audit.md).
 
 ### Stage 3: Overlay, Portal, and Positioning Primitives
 
@@ -514,4 +542,4 @@ This issue is complete when:
 - [Experiment 10: Stage 2 slider form control primitive](10-stage-2-slider-form-control-primitive.md)
   — **Pass**
 - [Experiment 11: Stage 2 avatar, scroll area, and hover card disposition](11-stage-2-avatar-scroll-area-and-hover-card-disposition.md)
-  — **Designed**
+  — **Pass**

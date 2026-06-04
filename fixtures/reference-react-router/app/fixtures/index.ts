@@ -1,6 +1,7 @@
 import type { FixtureScenario } from "../../../scenarios/types"
 
 import { renderAccordionFixture } from "./accordion"
+import { renderAvatarFixture } from "./avatar"
 import { renderButtonFixture } from "./button"
 import { renderCollapsibleFixture } from "./collapsible"
 import { renderFieldFixture } from "./field"
@@ -34,6 +35,7 @@ import { renderTextareaFixture } from "./textarea"
 import { renderTabsFixture } from "./tabs"
 import { renderToggleFixture, renderToggleGroupFixture } from "./toggle"
 import { renderSliderFixture } from "./slider"
+import { renderScrollAreaFixture } from "./scroll-area"
 
 export function renderReferenceFixture(fixture: FixtureScenario) {
   switch (fixture.component) {
@@ -43,6 +45,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderAlertFixture(fixture.id)
     case "aspect-ratio":
       return renderAspectRatioFixture(fixture.id)
+    case "avatar":
+      return renderAvatarFixture(fixture.id)
     case "badge":
       return renderBadgeFixture(fixture.id)
     case "breadcrumb":
@@ -71,6 +75,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderProgressFixture(fixture.id)
     case "radio-group":
       return renderRadioGroupFixture(fixture.id)
+    case "scroll-area":
+      return renderScrollAreaFixture(fixture.id)
     case "native-select":
       return renderNativeSelectFixture(fixture.id)
     case "separator":

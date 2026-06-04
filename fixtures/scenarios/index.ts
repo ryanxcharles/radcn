@@ -116,6 +116,36 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Media container using a square ratio.",
   },
   {
+    component: "avatar",
+    id: "default",
+    title: "Default Avatar",
+    description: "Avatar image with hidden fallback initials.",
+  },
+  {
+    component: "avatar",
+    id: "fallback",
+    title: "Avatar Fallback",
+    description: "Avatar rendered from fallback initials only.",
+  },
+  {
+    component: "avatar",
+    id: "badge",
+    title: "Avatar Badge",
+    description: "Avatar with a status badge slot.",
+  },
+  {
+    component: "avatar",
+    id: "group",
+    title: "Avatar Group",
+    description: "Overlapping avatar group with a count slot.",
+  },
+  {
+    component: "avatar",
+    id: "custom-token",
+    title: "Custom Avatar Token",
+    description: "Avatar customized through public tokens.",
+  },
+  {
     component: "badge",
     id: "variants",
     title: "Badge Variants",
@@ -498,6 +528,36 @@ export const fixtureScenarios: FixtureScenario[] = [
     id: "form-submit-reset",
     title: "Slider Form Behavior",
     description: "Slider submission and reset behavior.",
+  },
+  {
+    component: "scroll-area",
+    id: "vertical",
+    title: "Vertical Scroll Area",
+    description: "Native vertical scrolling with viewport and scrollbar hooks.",
+  },
+  {
+    component: "scroll-area",
+    id: "horizontal",
+    title: "Horizontal Scroll Area",
+    description: "Native horizontal scrolling with horizontal scrollbar hooks.",
+  },
+  {
+    component: "scroll-area",
+    id: "both",
+    title: "Bidirectional Scroll Area",
+    description: "Native vertical and horizontal scrolling with corner hooks.",
+  },
+  {
+    component: "scroll-area",
+    id: "focus",
+    title: "Focusable Scroll Area",
+    description: "Keyboard focus treatment for the scroll viewport.",
+  },
+  {
+    component: "scroll-area",
+    id: "custom-token",
+    title: "Custom Scroll Area Token",
+    description: "Scroll area customized through public tokens.",
   },
   {
     component: "accordion",
