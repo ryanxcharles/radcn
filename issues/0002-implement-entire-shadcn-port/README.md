@@ -851,3 +851,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 23: Stage 5 data display and table block](23-stage-5-data-display-and-table-block.md)
   — **Pass**
+- [Experiment 24: Stage 5 notifications](24-stage-5-notifications.md)
+  — **Designed**
