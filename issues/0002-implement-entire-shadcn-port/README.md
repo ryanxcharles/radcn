@@ -441,3 +441,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 6: Stage 2 accordion disclosure primitive](06-stage-2-accordion-disclosure-primitive.md)
   — **Pass**
+- [Experiment 7: Stage 2 collapsible disclosure primitive](07-stage-2-collapsible-disclosure-primitive.md)
+  — **Designed**
