@@ -760,3 +760,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 19: Stage 4 menubar and navigation menu](19-stage-4-menubar-and-navigation-menu.md)
   — **Pass**
+- [Experiment 20: Stage 4 calendar and date picker](20-stage-4-calendar-and-date-picker.md)
+  — **Designed**
