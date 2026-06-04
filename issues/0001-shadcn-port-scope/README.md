@@ -96,3 +96,8 @@ Those differences must be explicit and documented, not accidental.
 - The test harness should be usable for every future component port.
 - Experiments should proceed one at a time. Do not list the full component port
   sequence upfront.
+
+## Experiments
+
+- [Experiment 1: Inventory and classify components](01-inventory-and-classify-components.md)
+  — **Designed**
