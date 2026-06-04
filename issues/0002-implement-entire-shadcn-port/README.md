@@ -884,3 +884,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 25: Stage 5 application shell and closure](25-stage-5-application-shell-and-closure.md)
   — **Pass**
+- [Experiment 26: Direction disposition and issue closure](26-direction-disposition-and-issue-closure.md)
+  — **Designed**
