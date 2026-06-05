@@ -108,7 +108,9 @@ commands.
 
 ## Design Review
 
-Reviewed by Raman on 2026-06-05.
+Initial fallback review was performed by Codex subagent `Raman` on 2026-06-05.
+That review reused an existing agent thread because the subagent pool was full,
+so it was not a fresh-context adversarial review.
 
 Findings:
 
@@ -127,3 +129,17 @@ Resolution:
   review, absence of `apps/docs/.git`, and resolved CLI/package version.
 - Split the scaffold command from post-setup verification commands.
 - Raman approved the fixed design for the plan commit.
+
+Fresh-context adversarial review was performed by Codex subagent `Ampere` on
+2026-06-05 with `fork_context: false`.
+
+Findings:
+
+- **Minor:** The previous design review record did not state fresh-context
+  status.
+
+Resolution:
+
+- Recorded the earlier Raman review as a non-fresh fallback review and recorded
+  this fresh-context Codex adversarial review separately.
+- Ampere approved the experiment design.
