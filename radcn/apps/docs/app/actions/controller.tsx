@@ -1,8 +1,9 @@
 import { createController } from 'remix/router'
 
 import { assetServer } from '../assets.ts'
+import { getComponentDoc } from '../content/components.tsx'
 import { routes } from '../routes.ts'
-import { HomePage } from '../ui/scaffold-home-page.tsx'
+import { ComponentPage, HomePage } from '../ui/docs-pages.tsx'
 
 export default createController(routes, {
   actions: {
@@ -13,6 +14,14 @@ export default createController(routes, {
     },
     home(context) {
       return context.render(<HomePage />)
+    },
+    component(context) {
+      let component = getComponentDoc(context.params.slug)
+      if (!component) {
+        return new Response('Component not found', { status: 404 })
+      }
+
+      return context.render(<ComponentPage component={component} />)
     },
   },
 })

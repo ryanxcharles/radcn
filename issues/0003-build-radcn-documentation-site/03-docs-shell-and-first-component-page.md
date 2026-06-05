@@ -163,3 +163,137 @@ Resolution:
   no-vendor-reference check.
 
 Dirac re-reviewed the fix and approved the experiment design.
+
+## Result
+
+**Result:** Pass
+
+Implemented the first RadCN docs vertical slice.
+
+Changes made:
+
+- `radcn/apps/docs/package.json`
+  - Added `radcn: "workspace:*"` so the docs app consumes the library package.
+- `radcn/pnpm-lock.yaml`
+  - Recorded the docs app workspace link to `../../packages/radcn`.
+- `radcn/apps/docs/app/routes.ts`
+  - Added the component detail route at `/docs/components/:slug`.
+  - Used a plain route leaf so both GET and HEAD requests reach the component
+    action.
+- `radcn/apps/docs/app/actions/controller.tsx`
+  - Replaced generated starter page rendering with RadCN docs pages.
+  - Added registry lookup and 404 handling for unknown component slugs.
+- `radcn/apps/docs/app/content/components.tsx`
+  - Added the first structured component registry with a `button` entry.
+  - Included slug, title, category, status, import path, install guidance,
+    examples, accessibility notes, customization notes, and Remix 3 divergence
+    notes.
+  - Rendered the live `button` example from `radcn/button`.
+- `radcn/apps/docs/app/ui/docs-pages.tsx`
+  - Added the persistent docs shell, homepage, button component page, preview
+    panel, code block, and documentation sections.
+  - Used real RadCN package components such as `Button` and `Badge` in the docs
+    UI and examples.
+- `radcn/apps/docs/app/ui/document.tsx`
+  - Added RadCN package styles to the document with a raw `createElement`
+    `<style>` node so CSS selectors are not HTML-escaped.
+
+Verification run:
+
+```sh
+cd radcn
+pnpm install
+pnpm --dir apps/docs list radcn
+pnpm --dir apps/docs typecheck
+! rg '(^\s+vendor/|\.\./vendor|link:.*vendor)' pnpm-lock.yaml
+PORT=5175 pnpm --dir apps/docs start
+curl -I http://localhost:5175/
+curl -s http://localhost:5175/ | rg 'RadCN|button|docs|id="preview"|/docs/components/button#installation'
+curl -I http://localhost:5175/docs/components/button
+curl -s http://localhost:5175/docs/components/button | rg 'Button|radcn/button|Accessibility|Customization|Remix 3|id="installation"'
+curl -I http://localhost:5175/docs/components/not-a-component
+pnpm exec playwright screenshot --viewport-size=1440,1000 http://localhost:5175/ /tmp/radcn-exp3-home-desktop.png
+pnpm exec playwright screenshot --viewport-size=390,844 http://localhost:5175/ /tmp/radcn-exp3-home-mobile.png
+pnpm exec playwright screenshot --viewport-size=1440,1000 http://localhost:5175/docs/components/button /tmp/radcn-exp3-button-desktop.png
+pnpm exec playwright screenshot --viewport-size=390,844 http://localhost:5175/docs/components/button /tmp/radcn-exp3-button-mobile.png
+git diff --check
+git status --short -- vendor
+```
+
+Outcomes:
+
+- `pnpm install` succeeded and kept the workspace scope to five projects.
+- `pnpm --dir apps/docs list radcn` showed
+  `radcn link:../../packages/radcn`.
+- The lockfile vendor-reference check returned no matches.
+- `pnpm --dir apps/docs typecheck` passed.
+- `curl -I http://localhost:5175/` returned `HTTP/1.1 200`.
+- The homepage body contained `RadCN`, `button`, `docs`, `id="preview"`, and
+  `/docs/components/button#installation`.
+- `curl -I http://localhost:5175/docs/components/button` returned
+  `HTTP/1.1 200`.
+- The button page body contained `Button`, `radcn/button`, `Accessibility`,
+  `Customization`, `Remix 3`, and `id="installation"`.
+- `curl -I http://localhost:5175/docs/components/not-a-component` returned
+  `HTTP/1.1 404`.
+- Playwright screenshots were captured at:
+  - `/tmp/radcn-exp3-home-desktop.png`
+  - `/tmp/radcn-exp3-home-mobile.png`
+  - `/tmp/radcn-exp3-button-desktop.png`
+  - `/tmp/radcn-exp3-button-mobile.png`
+- Screenshot inspection found no visible text overlap or broken layout at the
+  checked desktop and mobile viewport sizes.
+- `git diff --check` passed.
+- `git status --short -- vendor` returned no output.
+- The docs server was stopped after verification, and no process remained
+  listening on port `5175`.
+
+Implementation notes:
+
+- The generated `app/ui/scaffold-home-page.tsx` remains in the tree but is no
+  longer imported by the controller, so it is no longer the user-facing
+  homepage.
+- The first source-code pane uses an explicit source string stored beside the
+  live example in the registry. This is acceptable for the first slice, but
+  later broad-coverage work should decide whether snippets need generated
+  synchronization.
+
+## Conclusion
+
+The first docs-site architecture slice is viable.
+
+The app now has a real RadCN homepage, persistent docs shell, structured
+component registry, `/docs/components/button` page, live package-rendered Button
+example, install/import guidance, accessibility notes, customization notes, and
+Remix 3 divergence notes.
+
+Future experiments can scale from this registry and page pattern, but should
+resolve source-snippet synchronization before broad component documentation.
+
+## Completion Review
+
+Fresh-context completion review was performed by Codex subagent `McClintock` on
+2026-06-05 with `fork_context: false`.
+
+Findings:
+
+- None.
+
+Verification repeated by the reviewer:
+
+- `pnpm --dir apps/docs list radcn` showed
+  `radcn link:../../packages/radcn`.
+- `pnpm --dir apps/docs typecheck` passed.
+- The lockfile vendor-reference check passed.
+- `/` returned `200`.
+- `/docs/components/button` returned `200`.
+- An unknown component slug returned `404`.
+- `git diff --check` passed.
+- `git status --short -- vendor` returned no output.
+- Desktop and mobile screenshots for the homepage and button page regenerated
+  without obvious broken layout.
+
+Result:
+
+- McClintock approved the completed experiment with no blockers, major
+  findings, or minor findings.

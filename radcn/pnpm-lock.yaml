@@ -35,6 +35,9 @@ importers:
 
   apps/docs:
     dependencies:
+      radcn:
+        specifier: workspace:*
+        version: link:../../packages/radcn
       remix:
         specifier: ^3.0.0-beta.3
         version: 3.0.0-beta.3(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(mysql2@3.22.4(@types/node@25.9.1))(pg@8.21.0)(playwright@1.60.0)(redis@5.12.1)

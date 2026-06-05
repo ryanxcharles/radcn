@@ -149,7 +149,7 @@ site that:
 - [Experiment 2: Create nested RadCN workspace and docs app](02-scaffold-docs-app-with-remix-cli.md)
   — **Pass**
 - [Experiment 3: Create docs shell and first component page](03-docs-shell-and-first-component-page.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -170,3 +170,18 @@ site that:
   scaffold assets can import published `remix/ui`.
 - `pnpm fixtures:reference:typecheck` still passes after the move and still
   emits the known React Router `module.register()` deprecation warning.
+- The docs app must declare `radcn: "workspace:*"` when examples import package
+  components. This keeps docs examples honest while still avoiding any
+  dependency on `vendor/`.
+- RadCN package styles are exposed as a CSS string. In Remix UI, putting that
+  string directly as a `<style>` child HTML-escapes selectors such as `>`.
+  Use a raw `createElement('style', { innerHTML })` pattern, matching Remix UI's
+  own theme runtime, and escape only closing `</style` sequences.
+- Use a plain route leaf for docs component pages that should answer both GET
+  and HEAD requests. A `get('/docs/components/:slug')` leaf rendered the page
+  for GET but returned 404 for `curl -I`; `'/docs/components/:slug'` reaches the
+  same action for HEAD checks.
+- The initial docs registry can store explicit source strings beside live
+  Remix UI preview nodes. That is sufficient for the first vertical slice, but
+  later experiments should decide whether source snippets need generation or
+  stronger synchronization before broad component coverage.

@@ -1,5 +1,6 @@
 import type { Handle, RemixNode } from 'remix/ui'
-import { css } from 'remix/ui'
+import { createElement, css } from 'remix/ui'
+import { radcnStyles } from 'radcn/styles'
 
 import { routes } from '../routes.ts'
 
@@ -22,6 +23,7 @@ export function Document(handle: Handle<DocumentProps>) {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
           <title>{title}</title>
+          <RadcnStyle />
           {head}
         </head>
         <body mix={css({ margin: 0 })}>
@@ -31,6 +33,14 @@ export function Document(handle: Handle<DocumentProps>) {
       </html>
     )
   }
+}
+
+function RadcnStyle() {
+  return () =>
+    createElement('style', {
+      'data-radcn-styles': '',
+      innerHTML: radcnStyles.replace(/<\/style/gi, '<\\/style'),
+    })
 }
 
 function readAppDisplayName(value: string): string {
