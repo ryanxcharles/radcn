@@ -29,8 +29,8 @@ now has:
 
 The next step is a real public-facing website, similar in purpose to
 `ui.shadcn.com`, but designed for RadCN and Remix 3's web-first model. The site
-should not be a marketing shell around static screenshots. It should render
-real RadCN examples, explain how to install/copy/use them, and make the Remix 3
+should not be a marketing shell around static screenshots. It should render real
+RadCN examples, explain how to install/copy/use them, and make the Remix 3
 architecture legible.
 
 ## Architecture
@@ -39,9 +39,8 @@ Create a Remix 3 docs app under the nested JavaScript workspace at
 `radcn/apps/docs/`.
 
 The docs app should consume `radcn/packages/radcn` the way a user application
-would.
-Examples should import real RadCN components and styles. Avoid duplicating
-component implementations inside the docs app.
+would. Examples should import real RadCN components and styles. Avoid
+duplicating component implementations inside the docs app.
 
 The initial site architecture should include:
 
@@ -117,30 +116,37 @@ Experiments should answer these before broad implementation:
   translated into docs-specific examples?
 - What registry shape best supports pages, navigation, examples, and future
   install metadata?
-- How should code snippets be generated or stored so they stay in sync with
-  live examples?
-- Which first component pages best prove the site patterns across static,
-  native form, overlay, composite, application-shell, helper, and recipe/block
+- How should code snippets be generated or stored so they stay in sync with live
+  examples?
+- Which first component pages best prove the site patterns across static, native
+  form, overlay, composite, application-shell, helper, and recipe/block
   categories?
 - What visual system should the docs site use so it looks polished while still
   showcasing RadCN rather than custom one-off docs UI?
 
-## Completion Criteria
+## In-Scope Completion Criteria
 
-This issue is complete when the repo contains a Remix 3 RadCN documentation
-site that:
+This issue is complete when the repo contains a Remix 3 RadCN documentation site
+that:
 
 - runs locally as a docs app;
 - renders real RadCN components;
 - has a polished navigable shell;
 - includes a homepage and component documentation routes;
-- covers every core component, helper, recipe, and block disposition from
-  Issue 2;
-- documents installation/import usage;
+- covers every core component, helper, recipe, and block disposition from Issue
+  2;
+- documents installation/import usage (but do not actually publish to npm - the
+  installation instructions should be the intended end-result, to be finished by
+  another issue, not something that actually works now)
 - documents customization and tokens;
 - documents accessibility and Remix 3 divergences;
 - includes verification for build/typecheck and representative rendered pages;
 - is reviewed through the issue/experiment workflow.
+
+## Out of Scope
+
+- publishing to npm
+- installation instructions that actually work
 
 ## Experiments
 
@@ -154,16 +160,14 @@ site that:
   — **Pass**
 - [Experiment 5: Add representative component docs batch](05-representative-component-docs-batch.md)
   — **Pass**
-- [Experiment 6: Add dark mode support](06-add-dark-mode-support.md)
-  — **Pass**
+- [Experiment 6: Add dark mode support](06-add-dark-mode-support.md) — **Pass**
 - [Experiment 7: Promote root pnpm workspace](07-promote-root-pnpm-workspace.md)
   — **Pass**
 - [Experiment 8: Process logo assets with Sharp](08-process-logo-assets-with-sharp.md)
   — **Pass**
-- [Experiment 9: Add system theme mode](09-add-system-theme-mode.md) —
-  **Pass**
-- [Experiment 10: Use Lucide icons uniformly](10-use-lucide-icons-uniformly.md) —
-  **Pass**
+- [Experiment 9: Add system theme mode](09-add-system-theme-mode.md) — **Pass**
+- [Experiment 10: Use Lucide icons uniformly](10-use-lucide-icons-uniformly.md)
+  — **Pass**
 
 ## Learnings
 
@@ -189,35 +193,35 @@ site that:
   components. This keeps docs examples honest while still avoiding any
   dependency on `vendor/`.
 - RadCN package styles are exposed as a CSS string. In Remix UI, putting that
-  string directly as a `<style>` child HTML-escapes selectors such as `>`.
-  Use a raw `createElement('style', { innerHTML })` pattern, matching Remix UI's
-  own theme runtime, and escape only closing `</style` sequences.
+  string directly as a `<style>` child HTML-escapes selectors such as `>`. Use a
+  raw `createElement('style', { innerHTML })` pattern, matching Remix UI's own
+  theme runtime, and escape only closing `</style` sequences.
 - Use a plain route leaf for docs component pages that should answer both GET
   and HEAD requests. A `get('/docs/components/:slug')` leaf rendered the page
   for GET but returned 404 for `curl -I`; `'/docs/components/:slug'` reaches the
   same action for HEAD checks.
-- The initial docs registry can store explicit source strings beside live
-  Remix UI preview nodes. That is sufficient for the first vertical slice, but
-  later experiments should decide whether source snippets need generation or
-  stronger synchronization before broad component coverage.
+- The initial docs registry can store explicit source strings beside live Remix
+  UI preview nodes. That is sufficient for the first vertical slice, but later
+  experiments should decide whether source snippets need generation or stronger
+  synchronization before broad component coverage.
 - RadCN's docs identity should keep brand attitude at the docs-shell layer:
   robot mark, grid, hard shadow, high-energy accent, and sticker-like labels.
   Live component preview surfaces should stay neutral so users can evaluate the
   RadCN package components accurately.
 - Keep docs visual decisions in `radcn/apps/docs/app/ui/brand.ts` and reusable
-  UI helpers instead of scattering one-off colors and measurements through
-  page components. This keeps later component pages aligned and makes future
-  theme changes tractable.
-- The current logo direction is a code-native SVG robot wearing sunglasses.
-  It avoids external image/font dependencies and can render both as a top-bar
-  mark and a larger homepage mascot.
+  UI helpers instead of scattering one-off colors and measurements through page
+  components. This keeps later component pages aligned and makes future theme
+  changes tractable.
+- The current logo direction is a code-native SVG robot wearing sunglasses. It
+  avoids external image/font dependencies and can render both as a top-bar mark
+  and a larger homepage mascot.
 - The docs registry now needs explicit `importExample` metadata. Deriving an
   import snippet from the component title only works for one-symbol exports and
   breaks down for grouped surfaces such as `dialog`, `tabs`, and `sonner`.
 - Representative component pages can share one structured page renderer across
   display, input, overlay, composite, and feedback surfaces. Category grouping
-  in the sidebar is the first navigation structure that should be preserved
-  when full coverage begins.
+  in the sidebar is the first navigation structure that should be preserved when
+  full coverage begins.
 - Overlay and composite docs previews sometimes need preview-only layout CSS to
   make server-rendered package parts inspectable before browser enhancement
   runs. Keep the source snippet as the real app usage pattern and record when a
@@ -228,12 +232,12 @@ site that:
 - Docs icon usage uses `lucide-static` for plain SVG strings, but imports only
   individual icon modules from `lucide-static/dist/esm/icons/*.mjs`. The
   docs-local `icons.tsx` wrapper renders trusted Lucide strings inline so icons
-  inherit `currentColor` without using sprites, icon fonts, URL assets, or
-  React icon components.
-- Explicit source strings remain workable for the first docs batch, but they
-  are already a synchronization risk. Full coverage should either generate
-  source snippets from example modules or establish a stricter review/test check
-  for snippet drift.
+  inherit `currentColor` without using sprites, icon fonts, URL assets, or React
+  icon components.
+- Explicit source strings remain workable for the first docs batch, but they are
+  already a synchronization risk. Full coverage should either generate source
+  snippets from example modules or establish a stricter review/test check for
+  snippet drift.
 - RadCN dark mode is activated by setting `data-radcn-theme="dark"` on an
   ancestor, usually `<html>`. Light mode remains the default `:root` token set.
 - Package theme support should define shared base tokens such as background,
@@ -254,9 +258,9 @@ site that:
 - RadCN's pnpm workspace now lives at the repository root. Run normal workspace
   commands from `/Users/ryan/dev/radcn`; `pnpm dev` starts the docs app through
   `radcn/apps/docs`.
-- Root workspace package globs must stay explicit:
-  `radcn/apps/*`, `radcn/packages/*`, and `radcn/fixtures/*`. Do not use broad
-  globs that can enroll `vendor/`.
+- Root workspace package globs must stay explicit: `radcn/apps/*`,
+  `radcn/packages/*`, and `radcn/fixtures/*`. Do not use broad globs that can
+  enroll `vendor/`.
 - With the root install location, the docs asset server maps
   `/assets/node_modules/.pnpm/...` to `../../../node_modules/.pnpm/*path` from
   `radcn/apps/docs`. The URL prefix is still app-local, but the real virtual
@@ -264,6 +268,6 @@ site that:
 - RadCN docs image assets are generated from committed PNG sources under
   `raw-icons/` with the root `pnpm icons` command. Normal generated docs images
   should be WebP files under `radcn/apps/docs/public/images/`.
-- The docs favicon intentionally keeps the browser-friendly path
-  `/favicon.ico`, but its file contents are a 128x128 PNG generated by Sharp.
-  Link it with `type="image/png"` so the filename/content mismatch is explicit.
+- The docs favicon intentionally keeps the browser-friendly path `/favicon.ico`,
+  but its file contents are a 128x128 PNG generated by Sharp. Link it with
+  `type="image/png"` so the filename/content mismatch is explicit.
