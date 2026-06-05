@@ -150,6 +150,8 @@ site that:
   — **Pass**
 - [Experiment 3: Create docs shell and first component page](03-docs-shell-and-first-component-page.md)
   — **Pass**
+- [Experiment 4: Design RadCN visual identity and docs UI system](04-design-rad-visual-system.md)
+  — **Designed**
 
 ## Learnings
 
