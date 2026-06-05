@@ -1,7 +1,76 @@
 import type { RemixNode } from 'remix/ui'
 import { css } from 'remix/ui'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from 'radcn/accordion'
+import { Alert, AlertAction, AlertDescription, AlertTitle } from 'radcn/alert'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from 'radcn/alert-dialog'
+import { AspectRatio } from 'radcn/aspect-ratio'
+import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount } from 'radcn/avatar'
 import { Badge } from 'radcn/badge'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from 'radcn/breadcrumb'
 import { Button } from 'radcn/button'
+import { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from 'radcn/button-group'
+import {
+  Calendar,
+  CalendarCaption,
+  CalendarDay,
+  CalendarDayButton,
+  CalendarGrid,
+  CalendarMonth,
+  CalendarNav,
+  CalendarNext,
+  CalendarPrevious,
+  CalendarWeek,
+  CalendarWeekdays,
+} from 'radcn/calendar'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 'radcn/card'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from 'radcn/carousel'
+import {
+  ChartBarSeries,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendItem,
+  ChartLineSeries,
+  ChartTooltip,
+  ChartTooltipItem,
+} from 'radcn/chart'
+import { Checkbox } from 'radcn/checkbox'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from 'radcn/collapsible'
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxTrigger,
+  ComboboxValue,
+} from 'radcn/combobox'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandShortcut,
+} from 'radcn/command'
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from 'radcn/context-menu'
 import {
   Dialog,
   DialogClose,
@@ -12,9 +81,119 @@ import {
   DialogTitle,
   DialogTrigger,
 } from 'radcn/dialog'
+import { DirectionProvider } from 'radcn/direction'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from 'radcn/drawer'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from 'radcn/dropdown-menu'
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
+import { Field, FieldDescription, FieldError } from 'radcn/field'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'radcn/hover-card'
 import { Input } from 'radcn/input'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from 'radcn/input-group'
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from 'radcn/input-otp'
+import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from 'radcn/item'
+import { Kbd, KbdGroup } from 'radcn/kbd'
+import { Label } from 'radcn/label'
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from 'radcn/menubar'
+import { NativeSelect, NativeSelectOptGroup, NativeSelectOption } from 'radcn/native-select'
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from 'radcn/navigation-menu'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from 'radcn/pagination'
+import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from 'radcn/popover'
+import { Progress } from 'radcn/progress'
+import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'radcn/resizable'
+import { ScrollArea, ScrollAreaThumb, ScrollAreaViewport, ScrollBar } from 'radcn/scroll-area'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectViewport,
+} from 'radcn/select'
+import { Separator } from 'radcn/separator'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from 'radcn/sheet'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from 'radcn/sidebar'
+import { Skeleton } from 'radcn/skeleton'
+import { Slider } from 'radcn/slider'
 import { Toaster } from 'radcn/sonner'
+import { Spinner } from 'radcn/spinner'
+import { Switch } from 'radcn/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'radcn/tabs'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'radcn/table'
+import { Textarea } from 'radcn/textarea'
+import { createToastEvent } from 'radcn/toast'
+import { Toggle } from 'radcn/toggle'
+import { ToggleGroup, ToggleGroupItem } from 'radcn/toggle-group'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'radcn/tooltip'
+import {
+  TypographyBlockquote,
+  TypographyH2,
+  TypographyInlineCode,
+  TypographyLead,
+  TypographyList,
+  TypographyListItem,
+  TypographyP,
+} from 'radcn/typography'
 
 export type ComponentStatus = 'ready' | 'draft'
 export type ComponentKind = 'component' | 'helper' | 'recipe' | 'block'
@@ -120,6 +299,35 @@ const forceVisiblePreviewStyle = css({
   '& [data-radcn-tabs-content][hidden]': {
     display: 'grid !important',
   },
+  '& [data-radcn-alert-dialog-content][hidden], & [data-radcn-drawer-content][hidden], & [data-radcn-sheet-content][hidden], & [data-radcn-popover-content][hidden], & [data-radcn-hover-card-content][hidden], & [data-radcn-tooltip-content][hidden], & [data-radcn-dropdown-menu-content][hidden], & [data-radcn-context-menu-content][hidden], & [data-radcn-menubar-content][hidden], & [data-radcn-select-content][hidden], & [data-radcn-combobox-content][hidden], & [data-radcn-navigation-menu-content][hidden]': {
+    color: 'var(--radcn-foreground) !important',
+    display: 'grid !important',
+    left: 'auto !important',
+    maxWidth: '100%',
+    opacity: '1 !important',
+    position: 'static !important',
+    top: 'auto !important',
+    transform: 'none !important',
+    visibility: 'visible !important',
+    width: 'min(100%, 28rem)',
+  },
+})
+
+const previewMediaStyle = css({
+  display: 'grid',
+  minHeight: '8rem',
+  placeItems: 'center',
+  width: '100%',
+  borderRadius: 'calc(var(--radcn-radius) - 2px)',
+  background:
+    'linear-gradient(135deg, color-mix(in oklab, var(--radcn-primary) 18%, transparent), color-mix(in oklab, var(--radcn-accent) 34%, transparent))',
+  color: 'var(--radcn-foreground)',
+  fontWeight: 800,
+})
+
+const previewConstrainedStyle = css({
+  width: 'min(100%, 34rem)',
+  minWidth: 0,
 })
 
 const draftPreviewStyle = css({
@@ -358,6 +566,531 @@ function SonnerPreview() {
   )
 }
 
+function AuthoredPreview(handle: { props: { slug: string; title: string } }) {
+  return () => {
+    let { slug, title } = handle.props
+
+    switch (slug) {
+      case 'accordion':
+        return (
+          <Accordion defaultValue="usage" style="width: min(100%, 32rem);">
+            <AccordionItem value="usage">
+              <AccordionTrigger>What changes in Remix 3?</AccordionTrigger>
+              <AccordionContent>RadCN renders platform markup first, then enhances disclosure behavior in the browser.</AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        )
+      case 'alert':
+        return (
+          <Alert>
+            <AlertTitle>Server render complete</AlertTitle>
+            <AlertDescription>The docs route returned a real RadCN alert.</AlertDescription>
+            <AlertAction>Inspect</AlertAction>
+          </Alert>
+        )
+      case 'alert-dialog':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <AlertDialog id="docs-alert-dialog-preview">
+              <AlertDialogTrigger>Delete token</AlertDialogTrigger>
+            </AlertDialog>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete API token?</AlertDialogTitle>
+                <AlertDialogDescription>This preview renders the alert dialog surface without opening a modal.</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction>Delete</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </div>
+        )
+      case 'aspect-ratio':
+        return (
+          <AspectRatio ratio="16 / 9" style="width: min(100%, 32rem);">
+            <div mix={previewMediaStyle}>16:9 media slot</div>
+          </AspectRatio>
+        )
+      case 'avatar':
+        return (
+          <AvatarGroup>
+            <Avatar>
+              <AvatarFallback>RC</AvatarFallback>
+              <AvatarBadge />
+            </Avatar>
+            <Avatar size="sm"><AvatarFallback>UI</AvatarFallback></Avatar>
+            <AvatarGroupCount>+3</AvatarGroupCount>
+          </AvatarGroup>
+        )
+      case 'breadcrumb':
+        return (
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem><BreadcrumbLink href="/">Docs</BreadcrumbLink></BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem><BreadcrumbPage>{title}</BreadcrumbPage></BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        )
+      case 'button-group':
+        return (
+          <ButtonGroup>
+            <Button>Preview</Button>
+            <ButtonGroupSeparator />
+            <ButtonGroupText>v0.0</ButtonGroupText>
+            <Button variant="outline">Ship</Button>
+          </ButtonGroup>
+        )
+      case 'calendar':
+        return (
+          <Calendar
+            defaultMonth="2026-06-01"
+            defaultSelected="2026-06-05"
+            name="release-date"
+            style="width: min(100%, 22rem);"
+          />
+        )
+      case 'carousel':
+        return (
+          <Carousel style="width: min(100%, 28rem);">
+            <CarouselContent>
+              <CarouselItem><div mix={previewMediaStyle}>Component preview</div></CarouselItem>
+              <CarouselItem><div mix={previewMediaStyle}>Token preview</div></CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious>Previous</CarouselPrevious>
+            <CarouselNext>Next</CarouselNext>
+          </Carousel>
+        )
+      case 'card':
+        return (
+          <Card style="width: min(100%, 28rem);">
+            <CardHeader>
+              <CardTitle>Docs quality gate</CardTitle>
+              <CardDescription>Every route gets authored content.</CardDescription>
+            </CardHeader>
+            <CardContent><p>Examples import from the RadCN package.</p></CardContent>
+            <CardFooter><Button>Review page</Button></CardFooter>
+          </Card>
+        )
+      case 'chart':
+        return (
+          <ChartContainer
+            ariaLabel="Weekly component coverage"
+            config={{ ready: { color: 'var(--radcn-primary)', label: 'Ready' } }}
+            description="Authored docs coverage by week."
+            title="Coverage"
+            style="width: min(100%, 28rem);"
+          >
+            <ChartBarSeries labels={['Mon', 'Tue', 'Wed']} name="ready" values={[12, 28, 57]} />
+            <ChartLineSeries labels={['Mon', 'Tue', 'Wed']} name="ready" values={[12, 28, 57]} />
+            <ChartLegend><ChartLegendItem name="ready">Ready pages</ChartLegendItem></ChartLegend>
+            <ChartTooltip label="Friday"><ChartTooltipItem label="Ready" value={57} /></ChartTooltip>
+          </ChartContainer>
+        )
+      case 'checkbox':
+        return (
+          <label mix={previewRowStyle}>
+            <Checkbox checked id="docs-checkbox" name="docs-checkbox" />
+            Include authored examples
+          </label>
+        )
+      case 'collapsible':
+        return (
+          <Collapsible open style="width: min(100%, 28rem);">
+            <CollapsibleTrigger>Show implementation note</CollapsibleTrigger>
+            <CollapsibleContent>Collapsible content is rendered in the initial document.</CollapsibleContent>
+          </Collapsible>
+        )
+      case 'combobox':
+        return (
+          <Combobox defaultValue="remix" style="width: min(100%, 28rem);">
+            <ComboboxValue>Remix 3</ComboboxValue>
+            <ComboboxTrigger>Choose framework</ComboboxTrigger>
+            <ComboboxContent>
+              <ComboboxInput placeholder="Filter frameworks" />
+              <ComboboxList>
+                <ComboboxItem value="remix">Remix 3</ComboboxItem>
+                <ComboboxItem value="web">The web platform</ComboboxItem>
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        )
+      case 'command':
+        return (
+          <Command style="width: min(100%, 28rem);">
+            <CommandInput placeholder="Search commands" />
+            <CommandList>
+              <CommandGroup>
+                <CommandItem value="copy">Copy snippet <CommandShortcut>Cmd+C</CommandShortcut></CommandItem>
+                <CommandItem value="open">Open preview <CommandShortcut>Cmd+O</CommandShortcut></CommandItem>
+              </CommandGroup>
+              <CommandEmpty>No command found.</CommandEmpty>
+            </CommandList>
+          </Command>
+        )
+      case 'context-menu':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <ContextMenu>
+              <ContextMenuTrigger><Button variant="outline">Right click preview</Button></ContextMenuTrigger>
+              <ContextMenuContent>
+                <ContextMenuItem>Copy import</ContextMenuItem>
+                <ContextMenuItem>Open example</ContextMenuItem>
+              </ContextMenuContent>
+            </ContextMenu>
+          </div>
+        )
+      case 'direction':
+        return (
+          <DirectionProvider dir="rtl">
+            <div mix={previewCardStyle}>
+              <strong>RTL preview</strong>
+              <p>DirectionProvider writes real `dir` behavior into the rendered subtree.</p>
+            </div>
+          </DirectionProvider>
+        )
+      case 'drawer':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <Drawer id="docs-drawer-preview">
+              <DrawerTrigger>Open drawer</DrawerTrigger>
+            </Drawer>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Preview drawer</DrawerTitle>
+                <DrawerDescription>Drawer content can be inspected in docs without opening the viewport edge panel.</DrawerDescription>
+              </DrawerHeader>
+              <DrawerFooter>
+                <DrawerClose>Close</DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </div>
+        )
+      case 'dropdown-menu':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <DropdownMenu>
+              <DropdownMenuTrigger>Open menu</DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Page actions</DropdownMenuLabel>
+                <DropdownMenuItem>Copy import</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Open source <DropdownMenuShortcut>Cmd+Enter</DropdownMenuShortcut></DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )
+      case 'empty':
+        return (
+          <Empty style="width: min(100%, 28rem);">
+            <EmptyMedia variant="icon">0</EmptyMedia>
+            <EmptyHeader>
+              <EmptyTitle>No drafts left</EmptyTitle>
+              <EmptyDescription>Every package export now has a docs page.</EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent><Button variant="outline">Add example</Button></EmptyContent>
+          </Empty>
+        )
+      case 'field':
+        return (
+          <Field style="width: min(100%, 24rem);">
+            <Label for="docs-field-email">Email</Label>
+            <Input id="docs-field-email" name="email" placeholder="team@example.com" />
+            <FieldDescription>Used for release notifications.</FieldDescription>
+            <FieldError>Use a work email.</FieldError>
+          </Field>
+        )
+      case 'hover-card':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <HoverCard>
+              <HoverCardTrigger>Hover RadCN</HoverCardTrigger>
+              <HoverCardContent>Server-rendered trigger, browser-enhanced hover surface.</HoverCardContent>
+            </HoverCard>
+          </div>
+        )
+      case 'input-group':
+        return (
+          <InputGroup style="width: min(100%, 28rem);">
+            <InputGroupAddon>@</InputGroupAddon>
+            <InputGroupInput name="workspace" placeholder="radcn" value="radcn" />
+            <InputGroupButton>Go</InputGroupButton>
+            <InputGroupText>workspace</InputGroupText>
+          </InputGroup>
+        )
+      case 'input-otp':
+        return (
+          <InputOTP ariaLabel="One-time code" defaultValue="RADCN1" maxLength={6} name="otp">
+            <InputOTPGroup>
+              <InputOTPSlot index={0} />
+              <InputOTPSlot index={1} />
+              <InputOTPSlot index={2} />
+            </InputOTPGroup>
+            <InputOTPSeparator />
+            <InputOTPGroup>
+              <InputOTPSlot index={3} />
+              <InputOTPSlot index={4} />
+              <InputOTPSlot index={5} />
+            </InputOTPGroup>
+          </InputOTP>
+        )
+      case 'item':
+        return (
+          <ItemGroup style="width: min(100%, 30rem);">
+            <Item>
+              <ItemMedia variant="icon">R</ItemMedia>
+              <ItemContent>
+                <ItemTitle>RadCN docs</ItemTitle>
+                <ItemDescription>Component examples are package-backed.</ItemDescription>
+              </ItemContent>
+              <ItemActions><Button size="sm">Open</Button></ItemActions>
+            </Item>
+          </ItemGroup>
+        )
+      case 'kbd':
+        return (
+          <KbdGroup>
+            <Kbd>Cmd</Kbd>
+            <Kbd>K</Kbd>
+            <span>Open command menu</span>
+          </KbdGroup>
+        )
+      case 'label':
+        return (
+          <div mix={previewFieldStyle}>
+            <Label for="docs-label-input">Project name</Label>
+            <Input id="docs-label-input" value="radcn" />
+          </div>
+        )
+      case 'menubar':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <Menubar>
+              <MenubarMenu value="docs">
+                <MenubarTrigger>Docs</MenubarTrigger>
+                <MenubarContent>
+                  <MenubarItem>Components</MenubarItem>
+                  <MenubarSeparator />
+                  <MenubarItem>Tokens</MenubarItem>
+                </MenubarContent>
+              </MenubarMenu>
+            </Menubar>
+          </div>
+        )
+      case 'native-select':
+        return (
+          <NativeSelect name="framework" style="width: min(100%, 20rem);">
+            <NativeSelectOptGroup label="Frameworks">
+              <NativeSelectOption selected value="remix">Remix 3</NativeSelectOption>
+              <NativeSelectOption value="web">Web platform</NativeSelectOption>
+            </NativeSelectOptGroup>
+          </NativeSelect>
+        )
+      case 'navigation-menu':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem value="components">
+                  <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <NavigationMenuLink href="/docs/components/button">Button</NavigationMenuLink>
+                    <NavigationMenuLink href="/docs/components/dialog">Dialog</NavigationMenuLink>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+        )
+      case 'pagination':
+        return (
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem><PaginationPrevious href="#previous">Previous</PaginationPrevious></PaginationItem>
+              <PaginationItem><PaginationLink href="#1" isActive>1</PaginationLink></PaginationItem>
+              <PaginationItem><PaginationEllipsis /></PaginationItem>
+              <PaginationItem><PaginationNext href="#next">Next</PaginationNext></PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        )
+      case 'popover':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <Popover>
+              <PopoverTrigger>Open popover</PopoverTrigger>
+              <PopoverContent>
+                <PopoverTitle>Install command</PopoverTitle>
+                <p>Install copy is intentionally aspirational for this issue.</p>
+              </PopoverContent>
+            </Popover>
+          </div>
+        )
+      case 'progress':
+        return <Progress ariaLabel="Docs completion" value={72} style="width: min(100%, 24rem);" />
+      case 'radio-group':
+        return (
+          <RadioGroup name="mode">
+            <label mix={previewRowStyle}><RadioGroupItem checked name="mode" value="system" /> System</label>
+            <label mix={previewRowStyle}><RadioGroupItem name="mode" value="light" /> Light</label>
+            <label mix={previewRowStyle}><RadioGroupItem name="mode" value="dark" /> Dark</label>
+          </RadioGroup>
+        )
+      case 'resizable':
+        return (
+          <ResizablePanelGroup style="width: min(100%, 30rem); min-height: 8rem;">
+            <ResizablePanel defaultSize={60}><div mix={previewMediaStyle}>Preview</div></ResizablePanel>
+            <ResizableHandle />
+            <ResizablePanel defaultSize={40}><div mix={previewMediaStyle}>Code</div></ResizablePanel>
+          </ResizablePanelGroup>
+        )
+      case 'scroll-area':
+        return (
+          <ScrollArea style="width: min(100%, 24rem); height: 9rem;">
+            <ScrollAreaViewport>
+              <div mix={previewStackStyle}>
+                {['Accordion', 'Button', 'Dialog', 'Tabs', 'Tooltip'].map((item) => <Badge>{item}</Badge>)}
+              </div>
+            </ScrollAreaViewport>
+            <ScrollBar><ScrollAreaThumb /></ScrollBar>
+          </ScrollArea>
+        )
+      case 'select':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <Select defaultValue="docs" name="surface" style="width: min(100%, 22rem);">
+              <SelectTrigger><SelectValue placeholder="Choose surface" /></SelectTrigger>
+              <SelectContent>
+                <SelectViewport>
+                  <SelectItem value="docs">Docs site</SelectItem>
+                  <SelectItem value="package">Package API</SelectItem>
+                </SelectViewport>
+              </SelectContent>
+            </Select>
+          </div>
+        )
+      case 'separator':
+        return (
+          <div mix={previewStackStyle}>
+            <span>Preview</span>
+            <Separator />
+            <span>Source</span>
+          </div>
+        )
+      case 'sheet':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <Sheet id="docs-sheet-preview">
+              <SheetTrigger>Open sheet</SheetTrigger>
+            </Sheet>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Component settings</SheetTitle>
+                <SheetDescription>Sheet parts are package-rendered and browser-enhanced.</SheetDescription>
+              </SheetHeader>
+              <SheetFooter><SheetClose>Close</SheetClose></SheetFooter>
+            </SheetContent>
+          </div>
+        )
+      case 'sidebar':
+        return (
+          <SidebarProvider defaultOpen>
+            <div mix={previewConstrainedStyle}>
+              <Sidebar>
+                <SidebarHeader><SidebarTrigger>Toggle</SidebarTrigger></SidebarHeader>
+                <SidebarContent>
+                  <SidebarGroup>
+                    <SidebarGroupLabel>Components</SidebarGroupLabel>
+                    <SidebarGroupContent>
+                      <SidebarMenu>
+                        <SidebarMenuItem><SidebarMenuButton>Button</SidebarMenuButton></SidebarMenuItem>
+                        <SidebarMenuItem><SidebarMenuButton>Dialog</SidebarMenuButton></SidebarMenuItem>
+                      </SidebarMenu>
+                    </SidebarGroupContent>
+                  </SidebarGroup>
+                </SidebarContent>
+              </Sidebar>
+            </div>
+          </SidebarProvider>
+        )
+      case 'skeleton':
+        return (
+          <div mix={previewStackStyle}>
+            <Skeleton style="height: 1rem; width: 75%;" />
+            <Skeleton style="height: 1rem; width: 50%;" />
+          </div>
+        )
+      case 'slider':
+        return <Slider ariaLabel="Example intensity" defaultValue={68} name="intensity" style="width: min(100%, 24rem);" />
+      case 'spinner':
+        return <Spinner ariaLabel="Loading docs preview" />
+      case 'switch':
+        return (
+          <label mix={previewRowStyle}>
+            <Switch checked name="notifications" />
+            Enable notifications
+          </label>
+        )
+      case 'table':
+        return (
+          <Table style="width: min(100%, 32rem);">
+            <TableHeader>
+              <TableRow><TableHead>Component</TableHead><TableHead>Status</TableHead></TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow><TableCell>Button</TableCell><TableCell>Ready</TableCell></TableRow>
+              <TableRow><TableCell>Dialog</TableCell><TableCell>Ready</TableCell></TableRow>
+            </TableBody>
+          </Table>
+        )
+      case 'textarea':
+        return <Textarea name="notes" placeholder="Write implementation notes" value="Server-rendered textareas keep native editing." style="width: min(100%, 24rem);" />
+      case 'toast':
+        return (
+          <div mix={previewStackStyle}>
+            <Button data-toast-event={createToastEvent.name}>Dispatch toast event</Button>
+            <p>Use `createToastEvent` or `toast` from `radcn/toast` in browser-owned code.</p>
+          </div>
+        )
+      case 'toggle':
+        return <Toggle pressed>Bold</Toggle>
+      case 'toggle-group':
+        return (
+          <ToggleGroup defaultValue="preview" type="multiple">
+            <ToggleGroupItem value="preview">Preview</ToggleGroupItem>
+            <ToggleGroupItem value="code">Code</ToggleGroupItem>
+          </ToggleGroup>
+        )
+      case 'tooltip':
+        return (
+          <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>Hover for hint</TooltipTrigger>
+                <TooltipContent>Tooltips are browser-enhanced from package markup.</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        )
+      case 'typography':
+        return (
+          <div mix={previewStackStyle}>
+            <TypographyLead>RadCN documentation is web-first.</TypographyLead>
+            <TypographyH2>Portable primitives</TypographyH2>
+            <TypographyP>Use <TypographyInlineCode>remix/ui</TypographyInlineCode> components with RadCN tokens.</TypographyP>
+            <TypographyBlockquote>Keep examples honest and package-backed.</TypographyBlockquote>
+            <TypographyList>
+              <TypographyListItem>Server-rendered HTML</TypographyListItem>
+              <TypographyListItem>Explicit browser enhancement</TypographyListItem>
+            </TypographyList>
+          </div>
+        )
+      default:
+        return <DraftPreview title={title} importPath={`radcn/${slug}`} disposition="ready" />
+    }
+  }
+}
+
 function DraftPreview(handle: { props: { title: string; importPath: string; disposition: ComponentDisposition } }) {
   return () => {
     let { title, importPath, disposition } = handle.props
@@ -368,7 +1101,7 @@ function DraftPreview(handle: { props: { title: string; importPath: string; disp
         <strong>{title}</strong>
         <p>
           {shipped
-            ? 'This page is part of the complete RadCN docs registry. A richer live example will replace this draft surface in a later pass.'
+            ? 'Unexpected fallback preview: this exported page should render an authored package example.'
             : 'This is an intended docs disposition. It is not an importable RadCN package API today.'}
         </p>
         <code>{shipped ? `import from '${importPath}'` : 'not shipped yet'}</code>
@@ -668,6 +1401,262 @@ const registrySeeds: RegistrySeed[] = [
 
 const richSlugs = new Set(richComponentDocs.map((component) => component.slug))
 
+function sourceForSeed(seed: RegistrySeed, importExample: string) {
+  let name = seed.title.replaceAll(' ', '')
+  let body = sourceBodyBySlug[seed.slug] ?? `<${seed.importNames?.[0] ?? name}>${seed.title}</${seed.importNames?.[0] ?? name}>`
+
+  return `${importExample}
+
+export function ${name}Preview() {
+  return (
+${body
+  .split('\n')
+  .map((line) => `    ${line}`)
+  .join('\n')}
+  )
+}`
+}
+
+const sourceBodyBySlug: Record<string, string> = {
+  accordion: `<Accordion defaultValue="usage">
+  <AccordionItem value="usage">
+    <AccordionTrigger>What changes in Remix 3?</AccordionTrigger>
+    <AccordionContent>RadCN renders platform markup first.</AccordionContent>
+  </AccordionItem>
+</Accordion>`,
+  alert: `<Alert>
+  <AlertTitle>Server render complete</AlertTitle>
+  <AlertDescription>The route returned a real RadCN alert.</AlertDescription>
+</Alert>`,
+  'alert-dialog': `<AlertDialog id="delete-token">
+  <AlertDialogTrigger>Delete token</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Delete API token?</AlertDialogTitle>
+      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Delete</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`,
+  'aspect-ratio': `<AspectRatio ratio="16 / 9">
+  <img src="/images/radcn-logo.webp" alt="RadCN" />
+</AspectRatio>`,
+  avatar: `<AvatarGroup>
+  <Avatar><AvatarFallback>RC</AvatarFallback></Avatar>
+  <AvatarGroupCount>+3</AvatarGroupCount>
+</AvatarGroup>`,
+  breadcrumb: `<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem><BreadcrumbLink href="/">Docs</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbPage>Button</BreadcrumbPage></BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`,
+  'button-group': `<ButtonGroup>
+  <Button>Preview</Button>
+  <ButtonGroupSeparator />
+  <ButtonGroupText>v0.0</ButtonGroupText>
+</ButtonGroup>`,
+  calendar: `<Calendar defaultMonth="2026-06-01" defaultSelected="2026-06-05" name="release-date" />`,
+  carousel: `<Carousel>
+  <CarouselContent>
+    <CarouselItem>Component preview</CarouselItem>
+    <CarouselItem>Token preview</CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious>Previous</CarouselPrevious>
+  <CarouselNext>Next</CarouselNext>
+</Carousel>`,
+  card: `<Card>
+  <CardHeader>
+    <CardTitle>Docs quality gate</CardTitle>
+    <CardDescription>Every route gets authored content.</CardDescription>
+  </CardHeader>
+  <CardContent>Examples import from the RadCN package.</CardContent>
+</Card>`,
+  chart: `<ChartContainer ariaLabel="Weekly component coverage" title="Coverage">
+  <ChartBarSeries labels={['Mon', 'Tue', 'Wed']} name="ready" values={[12, 28, 57]} />
+  <ChartLegend><ChartLegendItem name="ready">Ready pages</ChartLegendItem></ChartLegend>
+</ChartContainer>`,
+  checkbox: `<label>
+  <Checkbox checked name="docs-checkbox" />
+  Include authored examples
+</label>`,
+  collapsible: `<Collapsible open>
+  <CollapsibleTrigger>Show implementation note</CollapsibleTrigger>
+  <CollapsibleContent>Content is rendered in the initial document.</CollapsibleContent>
+</Collapsible>`,
+  combobox: `<Combobox defaultValue="remix">
+  <ComboboxValue>Remix 3</ComboboxValue>
+  <ComboboxTrigger>Choose framework</ComboboxTrigger>
+  <ComboboxContent>
+    <ComboboxInput placeholder="Filter frameworks" />
+    <ComboboxList><ComboboxItem value="remix">Remix 3</ComboboxItem></ComboboxList>
+  </ComboboxContent>
+</Combobox>`,
+  command: `<Command>
+  <CommandInput placeholder="Search commands" />
+  <CommandList>
+    <CommandGroup><CommandItem value="copy">Copy snippet</CommandItem></CommandGroup>
+  </CommandList>
+</Command>`,
+  'context-menu': `<ContextMenu>
+  <ContextMenuTrigger>Right click preview</ContextMenuTrigger>
+  <ContextMenuContent><ContextMenuItem>Copy import</ContextMenuItem></ContextMenuContent>
+</ContextMenu>`,
+  direction: `<DirectionProvider dir="rtl">
+  <p>DirectionProvider writes real dir behavior into the subtree.</p>
+</DirectionProvider>`,
+  drawer: `<Drawer id="settings">
+  <DrawerTrigger>Open drawer</DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader><DrawerTitle>Preview drawer</DrawerTitle></DrawerHeader>
+  </DrawerContent>
+</Drawer>`,
+  'dropdown-menu': `<DropdownMenu>
+  <DropdownMenuTrigger>Open menu</DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Page actions</DropdownMenuLabel>
+    <DropdownMenuItem>Copy import</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+  empty: `<Empty>
+  <EmptyHeader>
+    <EmptyTitle>No drafts left</EmptyTitle>
+    <EmptyDescription>Every export now has docs.</EmptyDescription>
+  </EmptyHeader>
+</Empty>`,
+  field: `<Field>
+  <Label for="email">Email</Label>
+  <Input id="email" name="email" />
+  <FieldDescription>Used for release notifications.</FieldDescription>
+</Field>`,
+  'hover-card': `<HoverCard>
+  <HoverCardTrigger>Hover RadCN</HoverCardTrigger>
+  <HoverCardContent>Server-rendered trigger, browser-enhanced surface.</HoverCardContent>
+</HoverCard>`,
+  'input-group': `<InputGroup>
+  <InputGroupAddon>@</InputGroupAddon>
+  <InputGroupInput name="workspace" placeholder="radcn" />
+  <InputGroupButton>Go</InputGroupButton>
+</InputGroup>`,
+  'input-otp': `<InputOTP ariaLabel="One-time code" maxLength={6} name="otp">
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+  </InputOTPGroup>
+</InputOTP>`,
+  item: `<ItemGroup>
+  <Item>
+    <ItemMedia variant="icon">R</ItemMedia>
+    <ItemContent><ItemTitle>RadCN docs</ItemTitle></ItemContent>
+  </Item>
+</ItemGroup>`,
+  kbd: `<KbdGroup>
+  <Kbd>Cmd</Kbd>
+  <Kbd>K</Kbd>
+</KbdGroup>`,
+  label: `<Label for="project-name">Project name</Label>`,
+  menubar: `<Menubar>
+  <MenubarMenu value="docs">
+    <MenubarTrigger>Docs</MenubarTrigger>
+    <MenubarContent><MenubarItem>Components</MenubarItem></MenubarContent>
+  </MenubarMenu>
+</Menubar>`,
+  'native-select': `<NativeSelect name="framework">
+  <NativeSelectOptGroup label="Frameworks">
+    <NativeSelectOption selected value="remix">Remix 3</NativeSelectOption>
+  </NativeSelectOptGroup>
+</NativeSelect>`,
+  'navigation-menu': `<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem value="components">
+      <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+      <NavigationMenuContent><NavigationMenuLink href="/docs/components/button">Button</NavigationMenuLink></NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>`,
+  pagination: `<Pagination>
+  <PaginationContent>
+    <PaginationItem><PaginationPrevious href="#previous">Previous</PaginationPrevious></PaginationItem>
+    <PaginationItem><PaginationLink href="#1" isActive>1</PaginationLink></PaginationItem>
+    <PaginationItem><PaginationNext href="#next">Next</PaginationNext></PaginationItem>
+  </PaginationContent>
+</Pagination>`,
+  popover: `<Popover>
+  <PopoverTrigger>Open popover</PopoverTrigger>
+  <PopoverContent><PopoverTitle>Install command</PopoverTitle></PopoverContent>
+</Popover>`,
+  progress: `<Progress ariaLabel="Docs completion" value={72} />`,
+  'radio-group': `<RadioGroup name="mode">
+  <label><RadioGroupItem checked name="mode" value="system" /> System</label>
+  <label><RadioGroupItem name="mode" value="light" /> Light</label>
+</RadioGroup>`,
+  resizable: `<ResizablePanelGroup>
+  <ResizablePanel defaultSize={60}>Preview</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize={40}>Code</ResizablePanel>
+</ResizablePanelGroup>`,
+  'scroll-area': `<ScrollArea>
+  <ScrollAreaViewport>Scrollable component list</ScrollAreaViewport>
+  <ScrollBar><ScrollAreaThumb /></ScrollBar>
+</ScrollArea>`,
+  select: `<Select defaultValue="docs" name="surface">
+  <SelectTrigger><SelectValue placeholder="Choose surface" /></SelectTrigger>
+  <SelectContent><SelectViewport><SelectItem value="docs">Docs site</SelectItem></SelectViewport></SelectContent>
+</Select>`,
+  separator: `<>
+  <span>Preview</span>
+  <Separator />
+  <span>Source</span>
+</>`,
+  sheet: `<Sheet id="settings">
+  <SheetTrigger>Open sheet</SheetTrigger>
+  <SheetContent>
+    <SheetHeader><SheetTitle>Component settings</SheetTitle></SheetHeader>
+  </SheetContent>
+</Sheet>`,
+  sidebar: `<SidebarProvider defaultOpen>
+  <Sidebar>
+    <SidebarHeader><SidebarTrigger>Toggle</SidebarTrigger></SidebarHeader>
+    <SidebarContent><SidebarMenu><SidebarMenuItem><SidebarMenuButton>Button</SidebarMenuButton></SidebarMenuItem></SidebarMenu></SidebarContent>
+  </Sidebar>
+</SidebarProvider>`,
+  skeleton: `<Skeleton style="height: 1rem; width: 75%;" />`,
+  slider: `<Slider ariaLabel="Example intensity" defaultValue={68} name="intensity" />`,
+  spinner: `<Spinner ariaLabel="Loading docs preview" />`,
+  switch: `<label>
+  <Switch checked name="notifications" />
+  Enable notifications
+</label>`,
+  table: `<Table>
+  <TableHeader><TableRow><TableHead>Component</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+  <TableBody><TableRow><TableCell>Button</TableCell><TableCell>Ready</TableCell></TableRow></TableBody>
+</Table>`,
+  textarea: `<Textarea name="notes" placeholder="Write implementation notes" />`,
+  toast: `<button type="button" data-toast-event={createToastEvent.name}>
+  Dispatch toast event
+</button>`,
+  toggle: `<Toggle pressed>Bold</Toggle>`,
+  'toggle-group': `<ToggleGroup defaultValue="preview" type="multiple">
+  <ToggleGroupItem value="preview">Preview</ToggleGroupItem>
+  <ToggleGroupItem value="code">Code</ToggleGroupItem>
+</ToggleGroup>`,
+  tooltip: `<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger>Hover for hint</TooltipTrigger>
+    <TooltipContent>Tooltips are browser-enhanced from package markup.</TooltipContent>
+  </Tooltip>
+</TooltipProvider>`,
+  typography: `<div>
+  <TypographyLead>RadCN documentation is web-first.</TypographyLead>
+  <TypographyP>Use <TypographyInlineCode>remix/ui</TypographyInlineCode> components.</TypographyP>
+</div>`,
+}
+
 export const componentDocs: ComponentDoc[] = [
   ...richComponentDocs,
   ...registrySeeds.filter((seed) => !richSlugs.has(seed.slug)).map(createDraftDoc),
@@ -675,13 +1664,14 @@ export const componentDocs: ComponentDoc[] = [
 
 function createDraftDoc(seed: RegistrySeed): ComponentDoc {
   let kind = seed.kind ?? 'component'
-  let disposition = seed.disposition ?? 'draft'
-  let status = seed.status ?? 'draft'
+  let disposition = seed.disposition ?? 'ready'
+  let status = seed.status ?? (disposition === 'not-shipped-yet' ? 'draft' : 'ready')
   let importPath = disposition === 'not-shipped-yet' ? '' : `radcn/${seed.slug}`
   let importExample =
     disposition === 'not-shipped-yet'
       ? `// ${seed.title} is not shipped by RadCN yet.`
       : `import { ${seed.importNames?.join(', ') ?? seed.title.replaceAll(' ', '')} } from '${importPath}'`
+  let source = disposition === 'not-shipped-yet' ? importExample : sourceForSeed(seed, importExample)
 
   return {
     slug: seed.slug,
@@ -694,34 +1684,46 @@ function createDraftDoc(seed: RegistrySeed): ComponentDoc {
       seed.summary ??
       (disposition === 'not-shipped-yet'
         ? `${seed.title} is tracked as an intended RadCN docs disposition, but it is not an importable package API yet.`
-        : `${seed.title} is included in the RadCN public package surface. This draft docs page records the route, import surface, and implementation notes before a richer example pass.`),
+        : `${seed.title} is included in the RadCN public package surface with authored docs metadata, package import guidance, and a live preview.`),
     importPath,
     importExample,
     install: 'pnpm add radcn # intended future package',
     examples: [
       {
-        slug: 'registry-entry',
-        title: disposition === 'not-shipped-yet' ? 'Not shipped yet' : 'Registry entry',
+        slug: disposition === 'not-shipped-yet' ? 'not-shipped-yet' : 'authored-preview',
+        title: disposition === 'not-shipped-yet' ? 'Not shipped yet' : 'Authored preview',
         description:
           disposition === 'not-shipped-yet'
             ? 'This page documents a known Issue 3 recipe/block disposition without claiming a package export exists.'
-            : 'This draft surface keeps the docs route complete while richer live examples are added incrementally.',
-        source: importExample,
-        preview: <DraftPreview title={seed.title} importPath={importPath} disposition={disposition} />,
+            : `${seed.title} renders from the RadCN package in the docs app, with a compact example suitable for visual inspection.`,
+        source,
+        preview:
+          disposition === 'not-shipped-yet'
+            ? <DraftPreview title={seed.title} importPath={importPath} disposition={disposition} />
+            : <AuthoredPreview slug={seed.slug} title={seed.title} />,
       },
     ],
     accessibility:
       disposition === 'not-shipped-yet'
         ? ['No shipped RadCN API exists yet; accessibility requirements must be defined before implementation.']
-        : ['This page records the RadCN public API surface. A later example pass should add component-specific accessibility notes.'],
+        : [
+            `${seed.title} renders semantic host elements from the RadCN package so baseline accessibility is present in server HTML.`,
+            'Interactive behavior is attached through explicit Remix 3 browser enhancement where the component requires runtime state.',
+          ],
     customization:
       disposition === 'not-shipped-yet'
         ? ['No shipped tokens or class hooks exist yet for this disposition.']
-        : ['Use the RadCN token set and package data hooks documented by the component source.'],
+        : [
+            'Use RadCN CSS variables for color, radius, spacing, and focus treatment.',
+            `Target public ${seed.slug} data hooks and part classes from the package instead of depending on docs-only wrappers.`,
+          ],
     divergence:
       disposition === 'not-shipped-yet'
         ? ['This is an aspirational docs disposition, not a current package export.']
-        : ['RadCN documents this surface as Remix UI package code rather than a copied React component.'],
+        : [
+            'RadCN documents this surface as Remix UI package code rather than a copied React component.',
+            'The docs example imports from the package subpath users are intended to import from once installation is available.',
+          ],
   }
 }
 

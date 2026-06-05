@@ -171,7 +171,7 @@ that:
 - [Experiment 11: Complete docs registry coverage](11-complete-docs-registry-coverage.md)
   — **Pass**
 - [Experiment 12: Author full component docs](12-author-full-component-docs.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -282,3 +282,14 @@ that:
 - Issue 3 install snippets are aspirational. Registry entries should use
   `pnpm add radcn # intended future package` and page copy must state that RadCN
   is private and not published to npm yet.
+- Exported docs pages should be treated as authored `ready` pages once they
+  have a package import snippet, live RadCN preview, accessibility notes,
+  customization notes, and Remix 3 divergence notes. Keep `draft` reserved for
+  non-shipped dispositions such as `form`, `date-picker`, and `data-table`.
+- Full-registry docs coverage now depends on the `publicPreviewHooks` map in
+  `radcn/apps/docs/tests/coverage.spec.ts`. When adding a package export, add
+  its docs seed, live preview, and expected public hook in the same experiment.
+- Several overlay/composite examples intentionally render package content in a
+  preview-pinned state so users can inspect the surface without first opening a
+  browser-enhanced overlay. Keep source snippets representative of normal app
+  usage even when the docs preview pins content into view.

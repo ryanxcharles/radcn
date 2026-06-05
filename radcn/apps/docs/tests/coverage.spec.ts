@@ -5,6 +5,65 @@ import { expect, test } from '@playwright/test'
 
 const excludedExports = new Set(['.', './styles', './package.json'])
 const nonExportedDispositions = ['form', 'date-picker', 'data-table']
+const publicPreviewHooks: Record<string, string> = {
+  accordion: '[data-radcn-accordion]',
+  alert: '[data-radcn-alert]',
+  'alert-dialog': '[data-radcn-alert-dialog-content]',
+  'aspect-ratio': '[data-radcn-aspect-ratio]',
+  avatar: '[data-radcn-avatar]',
+  badge: '[data-radcn-badge]',
+  breadcrumb: '[data-radcn-breadcrumb]',
+  button: '[data-radcn-button]',
+  'button-group': '[data-radcn-button-group]',
+  calendar: '[data-radcn-calendar]',
+  carousel: '[data-radcn-carousel]',
+  card: '[data-radcn-card]',
+  chart: '[data-radcn-chart]',
+  checkbox: '[data-radcn-checkbox-wrapper]',
+  collapsible: '[data-radcn-collapsible]',
+  combobox: '[data-radcn-combobox]',
+  command: '[data-radcn-command]',
+  'context-menu': '[data-radcn-context-menu]',
+  direction: '[data-radcn-direction-provider]',
+  dialog: '[data-radcn-dialog-content]',
+  drawer: '[data-radcn-drawer-content]',
+  'dropdown-menu': '[data-radcn-dropdown-menu]',
+  empty: '[data-radcn-empty]',
+  field: '[data-radcn-field]',
+  'hover-card': '[data-radcn-hover-card]',
+  input: '[data-radcn-input]',
+  'input-group': '[data-radcn-input-group]',
+  'input-otp': '[data-radcn-input-otp]',
+  item: '[data-radcn-item]',
+  kbd: '[data-radcn-kbd]',
+  label: '[data-radcn-label]',
+  menubar: '[data-radcn-menubar]',
+  'native-select': '[data-radcn-native-select-wrapper]',
+  'navigation-menu': '[data-radcn-navigation-menu]',
+  pagination: '[data-radcn-pagination]',
+  popover: '[data-radcn-popover]',
+  progress: '[data-radcn-progress-wrapper]',
+  'radio-group': '[data-radcn-radio-group]',
+  resizable: '[data-radcn-resizable-panel-group]',
+  'scroll-area': '[data-radcn-scroll-area]',
+  select: '[data-radcn-select]',
+  separator: '[data-radcn-separator]',
+  sheet: '[data-radcn-sheet-content]',
+  sidebar: '[data-radcn-sidebar-provider]',
+  skeleton: '[data-radcn-skeleton]',
+  slider: '[data-radcn-slider]',
+  sonner: '[data-radcn-toaster]',
+  spinner: '[data-radcn-spinner]',
+  switch: '[data-radcn-switch-wrapper]',
+  table: '[data-radcn-table]',
+  tabs: '[data-radcn-tabs]',
+  textarea: '[data-radcn-textarea]',
+  toast: '[data-radcn-button]',
+  toggle: '[data-radcn-toggle]',
+  'toggle-group': '[data-radcn-toggle-group]',
+  tooltip: '[data-radcn-tooltip]',
+  typography: '[data-radcn-typography-lead]',
+}
 
 test.describe('docs registry coverage', () => {
   test('every RadCN public subpath and known disposition has a docs route', async ({
@@ -21,11 +80,32 @@ test.describe('docs registry coverage', () => {
     }
   })
 
+  test('every exported public subpath is authored and renders a RadCN preview', async ({
+    page,
+  }) => {
+    let publicSlugs = await publicRadcnSlugs()
+
+    for (let slug of publicSlugs) {
+      let hook = publicPreviewHooks[slug]
+      expect(hook, `${slug} should have an expected public preview hook`).toBeTruthy()
+
+      await page.goto(`/docs/components/${slug}`)
+      await expect(
+        page.getByText('Unexpected fallback preview'),
+        `${slug} should not show generic draft registry copy`,
+      ).toHaveCount(0)
+      await expect(page.getByText(`from 'radcn/${slug}'`).first()).toBeVisible()
+      await expect(page.locator(hook).first(), `${slug} should render ${hook}`).toBeVisible()
+    }
+  })
+
   test('non-exported dispositions are honest draft pages', async ({ page }) => {
     for (let slug of nonExportedDispositions) {
       await page.goto(`/docs/components/${slug}`)
       await expect(page.getByText('not-shipped-yet')).toBeVisible()
       await expect(page.getByText('not an importable RadCN package API today')).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Planned block disposition' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Live package example' })).toHaveCount(0)
       await expect(
         page.getByText(`// ${titleFromSlug(slug)} is not shipped by RadCN yet.`).first(),
       ).toBeVisible()

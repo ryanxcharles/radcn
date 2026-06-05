@@ -124,3 +124,90 @@ Fixes:
   `publishConfig`, and package-public changes.
 
 Reviewer approval: Approved; no blockers remained.
+
+## Result
+
+**Result:** Pass
+
+Converted the generated exported registry pages from draft entries into authored
+docs pages. Every exported RadCN package subpath now resolves to a page with
+`ready` status, a package import snippet, aspirational install copy, a live
+RadCN package preview, accessibility notes, customization notes, and Remix 3
+divergence notes. Existing rich examples for Button, Badge, Input, Dialog,
+Tabs, and Sonner remain intact.
+
+Added an authored preview dispatcher that renders compact examples for every
+remaining exported surface, including display, input/native control, overlay,
+composite, navigation, layout, feedback, helper, utility, and recipe surfaces.
+Overlay and composite examples use preview-pinned content where necessary so
+the package parts are visible in the docs without requiring a browser
+interaction first. Source snippets are now concrete component usage examples
+rather than placeholder containers.
+
+Kept `form`, `date-picker`, and `data-table` as `not-shipped-yet` block
+dispositions. Their preview section now says `Planned block disposition`, and
+their import snippets remain comments rather than fake package imports.
+
+Strengthened `radcn/apps/docs/tests/coverage.spec.ts` so every exported package
+subpath must render an expected public RadCN preview hook and must not fall back
+to a generic draft preview. The test also checks that non-exported block pages
+do not use the `Live package example` heading.
+
+Verification run:
+
+- `pnpm --dir radcn/apps/docs typecheck` — Pass
+- `pnpm radcn:typecheck` — Pass
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts` — Pass
+  (10 tests)
+- `git diff --check` — Pass
+- `git -C vendor/shadcn-ui status --short` — Pass, no output
+- `git -C vendor/remix status --short` — Pass, no output
+- `git -C vendor/react-router status --short` — Pass, no output
+- `git diff --name-only HEAD -- radcn package.json pnpm-workspace.yaml pnpm-lock.yaml | rg '(^|/)vendor(/|$)'`
+  — Pass, no output
+- `git diff HEAD -- radcn package.json pnpm-workspace.yaml pnpm-lock.yaml | rg 'npm publish|pnpm publish|publishConfig|"private": false|vendor/'`
+  — Pass, no output
+
+Manual visual and viewport checks:
+
+- Ran `pnpm dev` from the repository root.
+- Inspected desktop home, desktop Accordion, desktop Popover, mobile Input OTP,
+  mobile Navigation Menu, and mobile Data Table pages.
+- Captured screenshots under `/tmp/radcn-issue3-*.png`.
+- Overflow probes reported:
+  - desktop home: `scrollWidth = clientWidth = 1440`
+  - desktop Accordion: `scrollWidth = clientWidth = 1440`
+  - desktop Popover: `scrollWidth = clientWidth = 1440`
+  - mobile Input OTP: `scrollWidth = clientWidth = 390`
+  - mobile Navigation Menu: `scrollWidth = clientWidth = 390`
+  - mobile Data Table: `scrollWidth = clientWidth = 390`
+- Rechecked mobile Data Table after the non-shipped heading fix; the page
+  reported `Planned block disposition` and `scrollWidth = clientWidth = 390`.
+
+## Conclusion
+
+Issue 3's remaining documentation-content gap is closed for the current RadCN
+package surface. The docs site now covers every exported component/helper and
+the known non-shipped block dispositions with routes, navigation, package-backed
+examples where APIs exist, aspirational install copy, customization and
+accessibility notes, Remix 3 divergence notes, and regression coverage.
+
+## Completion Review
+
+Reviewer: Mill (`019e9822-e5e2-7b23-b939-9b226909d6b9`)
+
+Fresh context: Yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: None
+- Major: None
+- Minor: None
+
+Reviewer approval: Approved. The reviewer confirmed that the implementation
+matches the approved scope, the issue README status and learnings are updated,
+non-shipped blocks use comment-only import examples, the UI labels those pages
+as planned block dispositions, the strengthened coverage tests enforce exported
+authored pages and honest block pages, verification commands passed, vendor
+checks and scope greps were clean, and the result commit had not been made
+before review.

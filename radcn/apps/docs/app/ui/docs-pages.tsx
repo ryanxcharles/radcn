@@ -61,7 +61,11 @@ export function ComponentPage(handle: Handle<{ component: ComponentDoc }>) {
             <section id="preview" mix={sectionStyle}>
               <SectionHeading
                 eyebrow="Preview"
-                title="Live package example"
+                title={
+                  component.disposition === 'not-shipped-yet'
+                    ? 'Planned block disposition'
+                    : 'Live package example'
+                }
                 description={component.examples[0].description}
               />
               <ExamplePanel example={component.examples[0]} />
