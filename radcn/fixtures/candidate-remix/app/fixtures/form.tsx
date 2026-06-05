@@ -1,69 +1,85 @@
 import type { FixtureScenario } from '../../../scenarios/types.ts'
-import { Button, Field, FieldDescription, FieldError, Input, Label, Textarea } from 'radcn'
+import { Button, Input, Textarea } from 'radcn'
+import { Form, FormDescription, FormField, FormLabel, FormMessage, formControlAttributes, formFieldIds } from 'radcn/form'
 
 export function renderFormFixture(fixture: FixtureScenario) {
+  let nativeEmail = formFieldIds('candidate-form-native-email')
+  let serverEmail = formFieldIds('candidate-form-server-email')
+  let actionName = formFieldIds('candidate-form-action-name')
+  let customMessage = formFieldIds('candidate-form-custom-message')
+
   switch (fixture.id) {
     case 'server-errors':
+      let serverControl = formControlAttributes(serverEmail, { invalid: true, message: true })
+
       return (
-        <form action="/fixtures/form/server-errors" method="get" style="display:grid;gap:16px;max-width:420px" data-radcn-form-recipe>
-          <Field invalid>
-            <Label for="candidate-form-server-email">Email</Label>
+        <Form action="/fixtures/form/server-errors" method="get">
+          <FormField invalid name="email">
+            <FormLabel error for={serverControl.id}>Email</FormLabel>
             <Input
-              ariaDescribedBy="candidate-form-server-email-error"
-              ariaInvalid
-              id="candidate-form-server-email"
+              ariaDescribedBy={serverControl.ariaDescribedBy}
+              ariaInvalid={serverControl.ariaInvalid}
+              id={serverControl.id}
               name="email"
               value="not-an-email"
             />
-            <FieldError id="candidate-form-server-email-error">Use a valid email address.</FieldError>
-          </Field>
+            <FormDescription id={serverEmail.descriptionId}>Use your work email address.</FormDescription>
+            <FormMessage id={serverEmail.messageId}>Use a valid email address.</FormMessage>
+          </FormField>
           <Button name="intent" type="submit" value="retry">Try again</Button>
-        </form>
+        </Form>
       )
     case 'action-state':
+      let actionControl = formControlAttributes(actionName)
+
       return (
-        <form action="/fixtures/form/action-state" method="get" style="display:grid;gap:16px;max-width:420px" data-radcn-form-recipe>
-          <Field>
-            <Label for="candidate-form-action-name">Project</Label>
-            <Input id="candidate-form-action-name" name="project" value="RadCN" />
-            <FieldDescription id="candidate-form-action-state">Last saved value: RadCN</FieldDescription>
-          </Field>
+        <Form action="/fixtures/form/action-state" method="get">
+          <FormField name="project">
+            <FormLabel for={actionControl.id}>Project</FormLabel>
+            <Input ariaDescribedBy={actionControl.ariaDescribedBy} id={actionControl.id} name="project" value="RadCN" />
+            <FormDescription id={actionName.descriptionId}>Last saved value: RadCN</FormDescription>
+          </FormField>
           <Button name="intent" type="submit" value="save">Save</Button>
-        </form>
+        </Form>
       )
     case 'custom-token':
+      let customControl = formControlAttributes(customMessage, { invalid: true, message: true })
+
       return (
-        <form action="/fixtures/form/custom-token" class="radcn-fixture-custom-field" method="get" style="display:grid;gap:16px;max-width:420px" data-radcn-form-recipe>
-          <Field invalid>
-            <Label for="candidate-form-custom-message">Message</Label>
+        <Form action="/fixtures/form/custom-token" class="radcn-fixture-custom-field" method="get">
+          <FormField invalid name="message">
+            <FormLabel error for={customControl.id}>Message</FormLabel>
             <Textarea
-              ariaDescribedBy="candidate-form-custom-message-error"
-              ariaInvalid
-              id="candidate-form-custom-message"
+              ariaDescribedBy={customControl.ariaDescribedBy}
+              ariaInvalid={customControl.ariaInvalid}
+              id={customControl.id}
               name="message"
               value="Too short"
             />
-            <FieldError id="candidate-form-custom-message-error">Custom token form error.</FieldError>
-          </Field>
+            <FormDescription id={customMessage.descriptionId}>Keep it short and specific.</FormDescription>
+            <FormMessage id={customMessage.messageId}>Custom token form error.</FormMessage>
+          </FormField>
           <Button type="submit">Send</Button>
-        </form>
+        </Form>
       )
     default:
+      let nativeControl = formControlAttributes(nativeEmail)
+
       return (
-        <form action="/fixtures/form/native-validation" method="get" style="display:grid;gap:16px;max-width:420px" data-radcn-form-recipe>
-          <Field>
-            <Label for="candidate-form-native-email">Email</Label>
+        <Form action="/fixtures/form/native-validation" method="get">
+          <FormField name="email">
+            <FormLabel for={nativeControl.id}>Email</FormLabel>
             <Input
-              ariaDescribedBy="candidate-form-native-email-description"
-              id="candidate-form-native-email"
+              ariaDescribedBy={nativeControl.ariaDescribedBy}
+              id={nativeControl.id}
               name="email"
               placeholder="name@example.com"
               required
             />
-            <FieldDescription id="candidate-form-native-email-description">Native required validation owns this field.</FieldDescription>
-          </Field>
+            <FormDescription id={nativeEmail.descriptionId}>Native required validation owns this field.</FormDescription>
+          </FormField>
           <Button name="intent" type="submit" value="submit">Submit</Button>
-        </form>
+        </Form>
       )
   }
 }

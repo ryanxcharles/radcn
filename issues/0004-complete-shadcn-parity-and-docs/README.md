@@ -149,10 +149,25 @@ Record cross-component discoveries here as experiments complete.
 - The first recommended implementation cluster is form parity and Remix 3 form
   recipes, because form is the only missing upstream UI package API and later
   date-picker/data-table/block work depends on a stable form story.
+- Experiment 2 shipped `radcn/form` as an explicit Remix-native form API:
+  `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`,
+  `FormDescription`, `FormMessage`, `formFieldIds`, and
+  `formControlAttributes`.
+- shadcn/ui form's React Hook Form, React context, `Controller`, `Slot`, and
+  `useFormState` mechanics are intentionally not portable to RadCN. RadCN form
+  parity is native markup, deterministic IDs, explicit ARIA wiring, server/action
+  error display, invalid styling, and app-owned validation state.
+- Later `date-picker`, `data-table`, block, and example work should reuse the
+  explicit form wiring pattern when composed controls need labels,
+  descriptions, invalid messages, and server/action error state.
+- The candidate fixture app needs the same root pnpm virtual-store asset
+  allowlist as the docs app after the top-level workspace move. Without it,
+  browser enhancement imports for `remix/ui` fail before component behavior
+  tests run.
 
 ## Experiments
 
 - [Experiment 1: Build shadcn parity inventory](01-build-shadcn-parity-inventory.md)
   — **Pass**
 - [Experiment 2: Ship Remix-native form parity](02-ship-remix-native-form-parity.md)
-  — **Designed**
+  — **Pass**

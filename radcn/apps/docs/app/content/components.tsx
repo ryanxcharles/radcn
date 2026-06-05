@@ -103,6 +103,7 @@ import {
 } from 'radcn/dropdown-menu'
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
 import { Field, FieldDescription, FieldError } from 'radcn/field'
+import { Form, FormDescription, FormField, FormLabel, FormMessage, formControlAttributes, formFieldIds } from 'radcn/form'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'radcn/hover-card'
 import { Input } from 'radcn/input'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from 'radcn/input-group'
@@ -387,6 +388,37 @@ export function InputPreview() {
   )
 }`
 
+const formSource = `import { Button } from 'radcn/button'
+import { Form, FormDescription, FormField, FormLabel, FormMessage, formControlAttributes, formFieldIds } from 'radcn/form'
+import { Input } from 'radcn/input'
+
+export function FormPreview() {
+  let email = formFieldIds('signup-email')
+  let control = formControlAttributes(email, { invalid: true, message: true })
+
+  return (
+    <Form action="/signup" method="post">
+      <FormField invalid name="email">
+        <FormLabel error for={control.id}>Email</FormLabel>
+        <Input
+          ariaDescribedBy={control.ariaDescribedBy}
+          ariaInvalid={control.ariaInvalid}
+          id={control.id}
+          name="email"
+          placeholder="name@example.com"
+          required
+          value="radcn"
+        />
+        <FormDescription id={email.descriptionId}>
+          Use the email address for your workspace.
+        </FormDescription>
+        <FormMessage id={email.messageId}>Enter a valid email address.</FormMessage>
+      </FormField>
+      <Button type="submit">Create workspace</Button>
+    </Form>
+  )
+}`
+
 const dialogSource = `import {
   Dialog,
   DialogClose,
@@ -488,6 +520,35 @@ function InputPreview() {
       <p id="docs-input-workspace-help">Native text input with RadCN tokens.</p>
     </div>
   )
+}
+
+function FormPreview() {
+  return () => {
+    let email = formFieldIds('docs-form-email')
+    let control = formControlAttributes(email, { invalid: true, message: true })
+
+    return (
+      <Form action="/docs/components/form" method="post">
+        <FormField invalid name="email">
+          <FormLabel error for={control.id}>Email</FormLabel>
+          <Input
+            ariaDescribedBy={control.ariaDescribedBy}
+            ariaInvalid={control.ariaInvalid}
+            id={control.id}
+            name="email"
+            placeholder="name@example.com"
+            required
+            value="radcn"
+          />
+          <FormDescription id={email.descriptionId}>
+            Use the email address for your workspace.
+          </FormDescription>
+          <FormMessage id={email.messageId}>Enter a valid email address.</FormMessage>
+        </FormField>
+        <Button type="submit">Create workspace</Button>
+      </Form>
+    )
+  }
 }
 
 function DialogPreview() {
@@ -1220,6 +1281,44 @@ const richComponentDocs: ComponentDoc[] = [
     ],
   },
   {
+    slug: 'form',
+    title: 'Form',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native form and field wiring surface for labels, controls, descriptions, messages, server errors, and browser validation.',
+    importPath: 'radcn/form',
+    importExample:
+      "import { Form, FormField, FormLabel, FormDescription, FormMessage } from 'radcn/form'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'server-error',
+        title: 'Server Error',
+        description:
+          'Wire IDs and ARIA explicitly so native controls, server errors, and RadCN styling agree before hydration.',
+        source: formSource,
+        preview: <FormPreview />,
+      },
+    ],
+    accessibility: [
+      'Renders a native form element, so browser validation and submission work without client JavaScript.',
+      'Provides deterministic ID helpers for control, description, and message elements.',
+      'Uses aria-describedby and aria-invalid on the actual form control instead of relying on hidden context.',
+    ],
+    customization: [
+      'Form parts expose data-radcn-form, data-radcn-form-field, data-radcn-form-label, data-radcn-form-description, and data-radcn-form-message hooks.',
+      'Invalid color and sizing inherit existing RadCN field tokens, including --radcn-field-error and --radcn-form-width.',
+    ],
+    divergence: [
+      'shadcn/ui form is a React Hook Form adapter around context, Controller, Slot, and useFormState. RadCN does not port those React-only mechanics.',
+      'The Remix 3 port makes field wiring explicit through helpers and native attributes so server actions, native validation, and future enhancement can share the same markup.',
+      'Schema validation and form-state libraries remain app choices rather than RadCN package dependencies.',
+    ],
+  },
+  {
     slug: 'dialog',
     title: 'Dialog',
     category: 'Overlays',
@@ -1394,7 +1493,6 @@ const registrySeeds: RegistrySeed[] = [
   { slug: 'toggle-group', title: 'Toggle Group', category: 'Inputs', importNames: ['ToggleGroup', 'ToggleGroupItem'] },
   { slug: 'tooltip', title: 'Tooltip', category: 'Overlays', importNames: ['Tooltip', 'TooltipTrigger', 'TooltipContent'] },
   { slug: 'typography', title: 'Typography', category: 'Recipes', kind: 'recipe', disposition: 'recipe', importNames: ['TypographyH1', 'TypographyP', 'TypographyInlineCode'] },
-  { slug: 'form', title: 'Form', category: 'Blocks', kind: 'block', disposition: 'not-shipped-yet', status: 'draft', importNames: [] },
   { slug: 'date-picker', title: 'Date Picker', category: 'Blocks', kind: 'block', disposition: 'not-shipped-yet', status: 'draft', importNames: [] },
   { slug: 'data-table', title: 'Data Table', category: 'Blocks', kind: 'block', disposition: 'not-shipped-yet', status: 'draft', importNames: [] },
 ]

@@ -29,6 +29,7 @@
     "./dropdown-menu": "./src/components/dropdown-menu.tsx",
     "./empty": "./src/components/empty.tsx",
     "./field": "./src/components/field.tsx",
+    "./form": "./src/components/form.tsx",
     "./hover-card": "./src/components/hover-card.tsx",
     "./input": "./src/components/input.tsx",
     "./input-group": "./src/components/input-group.tsx",

@@ -23,7 +23,7 @@ registry.
 | shadcn/ui registry examples | 244 |
 | shadcn/ui registry blocks | 27 |
 | shadcn/ui registry chart examples | 70 |
-| RadCN public package subpaths | 57 |
+| RadCN public package subpaths | 58 |
 | RadCN docs routes | 60 |
 
 ## Upstream UI Components
@@ -54,7 +54,7 @@ registry.
 | dropdown-menu | yes | yes | package-api |
 | empty | yes | yes | package-api |
 | field | yes | yes | package-api |
-| form | no | yes | docs-only gap |
+| form | yes | yes | package-api |
 | hover-card | yes | yes | package-api |
 | input | yes | yes | package-api |
 | input-group | yes | yes | package-api |
@@ -90,7 +90,7 @@ registry.
 
 ## Missing Upstream UI Package APIs
 
-- `form`
+- None.
 
 ## RadCN Package Exports Without Upstream UI Counterpart
 
@@ -104,7 +104,6 @@ examples or blocks.
 
 These are documented in RadCN but are not current package exports.
 
-- `form`
 - `date-picker`
 - `data-table`
 
@@ -281,15 +280,14 @@ These are documented in RadCN but are not current package exports.
 
 ## First Recommended Cluster
 
-**Cluster:** Form parity and Remix 3 form recipes
+**Cluster:** Docs-only outcomes: date-picker, data-table
 
-`form` is the only upstream `ui/` component missing from RadCN package exports, and the upstream registry has a large form example family. It should be resolved before recipe/block work depends on a stable field/form story.
+These outcomes are already visible in the docs as gaps, so they are the most user-facing parity work left after package UI parity.
 
 Expected next experiment:
 
-- Audit upstream `ui/form.tsx` and form examples by family.
-- Decide whether RadCN needs a package `radcn/form` API, docs-only recipes, or both.
-- Implement the chosen form outcome with docs and tests.
+- Resolve the date-picker outcome as a package API, recipe, block, or intentional divergence.
+- Resolve the data-table outcome as a package API, recipe, block, or intentional divergence.
 
 ## Notes
 

@@ -17,11 +17,11 @@ function otpSlot(page: import('@playwright/test').Page, index: number) {
   return page.locator(`[data-radcn-input-otp-slot][data-index="${index}"]`).first()
 }
 
-test('form input cluster exports supported source and records form as recipe disposition', async () => {
+test('form input cluster exports supported package source', async () => {
   let pkg = await packageJson()
   expect(pkg.exports?.['./input-group']).toBe('./src/components/input-group.tsx')
   expect(pkg.exports?.['./input-otp']).toBe('./src/components/input-otp.tsx')
-  expect(pkg.exports?.['./form']).toBeUndefined()
+  expect(pkg.exports?.['./form']).toBe('./src/components/form.tsx')
   expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('react-hook-form')
   expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('zod')
   expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('@hookform/resolvers')
@@ -124,22 +124,29 @@ test('candidate input otp exposes separators invalid disabled and custom token h
   await expect(otpSlot(page, 0)).toHaveCSS('background-color', 'rgb(250, 245, 255)')
 })
 
-test('candidate form disposition uses native RadCN primitives without radcn form export', async ({ page }) => {
+test('candidate form package uses native RadCN primitives and explicit wiring', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/form/native-validation`)
-  let nativeInput = page.locator('#candidate-form-native-email')
+  let nativeInput = page.locator('#candidate-form-native-email-form-item')
   await expect(nativeInput).toHaveAttribute('required', '')
-  await expect(nativeInput).toHaveAttribute('aria-describedby', 'candidate-form-native-email-description')
-  await expect(page.locator('[data-radcn-form-recipe]')).toHaveCount(1)
+  await expect(nativeInput).toHaveAttribute('aria-describedby', 'candidate-form-native-email-form-item-description')
+  await expect(page.locator('[data-radcn-form]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-form-field]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-form-label]')).toHaveCount(1)
 
   await page.goto(`${candidate}/fixtures/form/server-errors`)
-  let serverInput = page.locator('#candidate-form-server-email')
+  let serverInput = page.locator('#candidate-form-server-email-form-item')
   await expect(serverInput).toHaveAttribute('aria-invalid', 'true')
-  await expect(serverInput).toHaveAttribute('aria-describedby', 'candidate-form-server-email-error')
-  await expect(page.locator('#candidate-form-server-email-error')).toHaveText('Use a valid email address.')
+  await expect(serverInput).toHaveAttribute(
+    'aria-describedby',
+    'candidate-form-server-email-form-item-description candidate-form-server-email-form-item-message',
+  )
+  await expect(page.locator('#candidate-form-server-email-form-item-message')).toHaveText('Use a valid email address.')
 
   await page.goto(`${candidate}/fixtures/form/action-state`)
-  await expect(page.locator('#candidate-form-action-state')).toHaveText('Last saved value: RadCN')
+  let actionInput = page.locator('#candidate-form-action-name-form-item')
+  await expect(actionInput).toHaveAttribute('aria-describedby', 'candidate-form-action-name-form-item-description')
+  await expect(page.locator('#candidate-form-action-name-form-item-description')).toHaveText('Last saved value: RadCN')
 
   await page.goto(`${candidate}/fixtures/form/custom-token`)
-  await expect(page.locator('[data-radcn-field-error]')).toHaveCSS('color', 'rgb(124, 58, 237)')
+  await expect(page.locator('[data-radcn-form-message]')).toHaveCSS('color', 'rgb(124, 58, 237)')
 })

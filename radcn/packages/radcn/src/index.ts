@@ -46,6 +46,8 @@ export { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 export type { EmptyMediaProps, EmptyMediaVariant, EmptyPartProps, EmptyProps } from './components/empty.tsx'
 export { Field, FieldDescription, FieldError } from './components/field.tsx'
 export type { FieldDescriptionProps, FieldErrorProps, FieldProps } from './components/field.tsx'
+export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, formControlAttributes, formFieldIds } from './components/form.tsx'
+export type { FormControlAttributes, FormControlProps, FormEncType, FormFieldIds, FormFieldProps, FormLabelProps, FormMessageProps, FormMethod, FormPartProps, FormProps, FormTarget } from './components/form.tsx'
 export { HoverCard, HoverCardContent, HoverCardPortal, HoverCardTrigger, enhanceHoverCard } from './components/hover-card.tsx'
 export type { HoverCardButtonProps, HoverCardContentProps, HoverCardPartProps, HoverCardProps } from './components/hover-card.tsx'
 export { Input } from './components/input.tsx'

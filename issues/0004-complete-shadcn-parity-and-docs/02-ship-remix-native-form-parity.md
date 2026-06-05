@@ -118,3 +118,110 @@ Findings:
   exact commands. Fixed by naming the exact fixture and docs Playwright commands.
 
 Re-review result: approved with no blocker, major, or minor findings.
+
+## Result
+
+**Result:** Pass
+
+Implemented `radcn/form` as a Remix-native package API and moved the docs and
+fixture form coverage from a docs-only recipe to an importable package surface.
+
+Changed files:
+
+- `radcn/packages/radcn/src/components/form.tsx`
+  - Added `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`,
+    `FormDescription`, `FormMessage`, `formFieldIds`, and
+    `formControlAttributes`.
+  - Kept form state explicit instead of adding React Hook Form, React context,
+    Radix Slot, or schema-validation dependencies.
+- `radcn/packages/radcn/package.json`
+  - Added the `./form` public subpath.
+- `radcn/packages/radcn/src/index.ts`
+  - Exported the form components, helpers, and public types.
+- `radcn/packages/radcn/src/styles/tokens.css`
+  - Added form layout, field, label-error, and control hooks.
+- `radcn/packages/radcn/src/styles/index.ts`
+  - Regenerated `radcnStyles` from `tokens.css`.
+- `radcn/fixtures/candidate-remix/app/fixtures/form.tsx`
+  - Reworked the form fixture scenarios to use `radcn/form`.
+- `radcn/fixtures/candidate-remix/app/assets.ts`
+  - Fixed the candidate app's asset allowlist so root-workspace pnpm virtual
+    store imports for `remix/ui` can load, matching the existing docs app
+    strategy.
+- `radcn/fixtures/tests/form-input-cluster.spec.ts`
+  - Updated export, native validation, ARIA, server-error, and custom-token
+    assertions for the package-backed form API.
+- `radcn/apps/docs/app/content/components.tsx`
+  - Added a ready Form docs page with a live package-backed preview, source
+    snippet, accessibility notes, customization notes, and Remix 3 divergence
+    notes.
+- `radcn/apps/docs/tests/coverage.spec.ts`
+  - Removed `form` from non-exported dispositions and added the form preview
+    hook.
+- `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  - Regenerated the parity inventory. It now reports `form` as package API and
+    no missing upstream UI package APIs.
+
+Verification:
+
+- `pnpm radcn:typecheck` — Pass.
+- `pnpm --dir radcn/apps/docs typecheck` — Pass.
+- `pnpm fixtures:candidate:typecheck` — Pass.
+- `pnpm fixtures:reference:typecheck` — Pass, with the existing React Router
+  `module.register()` deprecation warning.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  — Pass, 4 tests.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts form-input-cluster.spec.ts`
+  — Failed on the first run because the candidate fixture asset server rejected
+  `remix/ui` from the root pnpm virtual store, so browser enhancement did not
+  load for input-group and input-otp behavior.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts form-input-cluster.spec.ts`
+  after fixing the candidate asset allowlist — Pass, 6 tests.
+- `node scripts/audit-shadcn-parity.mjs` — Pass.
+- Temporary regeneration check for `parity-inventory.md` — Pass, no diff.
+- `git diff --check` — Pass.
+- `git status --short` — Shows only expected implementation, docs, fixture,
+  inventory, issue, and test changes.
+- Vendor cleanliness check for `vendor/shadcn-ui`, `vendor/remix`, and
+  `vendor/react-router` — Pass, no nested checkout changes.
+- Scope grep for vendor imports, React Hook Form, validation-library
+  dependencies, React imports, Radix Slot, and package publishing machinery in
+  RadCN package/app/fixture code — Pass, no matches.
+
+## Conclusion
+
+Form is no longer a docs-only gap. RadCN now has a package-backed Remix-native
+form API that preserves the shadcn user-facing capability through native
+submission, deterministic IDs, explicit ARIA, server/action error display,
+invalid styling, and customization hooks.
+
+The next Issue 4 experiment should move to the next docs-only parity gap:
+`date-picker`. It is not an upstream `ui/` component, so the next pass should
+decide whether RadCN needs a package recipe, docs recipe, or calendar/popover
+composition that covers the shadcn date-picker examples.
+
+## Completion Review
+
+Reviewer: Banach (`019e99fc-7b45-7dc0-88f0-e93b078a479d`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Major: the first implementation had a dangling `aria-describedby` in the
+  action-state form fixture. The input referenced
+  `candidate-form-action-name-form-item-description`, while the description
+  rendered as `candidate-form-action-state`. Fixed by rendering the description
+  with `actionName.descriptionId` and adding a Playwright assertion for the
+  action-state input and target text.
+- Minor: the first form/input cluster test title still described form as a
+  recipe disposition. Fixed by renaming it to package-source wording.
+
+Fix verification:
+
+- `pnpm fixtures:candidate:typecheck` — Pass.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts form-input-cluster.spec.ts`
+  — Pass, 6 tests.
+- `git diff --check` — Pass.
+
+Re-review result: approved with no blocker findings and no new blocker
+introduced by the fixes.
