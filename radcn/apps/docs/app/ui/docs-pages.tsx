@@ -4,7 +4,7 @@ import { Badge } from 'radcn/badge'
 import { Button } from 'radcn/button'
 
 import type { ComponentDoc, ComponentExample } from '../content/components.tsx'
-import { componentDocs } from '../content/components.tsx'
+import { componentDocs, getComponentDoc } from '../content/components.tsx'
 import { routes } from '../routes.ts'
 import { docsBrand, docsGridBackground } from './brand.ts'
 import { Document } from './document.tsx'
@@ -12,21 +12,25 @@ import { CopyIcon, MonitorIcon, MoonIcon, SunIcon } from './icons.tsx'
 import { RadcnLogo } from './logo.tsx'
 
 export function HomePage() {
-  return () => (
-    <Document title="RadCN">
-      <DocsShell activeSlug="button">
-        <Hero />
-        <section id="preview" mix={sectionStyle}>
-          <SectionHeading
-            eyebrow="First component"
-            title="The docs render the library, not screenshots of it."
-            description="This first slice uses package imports from RadCN so the examples exercise the same component surface a Remix 3 app consumes."
-          />
-          <ExamplePanel example={componentDocs[0].examples[0]} />
-        </section>
-      </DocsShell>
-    </Document>
-  )
+  return () => {
+    let buttonDoc = getComponentDocOrThrow('button')
+
+    return (
+      <Document title="RadCN">
+        <DocsShell activeSlug="button">
+          <Hero />
+          <section id="preview" mix={sectionStyle}>
+            <SectionHeading
+              eyebrow="First component"
+              title="The docs render the library, not screenshots of it."
+              description="This first slice uses package imports from RadCN so the examples exercise the same component surface a Remix 3 app consumes."
+            />
+            <ExamplePanel example={buttonDoc.examples[0]} />
+          </section>
+        </DocsShell>
+      </Document>
+    )
+  }
 }
 
 export function ComponentPage(handle: Handle<{ component: ComponentDoc }>) {
@@ -39,9 +43,11 @@ export function ComponentPage(handle: Handle<{ component: ComponentDoc }>) {
           <article mix={articleStyle}>
             <header mix={pageHeaderStyle}>
               <div mix={css({ display: 'grid', gap: '0.75rem' })}>
-                <div mix={css({ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' })}>
+                <div mix={statusBadgesStyle}>
                   <Badge variant="secondary">{component.category}</Badge>
                   <Badge variant="outline">{component.status}</Badge>
+                  <Badge variant="outline">{component.kind}</Badge>
+                  <Badge variant="outline">{component.disposition}</Badge>
                 </div>
                 <h1 mix={h1Style}>{component.title}</h1>
                 <p mix={leadStyle}>{component.summary}</p>
@@ -63,7 +69,9 @@ export function ComponentPage(handle: Handle<{ component: ComponentDoc }>) {
 
             <InfoSection id="installation" title="Installation">
               <p mix={paragraphStyle}>
-                Add RadCN to the Remix 3 workspace and import components from package subpaths.
+                Intended future install command. RadCN is private and not published to npm yet,
+                so this snippet documents the target user-facing API rather than something
+                external consumers can run today.
               </p>
               <CodeBlock code={`${component.install}\n${component.importExample}`} />
             </InfoSection>
@@ -249,6 +257,12 @@ function groupComponentDocs() {
   }
 
   return groups
+}
+
+function getComponentDocOrThrow(slug: string): ComponentDoc {
+  let component = getComponentDoc(slug)
+  if (!component) throw new Error(`Missing docs component: ${slug}`)
+  return component
 }
 
 function SectionHeading(
@@ -465,6 +479,8 @@ const sidebarStyle = css({
   '@media (max-width: 860px)': {
     borderRight: 0,
     borderBottom: `1px solid ${docsBrand.color.border}`,
+    maxHeight: '18rem',
+    overflow: 'auto',
   },
 })
 
@@ -534,6 +550,7 @@ const contentStyle = css({
 
 const articleStyle = css({
   display: 'grid',
+  minWidth: 0,
   maxWidth: '64rem',
   gap: '2rem',
 })
@@ -646,6 +663,7 @@ const tokenGridStyle = css({
 
 const pageHeaderStyle = css({
   display: 'grid',
+  minWidth: 0,
   gridTemplateColumns: 'minmax(0, 1fr) minmax(18rem, 24rem)',
   gap: '2rem',
   alignItems: 'end',
@@ -656,8 +674,16 @@ const pageHeaderStyle = css({
   },
 })
 
+const statusBadgesStyle = css({
+  display: 'flex',
+  flexWrap: 'wrap',
+  minWidth: 0,
+  gap: '0.5rem',
+})
+
 const quickInstallStyle = css({
   display: 'grid',
+  minWidth: 0,
   gap: '0.5rem',
   border: `1px solid ${docsBrand.color.border}`,
   borderRadius: docsBrand.radius.md,
@@ -667,6 +693,7 @@ const quickInstallStyle = css({
 
 const sectionStyle = css({
   display: 'grid',
+  minWidth: 0,
   gap: '1rem',
   maxWidth: '64rem',
   scrollMarginTop: '5rem',
@@ -674,6 +701,7 @@ const sectionStyle = css({
 
 const sectionHeadingStyle = css({
   display: 'grid',
+  minWidth: 0,
   gap: '0.5rem',
   maxWidth: '42rem',
 })
@@ -686,11 +714,13 @@ const eyebrowStyle = css({
 })
 
 const h1Style = css({
+  minWidth: 0,
   margin: 0,
   color: docsBrand.color.ink,
   fontSize: 'clamp(2.25rem, 6vw, 4.5rem)',
   letterSpacing: 0,
   lineHeight: 1,
+  overflowWrap: 'anywhere',
 })
 
 const h2Style = css({
@@ -710,15 +740,19 @@ const h3Style = css({
 })
 
 const leadStyle = css({
+  minWidth: 0,
   maxWidth: '42rem',
   margin: 0,
   color: docsBrand.color.inkSoft,
   fontSize: '1.125rem',
+  overflowWrap: 'anywhere',
 })
 
 const paragraphStyle = css({
+  minWidth: 0,
   margin: 0,
   color: docsBrand.color.inkSoft,
+  overflowWrap: 'anywhere',
 })
 
 const smallTextStyle = css({
@@ -761,6 +795,9 @@ const examplePreviewStyle = css({
 
 const codeBlockFrameStyle = css({
   position: 'relative',
+  minWidth: 0,
+  maxWidth: '100%',
+  overflow: 'hidden',
   borderTop: `1px solid ${docsBrand.color.border}`,
   background: docsBrand.color.code,
 })
@@ -808,6 +845,7 @@ const codeCopyIconStyle = css({
 
 const codeBlockStyle = css({
   margin: 0,
+  maxWidth: '100%',
   overflow: 'auto',
   background: docsBrand.color.code,
   color: docsBrand.color.codeText,

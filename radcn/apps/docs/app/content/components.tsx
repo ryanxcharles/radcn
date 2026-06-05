@@ -17,6 +17,14 @@ import { Toaster } from 'radcn/sonner'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'radcn/tabs'
 
 export type ComponentStatus = 'ready' | 'draft'
+export type ComponentKind = 'component' | 'helper' | 'recipe' | 'block'
+export type ComponentDisposition =
+  | 'ready'
+  | 'draft'
+  | 'recipe'
+  | 'helper'
+  | 'block'
+  | 'not-shipped-yet'
 
 export interface ComponentExample {
   slug: string
@@ -30,6 +38,8 @@ export interface ComponentDoc {
   slug: string
   title: string
   category: string
+  kind: ComponentKind
+  disposition: ComponentDisposition
   status: ComponentStatus
   summary: string
   importPath: string
@@ -109,6 +119,27 @@ const forceVisiblePreviewStyle = css({
   },
   '& [data-radcn-tabs-content][hidden]': {
     display: 'grid !important',
+  },
+})
+
+const draftPreviewStyle = css({
+  display: 'grid',
+  gap: '0.75rem',
+  width: 'min(100%, 32rem)',
+  border: '1px dashed var(--radcn-border)',
+  borderRadius: 'var(--radcn-radius)',
+  background: 'var(--radcn-card)',
+  color: 'var(--radcn-card-foreground)',
+  padding: '1rem',
+  '& p': {
+    margin: 0,
+    color: 'var(--radcn-muted-foreground)',
+    fontSize: '0.875rem',
+  },
+  '& code': {
+    color: 'var(--radcn-foreground)',
+    fontFamily: 'var(--docs-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace)',
+    fontSize: '0.8125rem',
   },
 })
 
@@ -327,17 +358,38 @@ function SonnerPreview() {
   )
 }
 
-export const componentDocs: ComponentDoc[] = [
+function DraftPreview(handle: { props: { title: string; importPath: string; disposition: ComponentDisposition } }) {
+  return () => {
+    let { title, importPath, disposition } = handle.props
+    let shipped = disposition !== 'not-shipped-yet'
+
+    return (
+      <div mix={draftPreviewStyle}>
+        <strong>{title}</strong>
+        <p>
+          {shipped
+            ? 'This page is part of the complete RadCN docs registry. A richer live example will replace this draft surface in a later pass.'
+            : 'This is an intended docs disposition. It is not an importable RadCN package API today.'}
+        </p>
+        <code>{shipped ? `import from '${importPath}'` : 'not shipped yet'}</code>
+      </div>
+    )
+  }
+}
+
+const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'button',
     title: 'Button',
     category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
     status: 'ready',
     summary:
       'A native button and link primitive with RadCN variants, sizing, disabled states, and token-driven styling.',
     importPath: 'radcn/button',
     importExample: "import { Button } from 'radcn/button'",
-    install: 'pnpm add radcn',
+    install: 'pnpm add radcn # intended future package',
     examples: [
       {
         slug: 'default',
@@ -366,12 +418,14 @@ export const componentDocs: ComponentDoc[] = [
     slug: 'badge',
     title: 'Badge',
     category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
     status: 'ready',
     summary:
       'A compact label primitive for status, metadata, filters, and links.',
     importPath: 'radcn/badge',
     importExample: "import { Badge } from 'radcn/badge'",
-    install: 'pnpm add radcn',
+    install: 'pnpm add radcn # intended future package',
     examples: [
       {
         slug: 'variants',
@@ -400,12 +454,14 @@ export const componentDocs: ComponentDoc[] = [
     slug: 'input',
     title: 'Input',
     category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
     status: 'ready',
     summary:
       'A native text input with RadCN sizing, border, disabled, required, and invalid-state styling.',
     importPath: 'radcn/input',
     importExample: "import { Input } from 'radcn/input'",
-    install: 'pnpm add radcn',
+    install: 'pnpm add radcn # intended future package',
     examples: [
       {
         slug: 'with-label',
@@ -434,13 +490,15 @@ export const componentDocs: ComponentDoc[] = [
     slug: 'dialog',
     title: 'Dialog',
     category: 'Overlays',
+    kind: 'component',
+    disposition: 'ready',
     status: 'ready',
     summary:
       'A modal dialog primitive with trigger, content, title, description, footer, and dismiss controls.',
     importPath: 'radcn/dialog',
     importExample:
       "import { Dialog, DialogContent, DialogTrigger } from 'radcn/dialog'",
-    install: 'pnpm add radcn',
+    install: 'pnpm add radcn # intended future package',
     examples: [
       {
         slug: 'open-preview',
@@ -469,13 +527,15 @@ export const componentDocs: ComponentDoc[] = [
     slug: 'tabs',
     title: 'Tabs',
     category: 'Composite',
+    kind: 'component',
+    disposition: 'ready',
     status: 'ready',
     summary:
       'A tablist, trigger, and panel set for switching between related sections of content.',
     importPath: 'radcn/tabs',
     importExample:
       "import { Tabs, TabsContent, TabsList, TabsTrigger } from 'radcn/tabs'",
-    install: 'pnpm add radcn',
+    install: 'pnpm add radcn # intended future package',
     examples: [
       {
         slug: 'preview-and-code',
@@ -504,12 +564,14 @@ export const componentDocs: ComponentDoc[] = [
     slug: 'sonner',
     title: 'Sonner',
     category: 'Feedback',
+    kind: 'component',
+    disposition: 'ready',
     status: 'ready',
     summary:
       'A notification surface for rendering queued toasts and browser-triggered toast events.',
     importPath: 'radcn/sonner',
     importExample: "import { Toaster } from 'radcn/sonner'",
-    install: 'pnpm add radcn',
+    install: 'pnpm add radcn # intended future package',
     examples: [
       {
         slug: 'static-toasts',
@@ -535,6 +597,133 @@ export const componentDocs: ComponentDoc[] = [
     ],
   },
 ]
+
+interface RegistrySeed {
+  slug: string
+  title: string
+  category: string
+  kind?: ComponentKind
+  disposition?: ComponentDisposition
+  status?: ComponentStatus
+  importNames?: string[]
+  summary?: string
+}
+
+const registrySeeds: RegistrySeed[] = [
+  { slug: 'accordion', title: 'Accordion', category: 'Composite', importNames: ['Accordion', 'AccordionItem', 'AccordionTrigger', 'AccordionContent'] },
+  { slug: 'alert', title: 'Alert', category: 'Display', importNames: ['Alert', 'AlertTitle', 'AlertDescription'] },
+  { slug: 'alert-dialog', title: 'Alert Dialog', category: 'Overlays', importNames: ['AlertDialog', 'AlertDialogContent', 'AlertDialogTrigger'] },
+  { slug: 'aspect-ratio', title: 'Aspect Ratio', category: 'Display', importNames: ['AspectRatio'] },
+  { slug: 'avatar', title: 'Avatar', category: 'Display', importNames: ['Avatar', 'AvatarImage', 'AvatarFallback'] },
+  { slug: 'breadcrumb', title: 'Breadcrumb', category: 'Navigation', importNames: ['Breadcrumb', 'BreadcrumbList', 'BreadcrumbItem', 'BreadcrumbLink'] },
+  { slug: 'button-group', title: 'Button Group', category: 'Inputs', importNames: ['ButtonGroup', 'ButtonGroupText', 'ButtonGroupSeparator'] },
+  { slug: 'calendar', title: 'Calendar', category: 'Inputs', importNames: ['Calendar'] },
+  { slug: 'carousel', title: 'Carousel', category: 'Composite', importNames: ['Carousel', 'CarouselContent', 'CarouselItem'] },
+  { slug: 'card', title: 'Card', category: 'Display', importNames: ['Card', 'CardHeader', 'CardTitle', 'CardContent'] },
+  { slug: 'chart', title: 'Chart', category: 'Display', importNames: ['ChartContainer', 'ChartLineSeries', 'ChartTooltip'] },
+  { slug: 'checkbox', title: 'Checkbox', category: 'Inputs', importNames: ['Checkbox'] },
+  { slug: 'collapsible', title: 'Collapsible', category: 'Composite', importNames: ['Collapsible', 'CollapsibleTrigger', 'CollapsibleContent'] },
+  { slug: 'combobox', title: 'Combobox', category: 'Inputs', importNames: ['Combobox', 'ComboboxTrigger', 'ComboboxContent'] },
+  { slug: 'command', title: 'Command', category: 'Composite', importNames: ['Command', 'CommandInput', 'CommandList', 'CommandItem'] },
+  { slug: 'context-menu', title: 'Context Menu', category: 'Overlays', importNames: ['ContextMenu', 'ContextMenuTrigger', 'ContextMenuContent'] },
+  { slug: 'direction', title: 'Direction', category: 'Utilities', importNames: ['Direction', 'DirectionProvider'] },
+  { slug: 'drawer', title: 'Drawer', category: 'Overlays', importNames: ['Drawer', 'DrawerTrigger', 'DrawerContent'] },
+  { slug: 'dropdown-menu', title: 'Dropdown Menu', category: 'Overlays', importNames: ['DropdownMenu', 'DropdownMenuTrigger', 'DropdownMenuContent'] },
+  { slug: 'empty', title: 'Empty', category: 'Display', importNames: ['Empty', 'EmptyHeader', 'EmptyTitle', 'EmptyDescription'] },
+  { slug: 'field', title: 'Field', category: 'Inputs', importNames: ['Field', 'FieldDescription', 'FieldError'] },
+  { slug: 'hover-card', title: 'Hover Card', category: 'Overlays', importNames: ['HoverCard', 'HoverCardTrigger', 'HoverCardContent'] },
+  { slug: 'input-group', title: 'Input Group', category: 'Inputs', importNames: ['InputGroup', 'InputGroupInput', 'InputGroupAddon'] },
+  { slug: 'input-otp', title: 'Input OTP', category: 'Inputs', importNames: ['InputOTP', 'InputOTPGroup', 'InputOTPSlot'] },
+  { slug: 'item', title: 'Item', category: 'Display', importNames: ['Item', 'ItemContent', 'ItemTitle'] },
+  { slug: 'kbd', title: 'Kbd', category: 'Display', importNames: ['Kbd', 'KbdGroup'] },
+  { slug: 'label', title: 'Label', category: 'Inputs', importNames: ['Label'] },
+  { slug: 'menubar', title: 'Menubar', category: 'Navigation', importNames: ['Menubar', 'MenubarMenu', 'MenubarTrigger'] },
+  { slug: 'native-select', title: 'Native Select', category: 'Inputs', importNames: ['NativeSelect', 'NativeSelectOption', 'NativeSelectOptGroup'] },
+  { slug: 'navigation-menu', title: 'Navigation Menu', category: 'Navigation', importNames: ['NavigationMenu', 'NavigationMenuList', 'NavigationMenuItem'] },
+  { slug: 'pagination', title: 'Pagination', category: 'Navigation', importNames: ['Pagination', 'PaginationContent', 'PaginationLink'] },
+  { slug: 'popover', title: 'Popover', category: 'Overlays', importNames: ['Popover', 'PopoverTrigger', 'PopoverContent'] },
+  { slug: 'progress', title: 'Progress', category: 'Feedback', importNames: ['Progress'] },
+  { slug: 'radio-group', title: 'Radio Group', category: 'Inputs', importNames: ['RadioGroup', 'RadioGroupItem'] },
+  { slug: 'resizable', title: 'Resizable', category: 'Composite', importNames: ['ResizablePanelGroup', 'ResizablePanel', 'ResizableHandle'] },
+  { slug: 'scroll-area', title: 'Scroll Area', category: 'Layout', importNames: ['ScrollArea', 'ScrollAreaViewport', 'ScrollBar'] },
+  { slug: 'select', title: 'Select', category: 'Inputs', importNames: ['Select', 'SelectTrigger', 'SelectContent', 'SelectItem'] },
+  { slug: 'separator', title: 'Separator', category: 'Display', importNames: ['Separator'] },
+  { slug: 'sheet', title: 'Sheet', category: 'Overlays', importNames: ['Sheet', 'SheetTrigger', 'SheetContent'] },
+  { slug: 'sidebar', title: 'Sidebar', category: 'Layout', importNames: ['Sidebar', 'SidebarProvider', 'SidebarContent'] },
+  { slug: 'skeleton', title: 'Skeleton', category: 'Feedback', importNames: ['Skeleton'] },
+  { slug: 'slider', title: 'Slider', category: 'Inputs', importNames: ['Slider'] },
+  { slug: 'spinner', title: 'Spinner', category: 'Feedback', importNames: ['Spinner'] },
+  { slug: 'switch', title: 'Switch', category: 'Inputs', importNames: ['Switch'] },
+  { slug: 'table', title: 'Table', category: 'Display', importNames: ['Table', 'TableHeader', 'TableRow', 'TableCell'] },
+  { slug: 'textarea', title: 'Textarea', category: 'Inputs', importNames: ['Textarea'] },
+  { slug: 'toast', title: 'Toast Event Helper', category: 'Helpers', kind: 'helper', disposition: 'helper', importNames: ['toast', 'createToastEvent'] },
+  { slug: 'toggle', title: 'Toggle', category: 'Inputs', importNames: ['Toggle'] },
+  { slug: 'toggle-group', title: 'Toggle Group', category: 'Inputs', importNames: ['ToggleGroup', 'ToggleGroupItem'] },
+  { slug: 'tooltip', title: 'Tooltip', category: 'Overlays', importNames: ['Tooltip', 'TooltipTrigger', 'TooltipContent'] },
+  { slug: 'typography', title: 'Typography', category: 'Recipes', kind: 'recipe', disposition: 'recipe', importNames: ['TypographyH1', 'TypographyP', 'TypographyInlineCode'] },
+  { slug: 'form', title: 'Form', category: 'Blocks', kind: 'block', disposition: 'not-shipped-yet', status: 'draft', importNames: [] },
+  { slug: 'date-picker', title: 'Date Picker', category: 'Blocks', kind: 'block', disposition: 'not-shipped-yet', status: 'draft', importNames: [] },
+  { slug: 'data-table', title: 'Data Table', category: 'Blocks', kind: 'block', disposition: 'not-shipped-yet', status: 'draft', importNames: [] },
+]
+
+const richSlugs = new Set(richComponentDocs.map((component) => component.slug))
+
+export const componentDocs: ComponentDoc[] = [
+  ...richComponentDocs,
+  ...registrySeeds.filter((seed) => !richSlugs.has(seed.slug)).map(createDraftDoc),
+].sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title))
+
+function createDraftDoc(seed: RegistrySeed): ComponentDoc {
+  let kind = seed.kind ?? 'component'
+  let disposition = seed.disposition ?? 'draft'
+  let status = seed.status ?? 'draft'
+  let importPath = disposition === 'not-shipped-yet' ? '' : `radcn/${seed.slug}`
+  let importExample =
+    disposition === 'not-shipped-yet'
+      ? `// ${seed.title} is not shipped by RadCN yet.`
+      : `import { ${seed.importNames?.join(', ') ?? seed.title.replaceAll(' ', '')} } from '${importPath}'`
+
+  return {
+    slug: seed.slug,
+    title: seed.title,
+    category: seed.category,
+    kind,
+    disposition,
+    status,
+    summary:
+      seed.summary ??
+      (disposition === 'not-shipped-yet'
+        ? `${seed.title} is tracked as an intended RadCN docs disposition, but it is not an importable package API yet.`
+        : `${seed.title} is included in the RadCN public package surface. This draft docs page records the route, import surface, and implementation notes before a richer example pass.`),
+    importPath,
+    importExample,
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'registry-entry',
+        title: disposition === 'not-shipped-yet' ? 'Not shipped yet' : 'Registry entry',
+        description:
+          disposition === 'not-shipped-yet'
+            ? 'This page documents a known Issue 3 recipe/block disposition without claiming a package export exists.'
+            : 'This draft surface keeps the docs route complete while richer live examples are added incrementally.',
+        source: importExample,
+        preview: <DraftPreview title={seed.title} importPath={importPath} disposition={disposition} />,
+      },
+    ],
+    accessibility:
+      disposition === 'not-shipped-yet'
+        ? ['No shipped RadCN API exists yet; accessibility requirements must be defined before implementation.']
+        : ['This page records the RadCN public API surface. A later example pass should add component-specific accessibility notes.'],
+    customization:
+      disposition === 'not-shipped-yet'
+        ? ['No shipped tokens or class hooks exist yet for this disposition.']
+        : ['Use the RadCN token set and package data hooks documented by the component source.'],
+    divergence:
+      disposition === 'not-shipped-yet'
+        ? ['This is an aspirational docs disposition, not a current package export.']
+        : ['RadCN documents this surface as Remix UI package code rather than a copied React component.'],
+  }
+}
 
 export function getComponentDoc(slug: string): ComponentDoc | undefined {
   return componentDocs.find((component) => component.slug === slug)

@@ -145,3 +145,75 @@ Fixes:
   `vendor/remix`, and `vendor/react-router`.
 
 Reviewer approval: Approved; no blockers remained.
+
+## Result
+
+**Result:** Pass
+
+Expanded the docs registry from six representative pages to complete coverage
+for every public RadCN package subpath in `radcn/packages/radcn/package.json`,
+excluding `.`, `./styles`, and `./package.json`. Added explicit non-exported
+Issue 3 disposition pages for `form`, `date-picker`, and `data-table`, marked
+as `not-shipped-yet` blocks so the docs are honest about current package
+availability.
+
+The content model now records `kind` and `disposition` separately from the
+existing visual `status`. Existing rich examples for Button, Badge, Input,
+Dialog, Tabs, and Sonner were preserved. Newly covered surfaces get draft
+registry pages with route, category, summary, import snippet, aspirational
+install snippet, accessibility notes, customization notes, Remix 3 divergence
+notes, and a draft preview surface.
+
+The component page renderer now shows category, status, kind, and disposition
+badges. Installation copy explicitly says RadCN is private and not published to
+npm yet, and install snippets use `pnpm add radcn # intended future package`.
+Mobile sidebar and code-block layout were tightened so the complete registry
+does not create horizontal overflow on narrow viewports.
+
+Added `radcn/apps/docs/tests/coverage.spec.ts` to verify route coverage from
+the package export map, the three non-exported disposition pages, aspirational
+install copy, and representative live RadCN examples.
+
+Verification run:
+
+- `pnpm --dir radcn/apps/docs typecheck` — Pass
+- `pnpm radcn:typecheck` — Pass
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts` — Pass
+  (9 tests)
+- `git diff --check` — Pass
+- `git -C vendor/shadcn-ui status --short` — Pass, no output
+- `git -C vendor/remix status --short` — Pass, no output
+- `git -C vendor/react-router status --short` — Pass, no output
+- Scope grep — Pass; no npm publish command, package-public change, or
+  `vendor/` dependency reference was added. Install snippets are marked as
+  intended future package usage.
+- Manual visual inspection — Pass; desktop home and Accordion screenshots kept
+  the expanded sidebar and top bar readable. Mobile Data Table inspection found
+  and fixed sidebar/content overflow; final 390px-wide probe reported
+  `scrollWidth === clientWidth`.
+
+## Conclusion
+
+The docs site now has complete registry route coverage for the current RadCN
+package surface plus the known non-shipped Issue 3 block dispositions. This does
+not finish the issue by itself, because draft pages still need richer content
+and the broader site may need final polish, but it closes the largest structural
+coverage gap and gives future experiments a tested coverage floor.
+
+## Completion Review
+
+Reviewer: Cicero (`019e9813-6b7c-7e61-9d9a-e29acd8009e6`)
+
+Fresh context: Yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: None
+- Major: None
+- Minor: None
+
+Reviewer approval: Approved. The reviewer confirmed that every current package
+export, excluding `.`, `./styles`, and `./package.json`, is represented in the
+docs registry or rich docs, that `form`, `date-picker`, and `data-table` have
+explicit non-exported dispositions, that the issue README and experiment result
+records are in good shape, and that the verification commands passed locally.
