@@ -19,7 +19,7 @@ Use this skill when authoring or reviewing:
 
 ## RadCN Ownership Rules
 
-- The RadCN package owns component source in `packages/radcn`.
+- The RadCN package owns component source in `radcn/packages/radcn`.
 - The docs app should import from `radcn` and should not fork component
   implementations.
 - Fixture scenarios are test assets. Reuse their lessons, but create
@@ -87,7 +87,7 @@ Docs examples should be:
 Avoid:
 
 - examples that only exist to satisfy tests;
-- one-off component forks inside `apps/docs`;
+- one-off component forks inside `radcn/apps/docs`;
 - internal fixture helpers leaking into public docs;
 - decorative wrappers that obscure the actual component.
 
@@ -97,10 +97,11 @@ For docs UI modules, run the smallest relevant checks from the active
 experiment. Typical checks are:
 
 ```sh
+cd radcn
 pnpm --dir apps/docs typecheck
 pnpm --dir apps/docs build
 pnpm playwright test -c apps/docs/playwright.config.ts
 ```
 
-When changing `packages/radcn`, also run the package and fixture checks required
-by that experiment.
+When changing `radcn/packages/radcn`, also run the package and fixture checks
+required by that experiment.

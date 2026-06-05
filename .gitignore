@@ -12,3 +12,10 @@ fixtures/**/.vite/
 fixtures/**/test-results/
 fixtures/**/playwright-report/
 fixtures/artifacts/
+radcn/**/node_modules/
+radcn/fixtures/**/build/
+radcn/fixtures/**/.react-router/
+radcn/fixtures/**/.vite/
+radcn/fixtures/**/test-results/
+radcn/fixtures/**/playwright-report/
+radcn/fixtures/artifacts/

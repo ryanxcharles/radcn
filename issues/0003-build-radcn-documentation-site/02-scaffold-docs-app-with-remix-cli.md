@@ -238,3 +238,134 @@ Resolution:
   `! rg '(^\s+vendor/|\.\./vendor|link:.*vendor)' pnpm-lock.yaml`, run from
   `radcn/`.
 - Jason re-reviewed the fix and approved the revised experiment design.
+
+## Result
+
+**Result:** Pass
+
+Implemented the revised experiment.
+
+The repository root is no longer the pnpm workspace root. The pnpm-managed
+project now lives under `radcn/`, with the moved workspace package, lockfile,
+component package, and fixtures:
+
+```text
+radcn/
+├── package.json
+├── pnpm-workspace.yaml
+├── pnpm-lock.yaml
+├── apps/docs/
+├── fixtures/
+└── packages/radcn/
+```
+
+The root remains the process and reference root with `AGENTS.md`, `CLAUDE.md`,
+`issues/`, `skills/`, `scripts/`, `docs/`, and `vendor/`.
+
+`radcn/pnpm-workspace.yaml` includes only:
+
+```yaml
+packages:
+  - apps/*
+  - packages/*
+  - fixtures/*
+```
+
+It does not include `vendor/` or `../vendor/`. The moved RadCN package and Remix
+candidate fixture now use the cataloged published Remix dependency instead of a
+vendored workspace dependency.
+
+The docs app was scaffolded with:
+
+```sh
+cd radcn
+pnpm dlx remix@next new apps/docs
+```
+
+The CLI reported `REMIX v3.0.0-beta.3 - new` and created
+`radcn/apps/docs`. A docs-local `CLAUDE.md` symlink was added pointing to the
+generated `AGENTS.md`, matching the repository agent-doc compatibility policy.
+
+The generated docs app needed one setup adjustment: `app/assets.ts` now allows
+the workspace pnpm virtual store path `radcn/node_modules/.pnpm/**`. The app
+script runs with cwd `radcn/apps/docs`, but published Remix browser assets
+resolve through the real pnpm store under `radcn/node_modules/.pnpm`. Without
+that allow rule, the generated scaffold returned HTTP 200 with an empty body and
+logged `AssetServerCompilationError` for `remix/ui`.
+
+Verification run:
+
+```sh
+cd radcn
+pnpm install
+pnpm list -r --depth -1
+! rg '(^\s+vendor/|\.\./vendor|link:.*vendor)' pnpm-lock.yaml
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm --dir apps/docs typecheck
+PORT=5175 pnpm --dir apps/docs start
+curl -I http://localhost:5175/
+curl -s http://localhost:5175/
+test ! -e apps/docs/.git
+test ! -e ../package.json
+test ! -e ../pnpm-workspace.yaml
+test ! -e ../pnpm-lock.yaml
+git diff --check
+git -C .. status --short -- vendor
+```
+
+Outcomes:
+
+- `pnpm list -r --depth -1` listed only five workspace projects:
+  `radcn-workspace`, `docs`, `radcn-candidate-remix`,
+  `radcn-reference-react-router`, and `radcn`.
+- The lockfile vendor-reference check returned no matches.
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed with the known React Router
+  `module.register()` deprecation warning.
+- `pnpm --dir apps/docs typecheck` passed.
+- `PORT=5175 pnpm --dir apps/docs start` served
+  `http://localhost:5175/`.
+- `curl -I http://localhost:5175/` returned `HTTP/1.1 200`.
+- `curl -s http://localhost:5175/` returned a 25,070-byte generated homepage
+  containing `Welcome to`, `Remix API`, and `Coding with AI`.
+- `apps/docs/.git` does not exist.
+- Root `package.json`, `pnpm-workspace.yaml`, and `pnpm-lock.yaml` no longer
+  exist.
+- `git diff --check` passed.
+- `git -C .. status --short -- vendor` returned no output.
+
+## Conclusion
+
+The nested workspace model is viable. Future JavaScript, TypeScript, and pnpm
+work should run from `radcn/`, and `vendor/` should remain a source-reference
+area outside pnpm visibility.
+
+The next docs-site experiment can start from a working Remix 3 docs scaffold at
+`radcn/apps/docs` and replace the generated starter homepage with a RadCN
+landing page or documentation shell.
+
+## Completion Review
+
+Fresh-context completion review was performed by Codex subagent `Raman` on
+2026-06-05.
+
+Findings:
+
+- None.
+
+Verification repeated by the reviewer:
+
+- `pnpm list -r --depth -1` listed only the five expected workspace projects.
+- The lockfile vendor-reference search returned no matches.
+- Package, candidate fixture, reference fixture, and docs typechecks passed.
+- The docs server on `PORT=5175` returned `HTTP/1.1 200`, a 25,070-byte body,
+  and the expected generated homepage strings.
+- `git diff --check` passed.
+
+Result:
+
+- Raman approved the completed experiment with no blockers, major findings, or
+  minor findings.

@@ -19,9 +19,9 @@ itself rather than fixture-local placeholders.
 Issue 2 completed the initial RadCN port of the shadcn/ui inventory. The repo
 now has:
 
-- `packages/radcn` as the component source package;
-- paired reference/candidate fixture apps under `fixtures/`;
-- shared scenario metadata in `fixtures/scenarios`;
+- `radcn/packages/radcn` as the component source package;
+- paired reference/candidate fixture apps under `radcn/fixtures/`;
+- shared scenario metadata in `radcn/fixtures/scenarios`;
 - Playwright artifact coverage for the full component surface;
 - final port documentation in `docs/radcn-source.md`;
 - issue evidence and divergence records in
@@ -38,7 +38,8 @@ architecture legible.
 Create a Remix 3 docs app under the nested JavaScript workspace at
 `radcn/apps/docs/`.
 
-The docs app should consume `packages/radcn` the way a user application would.
+The docs app should consume `radcn/packages/radcn` the way a user application
+would.
 Examples should import real RadCN components and styles. Avoid duplicating
 component implementations inside the docs app.
 
@@ -58,7 +59,7 @@ The initial site architecture should include:
 
 The site should cover both core source components and recipe/block outcomes:
 
-- core components exported by `packages/radcn`;
+- core components exported by `radcn/packages/radcn`;
 - helper/event surfaces such as `toast`;
 - recipes and blocks such as `form`, `date-picker`, and `data-table`;
 - documented divergences such as native `dir` behavior for `direction`.
@@ -112,8 +113,8 @@ test-oriented.
 Experiments should answer these before broad implementation:
 
 - What is the smallest Remix 3 app shell that can host the docs site cleanly?
-- How much of `fixtures/scenarios` should be reused directly versus translated
-  into docs-specific examples?
+- How much of `radcn/fixtures/scenarios` should be reused directly versus
+  translated into docs-specific examples?
 - What registry shape best supports pages, navigation, examples, and future
   install metadata?
 - How should code snippets be generated or stored so they stay in sync with
@@ -146,4 +147,24 @@ site that:
 - [Experiment 1: Import Remix docs site skills](01-import-remix-docs-site-skills.md)
   — **Pass**
 - [Experiment 2: Create nested RadCN workspace and docs app](02-scaffold-docs-app-with-remix-cli.md)
-  — **Designed**
+  — **Pass**
+
+## Learnings
+
+- RadCN's pnpm workspace now lives under `radcn/`. Run pnpm commands from that
+  directory. The repository root remains the process, issue, skill, and vendor
+  reference root.
+- `vendor/` must stay outside every pnpm workspace include. Published package
+  dependencies, not vendored workspace links, should satisfy Remix dependencies
+  for RadCN code.
+- The Remix CLI scaffold command `pnpm dlx remix@next new apps/docs`, run from
+  `radcn/`, created `radcn/apps/docs` with Remix `v3.0.0-beta.3`.
+- The Remix CLI scaffold includes app-local `.agents/skills/remix` guidance.
+  RadCN keeps root project skills in `skills/`, but app-local scaffold guidance
+  can remain inside `radcn/apps/docs`.
+- The generated docs app runs scripts with cwd `radcn/apps/docs`, while pnpm's
+  real virtual store is under `radcn/node_modules/.pnpm`. The docs asset server
+  needs an explicit allow rule for that workspace virtual-store path so hydrated
+  scaffold assets can import published `remix/ui`.
+- `pnpm fixtures:reference:typecheck` still passes after the move and still
+  emits the known React Router `module.register()` deprecation warning.

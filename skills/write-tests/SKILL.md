@@ -12,7 +12,7 @@ workspace-maintainer guidance was replaced with RadCN commands and fixtures.
 
 Use this skill when adding or reviewing:
 
-- `fixtures/tests/*.spec.ts`;
+- `radcn/fixtures/tests/*.spec.ts`;
 - package typecheck/build test coverage;
 - docs app Playwright tests;
 - route/controller tests for a future Remix 3 docs app;
@@ -23,7 +23,8 @@ Use this skill when adding or reviewing:
 
 1. Read the nearest `package.json`, `tsconfig.json`, and sibling tests before
    choosing a test style.
-2. Identify the behavior owner: `packages/radcn`, `fixtures/`, or `apps/docs`.
+2. Identify the behavior owner: `radcn/packages/radcn`, `radcn/fixtures`, or
+   `radcn/apps/docs`.
 3. Keep tests close to the behavior and use the smallest useful fixture.
 4. Assert public behavior, not private implementation structure, unless the
    public contract is the structure.
@@ -34,7 +35,7 @@ Use this skill when adding or reviewing:
 
 Use these existing patterns:
 
-- `pnpm radcn:typecheck` for `packages/radcn`;
+- `pnpm radcn:typecheck` for `radcn/packages/radcn`;
 - `pnpm fixtures:candidate:typecheck` for the Remix candidate fixture app;
 - `pnpm fixtures:reference:typecheck` for the React Router reference app;
 - `pnpm playwright test -c fixtures/playwright.config.ts <spec>` for focused
@@ -44,6 +45,7 @@ Use these existing patterns:
 Future docs-site experiments may add:
 
 ```sh
+cd radcn
 pnpm --dir apps/docs typecheck
 pnpm --dir apps/docs build
 pnpm playwright test -c apps/docs/playwright.config.ts
@@ -70,7 +72,7 @@ RadCN unless a later experiment adds them.
 
 ## Fixture And Docs Examples
 
-- Shared fixture scenarios live in `fixtures/scenarios`.
+- Shared fixture scenarios live in `radcn/fixtures/scenarios`.
 - Candidate fixtures should import real RadCN source from `radcn`.
 - Reference fixtures should match visible behavior well enough for comparison.
 - Docs examples should be user-facing. Reuse fixture lessons, but avoid leaking
@@ -92,7 +94,7 @@ Assert behavior users and authors can rely on:
 
 - Runtime dependencies belong in `dependencies`.
 - Test-only tools belong in `devDependencies`.
-- Keep `packages/radcn` free of React, React DOM, Radix packages, and upstream
+- Keep `radcn/packages/radcn` free of React, React DOM, Radix packages, and upstream
   React-only dependencies unless a future reviewed experiment explicitly
   changes that policy.
 - If package metadata changes, run the install/lockfile verification required

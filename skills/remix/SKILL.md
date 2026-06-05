@@ -12,11 +12,11 @@ that vendored skill so RadCN-local skills do not depend on the ignored
 `vendor/` checkout.
 
 Use this skill when building or reviewing Remix 3 application code in RadCN,
-especially `apps/docs`.
+especially `radcn/apps/docs`.
 
 ## RadCN Defaults
 
-- The docs app should consume `packages/radcn` through package imports, not
+- The docs app should consume `radcn/packages/radcn` through package imports, not
   fixture-local component copies.
 - Use the Issue 3 experiment workflow before broad docs-site implementation.
 - Prefer real RadCN examples over static screenshots when live rendering is
@@ -87,7 +87,7 @@ For the RadCN docs site, the most likely first references are:
 For a RadCN docs app, prefer:
 
 ```text
-apps/docs/
+radcn/apps/docs/
 ├── app/
 │   ├── actions/
 │   ├── assets/
@@ -129,6 +129,7 @@ Use the active RadCN experiment as the source of truth for commands. Likely
 docs-site checks include:
 
 ```sh
+cd radcn
 pnpm --dir apps/docs typecheck
 pnpm --dir apps/docs build
 pnpm playwright test -c apps/docs/playwright.config.ts
