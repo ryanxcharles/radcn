@@ -206,3 +206,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 4: Resolve data-table parity](04-resolve-data-table-parity.md)
   — **Pass**
+- [Experiment 5: Audit form example parity](05-audit-form-example-parity.md)
+  — **Designed**
