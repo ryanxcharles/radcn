@@ -96,14 +96,14 @@ function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>)
     return (
       <main mix={shellStyle}>
         <header mix={topbarStyle}>
-          <a href={routes.home.href()} mix={brandStyle} aria-label="RadCN home">
+          <a href={routes.home.href()} mix={brandStyle} aria-label="RadCN home" rmx-document="">
             <RadcnLogo label />
           </a>
           <nav aria-label="Primary" mix={topNavStyle}>
-            <a href={routes.component.href({ slug: 'button' })} mix={topNavLinkStyle}>
+            <a href={routes.component.href({ slug: 'button' })} mix={topNavLinkStyle} rmx-document="">
               Components
             </a>
-            <a href={installHref} mix={topNavLinkStyle}>
+            <a href={installHref} mix={topNavLinkStyle} rmx-document="">
               Install
             </a>
             <button
@@ -135,6 +135,7 @@ function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>)
                         href={routes.component.href({ slug: component.slug })}
                         data-active={component.slug === activeSlug ? 'true' : undefined}
                         mix={sidebarLinkStyle}
+                        rmx-document=""
                       >
                         <span>{component.title}</span>
                         <span mix={sidebarMetaStyle}>{component.status}</span>
@@ -163,8 +164,10 @@ function Hero() {
           explicit browser behavior.
         </p>
         <div mix={heroActionsStyle}>
-          <Button href={routes.component.href({ slug: 'button' })}>Browse Button</Button>
-          <Button href="#preview" variant="outline">
+          <Button href={routes.component.href({ slug: 'button' })} rmxDocument>
+            Browse Button
+          </Button>
+          <Button href="#preview" variant="outline" rmxDocument>
             View preview
           </Button>
         </div>

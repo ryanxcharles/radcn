@@ -12,6 +12,7 @@ export interface ButtonProps {
   disabled?: boolean
   href?: string
   name?: string
+  rmxDocument?: boolean
   size?: ButtonSize
   style?: string
   type?: 'button' | 'submit' | 'reset'
@@ -28,6 +29,7 @@ export function Button(handle: Handle<ButtonProps>) {
       disabled,
       href,
       name,
+      rmxDocument,
       size = 'default',
       style,
       type = 'button',
@@ -44,6 +46,7 @@ export function Button(handle: Handle<ButtonProps>) {
           data-size={size}
           data-variant={variant}
           href={href}
+          rmx-document={rmxDocument ? '' : undefined}
           style={style}
           aria-disabled={ariaDisabled ? 'true' : undefined}
         >
