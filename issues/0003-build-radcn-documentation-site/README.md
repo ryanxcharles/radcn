@@ -158,6 +158,8 @@ site that:
   — **Pass**
 - [Experiment 7: Promote root pnpm workspace](07-promote-root-pnpm-workspace.md)
   — **Pass**
+- [Experiment 8: Process logo assets with Sharp](08-process-logo-assets-with-sharp.md)
+  — **Designed**
 
 ## Learnings
 
