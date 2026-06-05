@@ -30,6 +30,24 @@ Project-local skills live in the top-level `skills/` directory. Keep
 `.claude/skills` and `.codex/skills` as symlinks to `../skills`; do not let them
 become divergent copies.
 
+## Remix-Origin Skills
+
+Some project-local skills are adapted from the vendored Remix repository under
+`vendor/remix/.agents/skills/`. They are copied into `skills/` so Codex and
+Claude can use them without depending on the ignored `vendor/` checkout.
+
+Use the local `remix` skill when building or reviewing the Remix 3 docs app,
+routes, controllers, assets, hydration, navigation, `remix/ui` components, or
+docs app tests. Use `author-ui-modules` for docs UI modules and component
+examples that need Remix UI-style state, mixins, or host-element behavior. Use
+`write-tests` when adding or reviewing RadCN package, fixture, Playwright, or
+docs-app tests.
+
+Prefer RadCN repository commands, Issue 3 experiment requirements, and this
+workflow over upstream Remix maintainer workflows. Do not import or use
+Remix-origin PR, publish, or repository-maintenance skills unless a future
+experiment records a concrete RadCN need for them.
+
 ## Vendor Sources
 
 Upstream reference repositories live under `vendor/` as ignored nested git

@@ -143,4 +143,4 @@ site that:
 ## Experiments
 
 - [Experiment 1: Import Remix docs site skills](01-import-remix-docs-site-skills.md)
-  — **Designed**
+  — **Pass**
