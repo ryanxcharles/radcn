@@ -2,8 +2,9 @@
 
 ## Open
 
-| #   | Title | Opened |
-| --- | ----- | ------ |
+| #                                                      | Title                              | Opened     |
+| ------------------------------------------------------ | ---------------------------------- | ---------- |
+| [0004](0004-complete-shadcn-parity-and-docs/README.md) | Complete shadcn/ui Parity and Docs | 2026-06-05 |
 
 ## Closed
 
