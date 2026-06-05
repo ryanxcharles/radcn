@@ -228,3 +228,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 6: Implement form example parity depth](06-implement-form-example-parity-depth.md)
   — **Pass**
+- [Experiment 7: Track resolved parity clusters](07-track-resolved-parity-clusters.md)
+  — **Designed**
