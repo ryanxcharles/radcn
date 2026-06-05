@@ -168,6 +168,8 @@ that:
 - [Experiment 9: Add system theme mode](09-add-system-theme-mode.md) — **Pass**
 - [Experiment 10: Use Lucide icons uniformly](10-use-lucide-icons-uniformly.md)
   — **Pass**
+- [Experiment 11: Complete docs registry coverage](11-complete-docs-registry-coverage.md)
+  — **Designed**
 
 ## Learnings
 
