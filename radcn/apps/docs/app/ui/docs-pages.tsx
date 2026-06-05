@@ -69,10 +69,13 @@ export function ComponentPage(handle: Handle<{ component: ComponentDoc }>) {
 
             <InfoSection id="theming" title="Theming">
               <p mix={paragraphStyle}>
-                RadCN ships light tokens by default. Add the dark theme selector to any
-                ancestor to switch package components to dark tokens.
+                RadCN tokens read the resolved theme from the document. Store the user's
+                preference separately, then resolve system preferences to a concrete light or
+                dark theme before setting package tokens.
               </p>
-              <CodeBlock code={`<html data-radcn-theme="dark">\n  ...\n</html>`} />
+              <CodeBlock
+                code={`<html data-radcn-theme-mode="system" data-radcn-theme="dark">\n  ...\n</html>`}
+              />
             </InfoSection>
 
             <ListSection id="accessibility" title="Accessibility" items={component.accessibility} />
@@ -106,18 +109,47 @@ function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>)
             <a href={installHref} mix={topNavLinkStyle} rmx-document="">
               Install
             </a>
-            <button
-              aria-label="Switch to dark theme"
-              aria-pressed="false"
-              data-radcn-theme-toggle
-              mix={themeToggleStyle}
-              type="button"
+            <div
+              aria-label="Theme"
+              data-radcn-theme-mode-control
+              data-radcn-theme-resolved="light"
+              mix={themeModeControlStyle}
+              role="radiogroup"
             >
-              <span aria-hidden="true" data-radcn-theme-toggle-icon>
-                Sun
-              </span>
-              <span data-radcn-theme-toggle-label>Light</span>
-            </button>
+              <button
+                aria-checked="true"
+                data-active="true"
+                data-radcn-theme-mode-option="system"
+                mix={themeModeOptionStyle}
+                role="radio"
+                tabIndex={0}
+                type="button"
+              >
+                System
+              </button>
+              <button
+                aria-checked="false"
+                data-active="false"
+                data-radcn-theme-mode-option="light"
+                mix={themeModeOptionStyle}
+                role="radio"
+                tabIndex={-1}
+                type="button"
+              >
+                Light
+              </button>
+              <button
+                aria-checked="false"
+                data-active="false"
+                data-radcn-theme-mode-option="dark"
+                mix={themeModeOptionStyle}
+                role="radio"
+                tabIndex={-1}
+                type="button"
+              >
+                Dark
+              </button>
+            </div>
           </nav>
         </header>
 
@@ -348,40 +380,44 @@ const topNavLinkStyle = css({
   },
 })
 
-const themeToggleStyle = css({
-  appearance: 'none',
+const themeModeControlStyle = css({
   display: 'inline-flex',
-  minHeight: '2.25rem',
+  minHeight: '2.375rem',
   alignItems: 'center',
-  gap: '0.5rem',
+  gap: '0.125rem',
   border: `1px solid ${docsBrand.color.border}`,
   borderRadius: docsBrand.radius.sm,
   background: docsBrand.color.surface,
-  color: docsBrand.color.ink,
+  padding: '0.1875rem',
+})
+
+const themeModeOptionStyle = css({
+  appearance: 'none',
+  border: 0,
+  borderRadius: docsBrand.radius.xs,
+  background: 'transparent',
+  color: docsBrand.color.inkSoft,
   cursor: 'pointer',
   font: 'inherit',
   fontSize: '0.875rem',
-  padding: '0.5rem 0.75rem',
+  fontWeight: 700,
+  lineHeight: 1,
+  minHeight: '1.875rem',
+  padding: '0.4375rem 0.625rem',
   '&:hover, &:focus-visible': {
     background: docsBrand.color.surfaceRaised,
+    color: docsBrand.color.ink,
     outline: `2px solid ${docsBrand.color.accent}`,
     outlineOffset: '2px',
   },
-  '& [data-radcn-theme-toggle-icon]': {
-    display: 'inline-flex',
-    minWidth: '2.25em',
-    justifyContent: 'center',
-    color: docsBrand.color.accentDeep,
-    fontFamily: docsBrand.font.mono,
-    fontSize: '0.75rem',
-    fontWeight: 800,
-    textTransform: 'uppercase',
+  '&[aria-checked="true"]': {
+    background: docsBrand.color.ink,
+    color: docsBrand.color.canvas,
+    boxShadow: `inset 0 0 0 1px ${docsBrand.color.borderStrong}`,
   },
   '@media (max-width: 520px)': {
-    paddingInline: '0.625rem',
-    '& [data-radcn-theme-toggle-label]': {
-      display: 'none',
-    },
+    fontSize: '0.75rem',
+    paddingInline: '0.4375rem',
   },
 })
 

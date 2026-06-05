@@ -18,7 +18,7 @@ export function Document(handle: Handle<DocumentProps>) {
     let { children, head, title = DEFAULT_TITLE } = handle.props
 
     return (
-      <html data-radcn-theme="light" lang="en">
+      <html data-radcn-theme="light" data-radcn-theme-mode="system" lang="en">
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -61,13 +61,33 @@ function InitialThemeScript() {
   return () =>
     createElement('script', {
       innerHTML: `(() => {
-  try {
-    const stored = localStorage.getItem('radcn-theme')
-    const theme = stored === 'dark' || stored === 'light' ? stored : 'light'
-    document.documentElement.dataset.radcnTheme = theme
-  } catch {
-    document.documentElement.dataset.radcnTheme = 'light'
+  const modeKey = 'radcn-theme-mode'
+  const legacyKey = 'radcn-theme'
+  const isMode = (value) => value === 'system' || value === 'light' || value === 'dark'
+  const resolve = (mode) => {
+    if (mode === 'light' || mode === 'dark') return mode
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
   }
+
+  let mode = 'system'
+  try {
+    const storedMode = localStorage.getItem(modeKey)
+    const legacyTheme = localStorage.getItem(legacyKey)
+    mode = isMode(storedMode)
+      ? storedMode
+      : legacyTheme === 'light' || legacyTheme === 'dark'
+        ? legacyTheme
+        : 'system'
+  } catch {
+    mode = 'system'
+  }
+
+  const theme = resolve(mode)
+  document.documentElement.dataset.radcnThemeMode = mode
+  document.documentElement.dataset.radcnTheme = theme
+  document.documentElement.style.colorScheme = theme
 })()`.replace(/<\/script/gi, '<\\/script'),
     })
 }

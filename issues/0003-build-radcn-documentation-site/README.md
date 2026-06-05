@@ -160,6 +160,8 @@ site that:
   — **Pass**
 - [Experiment 8: Process logo assets with Sharp](08-process-logo-assets-with-sharp.md)
   — **Pass**
+- [Experiment 9: Add system theme mode](09-add-system-theme-mode.md) —
+  **Pass**
 
 ## Learnings
 
@@ -218,6 +220,9 @@ site that:
   make server-rendered package parts inspectable before browser enhancement
   runs. Keep the source snippet as the real app usage pattern and record when a
   preview is intentionally pinned into the page.
+- RadCN theme support separates preference mode from resolved theme. Docs store
+  `system`, `light`, or `dark` as `data-radcn-theme-mode`; package tokens read
+  the resolved `light` or `dark` value from `data-radcn-theme`.
 - Explicit source strings remain workable for the first docs batch, but they
   are already a synchronization risk. Full coverage should either generate
   source snippets from example modules or establish a stricter review/test check

@@ -1,53 +1,146 @@
 import { run } from 'remix/ui'
 
-const THEME_STORAGE_KEY = 'radcn-theme'
+const THEME_MODE_STORAGE_KEY = 'radcn-theme-mode'
+const LEGACY_THEME_STORAGE_KEY = 'radcn-theme'
 type RadcnTheme = 'light' | 'dark'
+type RadcnThemeMode = 'system' | RadcnTheme
 
-function safeStoredTheme(): RadcnTheme {
-  try {
-    return localStorage.getItem(THEME_STORAGE_KEY) === 'dark' ? 'dark' : 'light'
-  } catch {
-    return 'light'
-  }
+let currentThemeMode: RadcnThemeMode = 'system'
+let colorSchemeQuery: MediaQueryList | undefined
+
+function isThemeMode(value: string | null): value is RadcnThemeMode {
+  return value === 'system' || value === 'light' || value === 'dark'
 }
 
-function setTheme(theme: RadcnTheme) {
-  document.documentElement.dataset.radcnTheme = theme
-  document.querySelectorAll<HTMLButtonElement>('[data-radcn-theme-toggle]').forEach((button) => {
-    let isDark = theme === 'dark'
-    button.setAttribute('aria-pressed', isDark ? 'true' : 'false')
-    button.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme')
-
-    let label = button.querySelector<HTMLElement>('[data-radcn-theme-toggle-label]')
-    if (label) label.textContent = isDark ? 'Dark' : 'Light'
-
-    let icon = button.querySelector<HTMLElement>('[data-radcn-theme-toggle-icon]')
-    if (icon) icon.textContent = isDark ? 'Moon' : 'Sun'
-  })
-
+function safeStoredThemeMode(): RadcnThemeMode {
   try {
-    localStorage.setItem(THEME_STORAGE_KEY, theme)
+    let storedMode = localStorage.getItem(THEME_MODE_STORAGE_KEY)
+    if (isThemeMode(storedMode)) return storedMode
+
+    let legacyTheme = localStorage.getItem(LEGACY_THEME_STORAGE_KEY)
+    if (legacyTheme === 'light' || legacyTheme === 'dark') return legacyTheme
+  } catch {
+    // Theme mode should still default correctly when storage is unavailable.
+  }
+
+  return 'system'
+}
+
+function systemColorSchemeQuery(): MediaQueryList | undefined {
+  if (colorSchemeQuery) return colorSchemeQuery
+  if (!('matchMedia' in window)) return undefined
+
+  colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)')
+  return colorSchemeQuery
+}
+
+function resolveTheme(mode: RadcnThemeMode): RadcnTheme {
+  if (mode === 'light' || mode === 'dark') return mode
+  return systemColorSchemeQuery()?.matches ? 'dark' : 'light'
+}
+
+function persistThemeMode(mode: RadcnThemeMode) {
+  try {
+    localStorage.setItem(THEME_MODE_STORAGE_KEY, mode)
+    localStorage.removeItem(LEGACY_THEME_STORAGE_KEY)
   } catch {
     // Theme switching should still work when storage is unavailable.
   }
 }
 
-function setupThemeToggle() {
-  setTheme(safeStoredTheme())
+function updateThemeModeControls(mode: RadcnThemeMode, resolvedTheme: RadcnTheme) {
+  document
+    .querySelectorAll<HTMLElement>('[data-radcn-theme-mode-option]')
+    .forEach((option) => {
+      let optionMode = option.getAttribute('data-radcn-theme-mode-option')
+      let isActive = optionMode === mode
+
+      option.setAttribute('aria-checked', isActive ? 'true' : 'false')
+      option.setAttribute('data-active', isActive ? 'true' : 'false')
+      option.setAttribute('tabindex', isActive ? '0' : '-1')
+    })
+
+  document
+    .querySelectorAll<HTMLElement>('[data-radcn-theme-mode-control]')
+    .forEach((control) => {
+      control.setAttribute('data-radcn-theme-resolved', resolvedTheme)
+    })
+}
+
+function applyThemeMode(mode: RadcnThemeMode, options: { persist?: boolean } = {}) {
+  currentThemeMode = mode
+  let resolvedTheme = resolveTheme(mode)
+
+  document.documentElement.dataset.radcnThemeMode = mode
+  document.documentElement.dataset.radcnTheme = resolvedTheme
+  document.documentElement.style.colorScheme = resolvedTheme
+  updateThemeModeControls(mode, resolvedTheme)
+
+  if (options.persist !== false) {
+    persistThemeMode(mode)
+  }
+}
+
+function focusThemeModeOption(control: HTMLElement, mode: RadcnThemeMode) {
+  control.querySelector<HTMLElement>(`[data-radcn-theme-mode-option="${mode}"]`)?.focus()
+}
+
+function setupThemeModeControl() {
+  applyThemeMode(safeStoredThemeMode())
+
+  systemColorSchemeQuery()?.addEventListener('change', () => {
+    if (currentThemeMode === 'system') {
+      applyThemeMode('system', { persist: false })
+    }
+  })
 
   document.addEventListener('click', (event) => {
     let target = event.target
     if (!(target instanceof Element)) return
 
-    let button = target.closest<HTMLButtonElement>('[data-radcn-theme-toggle]')
-    if (!button) return
+    let option = target.closest<HTMLElement>('[data-radcn-theme-mode-option]')
+    if (!option) return
+
+    let mode = option.getAttribute('data-radcn-theme-mode-option')
+    if (!isThemeMode(mode)) return
 
     event.preventDefault()
-    setTheme(document.documentElement.dataset.radcnTheme === 'dark' ? 'light' : 'dark')
+    applyThemeMode(mode)
+  })
+
+  document.addEventListener('keydown', (event) => {
+    let target = event.target
+    if (!(target instanceof HTMLElement)) return
+
+    let option = target.closest<HTMLElement>('[data-radcn-theme-mode-option]')
+    if (!option) return
+
+    let control = option.closest<HTMLElement>('[data-radcn-theme-mode-control]')
+    if (!control) return
+
+    let modes: RadcnThemeMode[] = ['system', 'light', 'dark']
+    let index = modes.indexOf(currentThemeMode)
+    let nextMode: RadcnThemeMode | undefined
+
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      nextMode = modes[(index + modes.length - 1) % modes.length]
+    } else if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      nextMode = modes[(index + 1) % modes.length]
+    } else if (event.key === 'Home') {
+      nextMode = modes[0]
+    } else if (event.key === 'End') {
+      nextMode = modes[modes.length - 1]
+    }
+
+    if (!nextMode) return
+
+    event.preventDefault()
+    applyThemeMode(nextMode)
+    focusThemeModeOption(control, nextMode)
   })
 }
 
-setupThemeToggle()
+setupThemeModeControl()
 
 run({
   async loadModule(moduleUrl, exportName) {
