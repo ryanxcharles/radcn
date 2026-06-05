@@ -2,8 +2,9 @@
 
 ## Open
 
-| #   | Title | Opened |
-| --- | ----- | ------ |
+| #                                                     | Title                              | Opened     |
+| ----------------------------------------------------- | ---------------------------------- | ---------- |
+| [0003](0003-build-radcn-documentation-site/README.md) | Build the RadCN Documentation Site | 2026-06-04 |
 
 ## Closed
 
