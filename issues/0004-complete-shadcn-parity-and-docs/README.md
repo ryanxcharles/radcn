@@ -134,9 +134,9 @@ This issue is complete when:
 
 Record cross-component discoveries here as experiments complete.
 
-- Experiment 1 generated `parity-inventory.md` from local source files. The
-  current vendored shadcn/ui v4 New York registry has 57 UI items, 244 examples,
-  27 blocks, and 70 chart examples. RadCN currently has 57 public package
+- Experiment 1 generated `parity-inventory.md` from local source files. At the
+  time, the vendored shadcn/ui v4 New York registry had 57 UI items, 244
+  examples, 27 blocks, and 70 chart examples, while RadCN had 57 public package
   subpaths and 60 docs routes.
 - `form` is the only upstream shadcn `ui/` item that is not a current RadCN
   package export. It is documented today as a docs-only gap.
@@ -164,6 +164,9 @@ Record cross-component discoveries here as experiments complete.
   allowlist as the docs app after the top-level workspace move. Without it,
   browser enhancement imports for `remix/ui` fail before component behavior
   tests run.
+- After Experiment 2, the regenerated inventory reports 58 RadCN public package
+  subpaths and no missing upstream UI package APIs. The remaining docs-only
+  outcomes are `date-picker` and `data-table`.
 
 ## Experiments
 
@@ -171,3 +174,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 2: Ship Remix-native form parity](02-ship-remix-native-form-parity.md)
   — **Pass**
+- [Experiment 3: Resolve date-picker parity](03-resolve-date-picker-parity.md)
+  — **Designed**
