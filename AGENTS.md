@@ -48,6 +48,28 @@ workflow over upstream Remix maintainer workflows. Do not import or use
 Remix-origin PR, publish, or repository-maintenance skills unless a future
 experiment records a concrete RadCN need for them.
 
+## Adversarial Review
+
+Use the local `adversarial-review` skill for experiment design reviews,
+experiment completion reviews, and any requested adversarial review of RadCN
+implementation work.
+
+For Codex-authored work, the default reviewer is a separate Codex subagent with
+fresh context (`fork_context: false`). Do not call Claude, `claude -p`, or other
+external paid reviewer CLIs unless the user explicitly asks for cross-tool
+review later.
+
+Give the reviewer only the files and rules needed for the review, such as
+`AGENTS.md`, the relevant issue README, the experiment file, and the relevant
+diff or source files. Do not pass the parent conversation by default. Record the
+reviewer name or ID, fresh-context status, findings, fixes, and approval result
+inside the experiment file.
+
+If a fresh Codex subagent is unavailable, do not silently reuse a warm agent for
+a required adversarial gate. Wait for a fresh slot or record the fallback as a
+weaker review that does not satisfy the gate unless the user explicitly accepts
+it.
+
 ## Vendor Sources
 
 Upstream reference repositories live under `vendor/` as ignored nested git
@@ -224,8 +246,10 @@ next stage.
    - Do not design or implement the next experiment until the reviewing agent
      approves the completed output.
 
-The reviewing agent may be Codex, Claude, or another explicitly requested agent,
-but it must be separate from the implementation pass.
+The reviewing agent must be separate from the implementation pass. For Codex
+work, use the `adversarial-review` skill and prefer a fresh-context Codex
+subagent (`fork_context: false`). The review must be read-only and must approve
+only when no blocker findings remain.
 
 ### Experiment Commits
 
