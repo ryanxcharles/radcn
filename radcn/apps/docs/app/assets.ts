@@ -9,11 +9,13 @@ export const assetServer = createAssetServer({
   rootDir,
   fileMap: {
     'app/*path': 'app/*path',
+    'node_modules/.pnpm/*path': '../../node_modules/.pnpm/*path',
     'node_modules/*path': 'node_modules/*path',
   },
   allow: [
     'app/assets/**',
     'node_modules/**',
+    '../../node_modules/.pnpm/**',
     path.join(workspaceDir, 'node_modules/.pnpm/**'),
   ],
   deny: ['app/**/*.server.*'],

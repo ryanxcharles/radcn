@@ -67,6 +67,14 @@ export function ComponentPage(handle: Handle<{ component: ComponentDoc }>) {
               <CodeBlock code={`${component.install}\n${component.importExample}`} />
             </InfoSection>
 
+            <InfoSection id="theming" title="Theming">
+              <p mix={paragraphStyle}>
+                RadCN ships light tokens by default. Add the dark theme selector to any
+                ancestor to switch package components to dark tokens.
+              </p>
+              <CodeBlock code={`<html data-radcn-theme="dark">\n  ...\n</html>`} />
+            </InfoSection>
+
             <ListSection id="accessibility" title="Accessibility" items={component.accessibility} />
             <ListSection id="customization" title="Customization" items={component.customization} />
             <ListSection id="remix-3" title="Remix 3 Notes" items={component.divergence} />
@@ -98,6 +106,18 @@ function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>)
             <a href={installHref} mix={topNavLinkStyle}>
               Install
             </a>
+            <button
+              aria-label="Switch to dark theme"
+              aria-pressed="false"
+              data-radcn-theme-toggle
+              mix={themeToggleStyle}
+              type="button"
+            >
+              <span aria-hidden="true" data-radcn-theme-toggle-icon>
+                Sun
+              </span>
+              <span data-radcn-theme-toggle-label>Light</span>
+            </button>
           </nav>
         </header>
 
@@ -322,6 +342,43 @@ const topNavLinkStyle = css({
     background: docsBrand.color.rail,
     color: docsBrand.color.ink,
     outline: 'none',
+  },
+})
+
+const themeToggleStyle = css({
+  appearance: 'none',
+  display: 'inline-flex',
+  minHeight: '2.25rem',
+  alignItems: 'center',
+  gap: '0.5rem',
+  border: `1px solid ${docsBrand.color.border}`,
+  borderRadius: docsBrand.radius.sm,
+  background: docsBrand.color.surface,
+  color: docsBrand.color.ink,
+  cursor: 'pointer',
+  font: 'inherit',
+  fontSize: '0.875rem',
+  padding: '0.5rem 0.75rem',
+  '&:hover, &:focus-visible': {
+    background: docsBrand.color.surfaceRaised,
+    outline: `2px solid ${docsBrand.color.accent}`,
+    outlineOffset: '2px',
+  },
+  '& [data-radcn-theme-toggle-icon]': {
+    display: 'inline-flex',
+    minWidth: '2.25em',
+    justifyContent: 'center',
+    color: docsBrand.color.accentDeep,
+    fontFamily: docsBrand.font.mono,
+    fontSize: '0.75rem',
+    fontWeight: 800,
+    textTransform: 'uppercase',
+  },
+  '@media (max-width: 520px)': {
+    paddingInline: '0.625rem',
+    '& [data-radcn-theme-toggle-label]': {
+      display: 'none',
+    },
   },
 })
 

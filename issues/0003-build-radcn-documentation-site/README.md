@@ -155,7 +155,7 @@ site that:
 - [Experiment 5: Add representative component docs batch](05-representative-component-docs-batch.md)
   — **Pass**
 - [Experiment 6: Add dark mode support](06-add-dark-mode-support.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -217,3 +217,20 @@ site that:
   are already a synchronization risk. Full coverage should either generate
   source snippets from example modules or establish a stricter review/test check
   for snippet drift.
+- RadCN dark mode is activated by setting `data-radcn-theme="dark"` on an
+  ancestor, usually `<html>`. Light mode remains the default `:root` token set.
+- Package theme support should define shared base tokens such as background,
+  foreground, card, popover, muted, accent, border, input, ring, and destructive
+  values. Component-specific variables can keep falling back to those base
+  tokens instead of requiring per-component dark CSS.
+- The docs theme switch belongs in the normal browser entry. A separate script
+  can mask broken hydration; if browser behavior does not run, check the asset
+  pipeline before adding workarounds.
+- In the nested pnpm workspace, Remix's asset transform may emit imports under
+  `/assets/node_modules/.pnpm/...`. The docs asset server must map that URL
+  prefix to `../../node_modules/.pnpm/*path`; an `allow` rule alone is not a
+  file mapping.
+- Keeping `radcnStyles` synchronized with `tokens.css` is now mandatory for any
+  package style change. This experiment updated the string directly; future
+  style-heavy work should consider a small generator to remove that manual
+  synchronization step.

@@ -181,3 +181,168 @@ Resolution:
 Result:
 
 - Huygens approved the experiment design with no blockers or major findings.
+
+## Result
+
+**Result:** Pass
+
+Implemented dark mode support for both the RadCN package and the RadCN docs
+site.
+
+Package changes:
+
+- `radcn/packages/radcn/src/styles/tokens.css` now keeps light tokens as the
+  default `:root` values and adds `[data-radcn-theme="dark"]` dark token
+  overrides.
+- The dark selector covers shared base tokens used across the package,
+  including background, foreground, card, popover, primary, secondary, muted,
+  accent, border, input, ring, and destructive values.
+- `radcn/packages/radcn/src/styles/index.ts` was regenerated from
+  `tokens.css` so `radcnStyles` remains synchronized with the package CSS
+  consumed by the docs app.
+
+Docs changes:
+
+- `radcn/apps/docs/app/ui/brand.ts` now exposes docs color values through CSS
+  variables and defines light plus dark docs palettes.
+- `radcn/apps/docs/app/ui/document.tsx` now renders
+  `data-radcn-theme="light"` by default, advertises `color-scheme` support for
+  `light dark`, injects the docs theme styles, and sets the initial theme from
+  `localStorage` before the page paints.
+- `radcn/apps/docs/app/ui/docs-pages.tsx` adds a visible theme control to the
+  existing top chrome and adds a Theming section to component pages documenting
+  `data-radcn-theme="dark"`.
+- `radcn/apps/docs/app/assets/entry.ts` initializes the theme control, toggles
+  the document theme without navigation, updates ARIA state and labels, and
+  persists the selected theme to `localStorage`.
+- `radcn/apps/docs/app/assets.ts` maps
+  `/assets/node_modules/.pnpm/*path` to the workspace virtual store at
+  `../../node_modules/.pnpm/*path`.
+
+The asset-server change fixes a root browser-entry issue found during
+verification. Remix's asset transform emitted a dependency URL under
+`/assets/node_modules/.pnpm/...`, but the docs app only mapped
+`node_modules/*path` to the app-local `node_modules`. The app-local
+`node_modules` has package symlinks but no `.pnpm` virtual store, so the
+transformed import returned `404` even though the allow list included the real
+workspace store. Adding the explicit `.pnpm` fileMap entry makes the normal
+browser entry run; no separate theme workaround script is used.
+
+Verification run from `radcn/` on 2026-06-05:
+
+```sh
+pnpm --dir apps/docs typecheck
+# Pass: tsc --noEmit
+
+pnpm radcn:typecheck
+# Pass: packages/radcn tsc
+
+entry=$(curl -s http://localhost:5175/assets/app/assets/entry.ts | sed -n '1p' | sed -E 's/^import \{ run \} from "([^"]+)";.*/\1/')
+curl -s -o /dev/null -w "entry-dependency %{http_code}\n" "http://localhost:5175${entry}" | rg '^entry-dependency 200$'
+# Pass
+
+curl -s -o /dev/null -w 'home %{http_code}\n' http://localhost:5175/ | rg '^home 200$'
+curl -s -o /dev/null -w 'button %{http_code}\n' http://localhost:5175/docs/components/button | rg '^button 200$'
+curl -s -o /dev/null -w 'badge %{http_code}\n' http://localhost:5175/docs/components/badge | rg '^badge 200$'
+curl -s -o /dev/null -w 'input %{http_code}\n' http://localhost:5175/docs/components/input | rg '^input 200$'
+curl -s -o /dev/null -w 'dialog %{http_code}\n' http://localhost:5175/docs/components/dialog | rg '^dialog 200$'
+curl -s -o /dev/null -w 'tabs %{http_code}\n' http://localhost:5175/docs/components/tabs | rg '^tabs 200$'
+curl -s -o /dev/null -w 'sonner %{http_code}\n' http://localhost:5175/docs/components/sonner | rg '^sonner 200$'
+curl -s -o /dev/null -w 'missing %{http_code}\n' http://localhost:5175/docs/components/not-a-component | rg '^missing 404$'
+# Pass
+
+curl -s http://localhost:5175/ | rg 'color-scheme|data-radcn-theme|Light|data-radcn-logo'
+curl -s http://localhost:5175/docs/components/button | rg 'Theming|data-radcn-theme="dark"|Switch to dark theme'
+# Pass
+
+git -C .. diff --check
+# Pass
+
+git -C .. status --short -- vendor
+# Pass: no output
+```
+
+Browser computed-style verification used Playwright through
+`pnpm exec node` and confirmed:
+
+- the visible theme control starts in light mode;
+- clicking the control sets `data-radcn-theme="dark"`;
+- the control updates `aria-pressed`, accessible label, and visible label;
+- the selected theme persists in `localStorage`;
+- reloading restores dark mode;
+- no browser request failures or page errors occurred;
+- computed colors changed between light and dark for the page shell, default
+  button, input, outline badge, dialog content, tabs content, and sonner toast.
+
+Screenshot artifacts captured and inspected:
+
+- `/tmp/radcn-exp6-home-light-desktop.png`
+- `/tmp/radcn-exp6-home-light-mobile.png`
+- `/tmp/radcn-exp6-dialog-light-desktop.png`
+- `/tmp/radcn-exp6-dialog-light-mobile.png`
+- `/tmp/radcn-exp6-tabs-light-desktop.png`
+- `/tmp/radcn-exp6-tabs-light-mobile.png`
+- `/tmp/radcn-exp6-home-dark-desktop.png`
+- `/tmp/radcn-exp6-home-dark-mobile.png`
+- `/tmp/radcn-exp6-dialog-dark-desktop.png`
+- `/tmp/radcn-exp6-dialog-dark-mobile.png`
+- `/tmp/radcn-exp6-tabs-dark-desktop.png`
+- `/tmp/radcn-exp6-tabs-dark-mobile.png`
+
+Inspection found readable top navigation and theme controls, readable sidebar
+categories, preserved robot/grid/accent identity, neutral preview panels,
+readable code blocks, and no incoherent overlap in the inspected light and dark
+desktop/mobile captures.
+
+Notes:
+
+- The existing uncommitted `radcn/package.json` pnpm `packageManager` bump is
+  unrelated to this experiment and was intentionally left out of the Experiment
+  6 implementation scope.
+- The untracked `raw-icons/` directory is unrelated to this experiment and was
+  left unstaged.
+
+## Conclusion
+
+Experiment 6 establishes the RadCN dark-mode contract: light tokens are the
+default, and consumers can opt into dark mode with
+`data-radcn-theme="dark"` on an ancestor. The docs app uses the same selector
+for the docs shell and live package previews, so the website now demonstrates
+the supported package behavior instead of simulating it with docs-only CSS.
+
+The most important implementation learning is that browser behavior in the
+nested pnpm workspace depends on correct asset-server mapping for pnpm's
+virtual store. Future browser-entry failures should be treated as asset
+pipeline bugs first, not worked around with duplicate scripts.
+
+The manual `tokens.css` to `radcnStyles` synchronization is now more costly.
+Future style-heavy experiments should add a small generator or check that keeps
+the CSS file and exported string synchronized.
+
+## Completion Review
+
+Fresh-context completion review was performed by Codex subagent `Faraday`
+(`019e97c1-7d82-7fa1-86b0-c9405d2eb20f`) on 2026-06-05 with
+`fork_context: false`.
+
+Findings:
+
+- **Minor:** `radcn/apps/docs/app/ui/document.tsx` used
+  `docsBrand.color.accent` for `<meta name="theme-color">` after
+  `docsBrand.color.accent` became `var(--docs-accent)`. Browsers may ignore CSS
+  variables in `theme-color` metadata.
+
+Resolution:
+
+- Replaced the single CSS-variable `theme-color` value with literal
+  media-aware light and dark values:
+  `#ff2d20` for `(prefers-color-scheme: light)` and `#ff4a3d` for
+  `(prefers-color-scheme: dark)`.
+- Reran the focused docs typecheck, metadata curl, pnpm virtual-store asset
+  curl, route checks, `git diff --check`, vendor cleanliness check, and
+  Playwright theme toggle persistence check after the fix.
+
+Result:
+
+- Faraday approved the completed experiment with no blockers or major findings.
+  The real minor finding was fixed before the result commit.
