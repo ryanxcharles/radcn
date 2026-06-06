@@ -807,6 +807,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "typography",
+    id: "table",
+    title: "Typography Table",
+    description: "Typography prose composed with semantic table primitives.",
+  },
+  {
+    component: "typography",
     id: "custom-token",
     title: "Custom Typography Token",
     description: "Typography recipe customized through public CSS variables.",

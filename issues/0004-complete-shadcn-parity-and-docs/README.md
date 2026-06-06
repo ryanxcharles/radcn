@@ -220,6 +220,13 @@ Record cross-component discoveries here as experiments complete.
 - After Experiment 7, the generated next recommendation is the `typography`
   package outcome decision, because `typography` is a RadCN export without an
   upstream `ui/` counterpart and is not yet marked resolved in Issue 4.
+- Experiment 8 resolved the Typography outcome as a RadCN package-backed
+  recipe/API rather than an upstream `ui/` component port. All 14 upstream
+  typography examples are mapped in `typography-outcome.md`, including
+  `typography-table` as Typography prose composed with `radcn/table`.
+- After Experiment 8, `typography` is marked resolved in both the package
+  outcome and example queues. The next generated recommendation is example
+  parity for `button`.
 
 ## Experiments
 
@@ -238,4 +245,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 7: Track resolved parity clusters](07-track-resolved-parity-clusters.md)
   — **Pass**
 - [Experiment 8: Resolve typography outcome](08-resolve-typography-outcome.md)
-  — **Designed**
+  — **Pass**

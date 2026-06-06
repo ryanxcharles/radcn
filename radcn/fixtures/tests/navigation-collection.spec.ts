@@ -93,6 +93,12 @@ test('candidate typography exposes semantic recipes and custom tokens', async ({
   await expect(page.locator('small[data-radcn-typography-small]')).toHaveText('Small supporting text')
   await expect(page.locator('[data-radcn-typography-muted]')).toHaveText('Muted metadata text')
 
+  await page.goto(`${candidate}/fixtures/typography/table`)
+  await expect(page.locator('[data-radcn-typography-h2]')).toHaveText('Release status')
+  await expect(page.locator('[data-radcn-table]')).toBeVisible()
+  await expect(page.getByRole('columnheader', { name: 'Component' })).toBeVisible()
+  await expect(page.getByRole('cell', { name: 'Typography' })).toBeVisible()
+
   await page.goto(`${candidate}/fixtures/typography/custom-token`)
   await expect(page.locator('[data-radcn-typography-h1]')).toHaveCSS('font-size', '40px')
   await expect(page.locator('[data-radcn-typography-muted]')).toHaveCSS('color', 'rgb(124, 58, 237)')

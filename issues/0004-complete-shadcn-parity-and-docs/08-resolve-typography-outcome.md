@@ -108,3 +108,73 @@ Findings:
 Re-review result: approved with no blockers. The major finding was resolved.
 The README verification was further tightened after re-review so the Typography
 outcome and next generated recommendation are checked independently.
+
+## Result
+
+**Result:** Pass
+
+Experiment 8 resolved the Typography package outcome and example cluster.
+`typography-outcome.md` maps all 14 upstream typography examples to RadCN
+outcomes, records Typography as a package-backed recipe/API rather than an
+upstream `ui/` component port, and documents `typography-table` as composition
+with `radcn/table`.
+
+The candidate fixture app now includes `/fixtures/typography/table`, and
+`navigation-collection.spec.ts` verifies the Typography heading, semantic table,
+column header, and table cell. `resolved-clusters.json` marks `typography` as
+resolved in both `examples` and `packageOutcomes`, and the regenerated
+inventory advances the next recommendation to `button` example parity.
+
+Verification run:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts navigation-collection.spec.ts`
+  passed: 6 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  passed: 5 tests.
+- `node scripts/audit-shadcn-parity.mjs` regenerated
+  `parity-inventory.md`.
+- The parity inventory regeneration diff check exited 0 and printed no diff.
+- The Typography package-outcome recommendation grep exited 1 with no matches.
+- The resolved-cluster JSON check exited 0.
+- The 14-id Typography outcome check exited 0.
+- The README learning check exited 0.
+- The no-vendor/no-React/no-publish scope grep exited 1 with no matches.
+- `git diff --check` passed.
+- Vendor status checks for shadcn/ui, Remix, and React Router printed no
+  output.
+
+## Conclusion
+
+Typography is no longer an unresolved Issue 4 package outcome or example
+cluster. It is a RadCN package-backed typography API with an explicit upstream
+example map and a tested table-composition fixture. The next Issue 4 experiment
+should follow the generated inventory recommendation and audit upstream
+`button` example parity depth.
+
+## Completion Review
+
+Reviewer: Nietzsche (`019e9a40-3c80-7cb3-9309-9c859f9f8b77`)
+Fresh context: yes (`fork_context: false`)
+
+Result: approved with no blockers.
+
+Findings:
+
+- Non-blocking note: `parity-inventory.md` was generated with date
+  `2026-06-06`, while `typography-outcome.md` records Experiment 8 on
+  `2026-06-05`. This appears to be generated-file date behavior and does not
+  affect the result.
+
+Approval evidence:
+
+- The experiment result matches the design and pass criteria.
+- All 14 upstream typography IDs are explicitly mapped.
+- `typography` is resolved in both `examples` and `packageOutcomes`.
+- The first generated recommendation is now `button`.
+- `typography-table` has fixture and Playwright proof using `radcn/table`.
+- README learnings and experiment status are consistent.
+- `git diff --check`, vendor status, and no-vendor/no-React/no-publish checks
+  pass.

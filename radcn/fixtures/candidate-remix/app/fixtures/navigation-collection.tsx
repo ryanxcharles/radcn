@@ -218,6 +218,37 @@ export function renderTableFixture(fixture: FixtureScenario) {
 }
 
 export function renderTypographyFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'table') {
+    return (
+      <article style="max-width:640px">
+        <TypographyH2>Release status</TypographyH2>
+        <TypographyP>Use RadCN table primitives when prose needs structured comparison.</TypographyP>
+        <Table>
+          <TableCaption>Typography table example.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Component</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Owner</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>Typography</TableCell>
+              <TableCell>Covered</TableCell>
+              <TableCell>Docs</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Table</TableCell>
+              <TableCell>Composed</TableCell>
+              <TableCell>Package</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </article>
+    )
+  }
+
   if (fixture.id === 'inline') {
     return (
       <div style="display:grid;gap:12px;max-width:620px">
