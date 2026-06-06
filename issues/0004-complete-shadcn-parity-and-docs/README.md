@@ -418,3 +418,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 21: Audit empty example parity](21-audit-empty-example-parity.md)
   — **Pass**
+- [Experiment 22: Implement empty example parity depth](22-implement-empty-example-parity-depth.md)
+  — **Designed**
