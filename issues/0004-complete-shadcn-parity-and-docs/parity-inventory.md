@@ -115,6 +115,7 @@ These are documented in RadCN but are not current package exports.
 | examples | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/05-audit-form-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/06-implement-form-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/form-example-inventory.md` |
 | examples | typography | resolved | `issues/0004-complete-shadcn-parity-and-docs/08-resolve-typography-outcome.md`<br>`issues/0004-complete-shadcn-parity-and-docs/typography-outcome.md` |
 | examples | button | resolved | `issues/0004-complete-shadcn-parity-and-docs/09-audit-button-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/10-implement-button-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/button-example-inventory.md` |
+| examples | field | resolved | `issues/0004-complete-shadcn-parity-and-docs/11-audit-field-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/12-implement-field-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/field-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -218,7 +219,6 @@ parity decision.
 | drawer | 2 | `drawer-demo`, `drawer-dialog` |
 | dropdown-menu | 4 | `dropdown-menu-checkboxes`, `dropdown-menu-demo`, `dropdown-menu-dialog`, `dropdown-menu-radio-group` |
 | empty | 7 | `empty-avatar`, `empty-avatar-group`, `empty-background`, `empty-demo`, `empty-icon`, `empty-input-group`, `empty-outline` |
-| field | 12 | `field-checkbox`, `field-choice-card`, `field-demo`, `field-fieldset`, `field-group`, `field-input`, `field-radio`, `field-responsive`, `field-select`, `field-slider`, `field-switch`, `field-textarea` |
 | hover-card | 1 | `hover-card-demo` |
 | input | 6 | `input-demo`, `input-disabled`, `input-file`, `input-with-button`, `input-with-label`, `input-with-text` |
 | input-group | 11 | `input-group-button`, `input-group-button-group`, `input-group-custom`, `input-group-demo`, `input-group-dropdown`, `input-group-icon`, `input-group-label`, `input-group-spinner`, `input-group-text`, `input-group-textarea`, `input-group-tooltip` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for field
+**Cluster:** Example parity for button-group
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for field.
+- Audit upstream examples for button-group.
 
 ## Notes
 

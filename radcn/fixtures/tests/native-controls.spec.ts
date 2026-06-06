@@ -74,6 +74,70 @@ test('candidate field wires label help invalid and error semantics', async ({ pa
   await expect(page.locator('#candidate-email-invalid-error')).toHaveText('Enter a valid email address.')
 })
 
+test('candidate field covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/field/input`)
+  await expect(page.locator('fieldset[data-radcn-field-set]')).toHaveCount(1)
+  await expect(page.locator('legend[data-radcn-field-legend]')).toHaveText('Account')
+  await expect(page.getByLabel('Username')).toHaveId('candidate-field-username')
+  await expect(page.getByLabel('Password')).toHaveId('candidate-field-password')
+
+  await page.goto(`${candidate}/fixtures/field/textarea`)
+  await expect(page.getByLabel('Bio')).toHaveId('candidate-field-bio')
+  await expect(page.locator('[data-radcn-field-group]')).toHaveCount(1)
+
+  await page.goto(`${candidate}/fixtures/field/fieldset`)
+  await expect(page.locator('fieldset[data-radcn-field-set]')).toHaveCount(1)
+  await expect(page.locator('legend[data-radcn-field-legend]')).toHaveText('Shipping address')
+  await expect(page.locator('[data-radcn-field][data-orientation="horizontal"]')).toHaveCount(1)
+
+  await page.goto(`${candidate}/fixtures/field/radio`)
+  await expect(page.locator('[role="radiogroup"]')).toHaveAttribute('data-radcn-radio-group', '')
+  await expect(page.locator('[data-radcn-field][data-orientation="horizontal"]')).toHaveCount(2)
+  await expect(page.getByLabel('Free')).toBeChecked()
+  await expect(page.getByLabel('Pro')).not.toBeChecked()
+
+  await page.goto(`${candidate}/fixtures/field/checkbox`)
+  await expect(page.locator('[data-radcn-field-content]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-field-separator]')).toHaveCount(1)
+  await expect(page.getByLabel('Email alerts')).toBeChecked()
+
+  await page.goto(`${candidate}/fixtures/field/switch`)
+  await expect(page.locator('[data-radcn-field][data-orientation="horizontal"]')).toHaveCount(1)
+  await expect(page.getByRole('switch', { name: 'Security emails' })).toBeChecked()
+  await expect(page.locator('[data-radcn-field-content]')).toContainText('Receive emails for important account events.')
+
+  await page.goto(`${candidate}/fixtures/field/slider`)
+  await expect(page.locator('[data-radcn-field-title]')).toHaveText('Budget range')
+  await expect(page.locator('[data-radcn-slider]')).toHaveCount(2)
+  await expect(page.getByLabel('Minimum budget')).toHaveValue('200')
+  await expect(page.getByLabel('Maximum budget')).toHaveValue('800')
+  await expect(page.locator('[data-radcn-field-description]').first()).toContainText('Server default: $200 to $800')
+
+  await page.goto(`${candidate}/fixtures/field/select`)
+  await expect(page.getByRole('combobox', { name: 'Payment method' })).toHaveAttribute('data-radcn-select-trigger', '')
+  await expect(page.locator('[data-radcn-select-input]')).toHaveValue('card')
+
+  await page.goto(`${candidate}/fixtures/field/choice-card`)
+  await expect(page.locator('.radcn-field--choice-card')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-field-title]')).toHaveText(['Hobby', 'Pro'])
+  await expect(page.getByLabel('Hobby')).toBeChecked()
+
+  await page.goto(`${candidate}/fixtures/field/group`)
+  await expect(page.locator('fieldset[data-radcn-field-set]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-field-separator]')).toHaveCount(1)
+  await expect(page.getByLabel('Public profile')).toBeChecked()
+
+  await page.goto(`${candidate}/fixtures/field/responsive`)
+  await expect(page.locator('[data-radcn-field][data-orientation="responsive"]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-field-separator]')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Save' })).toHaveAttribute('type', 'submit')
+
+  await page.goto(`${candidate}/fixtures/field/demo`)
+  await expect(page.locator('[data-radcn-field-group]').first()).toContainText('Payment details')
+  await expect(page.getByRole('button', { name: 'Continue' })).toHaveAttribute('type', 'submit')
+  await expect(page.locator('[data-radcn-select-input]')).toHaveValue('card')
+})
+
 test('candidate native controls expose disabled and required state', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/field/input-disabled`)
   await expect(page.locator('#candidate-email-disabled')).toBeDisabled()

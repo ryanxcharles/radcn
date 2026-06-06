@@ -144,3 +144,129 @@ implementation. The fixes above have been applied.
 Re-review result: approved with no remaining blocker, major, or minor findings.
 Epicurus confirmed the resolved-cluster evidence check and root barrel export
 verification now cover the prior gaps.
+
+## Result
+
+**Result:** Pass
+
+Field example parity depth is implemented.
+
+Package changes:
+
+- `radcn/packages/radcn/src/components/field.tsx` now exports
+  `FieldLabel`, `FieldSet`, `FieldLegend`, `FieldGroup`, `FieldSeparator`,
+  `FieldContent`, and `FieldTitle`.
+- `Field` now supports `orientation="vertical"`, `"horizontal"`, and
+  `"responsive"`, and writes stable orientation hooks.
+- `FieldSet` renders `fieldset`, `FieldLegend` renders `legend`, Field labels
+  render `label`, and separators render decorative `hr` elements.
+- `radcn/packages/radcn/src/index.ts` re-exports the new Field parts and types
+  from the root `radcn` package.
+- Field styles now cover layout, grouping, horizontal/responsive orientation,
+  titles, legends, separators, content wrappers, and choice-card composition.
+
+Docs, fixtures, and inventory changes:
+
+- `radcn/apps/docs/app/content/components.tsx` now has a full Field docs entry
+  and rich live preview covering input, textarea, select, switch, checkbox,
+  radio choice card, slider min/max, fieldset/legend, groups, separators,
+  horizontal layout, and responsive layout.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/field.tsx` now expose all 12
+  upstream Field example ids: `field-demo`, `field-input`, `field-textarea`,
+  `field-fieldset`, `field-radio`, `field-checkbox`, `field-switch`,
+  `field-slider`, `field-select`, `field-choice-card`, `field-group`, and
+  `field-responsive`.
+- `radcn/fixtures/tests/native-controls.spec.ts` verifies the Field example
+  cluster through public hooks, semantic elements, accessible labels, control
+  state, orientations, choice-card composition, and the web-first slider
+  strategy.
+- `field-example-inventory.md` marks all upstream Field rows `Covered` except
+  `field-slider`, which is recorded as `Intentional divergence` because RadCN
+  uses native range controls with server defaults instead of React `useState`
+  live value text.
+- `resolved-clusters.json` marks `field` resolved with evidence from
+  Experiments 11 and 12 plus `field-example-inventory.md`.
+- `parity-inventory.md` was regenerated and now recommends example parity for
+  `button-group`.
+
+Verification run on 2026-06-05:
+
+- `pnpm radcn:typecheck` — passed.
+- `pnpm --dir radcn/apps/docs typecheck` — passed.
+- `pnpm fixtures:candidate:typecheck` — passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-controls.spec.ts`
+  — passed, 6 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  — passed, 5 tests.
+- `node scripts/audit-shadcn-parity.mjs` — passed and regenerated
+  `parity-inventory.md`.
+- Parity inventory idempotence command — passed with no diff.
+- Deterministic Field id check — passed; all 12 upstream Field ids appear
+  exactly once in `field-example-inventory.md`.
+- Deterministic Field outcome check — passed; every upstream Field row is
+  `Covered` or `Intentional divergence`, with no `Partial` or `Missing`.
+- Deterministic resolved-cluster check — passed; `field` has
+  `status = "resolved"` and evidence for Experiment 11, Experiment 12, and
+  `field-example-inventory.md`.
+- Deterministic style sync check — passed; `styles/index.ts` matches
+  `tokens.css`.
+- `rg -n "Example parity for field|Audit upstream examples for field" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  — passed with exit 1 and no matches.
+- Deterministic Field export check — passed for both
+  `radcn/packages/radcn/src/components/field.tsx` and
+  `radcn/packages/radcn/src/index.ts`.
+- Forbidden dependency/publish grep — passed with exit 1 and no matches.
+- `git diff --check` — passed.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  — passed with no output.
+
+Known warnings:
+
+- Playwright web servers print the existing Node `module.register()`
+  deprecation warning and `NO_COLOR`/`FORCE_COLOR` warning. These warnings were
+  already present in this repository's test harness and did not affect the
+  passing checks.
+
+## Conclusion
+
+Field is no longer an unresolved Issue 4 example cluster. RadCN now has a
+package-backed Field layout surface that maps the upstream shadcn Field examples
+to Remix 3 host elements and native control composition. The only intentional
+divergence is the slider value-display strategy: RadCN keeps submitted values
+native and server-defaulted instead of porting React `useState` into the package.
+
+The next unresolved generated cluster is example parity for `button-group`.
+
+## Completion Review
+
+Reviewer: Boole (`019e9a69-ba6c-7e92-8fe6-8b08c93a68bc`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Boole reviewed the completed experiment against `AGENTS.md`, the Issue 4
+README, Experiment 12, Field inventory, resolved clusters, generated parity
+inventory, and the relevant package/docs/fixture/test diff.
+
+Reviewer verification rerun:
+
+- `pnpm radcn:typecheck` — passed.
+- `pnpm --dir radcn/apps/docs typecheck` — passed.
+- `pnpm fixtures:candidate:typecheck` — passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-controls.spec.ts`
+  — passed, 6 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  — passed, 5 tests.
+- `git diff --check` — passed.
+- Vendor status check — passed with no output.
+- Forbidden vendor/React/useState/publish grep — passed.
+- Deterministic Field id, outcome, resolved-cluster, style-sync, and export
+  checks — passed.
+
+Approval result: approved. Boole confirmed the result commit had not been made
+before review and found no blocker, major, or minor findings.

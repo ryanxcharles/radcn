@@ -245,6 +245,19 @@ Record cross-component discoveries here as experiments complete.
   separators, content wrappers, titles, horizontal/responsive orientation, and
   richer grouped control compositions. The slider example needs a Remix/web-first
   value-display strategy instead of React `useState`.
+- Experiment 12 completed Field example parity depth. `radcn/field` now exports
+  `FieldLabel`, `FieldSet`, `FieldLegend`, `FieldGroup`, `FieldSeparator`,
+  `FieldContent`, and `FieldTitle`, and `Field` supports vertical, horizontal,
+  and responsive orientations.
+- Field parity is layout and grouping parity, not form-state parity.
+  `radcn/field` owns reusable field structure while `radcn/form` remains the
+  Remix-native server/action wiring API.
+- The upstream Field slider example's React `useState` live value text maps to
+  a documented RadCN intentional divergence: native range controls with
+  server-provided defaults and submitted min/max values. Apps can add
+  dependency-free browser enhancement if live value text is needed.
+- After Experiment 12, `field` is marked resolved in the example queue. The
+  next generated recommendation is example parity for `button-group`.
 
 ## Experiments
 
@@ -271,4 +284,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 11: Audit field example parity](11-audit-field-example-parity.md)
   — **Pass**
 - [Experiment 12: Implement field example parity depth](12-implement-field-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

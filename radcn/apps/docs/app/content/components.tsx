@@ -119,7 +119,17 @@ import {
   DropdownMenuTrigger,
 } from 'radcn/dropdown-menu'
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
-import { Field, FieldDescription, FieldError } from 'radcn/field'
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+  FieldTitle,
+} from 'radcn/field'
 import { Form, FormDescription, FormField, FormLabel, FormMessage, formControlAttributes, formFieldIds } from 'radcn/form'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'radcn/hover-card'
 import { Input } from 'radcn/input'
@@ -163,6 +173,7 @@ import {
   Select,
   SelectContent,
   SelectItem,
+  SelectPortal,
   SelectTrigger,
   SelectValue,
   SelectViewport,
@@ -434,6 +445,97 @@ export function InputPreview() {
       Workspace
       <Input id="workspace" name="workspace" placeholder="radcn" value="radcn" />
     </label>
+  )
+}`
+
+const fieldSource = `import { Button } from 'radcn/button'
+import { Checkbox } from 'radcn/checkbox'
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+  FieldTitle,
+} from 'radcn/field'
+import { Input } from 'radcn/input'
+import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'radcn/select'
+import { Slider } from 'radcn/slider'
+import { Switch } from 'radcn/switch'
+import { Textarea } from 'radcn/textarea'
+
+export function FieldPreview() {
+  return (
+    <form action="/checkout" method="post">
+      <FieldGroup>
+        <FieldSet>
+          <FieldLegend>Workspace</FieldLegend>
+          <FieldDescription>Field owns reusable layout; form owns submission.</FieldDescription>
+          <FieldGroup>
+            <Field>
+              <FieldLabel for="workspace">Workspace name</FieldLabel>
+              <Input id="workspace" name="workspace" value="RadCN" />
+            </Field>
+            <Field orientation="responsive">
+              <FieldContent>
+                <FieldLabel for="notes">Launch notes</FieldLabel>
+                <FieldDescription>Responsive fields collapse on small screens.</FieldDescription>
+              </FieldContent>
+              <Textarea id="notes" name="notes" value="Ship web-first components." />
+            </Field>
+          </FieldGroup>
+        </FieldSet>
+
+        <FieldSeparator />
+
+        <FieldSet>
+          <FieldLegend>Controls</FieldLegend>
+          <Field>
+            <FieldLabel for="payment">Payment method</FieldLabel>
+            <Select defaultValue="card" id="payment" name="payment">
+              <SelectTrigger ariaLabel="Payment method"><SelectValue>Card</SelectValue></SelectTrigger>
+              <SelectContent><SelectItem value="card">Card</SelectItem></SelectContent>
+            </Select>
+          </Field>
+          <Field orientation="horizontal">
+            <Switch checked id="alerts" name="alerts" />
+            <FieldContent>
+              <FieldLabel for="alerts">Security alerts</FieldLabel>
+              <FieldDescription>Horizontal rows keep label copy beside the control.</FieldDescription>
+            </FieldContent>
+          </Field>
+          <Field>
+            <FieldTitle>Budget range</FieldTitle>
+            <FieldDescription>Use native range controls and server defaults.</FieldDescription>
+            <Slider ariaLabel="Budget minimum" defaultValue={200} name="budget_min" />
+          </Field>
+        </FieldSet>
+
+        <RadioGroup name="plan">
+          <Field class="radcn-field--choice-card" orientation="horizontal">
+            <RadioGroupItem checked id="plan-pro" name="plan" value="pro" />
+            <FieldContent>
+              <FieldLabel for="plan-pro"><FieldTitle>Pro</FieldTitle></FieldLabel>
+              <FieldDescription>Card-like choices are composition, not a separate component.</FieldDescription>
+            </FieldContent>
+          </Field>
+        </RadioGroup>
+
+        <Field orientation="horizontal">
+          <Checkbox checked id="save" name="save" value="yes" />
+          <FieldContent>
+            <FieldLabel for="save">Save as template</FieldLabel>
+            <FieldDescription>Checkbox rows use the same FieldContent pattern.</FieldDescription>
+          </FieldContent>
+        </Field>
+
+        <Button type="submit">Save workspace</Button>
+      </FieldGroup>
+    </form>
   )
 }`
 
@@ -763,6 +865,99 @@ function InputPreview() {
       />
       <p id="docs-input-workspace-help">Native text input with RadCN tokens.</p>
     </div>
+  )
+}
+
+function FieldPreview() {
+  return () => (
+    <form action="/docs/components/field" method="post" style="width: min(100%, 36rem);">
+      <FieldGroup>
+        <FieldSet>
+          <FieldLegend>Workspace</FieldLegend>
+          <FieldDescription>Field owns reusable grouping, labels, descriptions, and layout.</FieldDescription>
+          <FieldGroup>
+            <Field>
+              <FieldLabel for="docs-field-workspace">Workspace name</FieldLabel>
+              <Input id="docs-field-workspace" name="workspace" value="RadCN" />
+              <FieldDescription>Basic input fields use real labels and native controls.</FieldDescription>
+            </Field>
+            <Field orientation="responsive">
+              <FieldContent>
+                <FieldLabel for="docs-field-notes">Launch notes</FieldLabel>
+                <FieldDescription>Responsive fields place copy beside the control on wider screens.</FieldDescription>
+              </FieldContent>
+              <Textarea id="docs-field-notes" name="notes" value="Ship web-first components." />
+            </Field>
+          </FieldGroup>
+        </FieldSet>
+
+        <FieldSeparator />
+
+        <FieldSet>
+          <FieldLegend>Controls</FieldLegend>
+          <FieldGroup>
+            <Field>
+              <FieldLabel for="docs-field-payment-trigger">Payment method</FieldLabel>
+              <Select defaultValue="card" id="docs-field-payment" name="payment">
+                <SelectTrigger ariaLabel="Payment method" id="docs-field-payment-trigger">
+                  <SelectValue placeholder="Payment method">Card</SelectValue>
+                </SelectTrigger>
+                <SelectPortal>
+                  <SelectContent>
+                    <SelectViewport>
+                      <SelectItem value="card">Card</SelectItem>
+                      <SelectItem value="bank">Bank account</SelectItem>
+                    </SelectViewport>
+                  </SelectContent>
+                </SelectPortal>
+              </Select>
+              <FieldDescription>Selects submit a hidden native value.</FieldDescription>
+            </Field>
+            <Field orientation="horizontal">
+              <Switch checked id="docs-field-alerts" name="alerts" />
+              <FieldContent>
+                <FieldLabel for="docs-field-alerts">Security alerts</FieldLabel>
+                <FieldDescription>Horizontal rows keep supporting copy beside the control.</FieldDescription>
+              </FieldContent>
+            </Field>
+            <Field>
+              <FieldTitle>Budget range</FieldTitle>
+              <FieldDescription>Server default: $200 to $800. Native range controls submit both ends.</FieldDescription>
+              <FieldGroup>
+                <Field>
+                  <FieldLabel for="docs-field-budget-min">Minimum budget</FieldLabel>
+                  <Slider ariaLabel="Minimum budget" defaultValue={200} id="docs-field-budget-min" max={1000} min={0} name="budget_min" step={50} />
+                </Field>
+                <Field>
+                  <FieldLabel for="docs-field-budget-max">Maximum budget</FieldLabel>
+                  <Slider ariaLabel="Maximum budget" defaultValue={800} id="docs-field-budget-max" max={1000} min={0} name="budget_max" step={50} />
+                </Field>
+              </FieldGroup>
+            </Field>
+          </FieldGroup>
+        </FieldSet>
+
+        <RadioGroup name="plan">
+          <Field class="radcn-field--choice-card" orientation="horizontal">
+            <RadioGroupItem checked id="docs-field-plan-pro" name="plan" value="pro" />
+            <FieldContent>
+              <FieldLabel for="docs-field-plan-pro"><FieldTitle>Pro</FieldTitle></FieldLabel>
+              <FieldDescription>Choice cards are styled Field composition over radio semantics.</FieldDescription>
+            </FieldContent>
+          </Field>
+        </RadioGroup>
+
+        <Field orientation="horizontal">
+          <Checkbox checked id="docs-field-save" name="save" value="yes" />
+          <FieldContent>
+            <FieldLabel for="docs-field-save">Save as template</FieldLabel>
+            <FieldDescription>Checkbox groups use the same FieldContent pattern.</FieldDescription>
+          </FieldContent>
+        </Field>
+
+        <Button type="submit">Save workspace</Button>
+      </FieldGroup>
+    </form>
   )
 }
 
@@ -1253,14 +1448,7 @@ function AuthoredPreview(handle: { props: { slug: string; title: string } }) {
           </Empty>
         )
       case 'field':
-        return (
-          <Field style="width: min(100%, 24rem);">
-            <Label for="docs-field-email">Email</Label>
-            <Input id="docs-field-email" name="email" placeholder="team@example.com" />
-            <FieldDescription>Used for release notifications.</FieldDescription>
-            <FieldError>Use a work email.</FieldError>
-          </Field>
-        )
+        return <FieldPreview />
       case 'hover-card':
         return (
           <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
@@ -1683,6 +1871,45 @@ const richComponentDocs: ComponentDoc[] = [
     ],
   },
   {
+    slug: 'field',
+    title: 'Field',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'Reusable field layout primitives for labels, descriptions, errors, fieldsets, grouped controls, separators, titles, and responsive rows.',
+    importPath: 'radcn/field',
+    importExample:
+      "import { Field, FieldLabel, FieldSet, FieldLegend, FieldGroup, FieldContent } from 'radcn/field'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'workspace-settings',
+        title: 'Workspace Settings',
+        description:
+          'Compose input, textarea, select, switch, checkbox, radio, slider, grouped sections, responsive rows, and choice cards with Field primitives.',
+        source: fieldSource,
+        preview: <FieldPreview />,
+      },
+    ],
+    accessibility: [
+      'FieldLabel renders a real label, FieldSet renders fieldset, and FieldLegend renders legend so grouped controls keep platform semantics.',
+      'Field orientation is represented with data-orientation and CSS classes; it does not change form submission or accessible naming.',
+      'Descriptions, errors, and titles are explicit content elements that apps wire to controls with native IDs and ARIA attributes when needed.',
+    ],
+    customization: [
+      'Field parts expose data-radcn-field, field-label, field-set, field-legend, field-group, field-content, field-title, field-description, field-error, and field-separator hooks.',
+      'Vertical, horizontal, responsive, and choice-card layouts are token-driven CSS hooks, so apps can restyle spacing and borders without replacing primitives.',
+      'Field composes with existing input, textarea, select, checkbox, radio, switch, slider, and button primitives instead of owning control state.',
+    ],
+    divergence: [
+      'shadcn/ui Field examples use React composition and, for slider value text, React state. RadCN maps this to native controls, server defaults, and optional app-owned browser enhancement.',
+      'radcn/field owns reusable layout and grouping primitives. radcn/form remains the explicit server/action wiring API for submitted forms and validation messages.',
+      'RadCN does not require DOM equivalence with shadcn/ui; parity is visual behavior, accessibility, and author-facing modifiability with Remix 3 host elements.',
+    ],
+  },
+  {
     slug: 'form',
     title: 'Form',
     category: 'Inputs',
@@ -1957,7 +2184,7 @@ const registrySeeds: RegistrySeed[] = [
   { slug: 'drawer', title: 'Drawer', category: 'Overlays', importNames: ['Drawer', 'DrawerTrigger', 'DrawerContent'] },
   { slug: 'dropdown-menu', title: 'Dropdown Menu', category: 'Overlays', importNames: ['DropdownMenu', 'DropdownMenuTrigger', 'DropdownMenuContent'] },
   { slug: 'empty', title: 'Empty', category: 'Display', importNames: ['Empty', 'EmptyHeader', 'EmptyTitle', 'EmptyDescription'] },
-  { slug: 'field', title: 'Field', category: 'Inputs', importNames: ['Field', 'FieldDescription', 'FieldError'] },
+  { slug: 'field', title: 'Field', category: 'Inputs', importNames: ['Field', 'FieldLabel', 'FieldSet', 'FieldLegend', 'FieldGroup', 'FieldContent'] },
   { slug: 'hover-card', title: 'Hover Card', category: 'Overlays', importNames: ['HoverCard', 'HoverCardTrigger', 'HoverCardContent'] },
   { slug: 'input-group', title: 'Input Group', category: 'Inputs', importNames: ['InputGroup', 'InputGroupInput', 'InputGroupAddon'] },
   { slug: 'input-otp', title: 'Input OTP', category: 'Inputs', importNames: ['InputOTP', 'InputOTPGroup', 'InputOTPSlot'] },
@@ -2119,11 +2346,18 @@ const sourceBodyBySlug: Record<string, string> = {
     <EmptyDescription>Every export now has docs.</EmptyDescription>
   </EmptyHeader>
 </Empty>`,
-  field: `<Field>
-  <Label for="email">Email</Label>
-  <Input id="email" name="email" />
-  <FieldDescription>Used for release notifications.</FieldDescription>
-</Field>`,
+  field: `<FieldSet>
+  <FieldLegend>Workspace</FieldLegend>
+  <FieldGroup>
+    <Field orientation="responsive">
+      <FieldContent>
+        <FieldLabel for="workspace">Workspace name</FieldLabel>
+        <FieldDescription>Responsive fields keep copy beside controls.</FieldDescription>
+      </FieldContent>
+      <Input id="workspace" name="workspace" />
+    </Field>
+  </FieldGroup>
+</FieldSet>`,
   'hover-card': `<HoverCard>
   <HoverCardTrigger>Hover RadCN</HoverCardTrigger>
   <HoverCardContent>Server-rendered trigger, browser-enhanced surface.</HoverCardContent>
