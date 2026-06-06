@@ -1275,3 +1275,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 83: Audit aspect-ratio example parity](83-audit-aspect-ratio-example-parity.md)
   — **Partial**
+- [Experiment 84: Implement aspect-ratio example parity depth](84-implement-aspect-ratio-example-parity-depth.md)
+  — **Designed**
