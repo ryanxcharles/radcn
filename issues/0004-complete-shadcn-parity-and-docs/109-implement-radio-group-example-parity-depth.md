@@ -199,3 +199,79 @@ Re-review approved. The reviewer confirmed the prior blocker is resolved, the
 scan is now scoped to files changed by Experiment 109, unrelated existing
 `lucide-static` and `vendor/remix` references will not fail the check, and no
 new blocker was introduced.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `radio-group-demo` parity across docs, candidate fixtures,
+and Playwright evidence. The docs page now renders the upstream three-option
+composition with `Default`, `Comfortable`, and `Compact` labels, ids `r1`,
+`r2`, and `r3`, values `default`, `comfortable`, and `compact`, checked
+`comfortable` default state, exact label associations, row layout evidence for
+`flex items-center gap-3`, source snippet, native radio behavior, public
+group/item/input/indicator hooks, and mapping copy for React props, Radix
+primitives, lucide `CircleIcon`, Tailwind utilities, `cn`, `className`,
+`data-slot`, custom tokens, and vendor source.
+
+The candidate fixture now has a named `radio-group/demo` route with the same
+composition and native selection behavior. Existing default, disabled, invalid,
+form-submit-reset, and custom-token Radio Group scenarios remain covered. The
+Radio Group inventory marks `radio-group-demo` as `Covered`,
+`resolved-clusters.json` records `radio-group` as resolved, and the regenerated
+parity inventory removes Radio Group from unresolved examples.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-state.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic checks for radio-group-example-inventory.md, resolved-clusters.json,
+  parity-inventory.md, changed-file forbidden source imports, and forbidden
+  manifest dependencies
+git diff --exit-code -- pnpm-lock.yaml
+git ls-files vendor
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. The final Playwright runs reported 7 passing native-state
+tests and 5 passing docs coverage tests.
+
+## Conclusion
+
+Radio Group direct example parity is resolved for Issue 4. The next generated
+recommendation is example parity for `separator`.
+
+## Completion Review
+
+Reviewer: Kepler-109 (`codex-review-2026-06-06-radio-group-109`), fresh-context
+Codex subagent `019e9e99-e74f-7bb1-a906-f9534794d7cd`.
+
+The reviewer performed a read-only completion review before the result commit
+and approved with no blocker, major, or minor findings. The review checked that
+the implementation matches the approved scope, the result and conclusion are
+recorded, the issue README status and learnings match the pass result, the
+Radio Group inventory and resolved cluster record mark `radio-group-demo`
+covered, the regenerated parity inventory removes Radio Group from unresolved
+examples and recommends Separator next, workflow hygiene passed, vendor
+checkouts are clean, and the result commit had not yet been made.
+
+The reviewer independently reran:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-state.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+git ls-files vendor
+vendor nested status checks
+deterministic radio-group/parity inventory checks
+```

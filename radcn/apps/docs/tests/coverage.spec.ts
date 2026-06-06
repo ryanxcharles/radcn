@@ -383,6 +383,46 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('Upstream translateX indicator movement maps to equivalent visible percentage progress through indicator width').first()).toBeVisible()
     await expect(page.getByText('Vendor source remains read-only evidence and is not imported by RadCN.').first()).toBeVisible()
 
+    await page.goto('/docs/components/radio-group')
+    let radioGroupDemo = page.locator('[data-radcn-docs-radio-group-family="radio-group-demo"]')
+    let radioGroup = radioGroupDemo.locator('[data-radcn-radio-group]')
+    await expect(radioGroupDemo).toBeVisible()
+    await expect(radioGroup).toHaveAttribute('role', 'radiogroup')
+    await expect(radioGroup).toHaveAttribute('data-name', 'radio-group-demo')
+    await expect(radioGroupDemo.locator('[data-radcn-radio-item]')).toHaveCount(3)
+    await expect(radioGroupDemo.locator('[data-radcn-radio-input]')).toHaveCount(3)
+    await expect(radioGroupDemo.locator('[data-radcn-radio-indicator]')).toHaveCount(3)
+    await expect(radioGroupDemo.locator('[data-radcn-docs-radio-group-row]')).toHaveCount(3)
+    await expect(radioGroupDemo.locator('[data-radcn-docs-radio-group-row]').first()).toHaveClass(/flex/)
+    await expect(radioGroupDemo.locator('[data-radcn-docs-radio-group-row]').first()).toHaveClass(/items-center/)
+    await expect(radioGroupDemo.locator('[data-radcn-docs-radio-group-row]').first()).toHaveClass(/gap-3/)
+    await expect(radioGroupDemo.locator('[data-radcn-docs-radio-group-row]').first()).toHaveCSS('display', 'flex')
+    await expect(radioGroupDemo.locator('[data-radcn-docs-radio-group-row]').first()).toHaveCSS('align-items', 'center')
+    await expect(radioGroupDemo.locator('[data-radcn-docs-radio-group-row]').first()).toHaveCSS('gap', '12px')
+    for (let [label, id, value] of [
+      ['Default', 'r1', 'default'],
+      ['Comfortable', 'r2', 'comfortable'],
+      ['Compact', 'r3', 'compact'],
+    ]) {
+      let input = radioGroupDemo.getByLabel(label, { exact: true })
+      await expect(input).toHaveAttribute('id', id)
+      await expect(input).toHaveAttribute('name', 'radio-group-demo')
+      await expect(input).toHaveAttribute('value', value)
+    }
+    await expect(radioGroupDemo.locator('#r2')).toBeChecked()
+    await expect(radioGroupDemo.locator('[data-radcn-radio-item]').nth(1)).toHaveAttribute('data-state', 'checked')
+    await radioGroupDemo.getByLabel('Compact', { exact: true }).check()
+    await expect(radioGroupDemo.locator('#r3')).toBeChecked()
+    await expect(radioGroupDemo.locator('#r2')).not.toBeChecked()
+    await expect(page.getByText('export function RadioGroupDemo()').first()).toBeVisible()
+    await expect(page.getByText('<RadioGroupItem value="comfortable" id="r2" name="radio-group-demo" checked />').first()).toBeVisible()
+    await expect(page.getByText('use client, React component props, and Radix Radio Group primitives map to server-rendered RadCN markup with native radio inputs.').first()).toBeVisible()
+    await expect(page.getByText('RadioGroupPrimitive.Root maps to data-radcn-radio-group').first()).toBeVisible()
+    await expect(page.getByText('lucide CircleIcon maps to package CSS indicator presentation').first()).toBeVisible()
+    await expect(page.getByText('className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-radio').first()).toBeVisible()
+    await expect(page.getByText('Label htmlFor maps to RadCN Label for while preserving native label/input association.').first()).toBeVisible()
+    await expect(page.getByText('Vendor source remains read-only evidence and is not imported by RadCN.').first()).toBeVisible()
+
     await page.goto('/docs/components/data-table')
     let dataTableDemo = page.locator('[data-radcn-docs-data-table-family="data-table-demo"]')
     await expect(dataTableDemo).toBeVisible()

@@ -156,6 +156,25 @@ export function renderCheckboxFixture(fixture: FixtureScenario) {
 
 export function renderRadioGroupFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return (
+        <div data-candidate-radio-group-family="radio-group-demo">
+          <RadioGroup name="radio-group-demo">
+            <div class="flex items-center gap-3" data-candidate-radio-group-row style="display:flex;align-items:center;gap:0.75rem">
+              <RadioGroupItem id="r1" name="radio-group-demo" value="default" />
+              <Label for="r1">Default</Label>
+            </div>
+            <div class="flex items-center gap-3" data-candidate-radio-group-row style="display:flex;align-items:center;gap:0.75rem">
+              <RadioGroupItem checked id="r2" name="radio-group-demo" value="comfortable" />
+              <Label for="r2">Comfortable</Label>
+            </div>
+            <div class="flex items-center gap-3" data-candidate-radio-group-row style="display:flex;align-items:center;gap:0.75rem">
+              <RadioGroupItem id="r3" name="radio-group-demo" value="compact" />
+              <Label for="r3">Compact</Label>
+            </div>
+          </RadioGroup>
+        </div>
+      )
     case 'disabled':
       return (
         <RadioGroup name="priority">

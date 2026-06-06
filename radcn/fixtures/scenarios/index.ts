@@ -1689,6 +1689,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "radio-group",
+    id: "demo",
+    title: "Radio Group Demo",
+    description: "Upstream three-option radio group demo.",
+  },
+  {
+    component: "radio-group",
     id: "default",
     title: "Default Radio Group",
     description: "Native radio inputs with shared name and labels.",

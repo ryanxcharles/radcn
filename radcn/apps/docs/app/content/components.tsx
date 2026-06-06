@@ -7566,6 +7566,49 @@ function ProgressDemoPreview() {
   )
 }
 
+const radioGroupDemoSource = `import { Label } from 'radcn/label'
+import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'
+
+export function RadioGroupDemo() {
+  return (
+    <RadioGroup name="radio-group-demo">
+      <div class="flex items-center gap-3" style="display:flex;align-items:center;gap:0.75rem;">
+        <RadioGroupItem value="default" id="r1" name="radio-group-demo" />
+        <Label for="r1">Default</Label>
+      </div>
+      <div class="flex items-center gap-3" style="display:flex;align-items:center;gap:0.75rem;">
+        <RadioGroupItem value="comfortable" id="r2" name="radio-group-demo" checked />
+        <Label for="r2">Comfortable</Label>
+      </div>
+      <div class="flex items-center gap-3" style="display:flex;align-items:center;gap:0.75rem;">
+        <RadioGroupItem value="compact" id="r3" name="radio-group-demo" />
+        <Label for="r3">Compact</Label>
+      </div>
+    </RadioGroup>
+  )
+}`
+
+const radioGroupDemoOptions = [
+  ['r1', 'default', 'Default', false],
+  ['r2', 'comfortable', 'Comfortable', true],
+  ['r3', 'compact', 'Compact', false],
+] as const
+
+function RadioGroupDemoPreview() {
+  return () => (
+    <div data-radcn-docs-radio-group-family="radio-group-demo">
+      <RadioGroup name="radio-group-demo">
+        {radioGroupDemoOptions.map(([id, value, label, checked]) => (
+          <div class="flex items-center gap-3" data-radcn-docs-radio-group-row style="display:flex;align-items:center;gap:0.75rem;">
+            <RadioGroupItem checked={checked} id={id} name="radio-group-demo" value={value} />
+            <Label for={id}>{label}</Label>
+          </div>
+        ))}
+      </RadioGroup>
+    </div>
+  )
+}
+
 const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'accordion',
@@ -8857,6 +8900,50 @@ const richComponentDocs: ComponentDoc[] = [
       'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-progress* hooks.',
       'Tailwind w-[60%], bg-primary/20, bg-primary, h-2, rounded-full, overflow-hidden, flex, transition-all, and transform utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
       'Upstream translateX indicator movement maps to equivalent visible percentage progress through indicator width, not literal transform style equivalence.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'radio-group',
+    title: 'Radio Group',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native radio group with labelled options, server-rendered default state, browser selection, and tokenized item styling.',
+    importPath: 'radcn/radio-group',
+    importExample: "import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'radio-group-demo',
+        title: 'Radio Group Demo',
+        description:
+          'Render the upstream Default, Comfortable, and Compact options with Comfortable checked by default.',
+        source: radioGroupDemoSource,
+        preview: <RadioGroupDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'RadioGroup renders a role="radiogroup" wrapper and native radio inputs for browser-owned selection behavior.',
+      'The named demo maps upstream defaultValue="comfortable" to the comfortable native radio being checked in server HTML.',
+      'Each Label uses for to associate Default, Comfortable, and Compact text with ids r1, r2, and r3.',
+      'Native radio inputs preserve keyboard and form behavior without React or Radix state.',
+    ],
+    customization: [
+      'Group, item, input, and indicator parts expose public data-radcn-radio hooks and package classes.',
+      'The upstream flex items-center gap-3 row layout maps to explicit class and style evidence on each option row.',
+      'className maps to class, and apps can customize name, value, checked state, labels, classes, styles, and tokens.',
+      'Existing disabled, invalid, form-submit-reset, and custom-token fixtures remain evidence for broader Radio Group modifiability.',
+    ],
+    divergence: [
+      'use client, React component props, and Radix Radio Group primitives map to server-rendered RadCN markup with native radio inputs.',
+      'RadioGroupPrimitive.Root maps to data-radcn-radio-group with role="radiogroup"; RadioGroupPrimitive.Item maps to RadioGroupItem; RadioGroupPrimitive.Indicator maps to data-radcn-radio-indicator.',
+      'lucide CircleIcon maps to package CSS indicator presentation, not a lucide-react dependency.',
+      'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-radio* hooks.',
+      'Tailwind grid, gap, flex, items-center, size, rounded-full, border, focus, disabled, invalid, fill, translate, and transition utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
+      'Label htmlFor maps to RadCN Label for while preserving native label/input association.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

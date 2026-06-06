@@ -107,6 +107,38 @@ test('candidate label covers named upstream demo composition', async ({ page }) 
 })
 
 test('candidate radio group exposes native radios hooks and forms', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/radio-group/demo`)
+  let demo = page.locator('[data-candidate-radio-group-family="radio-group-demo"]')
+  let demoGroup = demo.locator('[data-radcn-radio-group]')
+  await expect(demo).toBeVisible()
+  await expect(demoGroup).toHaveAttribute('role', 'radiogroup')
+  await expect(demoGroup).toHaveAttribute('data-name', 'radio-group-demo')
+  await expect(demo.locator('[data-radcn-radio-item]')).toHaveCount(3)
+  await expect(demo.locator('[data-radcn-radio-input]')).toHaveCount(3)
+  await expect(demo.locator('[data-radcn-radio-indicator]')).toHaveCount(3)
+  await expect(demo.locator('[data-candidate-radio-group-row]')).toHaveCount(3)
+  await expect(demo.locator('[data-candidate-radio-group-row]').first()).toHaveClass(/flex/)
+  await expect(demo.locator('[data-candidate-radio-group-row]').first()).toHaveClass(/items-center/)
+  await expect(demo.locator('[data-candidate-radio-group-row]').first()).toHaveClass(/gap-3/)
+  await expect(demo.locator('[data-candidate-radio-group-row]').first()).toHaveCSS('display', 'flex')
+  await expect(demo.locator('[data-candidate-radio-group-row]').first()).toHaveCSS('align-items', 'center')
+  await expect(demo.locator('[data-candidate-radio-group-row]').first()).toHaveCSS('gap', '12px')
+  for (let [label, id, value] of [
+    ['Default', 'r1', 'default'],
+    ['Comfortable', 'r2', 'comfortable'],
+    ['Compact', 'r3', 'compact'],
+  ]) {
+    let input = demo.getByLabel(label, { exact: true })
+    await expect(input).toHaveAttribute('id', id)
+    await expect(input).toHaveAttribute('name', 'radio-group-demo')
+    await expect(input).toHaveAttribute('value', value)
+  }
+  await expect(demo.locator('#r2')).toBeChecked()
+  await expect(demo.locator('[data-radcn-radio-item]').nth(1)).toHaveAttribute('data-state', 'checked')
+  await demo.getByLabel('Compact', { exact: true }).check()
+  await expect(demo.locator('#r3')).toBeChecked()
+  await expect(demo.locator('#r2')).not.toBeChecked()
+
   await page.goto(`${candidate}/fixtures/radio-group/default`)
   let group = page.locator('[data-radcn-radio-group]')
   await expect(group).toHaveAttribute('role', 'radiogroup')

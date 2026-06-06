@@ -465,6 +465,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/107-implement-progress-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/progress-example-inventory.md"
       ]
+    },
+    {
+      "slug": "radio-group",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/108-audit-radio-group-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/109-implement-radio-group-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/radio-group-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

@@ -1453,6 +1453,19 @@ Record cross-component discoveries here as experiments complete.
   demo with `Default`, `Comfortable`, and `Compact` labels, ids `r1`, `r2`,
   and `r3`, and row layout mapping. The next experiment should implement named
   `radio-group-demo` docs, candidate fixture, and Playwright coverage.
+- Experiment 109 implemented named `radio-group-demo` parity and updated
+  `radio-group-example-inventory.md` to `Covered`. The docs site now has a
+  rich Radio Group page with exact source, `Default`, `Comfortable`, and
+  `Compact` labels, ids `r1`, `r2`, and `r3`, values `default`,
+  `comfortable`, and `compact`, checked `comfortable` default state, row layout
+  evidence for `flex items-center gap-3`, label associations, native selection
+  behavior, public hooks, and mapping copy for React props, Radix primitives,
+  lucide `CircleIcon`, Tailwind utilities, `cn`, `className`, `data-slot`,
+  custom tokens, and vendor source. The candidate fixture now has
+  `radio-group/demo` with matching composition while existing disabled,
+  invalid, form, and custom-token scenarios remain covered. `radio-group` is
+  resolved in the example queue; the next generated recommendation is example
+  parity for `separator`.
 
 ## Experiments
 
@@ -1673,4 +1686,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 108: Audit radio-group example parity](108-audit-radio-group-example-parity.md)
   — **Partial**
 - [Experiment 109: Implement radio-group example parity depth](109-implement-radio-group-example-parity-depth.md)
-  — **Designed**
+  — **Pass**
