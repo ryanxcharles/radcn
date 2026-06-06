@@ -62,6 +62,57 @@ test('candidate toaster covers actions dismiss stack and custom tokens', async (
   await expect(page.locator('[data-radcn-toast]')).toHaveCSS('background-color', 'rgb(240, 253, 250)')
 })
 
+test('candidate toaster covers named sonner demo and type examples', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/sonner/demo`)
+  await expect(page.locator('[data-radcn-sonner-recipe="demo"]')).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Notifications' })).toHaveAttribute('data-radcn-toaster', '')
+  await expect(page.locator('[data-radcn-toast]')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Show Toast' }).click()
+  await expect(page.getByRole('status', { name: /Event has been created/ })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast]')).toHaveAttribute('data-type', 'default')
+  await expect(page.locator('[data-radcn-toast-title]')).toHaveText('Event has been created')
+  await expect(page.locator('[data-radcn-toast-description]')).toHaveText('Sunday, December 03, 2023 at 9:00 AM')
+  await expect(page.locator('[data-radcn-toast-action]')).toHaveText('Undo')
+  await expect(page.locator('[data-radcn-toast-action]')).toHaveAttribute('href', '/fixtures/sonner/demo?undo=1')
+
+  await page.goto(`${candidate}/fixtures/sonner/types`)
+  await expect(page.locator('[data-radcn-sonner-recipe="types"]')).toBeVisible()
+  await expect(page.locator('[data-radcn-sonner-promise-mapping]')).toContainText('toast.promise maps to app-owned orchestration')
+  await expect(page.locator('[data-radcn-sonner-promise-mapping]')).toContainText('Event has been created')
+  await expect(page.locator('[data-radcn-sonner-promise-mapping]')).toContainText('Error')
+  await expect(page.getByRole('region', { name: 'Notifications' })).toHaveAttribute('data-radcn-toaster', '')
+  await expect(page.locator('[data-radcn-toast]')).toHaveCount(0)
+
+  for (let label of ['Default', 'Success', 'Info', 'Warning', 'Error', 'Promise']) {
+    await expect(page.getByRole('button', { name: label })).toBeVisible()
+  }
+
+  await page.getByRole('button', { name: 'Default' }).click()
+  await expect(page.getByRole('status', { name: 'Event has been created' }).last()).toBeVisible()
+  await expect(page.locator('[data-radcn-toast]').last()).toHaveAttribute('data-type', 'default')
+
+  await page.getByRole('button', { name: 'Success' }).click()
+  await expect(page.getByRole('status', { name: 'Event has been created' }).last()).toBeVisible()
+  await expect(page.locator('[data-radcn-toast]').last()).toHaveAttribute('data-type', 'success')
+
+  await page.getByRole('button', { name: 'Info' }).click()
+  await expect(page.getByRole('status', { name: 'Be at the area 10 minutes before the event time' })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast]').last()).toHaveAttribute('data-type', 'info')
+
+  await page.getByRole('button', { name: 'Warning' }).click()
+  await expect(page.getByRole('alert', { name: 'Event start time cannot be earlier than 8am' })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast]').last()).toHaveAttribute('data-type', 'warning')
+
+  await page.getByRole('button', { name: 'Error' }).click()
+  await expect(page.getByRole('alert', { name: 'Event has not been created' })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast]').last()).toHaveAttribute('data-type', 'error')
+
+  await page.getByRole('button', { name: 'Promise' }).click()
+  await expect(page.getByRole('status', { name: 'Loading...' })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast]').last()).toHaveAttribute('data-type', 'loading')
+  await expect(page.locator('[data-radcn-toast]')).toHaveCount(6)
+})
+
 test('candidate toast event dispatches browser notifications', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/toast/event`)
   await expect(page.locator('[data-radcn-toast]')).toHaveCount(0)

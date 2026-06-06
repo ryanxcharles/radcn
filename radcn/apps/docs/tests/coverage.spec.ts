@@ -462,6 +462,37 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('Current upstream sonner examples are tracked separately').first()).toBeVisible()
     await expect(page.getByText('does not depend on React, Sonner, lucide, next-themes').first()).toBeVisible()
 
+    await page.goto('/docs/components/sonner')
+    for (let slug of ['sonner-demo', 'sonner-types']) {
+      await expect(page.locator(`[data-radcn-docs-sonner-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-demo"] [data-radcn-button]')).toHaveText('Show Toast')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-demo"] [data-radcn-toast-title]')).toHaveText('Event has been created')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-demo"] [data-radcn-toast-description]')).toHaveText('Sunday, December 03, 2023 at 9:00 AM')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-demo"] [data-radcn-toast-action]')).toHaveText('Undo')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-demo"] [data-radcn-toast]')).toHaveAttribute('role', 'status')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-types"] [data-radcn-button]')).toHaveText([
+      'Default',
+      'Success',
+      'Info',
+      'Warning',
+      'Error',
+      'Promise',
+    ])
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-types"] [data-radcn-toast]')).toHaveCount(6)
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-types"] [data-radcn-toast][data-type="success"]')).toContainText('Event has been created')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-types"] [data-radcn-toast][data-type="info"]')).toContainText('Be at the area 10 minutes before the event time')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-types"] [data-radcn-toast][data-type="warning"]')).toHaveAttribute('role', 'alert')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-types"] [data-radcn-toast][data-type="warning"]')).toContainText('Event start time cannot be earlier than 8am')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-types"] [data-radcn-toast][data-type="error"]')).toHaveAttribute('role', 'alert')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-types"] [data-radcn-toast][data-type="error"]')).toContainText('Event has not been created')
+    await expect(page.locator('[data-radcn-docs-sonner-family="sonner-types"] [data-radcn-toast][data-type="loading"]')).toContainText('Loading...')
+    await expect(page.getByText('toast.promise maps to app-owned orchestration').first()).toBeVisible()
+    await expect(page.getByText('success message Event has been created or error message Error').first()).toBeVisible()
+    await expect(page.getByText('upstream sonner package, next-themes, lucide icons').first()).toBeVisible()
+    await expect(page.getByText('Custom classes, styles, and tokens attach to public RadCN hooks').first()).toBeVisible()
+    await expect(page.getByText('Button composition stays explicit').first()).toBeVisible()
+
     await page.goto('/docs/components/dialog')
     for (let slug of [
       'dialog-demo',

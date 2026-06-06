@@ -1023,6 +1023,20 @@ Record cross-component discoveries here as experiments complete.
   because docs, fixtures, and tests do not yet prove the named `sonner-demo`
   and `sonner-types` upstream Button trigger compositions, exact messages,
   action label, all six type triggers, or promise-loading flow.
+- Experiment 78 resolved Sonner example parity for `sonner-demo` and
+  `sonner-types`. Docs, candidate fixtures, and Playwright now prove exact
+  Button trigger labels, exact upstream notification messages, date
+  description, `Undo` action label, default/success/info/warning/error/loading
+  data-type hooks, status/alert role semantics, public Toaster/toast/action
+  hooks, and dependency absence. `toast.promise` maps to app-owned orchestration
+  rather than a package API: apps dispatch `Loading...`, then dispatch
+  `Event has been created` or `Error` from their own promise branch. No
+  package API or metadata change was needed; React handlers, Sonner APIs,
+  next-themes, lucide icons, Tailwind utilities, `className`, `data-slot`,
+  `cn`, action callbacks, custom tokens, and vendor source remain documented
+  mappings or app-owned concerns. `sonner-example-inventory.md` marks both rows
+  `Covered`, `resolved-clusters.json` records `sonner` as resolved, and the
+  regenerated parity inventory recommends auditing `accordion` examples next.
 
 ## Experiments
 
@@ -1181,4 +1195,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 77: Audit sonner example parity](77-audit-sonner-example-parity.md)
   — **Partial**
 - [Experiment 78: Implement sonner example parity depth](78-implement-sonner-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

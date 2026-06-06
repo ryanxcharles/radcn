@@ -148,6 +148,7 @@ These are documented in RadCN but are not current package exports.
 | examples | select | resolved | `issues/0004-complete-shadcn-parity-and-docs/71-audit-select-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/72-implement-select-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/select-example-inventory.md` |
 | examples | sheet | resolved | `issues/0004-complete-shadcn-parity-and-docs/73-audit-sheet-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/74-implement-sheet-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/sheet-example-inventory.md` |
 | examples | skeleton | resolved | `issues/0004-complete-shadcn-parity-and-docs/75-audit-skeleton-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/76-implement-skeleton-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/skeleton-example-inventory.md` |
+| examples | sonner | resolved | `issues/0004-complete-shadcn-parity-and-docs/77-audit-sonner-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/78-implement-sonner-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/sonner-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -246,7 +247,6 @@ parity decision.
 | radio-group | 1 | `radio-group-demo` |
 | separator | 1 | `separator-demo` |
 | slider | 1 | `slider-demo` |
-| sonner | 2 | `sonner-demo`, `sonner-types` |
 | switch | 1 | `switch-demo` |
 | table | 1 | `table-demo` |
 | tabs | 1 | `tabs-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for sonner
+**Cluster:** Example parity for accordion
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for sonner.
+- Audit upstream examples for accordion.
 
 ## Notes
 

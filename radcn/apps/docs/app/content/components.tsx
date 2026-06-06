@@ -1685,20 +1685,48 @@ export function TabsPreview() {
   )
 }`
 
-const sonnerSource = `import { Toaster } from 'radcn/sonner'
+const sonnerSource = `import { Button } from 'radcn/button'
+import { Toaster } from 'radcn/sonner'
 
 export function SonnerPreview() {
   return (
-    <Toaster
-      position="bottom-right"
-      toasts={[
-        {
-          description: 'The docs preview renders a package toast.',
-          title: 'Build complete',
-          type: 'success',
-        },
-      ]}
-    />
+    <div class="sonner-examples">
+      <section data-radcn-docs-sonner-family="sonner-demo">
+        <span
+          data-radcn-toast-trigger
+          data-toast-action-label="Undo"
+          data-toast-action-url="#undo"
+          data-toast-description="Sunday, December 03, 2023 at 9:00 AM"
+          data-toast-duration="0"
+          data-toast-title="Event has been created"
+        >
+          <Button variant="outline">Show Toast</Button>
+        </span>
+        <Toaster defaultDuration={0} />
+      </section>
+
+      <section data-radcn-docs-sonner-family="sonner-types">
+        <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Event has been created">
+          <Button variant="outline">Default</Button>
+        </span>
+        <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Event has been created" data-toast-type="success">
+          <Button variant="outline">Success</Button>
+        </span>
+        <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Be at the area 10 minutes before the event time" data-toast-type="info">
+          <Button variant="outline">Info</Button>
+        </span>
+        <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Event start time cannot be earlier than 8am" data-toast-type="warning">
+          <Button variant="outline">Warning</Button>
+        </span>
+        <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Event has not been created" data-toast-type="error">
+          <Button variant="outline">Error</Button>
+        </span>
+        <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Loading..." data-toast-type="loading">
+          <Button variant="outline">Promise</Button>
+        </span>
+        <Toaster defaultDuration={0} />
+      </section>
+    </div>
   )
 }`
 
@@ -4427,28 +4455,80 @@ function TabsPreview() {
 
 function SonnerPreview() {
   return () => (
-    <div mix={previewStackStyle}>
-      <Toaster
-        defaultDuration={0}
-        position="bottom-right"
-        style="position: static; width: min(100%, 28rem);"
-        toasts={[
-          {
-            description: 'The docs preview renders a package toast.',
-            id: 'docs-toast-build',
-            title: 'Build complete',
-            type: 'success',
-          },
-          {
-            actionLabel: 'View',
-            actionUrl: '#preview',
-            description: 'The next deploy is waiting on review.',
-            id: 'docs-toast-queue',
-            title: 'Queued deploy',
-            type: 'info',
-          },
-        ]}
-      />
+    <div style="display:grid;gap:1rem;width:min(100%,42rem)">
+      <div data-radcn-docs-sonner-family="sonner-demo" mix={previewFieldStyle}>
+        <span
+          data-radcn-toast-trigger
+          data-toast-action-label="Undo"
+          data-toast-action-url="#undo"
+          data-toast-description="Sunday, December 03, 2023 at 9:00 AM"
+          data-toast-duration="0"
+          data-toast-title="Event has been created"
+        >
+          <Button variant="outline">Show Toast</Button>
+        </span>
+        <Toaster
+          defaultDuration={0}
+          position="bottom-right"
+          style="position: static; width: min(100%, 28rem);"
+          toasts={[{
+            actionLabel: 'Undo',
+            actionUrl: '#undo',
+            description: 'Sunday, December 03, 2023 at 9:00 AM',
+            id: 'docs-sonner-demo',
+            title: 'Event has been created',
+            type: 'default',
+          }]}
+        />
+        <p style="margin:0;color:var(--radcn-docs-muted);font-size:0.875rem;">
+          React onClick plus sonner toast maps to a native Button trigger,
+          RadCN toast event payload, and app-owned action callback behavior.
+          The upstream console.log Undo callback is represented as explicit app
+          behavior through actionLabel/actionUrl.
+        </p>
+      </div>
+
+      <div data-radcn-docs-sonner-family="sonner-types" mix={previewFieldStyle}>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+          <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Event has been created">
+            <Button variant="outline">Default</Button>
+          </span>
+          <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Event has been created" data-toast-type="success">
+            <Button variant="outline">Success</Button>
+          </span>
+          <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Be at the area 10 minutes before the event time" data-toast-type="info">
+            <Button variant="outline">Info</Button>
+          </span>
+          <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Event start time cannot be earlier than 8am" data-toast-type="warning">
+            <Button variant="outline">Warning</Button>
+          </span>
+          <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Event has not been created" data-toast-type="error">
+            <Button variant="outline">Error</Button>
+          </span>
+          <span data-radcn-toast-trigger data-toast-duration="0" data-toast-title="Loading..." data-toast-type="loading">
+            <Button variant="outline">Promise</Button>
+          </span>
+        </div>
+        <Toaster
+          defaultDuration={0}
+          position="bottom-right"
+          style="position: static; width: min(100%, 28rem);"
+          toasts={[
+            { id: 'docs-sonner-type-default', title: 'Event has been created', type: 'default' },
+            { id: 'docs-sonner-type-success', title: 'Event has been created', type: 'success' },
+            { id: 'docs-sonner-type-info', title: 'Be at the area 10 minutes before the event time', type: 'info' },
+            { id: 'docs-sonner-type-warning', title: 'Event start time cannot be earlier than 8am', type: 'warning' },
+            { id: 'docs-sonner-type-error', title: 'Event has not been created', type: 'error' },
+            { description: 'Event has been created; Error', id: 'docs-sonner-type-promise', title: 'Loading...', type: 'loading' },
+          ]}
+        />
+        <p style="margin:0;color:var(--radcn-docs-muted);font-size:0.875rem;">
+          toast, toast.success, toast.info, toast.warning, toast.error, and
+          toast.promise map to explicit RadCN event payloads. toast.promise
+          maps to app-owned orchestration that dispatches loading, then the
+          success message Event has been created or error message Error.
+        </p>
+      </div>
     </div>
   )
 }
@@ -7170,10 +7250,10 @@ const richComponentDocs: ComponentDoc[] = [
     install: 'pnpm add radcn # intended future package',
     examples: [
       {
-        slug: 'static-toasts',
-        title: 'Static Toasts',
+        slug: 'sonner-demo-and-types',
+        title: 'Demo and Types',
         description:
-          'Render initial notifications from package data and let browser enhancement handle future toast events.',
+          'Map the active shadcn Sonner examples to native Button triggers, RadCN toast events, and server-rendered Toaster evidence.',
         source: sonnerSource,
         preview: <SonnerPreview />,
       },
@@ -7182,14 +7262,19 @@ const richComponentDocs: ComponentDoc[] = [
       'Renders a named notification region containing list items with status or alert roles.',
       'Toast urgency controls aria-live politeness through the toast type.',
       'Dismiss controls are native buttons when a toast is dismissible.',
+      'Default, success, info, and loading notifications use status semantics; warning and error use alert semantics.',
     ],
     customization: [
       'Toast position, type, action, and dismissibility are data-driven through Toaster props.',
       'The list, toast, icon, body, title, description, action, and dismiss parts expose stable classes and data hooks.',
+      'Button composition stays explicit: wrap any RadCN Button in a data-radcn-toast-trigger host to dispatch a toast payload.',
+      'Custom classes, styles, and tokens attach to public RadCN hooks instead of upstream className, data-slot, cn, or Tailwind utility internals.',
     ],
     divergence: [
       'RadCN keeps the event bridge explicit with enhanceToaster and the RadCN toast event instead of React context.',
       'Initial toasts can be server-rendered, while later notifications are appended by browser enhancement.',
+      'The upstream sonner package, next-themes, lucide icons, React client markers, React onClick handlers, console.log callbacks, vendor source, and Tailwind utilities are documented mappings or app-owned concerns, not RadCN dependencies.',
+      'toast.promise maps to app-owned orchestration: dispatch a loading toast, then dispatch the success or error notification from the app promise branch.',
     ],
   },
   {

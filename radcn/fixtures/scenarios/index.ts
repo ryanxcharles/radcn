@@ -1275,6 +1275,18 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "sonner",
+    id: "demo",
+    title: "Sonner Demo",
+    description: "Named shadcn Sonner demo with Show Toast action and event details.",
+  },
+  {
+    component: "sonner",
+    id: "types",
+    title: "Sonner Types",
+    description: "Named shadcn Sonner type buttons with default, variant, and promise mappings.",
+  },
+  {
+    component: "sonner",
     id: "success",
     title: "Success Toast",
     description: "Success notification variant with icon and message hooks.",
