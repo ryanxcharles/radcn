@@ -1335,6 +1335,30 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "resizable",
+    id: "demo",
+    title: "Resizable Demo",
+    description: "Upstream nested horizontal and vertical resizable panels.",
+  },
+  {
+    component: "resizable",
+    id: "demo-with-handle",
+    title: "Resizable Demo With Handle",
+    description: "Upstream nested resizable panels with visible handle grips.",
+  },
+  {
+    component: "resizable",
+    id: "handle",
+    title: "Resizable Handle Example",
+    description: "Upstream horizontal Sidebar and Content panels with handle grip.",
+  },
+  {
+    component: "resizable",
+    id: "vertical-upstream",
+    title: "Resizable Vertical Example",
+    description: "Upstream vertical Header and Content panels.",
+  },
+  {
+    component: "resizable",
     id: "default",
     title: "Resizable Panels",
     description: "Horizontal resizable panel group with semantic handle.",

@@ -205,6 +205,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/50-implement-native-select-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/native-select-example-inventory.md"
       ]
+    },
+    {
+      "slug": "resizable",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/51-audit-resizable-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/52-implement-resizable-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/resizable-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

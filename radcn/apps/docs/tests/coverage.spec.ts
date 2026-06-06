@@ -414,6 +414,36 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('Browser-native option popup rendering is intentionally not forced').first()).toBeVisible()
     await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
 
+    await page.goto('/docs/components/resizable')
+    for (let slug of [
+      'resizable-demo',
+      'resizable-demo-with-handle',
+      'resizable-handle',
+      'resizable-vertical',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-resizable-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-resizable-family="resizable-demo"] [data-radcn-resizable-panel-group]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-docs-resizable-family="resizable-demo"] [data-radcn-resizable-handle]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-docs-resizable-family="resizable-demo"] [data-radcn-resizable-handle-grip]')).toHaveCount(0)
+    await expect(page.locator('[data-radcn-docs-resizable-family="resizable-demo-with-handle"] [data-radcn-resizable-handle-grip]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-docs-resizable-family="resizable-handle"] [data-radcn-resizable-panel]').first()).toHaveAttribute('data-size', '25')
+    await expect(page.locator('[data-radcn-docs-resizable-family="resizable-vertical"] [data-radcn-resizable-panel-group]')).toHaveAttribute('data-orientation', 'vertical')
+    await expect(page.getByText('ResizablePanelGroup').first()).toBeVisible()
+    await expect(page.getByText('ResizablePanel').first()).toBeVisible()
+    await expect(page.getByText('ResizableHandle').first()).toBeVisible()
+    await expect(page.getByText('radcn-resizable-change').first()).toBeVisible()
+    await expect(page.getByText('aria-orientation').first()).toBeVisible()
+    await expect(page.getByText('--radcn-resizable-border').first()).toBeVisible()
+    await expect(page.getByText('react-resizable-panels mechanics map to RadCN dependency-free').first()).toBeVisible()
+    await expect(page.getByText('defaultSize, minSize, orientation, and withHandle map to explicit RadCN props').first()).toBeVisible()
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to data-radcn-resizable-* hooks').first()).toBeVisible()
+    await expect(page.getByText('GripVerticalIcon and lucide-react are app-owned presentation').first()).toBeVisible()
+    await expect(page.getByText('Tailwind utilities map to class, style, CSS variables').first()).toBeVisible()
+    await expect(page.getByText('Nested panel groups are supported as independent groups').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/chart')
     await expect(page.locator('[data-radcn-chart]')).toHaveCount(5)
     await expect(page.locator('[data-radcn-chart-grid]')).toHaveCount(20)

@@ -135,6 +135,7 @@ These are documented in RadCN but are not current package exports.
 | examples | dropdown-menu | resolved | `issues/0004-complete-shadcn-parity-and-docs/45-audit-dropdown-menu-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/46-implement-dropdown-menu-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/dropdown-menu-example-inventory.md` |
 | examples | input-otp | resolved | `issues/0004-complete-shadcn-parity-and-docs/47-audit-input-otp-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/48-implement-input-otp-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/input-otp-example-inventory.md` |
 | examples | native-select | resolved | `issues/0004-complete-shadcn-parity-and-docs/49-audit-native-select-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/50-implement-native-select-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/native-select-example-inventory.md` |
+| examples | resizable | resolved | `issues/0004-complete-shadcn-parity-and-docs/51-audit-resizable-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/52-implement-resizable-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/resizable-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -239,7 +240,6 @@ parity decision.
 | popover | 1 | `popover-demo` |
 | progress | 1 | `progress-demo` |
 | radio-group | 1 | `radio-group-demo` |
-| resizable | 4 | `resizable-demo`, `resizable-demo-with-handle`, `resizable-handle`, `resizable-vertical` |
 | scroll-area | 2 | `scroll-area-demo`, `scroll-area-horizontal-demo` |
 | select | 2 | `select-demo`, `select-scrollable` |
 | separator | 1 | `separator-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for resizable
+**Cluster:** Example parity for checkbox
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for resizable.
+- Audit upstream examples for checkbox.
 
 ## Notes
 

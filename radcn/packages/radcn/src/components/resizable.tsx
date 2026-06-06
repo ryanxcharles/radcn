@@ -36,8 +36,9 @@ function clamp(value: number, min = 10, max = 90) {
 function setupResizableGroup(group: HTMLElement) {
   if (group.dataset.radcnResizableReady === 'true') return
   let orientation = group.dataset.orientation === 'vertical' ? 'vertical' : 'horizontal'
-  let panels = Array.from(group.querySelectorAll<HTMLElement>('[data-radcn-resizable-panel]'))
-  let handles = Array.from(group.querySelectorAll<HTMLElement>('[data-radcn-resizable-handle]'))
+  let children = Array.from(group.children)
+  let panels = children.filter((child): child is HTMLElement => child instanceof HTMLElement && child.matches('[data-radcn-resizable-panel]'))
+  let handles = children.filter((child): child is HTMLElement => child instanceof HTMLElement && child.matches('[data-radcn-resizable-handle]'))
   if (panels.length === 0) return
 
   function applySizes(sizes: number[]) {

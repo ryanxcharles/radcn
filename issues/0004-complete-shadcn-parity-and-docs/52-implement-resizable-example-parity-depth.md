@@ -285,3 +285,110 @@ cluster, package changes are allowed only for a discovered nested-group
 blocker, verification has concrete typecheck, Playwright, inventory,
 dependency, hygiene, and vendor checks, no implementation has started before
 the plan commit, and the plan directly addresses the Experiment 51 audit gaps.
+
+## Result
+
+**Result:** Pass
+
+Implemented all four active upstream Resizable examples as named RadCN docs,
+candidate fixture, scenario, and Playwright surfaces:
+
+- `resizable-demo`
+- `resizable-demo-with-handle`
+- `resizable-handle`
+- `resizable-vertical`
+
+The implementation discovered the nested-group blocker anticipated in the plan:
+`setupResizableGroup()` was collecting descendant panels and handles instead of
+only direct children, so an outer group could claim nested group members. The
+package fix is narrow and keeps the public API unchanged: each group now owns
+only its direct child panels and handles before applying sizes, ARIA state,
+keyboard behavior, pointer dragging, and `radcn-resizable-change` updates.
+
+Docs now render authored Resizable content with stable
+`data-radcn-docs-resizable-family` hooks for every named example, mapping copy
+for `ResizablePanelGroup`, `ResizablePanel`, `ResizableHandle`,
+`defaultSize`, `minSize`, `orientation`, `withHandle`, `className`,
+`data-slot`, Tailwind, `react-resizable-panels`, `GripVerticalIcon`,
+`lucide-react`, nested groups, public hooks, and RadCN's dependency-free
+enhancement model. Candidate fixtures expose the same named routes with nested,
+handle, and vertical examples.
+
+Fixture Playwright coverage now proves nested groups are independent, outer and
+nested handles update only their own group sizing, the named demo has two plain
+handles and no grips, the handle variant has a visible grip, horizontal and
+vertical separator semantics are present, and keyboard resizing updates ARIA
+values. Docs Playwright coverage proves the four docs example families and the
+required mapping text.
+
+Updated `resizable-example-inventory.md` to mark all four rows `Covered`, added
+`resizable` to `resolved-clusters.json`, and regenerated
+`parity-inventory.md`. The regenerated inventory no longer lists Resizable as
+unresolved and now recommends `Example parity for checkbox` as the next
+cluster.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts application-shell.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Additional deterministic Node checks passed for:
+
+- all four Resizable inventory rows appearing exactly once and marked
+  `Covered`;
+- `resolved-clusters.json` containing `resizable` with evidence for
+  Experiments 51 and 52 plus `resizable-example-inventory.md`;
+- `parity-inventory.md` excluding `resizable` from unresolved examples and no
+  longer recommending Resizable first;
+- no forbidden imports from React, `react-resizable-panels`, `lucide-react`,
+  Radix, Tailwind, or `vendor/`;
+- no forbidden dependencies in the RadCN package, docs app, or candidate
+  fixture manifests.
+
+The first fixture Playwright run failed because assertions for `Sidebar` and
+`Content` matched route metadata in addition to panel text. The test was fixed
+by scoping those assertions to Resizable panel locators, then the fixture suite
+passed. Playwright emitted existing runtime warnings for `module.register()` and
+`NO_COLOR`/`FORCE_COLOR`; neither warning changed the pass result.
+
+Vendor status printed no output.
+
+## Conclusion
+
+Resizable example parity is resolved for Issue 4. RadCN covers the four active
+upstream Resizable examples with package behavior, docs, fixtures, Playwright
+coverage, inventory evidence, and no new dependencies.
+
+The package-level learning is that grouped layout primitives must scope their
+owned parts to direct children before enhancing behavior. Descendant matching is
+too broad for nested composition, even when selectors look component-specific.
+
+The next generated Issue 4 recommendation is `Example parity for checkbox`.
+
+## Completion Review
+
+Reviewer: Mill the 2nd (`019e9c15-c695-7551-b735-b94fdc22d296`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the
+experiment has `Result` and `Conclusion`, the Issue 4 README marks Experiment
+52 `Pass` and records the Resizable learning, the package fix is direct-child
+scoped and narrow, docs hooks cover all four named examples, fixtures and tests
+cover nested/handle/vertical cases, inventory rows are all `Covered`,
+`resolved-clusters.json` records the cluster, the result commit had not been
+made yet, and no blocker, major, or minor findings remain.
+
+The reviewer also reran the main verification successfully: package/docs/
+fixture typechecks, fixture Playwright, docs Playwright, deterministic
+inventory/resolved-cluster/dependency checks, `git diff --check`, and vendor
+status.

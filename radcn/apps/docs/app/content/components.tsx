@@ -2578,6 +2578,82 @@ function NativeSelectPreview() {
   )
 }
 
+const resizableSource = `import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'radcn/resizable'
+
+export function ResizableExamples() {
+  return (
+    <>
+      <ResizablePanelGroup orientation="horizontal">
+        <ResizablePanel defaultSize={50}>One</ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize={50}>
+          <ResizablePanelGroup orientation="vertical">
+            <ResizablePanel defaultSize={25}>Two</ResizablePanel>
+            <ResizableHandle />
+            <ResizablePanel defaultSize={75}>Three</ResizablePanel>
+          </ResizablePanelGroup>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+
+      <ResizablePanelGroup orientation="horizontal">
+        <ResizablePanel defaultSize={25}>Sidebar</ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={75}>Content</ResizablePanel>
+      </ResizablePanelGroup>
+    </>
+  )
+}`
+
+function ResizablePanelContent({ children }: { children: string }) {
+  return <div class="radcn-fixture-panel">{children}</div>
+}
+
+function ResizableNestedExample({ withHandle = false }: { withHandle?: boolean }) {
+  return (
+    <ResizablePanelGroup orientation="horizontal" style="width:min(100%,28rem);min-height:12.5rem">
+      <ResizablePanel defaultSize={50}>{ResizablePanelContent({ children: 'One' })}</ResizablePanel>
+      <ResizableHandle withHandle={withHandle} />
+      <ResizablePanel defaultSize={50}>
+        <ResizablePanelGroup orientation="vertical" style="width:100%;min-height:100%;border:0;border-radius:0">
+          <ResizablePanel defaultSize={25}>{ResizablePanelContent({ children: 'Two' })}</ResizablePanel>
+          <ResizableHandle withHandle={withHandle} />
+          <ResizablePanel defaultSize={75}>{ResizablePanelContent({ children: 'Three' })}</ResizablePanel>
+        </ResizablePanelGroup>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+
+function ResizablePreview() {
+  return () => (
+    <div style="display:grid;gap:1.25rem;width:min(100%,42rem)">
+      <div data-radcn-docs-resizable-family="resizable-demo">
+        {ResizableNestedExample({})}
+      </div>
+
+      <div data-radcn-docs-resizable-family="resizable-demo-with-handle">
+        {ResizableNestedExample({ withHandle: true })}
+      </div>
+
+      <div data-radcn-docs-resizable-family="resizable-handle">
+        <ResizablePanelGroup orientation="horizontal" style="width:min(100%,28rem);min-height:12.5rem">
+          <ResizablePanel defaultSize={25}>{ResizablePanelContent({ children: 'Sidebar' })}</ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={75}>{ResizablePanelContent({ children: 'Content' })}</ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
+
+      <div data-radcn-docs-resizable-family="resizable-vertical">
+        <ResizablePanelGroup orientation="vertical" style="width:min(100%,28rem);min-height:12.5rem">
+          <ResizablePanel defaultSize={25}>{ResizablePanelContent({ children: 'Header' })}</ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize={75}>{ResizablePanelContent({ children: 'Content' })}</ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
+    </div>
+  )
+}
+
 function InputPreview() {
   return () => (
     <div style="display:grid;gap:1rem;width:min(100%,42rem)">
@@ -4653,6 +4729,50 @@ const richComponentDocs: ComponentDoc[] = [
       'ChevronDownIcon and lucide-react are app-owned presentation; RadCN keeps a dependency-free decorative icon span.',
       'Tailwind utilities map to RadCN classes, CSS variables, and app-authored CSS.',
       'Browser-native option popup rendering is intentionally not forced into DOM parity.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'resizable',
+    title: 'Resizable',
+    category: 'Composite',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free split-panel primitive with semantic handles, keyboard resizing, pointer resizing, and nested group support.',
+    importPath: 'radcn/resizable',
+    importExample:
+      "import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from 'radcn/resizable'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the four upstream Resizable examples with nested groups, grip handles, and horizontal or vertical panel layouts.',
+        source: resizableSource,
+        preview: <ResizablePreview />,
+      },
+    ],
+    accessibility: [
+      'ResizableHandle renders role="separator" and enhancement adds aria-orientation, aria-valuemin, aria-valuemax, and aria-valuenow.',
+      'Keyboard resizing uses arrow keys, Home, End, and Shift-modified larger steps without requiring React state.',
+      'Pointer resizing and keyboard resizing both emit radcn-resizable-change for app-owned state or persistence.',
+      'Nested ResizablePanelGroup instances enhance independently so each handle owns only its direct sibling panels.',
+    ],
+    customization: [
+      'Resizable exposes data-radcn-resizable-panel-group, data-radcn-resizable-panel, data-radcn-resizable-handle, and data-radcn-resizable-handle-grip hooks.',
+      'Use class and style plus CSS variables such as --radcn-resizable-border, --radcn-resizable-bg, --radcn-resizable-panel-bg, --radcn-resizable-handle-bg, and --radcn-resizable-grip-bg.',
+      'Panel content remains app-owned composition; RadCN owns the panel, handle, orientation, sizing, and enhancement hooks.',
+      'withHandle toggles a dependency-free decorative grip without pulling icon packages into RadCN.',
+    ],
+    divergence: [
+      'react-resizable-panels mechanics map to RadCN dependency-free enhanceResizable behavior and explicit host-element props.',
+      'defaultSize, minSize, orientation, and withHandle map to explicit RadCN props.',
+      'className maps to class, data-slot maps to data-radcn-resizable-* hooks, and Tailwind utilities map to class, style, CSS variables, and app CSS.',
+      'GripVerticalIcon and lucide-react are app-owned presentation; RadCN uses a dependency-free decorative grip.',
+      'Nested panel groups are supported as independent groups rather than relying on React context from upstream.',
       'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

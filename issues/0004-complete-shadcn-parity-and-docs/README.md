@@ -749,6 +749,20 @@ Record cross-component discoveries here as experiments complete.
   `resizable-vertical`. The next experiment should implement those named
   examples without changing the Resizable package API unless a concrete
   package-level gap appears.
+- Experiment 52 completed Resizable example parity depth. The package needed
+  one narrow nested-composition fix: `setupResizableGroup()` now enhances only
+  direct child panels and handles, so outer groups no longer claim nested group
+  panels/handles while public Resizable APIs remain unchanged. Docs and
+  candidate fixtures now render the four named upstream examples with stable
+  `data-radcn-docs-resizable-family` hooks, nested horizontal/vertical groups,
+  plain and visible-grip handles, 50/50 and 25/75 default sizes, separator ARIA,
+  keyboard resizing, `radcn-resizable-change` behavior, and mapping copy for
+  shadcn React props, `react-resizable-panels`, `GripVerticalIcon`,
+  `lucide-react`, Tailwind, `className`, `data-slot`, public hooks, and
+  RadCN's dependency-free enhancement model. `resizable-example-inventory.md`
+  now marks all four rows `Covered`, `resolved-clusters.json` records
+  `resizable` as resolved, and the regenerated parity inventory recommends
+  auditing `checkbox` examples next.
 
 ## Experiments
 
@@ -855,4 +869,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 51: Audit resizable example parity](51-audit-resizable-example-parity.md)
   — **Pass**
 - [Experiment 52: Implement resizable example parity depth](52-implement-resizable-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

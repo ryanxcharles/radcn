@@ -93,10 +93,10 @@ are noted as out of the current generated cluster.
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `resizable-demo` | A horizontal outer group splits `One` from a nested vertical group containing `Two` and `Three`; handles have no visible grip. | Uses `ResizablePanelGroup orientation="horizontal"`, 50/50 outer panels, a nested `ResizablePanelGroup orientation="vertical"` with 25/75 panels, and two plain `ResizableHandle` instances. | RadCN supports horizontal and vertical groups, nested composition in principle, default sizes, plain handles, pointer/keyboard enhancement, and public hooks. Current docs and fixtures show a two-panel generic layout and do not prove the nested `One`/`Two`/`Three` composition by named id. | Partial | Add named docs/fixture/Playwright evidence for the nested horizontal-plus-vertical demo without handle grips. |
-| `resizable-demo-with-handle` | The same nested `One`/`Two`/`Three` layout as `resizable-demo`, but both handles show visible grip affordances. | Uses the same nested group structure with `ResizableHandle withHandle` on both separators. | RadCN supports `withHandle` and Playwright proves a visible handle grip on the generic `with-handle` route. Current fixtures do not prove nested grips on both outer and inner handles or the named upstream composition. | Partial | Add named docs/fixture/Playwright evidence for nested groups with two `withHandle` grips. |
-| `resizable-handle` | A two-panel horizontal group splits `Sidebar` and `Content` at 25/75 with a visible handle grip. | Uses a horizontal group, `ResizablePanel defaultSize="25%"`, `ResizableHandle withHandle`, and `ResizablePanel defaultSize="75%"`. | RadCN supports `defaultSize`, horizontal groups, and visible grips. Current generic fixtures use `Navigation`/`Preview` and usually 50/50 or keyboard 40/60 sizes, so they do not prove the upstream `Sidebar`/`Content` 25/75 named example. | Partial | Add named docs/fixture/Playwright evidence for the `Sidebar`/`Content` 25/75 visible-handle composition. |
-| `resizable-vertical` | A vertical two-panel group splits `Header` and `Content` at 25/75 with a plain handle. | Uses `ResizablePanelGroup orientation="vertical"`, `ResizablePanel defaultSize="25%"`, plain `ResizableHandle`, and `ResizablePanel defaultSize="75%"`. | RadCN supports vertical groups and Playwright proves separator `aria-orientation="vertical"`. Current generic vertical fixture uses `Navigation`/`Preview` and 50/50 sizes, so it does not prove the upstream labels, sizes, or named example. | Partial | Add named docs/fixture/Playwright evidence for the `Header`/`Content` 25/75 vertical composition. |
+| `resizable-demo` | A horizontal outer group splits `One` from a nested vertical group containing `Two` and `Three`; handles have no visible grip. | Uses `ResizablePanelGroup orientation="horizontal"`, 50/50 outer panels, a nested `ResizablePanelGroup orientation="vertical"` with 25/75 panels, and two plain `ResizableHandle` instances. | Docs render `data-radcn-docs-resizable-family="resizable-demo"` with the nested composition. Candidate `demo` fixture and Playwright prove two independent groups, two handles, labels `One`, `Two`, `Three`, 50/50 outer sizes, 25/75 nested sizes, no grips, and independent nested/outer resizing. | Covered | None. |
+| `resizable-demo-with-handle` | The same nested `One`/`Two`/`Three` layout as `resizable-demo`, but both handles show visible grip affordances. | Uses the same nested group structure with `ResizableHandle withHandle` on both separators. | Docs render `data-radcn-docs-resizable-family="resizable-demo-with-handle"`. Candidate `demo-with-handle` fixture and Playwright prove the nested composition with two visible handle grips. | Covered | None. |
+| `resizable-handle` | A two-panel horizontal group splits `Sidebar` and `Content` at 25/75 with a visible handle grip. | Uses a horizontal group, `ResizablePanel defaultSize="25%"`, `ResizableHandle withHandle`, and `ResizablePanel defaultSize="75%"`. | Docs render `data-radcn-docs-resizable-family="resizable-handle"`. Candidate `handle` fixture and Playwright prove `Sidebar`/`Content`, 25/75 sizes, horizontal separator ARIA, visible grip, keyboard resizing, and public hooks. | Covered | None. |
+| `resizable-vertical` | A vertical two-panel group splits `Header` and `Content` at 25/75 with a plain handle. | Uses `ResizablePanelGroup orientation="vertical"`, `ResizablePanel defaultSize="25%"`, plain `ResizableHandle`, and `ResizablePanel defaultSize="75%"`. | Docs render `data-radcn-docs-resizable-family="resizable-vertical"`. Candidate `vertical-upstream` fixture and Playwright prove `Header`/`Content`, 25/75 sizes, vertical separator ARIA, keyboard resizing, and public hooks. | Covered | None. |
 
 ## Coverage Notes
 
@@ -104,10 +104,11 @@ are noted as out of the current generated cluster.
   dependency-free resizing, semantic handles, ARIA value attributes, keyboard
   and pointer resizing, emitted resize events, orientation styling, grip
   rendering, and token customization.
-- The active gap is named example parity depth, not a package API blocker.
-  Existing fixtures prove generic two-panel behavior, but they do not prove the
-  four upstream example ids with nested groups, exact panel labels, 25/75
-  sizing where required, and handle-grip variants.
+- Named example parity depth is now covered by docs examples, candidate
+  fixtures, and Playwright assertions for all four upstream example ids.
+- Implementation uncovered and fixed a package-level nested-group blocker:
+  Resizable enhancement now owns only direct child panels/handles for each
+  group, so nested groups resize independently.
 - Upstream `react-resizable-panels` and `lucide-react` are not required RadCN
   dependencies. RadCN should continue using dependency-free enhancement and
   decorative grip presentation unless a concrete blocker appears.
@@ -117,8 +118,7 @@ are noted as out of the current generated cluster.
 
 ## Decision
 
-`resizable` is not resolved yet. The next experiment should implement named
-Resizable example parity depth for `resizable-demo`,
-`resizable-demo-with-handle`, `resizable-handle`, and `resizable-vertical`
-without changing the package API unless implementation uncovers a concrete
-primitive blocker.
+`resizable` is resolved for the active four-example cluster. The public package
+API did not need to change; the implementation added named docs, fixture, and
+Playwright evidence plus a narrow nested-group ownership fix inside the
+existing enhancement.
