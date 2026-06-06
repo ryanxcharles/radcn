@@ -394,6 +394,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/92-implement-data-table-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/data-table-example-inventory.md"
       ]
+    },
+    {
+      "slug": "hover-card",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/93-audit-hover-card-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/94-implement-hover-card-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/hover-card-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

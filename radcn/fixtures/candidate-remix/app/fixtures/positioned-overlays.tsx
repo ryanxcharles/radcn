@@ -1,5 +1,8 @@
 import type { FixtureScenario } from '../../../scenarios/types.ts'
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   HoverCard,
   HoverCardContent,
   HoverCardPortal,
@@ -91,6 +94,42 @@ export function renderTooltipFixture(fixture: FixtureScenario) {
 }
 
 export function renderHoverCardFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') {
+    return (
+      <div style={anchorStyle(false)}>
+        <HoverCard id="candidate-hover-card-demo">
+          <HoverCardTrigger
+            class="radcn-button radcn-button--link"
+            style="min-height:auto;padding:0;text-decoration:underline;text-underline-offset:0.25rem;"
+          >
+            @nextjs
+          </HoverCardTrigger>
+          <HoverCardPortal>
+            <HoverCardContent style="--radcn-hover-card-width:20rem;">
+              <Avatar>
+                <AvatarImage alt="@vercel" src="https://github.com/vercel.png" />
+                <AvatarFallback>VC</AvatarFallback>
+              </Avatar>
+              <div
+                class="radcn-hover-card-body"
+                data-candidate-hover-card-layout="profile"
+                style="display:grid;gap:0.25rem;"
+              >
+                <h4 style="margin:0;font-size:0.875rem;font-weight:600;line-height:1.2;">@nextjs</h4>
+                <p style="margin:0;font-size:0.875rem;line-height:1.4;">
+                  The React Framework – created and maintained by @vercel.
+                </p>
+                <div style="color:var(--radcn-muted-foreground);font-size:0.75rem;line-height:1.35;">
+                  Joined December 2021
+                </div>
+              </div>
+            </HoverCardContent>
+          </HoverCardPortal>
+        </HoverCard>
+      </div>
+    )
+  }
+
   let custom = fixture.id === 'custom-token'
   let sideAlign = fixture.id === 'side-align'
   let delay = fixture.id === 'delay' ? 180 : 0

@@ -169,7 +169,7 @@ import {
   FieldTitle,
 } from 'radcn/field'
 import { Form, FormDescription, FormField, FormLabel, FormMessage, formControlAttributes, formFieldIds } from 'radcn/form'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from 'radcn/hover-card'
+import { HoverCard, HoverCardContent, HoverCardPortal, HoverCardTrigger } from 'radcn/hover-card'
 import { Input } from 'radcn/input'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from 'radcn/input-group'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, REGEXP_ONLY_DIGITS_AND_CHARS } from 'radcn/input-otp'
@@ -1595,6 +1595,32 @@ export function DataTablePreview() {
         <Button size="sm" variant="outline">Next</Button>
       </DataTablePagination>
     </DataTable>
+  )
+}`
+
+const hoverCardDemoSource = `import { Avatar, AvatarFallback, AvatarImage } from 'radcn/avatar'
+import { HoverCard, HoverCardContent, HoverCardPortal, HoverCardTrigger } from 'radcn/hover-card'
+
+export function HoverCardDemo() {
+  return (
+    <HoverCard id="nextjs-hover-card">
+      <HoverCardTrigger class="radcn-button radcn-button--link">
+        @nextjs
+      </HoverCardTrigger>
+      <HoverCardPortal>
+        <HoverCardContent style="--radcn-hover-card-width:20rem;">
+          <Avatar>
+            <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
+            <AvatarFallback>VC</AvatarFallback>
+          </Avatar>
+          <div class="radcn-hover-card-body">
+            <h4>@nextjs</h4>
+            <p>The React Framework – created and maintained by @vercel.</p>
+            <div>Joined December 2021</div>
+          </div>
+        </HoverCardContent>
+      </HoverCardPortal>
+    </HoverCard>
   )
 }`
 
@@ -4534,6 +4560,42 @@ function DataTableDemoPreview() {
   )
 }
 
+function HoverCardDemoPreview() {
+  return () => (
+    <div data-radcn-docs-hover-card-family="hover-card-demo" style="display:grid;justify-items:start;gap:1rem;">
+      <HoverCard id="docs-hover-card-demo">
+        <HoverCardTrigger
+          class="radcn-button radcn-button--link"
+          style="min-height:auto;padding:0;text-decoration:underline;text-underline-offset:0.25rem;"
+        >
+          @nextjs
+        </HoverCardTrigger>
+        <HoverCardPortal>
+          <HoverCardContent style="--radcn-hover-card-width:20rem;">
+            <Avatar>
+              <AvatarImage alt="@vercel" src="https://github.com/vercel.png" />
+              <AvatarFallback>VC</AvatarFallback>
+            </Avatar>
+            <div
+              class="radcn-hover-card-body"
+              data-radcn-docs-hover-card-layout="profile"
+              style="display:grid;gap:0.25rem;"
+            >
+              <h4 style="margin:0;font-size:0.875rem;font-weight:600;line-height:1.2;">@nextjs</h4>
+              <p style="margin:0;font-size:0.875rem;line-height:1.4;">
+                The React Framework – created and maintained by @vercel.
+              </p>
+              <div style="color:var(--radcn-muted-foreground);font-size:0.75rem;line-height:1.35;">
+                Joined December 2021
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCardPortal>
+      </HoverCard>
+    </div>
+  )
+}
+
 function DialogPreview() {
   return () => (
     <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
@@ -6919,6 +6981,51 @@ const richComponentDocs: ComponentDoc[] = [
       'Tailwind flex, flex-row, flex-wrap, items-center, gap-12, rounded-lg, -space-x-2, ring, ring-background, and grayscale utilities map to RadCN package CSS, class, style, CSS variables, and docs/app CSS.',
       'Remote GitHub avatar images are content choices and are tested by stable attributes rather than network image decoding.',
       'AvatarBadge and AvatarGroupCount are package capabilities, but they are not required by the direct avatar-demo example.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'hover-card',
+    title: 'Hover Card',
+    category: 'Overlays',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free hover/focus card for profile previews and adjacent contextual content.',
+    importPath: 'radcn/hover-card',
+    importExample:
+      "import { HoverCard, HoverCardContent, HoverCardPortal, HoverCardTrigger } from 'radcn/hover-card'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'hover-card-demo',
+        title: 'Hover Card Demo',
+        description:
+          'Render the upstream @nextjs profile preview with a link-styled trigger, Avatar image/fallback, 20rem content width, and exact profile copy.',
+        source: hoverCardDemoSource,
+        preview: <HoverCardDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'HoverCardTrigger is a native button, so focus and keyboard interaction remain accessible without React state.',
+      'Hover and focus open the same content through enhanceHoverCard; Escape closes the card and returns to a closed state.',
+      'Hover Card is non-modal and does not lock body scrolling.',
+      'AvatarImage keeps the profile image accessible name on native img alt, while AvatarFallback remains visible backup content.',
+    ],
+    customization: [
+      'Root, trigger, portal, and content expose public data-radcn-hover-card hooks and package classes.',
+      'The upstream w-80 width maps to --radcn-hover-card-width: 20rem on HoverCardContent.',
+      'Button variant="link" maps to RadCN button link classes on HoverCardTrigger, preserving the visible link-button presentation without Slot/asChild mechanics.',
+      'Profile layout and text styling map to app-owned class/style composition around Avatar and HoverCardContent.',
+    ],
+    divergence: [
+      'use client and Radix Hover Card primitives map to server-rendered Remix UI markup plus scoped enhanceHoverCard browser behavior.',
+      'HoverCardTrigger asChild maps to explicit RadCN trigger styling; RadCN does not need Slot for this example.',
+      'Avatar, AvatarImage, AvatarFallback, and Button composition maps to existing RadCN packages.',
+      'className maps to class, data-slot maps to data-radcn-hover-card* hooks, and cn maps to explicit class composition.',
+      'Tailwind w-80, flex, justify-between, gap-4, space-y-1, text-sm, font-semibold, text-xs, and text-muted-foreground utilities map to CSS variables, package classes, class, and style.',
+      'The upstream CalendarIcon import is unused source noise and does not introduce an icon dependency.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

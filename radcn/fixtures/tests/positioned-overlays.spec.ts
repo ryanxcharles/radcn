@@ -21,6 +21,7 @@ async function openFreshTooltip(page: import('@playwright/test').Page, scenario 
 
 async function openFreshHoverCard(page: import('@playwright/test').Page, scenario = 'default') {
   await page.goto(`${candidate}/fixtures/hover-card/${scenario}`)
+  await expect(page.locator('[data-radcn-hover-card]')).toHaveAttribute('data-radcn-hover-card-ready', 'true')
   let content = page.locator('[data-radcn-hover-card-content]')
   if (await content.isVisible()) {
     await page.keyboard.press('Escape')
@@ -197,4 +198,37 @@ test('candidate hover card supports focus delay placement custom tokens and non-
   await expect(content).toHaveClass(/radcn-fixture-custom-hover-card/)
   await expect(content).toHaveCSS('border-color', 'rgb(15, 118, 110)')
   await expect(content).toHaveCSS('background-color', 'rgb(240, 253, 250)')
+})
+
+test('candidate hover card matches named demo profile composition', async ({ page }) => {
+  let opened = await openFreshHoverCard(page, 'demo')
+
+  await expect(opened.trigger).toHaveText('@nextjs')
+  await expect(opened.trigger).toHaveClass(/radcn-button--link/)
+  await expect(opened.content).toBeHidden()
+
+  await opened.trigger.hover()
+  await expect(opened.content).toBeVisible({ timeout: 1000 })
+  await expect(opened.content).toHaveAttribute('data-side', 'bottom')
+  await expect(opened.content).toHaveAttribute('data-align', 'center')
+  await expect(opened.content).toHaveAttribute('data-side-offset', '4')
+  await expect(opened.content).toHaveCSS('width', '320px')
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
+
+  await expect(opened.content.locator('[data-radcn-avatar]')).toHaveCount(1)
+  await expect(opened.content.locator('[data-radcn-avatar-image]')).toHaveAttribute('src', 'https://github.com/vercel.png')
+  await expect(opened.content.locator('[data-radcn-avatar-image]')).toHaveAttribute('alt', '@vercel')
+  await expect(opened.content.locator('[data-radcn-avatar-fallback]')).toHaveText('VC')
+  await expect(opened.content.locator('[data-candidate-hover-card-layout="profile"]')).toBeVisible()
+  await expect(opened.content.getByRole('heading', { name: '@nextjs' })).toBeVisible()
+  await expect(opened.content.getByText('The React Framework – created and maintained by @vercel.')).toBeVisible()
+  await expect(opened.content.getByText('Joined December 2021')).toBeVisible()
+  await expect(opened.content.getByText('Joined December 2021')).toHaveCSS('font-size', '12px')
+
+  await page.keyboard.press('Escape')
+  await expect(opened.content).toBeHidden()
+  await opened.trigger.focus()
+  await expect(opened.content).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(opened.content).toBeHidden()
 })

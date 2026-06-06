@@ -1254,6 +1254,17 @@ Record cross-component discoveries here as experiments complete.
   `data-slot`/unused `CalendarIcon` mapping. The next experiment should
   implement named `hover-card-demo` docs, candidate fixture, and Playwright
   coverage.
+- Experiment 94 completed direct Hover Card example parity for
+  `hover-card-demo`. Docs, candidate fixtures, and Playwright now prove the
+  exact upstream `@nextjs` trigger, link-button/asChild mapping, Avatar image
+  URL `https://github.com/vercel.png`, `VC` fallback, 20rem `w-80` content
+  width, profile heading, exact description and joined-date copy, hover/focus
+  opening, Escape closing, non-modal behavior, public Hover Card/Avatar hooks,
+  and the React/Radix/`asChild`/Tailwind/`cn`/`data-slot`/unused
+  `CalendarIcon`/vendor-source mapping. Package code did not need changes.
+- After Experiment 94, the regenerated parity inventory marks `hover-card`
+  resolved in the example queue. The next generated recommendation is example
+  parity for `label`.
 
 ## Experiments
 
@@ -1444,4 +1455,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 93: Audit hover-card example parity](93-audit-hover-card-example-parity.md)
   — **Partial**
 - [Experiment 94: Implement hover-card example parity depth](94-implement-hover-card-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

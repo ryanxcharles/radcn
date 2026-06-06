@@ -305,3 +305,106 @@ started before the plan commit, verification includes typechecks, Playwright,
 deterministic inventory/resolved-cluster checks, dependency/lockfile checks,
 `git diff --check`, and vendor cleanliness, and the plan targets Experiment
 93's Partial outcome without adding forbidden dependencies.
+
+## Result
+
+**Result:** Pass
+
+Experiment 94 implemented direct `hover-card-demo` parity in the docs app and
+candidate fixture without changing package code or adding dependencies.
+
+- `radcn/apps/docs/app/content/components.tsx` now renders a rich named
+  `hover-card-demo` docs example with stable
+  `data-radcn-docs-hover-card-family="hover-card-demo"`, trigger text
+  `@nextjs`, RadCN button link classes on `HoverCardTrigger`, Avatar image URL
+  `https://github.com/vercel.png`, fallback `VC`, heading `@nextjs`, exact
+  description and joined-date copy, 20rem width evidence, profile layout
+  evidence, source snippet, and mapping copy for React/Radix/`asChild`/Button/
+  Avatar/`className`/Tailwind/`cn`/`data-slot`/unused `CalendarIcon`/vendor
+  mechanics.
+- `radcn/apps/docs/app/assets/entry.ts` scopes `enhanceHoverCard` to the named
+  docs Hover Card demo. Docs coverage follows the portaled content by id after
+  enhancement moves it out of the wrapper.
+- `radcn/fixtures/scenarios/index.ts` registers `hover-card/demo`.
+- `radcn/fixtures/candidate-remix/app/fixtures/positioned-overlays.tsx`
+  renders the same named profile composition.
+- `radcn/fixtures/tests/positioned-overlays.spec.ts` verifies exact profile
+  data and copy, public Hover Card/Avatar hooks, link trigger evidence, 20rem
+  width, default side/align/offset, hover opening, focus opening, Escape
+  closing, and non-modal behavior. The shared helper now waits for
+  `data-radcn-hover-card-ready="true"` before closing default-open hover-card
+  fixtures, avoiding a race with browser enhancement setup.
+- `radcn/apps/docs/tests/coverage.spec.ts` verifies the named docs route
+  evidence, runtime hover/focus/Escape behavior, non-modal behavior, and
+  mapping copy.
+- `hover-card-example-inventory.md`, `resolved-clusters.json`, and
+  `parity-inventory.md` now mark the direct Hover Card example cluster
+  covered.
+
+Verification passed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts positioned-overlays.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+```
+
+The deterministic `hover-card-example-inventory.md` check found exactly one
+direct row, `hover-card-demo`, with outcome `Covered`. The deterministic
+`resolved-clusters.json` check found `examples.hover-card` with status
+`resolved` and evidence for Experiments 93 and 94 plus the Hover Card example
+inventory. The deterministic regenerated-inventory check confirmed
+`hover-card` is absent from unresolved example clusters and that the first
+recommended cluster is now `Example parity for label`.
+
+Dependency and scope checks passed:
+
+```text
+forbidden import scanner for radcn/packages/radcn, radcn/apps/docs, and radcn/fixtures/candidate-remix
+manifest forbidden dependency scanner
+git diff --exit-code -- pnpm-lock.yaml
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+`tokens.css` did not change, so the style serialization check was not
+applicable.
+
+## Conclusion
+
+The direct upstream Hover Card example cluster is resolved. RadCN can represent
+the shadcn `@nextjs` profile hover card through existing `radcn/hover-card`,
+`radcn/avatar`, and RadCN button link classes. Literal React/Radix DOM
+equivalence and `asChild` mechanics are unnecessary; the verified surface is
+user-facing behavior, accessibility/state behavior, and author-facing
+modifiability.
+
+The regenerated parity inventory recommends auditing `label` example parity
+next.
+
+## Completion Review
+
+Reviewer: Cicero the 3rd
+(`019e9df2-644f-7903-83cb-1832d42c9bf4`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: `hover-card-example-inventory.md` still had a future-tense note saying
+  the follow-up should decide the trigger/asChild mapping. Fixed by recording
+  the final decision: RadCN applies button link classes and style directly to
+  `HoverCardTrigger`, preserving equivalent link-button presentation without
+  Slot or a new package API. The related Avatar decision now records that the
+  named docs and fixture coverage verify the vercel image URL and `VC`
+  fallback.
+
+Approved. The reviewer independently verified the typechecks, Playwright
+suites, regenerated parity audit, deterministic inventory/resolved-cluster/
+recommendation checks, forbidden import and manifest checks, lockfile check,
+`git diff --check`, vendor cleanliness, and that the result commit had not
+been made before review.

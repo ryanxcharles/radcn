@@ -156,6 +156,7 @@ These are documented in RadCN but are not current package exports.
 | examples | collapsible | resolved | `issues/0004-complete-shadcn-parity-and-docs/87-audit-collapsible-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/88-implement-collapsible-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/collapsible-example-inventory.md` |
 | examples | context-menu | resolved | `issues/0004-complete-shadcn-parity-and-docs/89-audit-context-menu-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/90-implement-context-menu-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/context-menu-example-inventory.md` |
 | examples | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/91-audit-data-table-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/92-implement-data-table-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/data-table-example-inventory.md` |
+| examples | hover-card | resolved | `issues/0004-complete-shadcn-parity-and-docs/93-audit-hover-card-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/94-implement-hover-card-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/hover-card-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -236,7 +237,6 @@ parity decision.
 
 | Component | Example count | Examples |
 | --- | ---: | --- |
-| hover-card | 1 | `hover-card-demo` |
 | label | 1 | `label-demo` |
 | menubar | 1 | `menubar-demo` |
 | mode-toggle | 1 | `mode-toggle` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for hover-card
+**Cluster:** Example parity for label
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for hover-card.
+- Audit upstream examples for label.
 
 ## Notes
 

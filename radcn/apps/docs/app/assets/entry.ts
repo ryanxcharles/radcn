@@ -1,6 +1,7 @@
 import { run } from 'remix/ui'
 import { enhanceContextMenu } from 'radcn/context-menu'
 import { enhanceDropdownMenu } from 'radcn/dropdown-menu'
+import { enhanceHoverCard } from 'radcn/hover-card'
 
 const THEME_MODE_STORAGE_KEY = 'radcn-theme-mode'
 const LEGACY_THEME_STORAGE_KEY = 'radcn-theme'
@@ -274,3 +275,6 @@ enhanceContextMenu()
 document
   .querySelectorAll<HTMLElement>('[data-radcn-docs-data-table-family="data-table-demo"]')
   .forEach((example) => enhanceDropdownMenu(example))
+document
+  .querySelectorAll<HTMLElement>('[data-radcn-docs-hover-card-family="hover-card-demo"]')
+  .forEach((example) => enhanceHoverCard(example))

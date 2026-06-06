@@ -2073,6 +2073,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "hover-card",
+    id: "demo",
+    title: "Hover Card Demo",
+    description: "Named shadcn @nextjs profile hover card with Avatar image, fallback, link trigger, exact copy, and 20rem width.",
+  },
+  {
+    component: "hover-card",
     id: "default",
     title: "Default Hover Card",
     description: "Hover-triggered card content.",
