@@ -1327,6 +1327,20 @@ Record cross-component discoveries here as experiments complete.
   recorded in `mode-toggle-example-inventory.md`. After regenerating parity
   inventory, the next generated recommendation is example parity for
   `navigation-menu`.
+- Experiment 100 audited direct Navigation Menu example parity in
+  `navigation-menu-example-inventory.md`. RadCN already has strong package and
+  behavior substrate for Navigation Menu: root/list/item/trigger/content/link/
+  viewport/indicator exports, `enhanceNavigationMenu`, viewport sizing,
+  indicator state, keyboard movement, pointer/focus behavior, disabled state,
+  custom tokens, generic docs, fixtures, and Playwright coverage. The direct
+  example remains partial because no named docs/fixture/test surface proves
+  the exact upstream `navigation-menu-demo` composition, all Home/Components/
+  List/Simple/With Icon panel copy, icon-link affordances, responsive
+  `hidden md:block` sections, `useIsMobile`/viewport mapping, or
+  `navigationMenuTriggerStyle` mapping. The next experiment should implement
+  named `navigation-menu-demo` docs, candidate fixture, and Playwright
+  coverage, and decide whether `navigationMenuTriggerStyle` should become a
+  RadCN helper or stay a documented class/token equivalent.
 
 ## Experiments
 
@@ -1529,4 +1543,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 99: Audit mode-toggle example parity](99-audit-mode-toggle-example-parity.md)
   — **Pass**
 - [Experiment 100: Audit navigation-menu example parity](100-audit-navigation-menu-example-parity.md)
-  — **Designed**
+  — **Partial**

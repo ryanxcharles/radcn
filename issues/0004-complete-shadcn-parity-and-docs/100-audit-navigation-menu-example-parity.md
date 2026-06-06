@@ -233,3 +233,67 @@ not started before the plan commit, verification includes concrete pass/fail
 criteria and hygiene checks, vendor checkouts are clean, and the deterministic
 count check is appropriate for the single upstream row with
 `registryDependencies: ["navigation-menu"]`.
+
+## Result
+
+**Result:** Partial
+
+Experiment 100 added `navigation-menu-example-inventory.md` and audited the
+single direct upstream Navigation Menu example cluster, `navigation-menu-demo`.
+
+The audit found that RadCN already has strong Navigation Menu package and
+behavior substrate: package exports for root, list, item, trigger, content,
+link, viewport, indicator, and `enhanceNavigationMenu`; dependency-free
+browser behavior; viewport sizing; indicator state; roving focus; horizontal
+and vertical keyboard movement; pointer/focus open behavior; disabled state;
+custom-token hooks; generic docs coverage; candidate/reference fixtures; and
+Playwright coverage.
+
+The direct example remains partial because current docs and fixtures do not
+prove the named upstream composition: exact `Home`, `Components`, `Docs`,
+`List`, `Simple`, and `With Icon` controls; all upstream Home/Components/List/
+Simple/With Icon panel copy; icon-link affordances; responsive `hidden
+md:block` sections; `useIsMobile`/viewport mapping; or
+`navigationMenuTriggerStyle` mapping.
+
+Verification passed:
+
+```text
+deterministic navigation-menu registry/file/inventory count check
+deterministic navigation-menu outcome/follow-up check
+rg -n "Experiment 100|navigation-menu-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+vendor cleanliness check
+```
+
+## Conclusion
+
+The direct Navigation Menu example cluster needs a named implementation
+experiment. The next Issue 4 experiment should implement `navigation-menu-demo`
+in the docs and candidate fixture, add exact Playwright coverage, document the
+Remix 3 mappings, and decide whether `navigationMenuTriggerStyle` should become
+a RadCN helper or stay a documented class/token equivalent.
+
+## Completion Review
+
+**Reviewer:** Gibbs the 3rd (`019e9e35-ac1d-7e41-880e-3dd48dcf7c5a`)
+**Fresh-context status:** fresh Codex subagent
+**Result:** Approved
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+The reviewer confirmed that the implementation matches the approved audit
+scope, the `Partial` result is supported by the inventory evidence, the
+experiment has `Result` and `Conclusion`, the issue README records matching
+status and learnings, the prior `NavigationMenuViewport`/
+`NavigationMenuIndicator` wording issue remains fixed, and the result commit
+had not been made before review.
+
+The reviewer reran the deterministic count check, outcome/follow-up check,
+README `rg` check, `git diff --check`, and vendor cleanliness check
+successfully. They also confirmed that vendor sources remain ignored/nested
+only and `git ls-files vendor` contains only `vendor/.gitignore`.
