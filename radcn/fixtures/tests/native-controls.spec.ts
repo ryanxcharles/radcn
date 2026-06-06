@@ -149,6 +149,32 @@ test('candidate native controls expose disabled and required state', async ({ pa
   await expect(page.locator('#candidate-message-disabled')).toBeDisabled()
 })
 
+test('candidate textarea covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/textarea/demo`)
+  let demo = page.locator('textarea[data-radcn-textarea]')
+  await expect(demo).toHaveAttribute('placeholder', 'Type your message here.')
+  await expect(demo).toHaveAttribute('name', 'message')
+
+  await page.goto(`${candidate}/fixtures/textarea/disabled`)
+  let disabled = page.locator('textarea[data-radcn-textarea]')
+  await expect(disabled).toBeDisabled()
+  await expect(disabled).toHaveAttribute('id', 'candidate-message-disabled')
+
+  await page.goto(`${candidate}/fixtures/textarea/with-button`)
+  await expect(page.locator('textarea[data-radcn-textarea]')).toHaveAttribute('placeholder', 'Type your message here.')
+  await expect(page.getByRole('button', { name: 'Send message' })).toHaveAttribute('data-radcn-button', '')
+  await expect(page.getByRole('button', { name: 'Send message' })).toHaveAttribute('type', 'submit')
+
+  await page.goto(`${candidate}/fixtures/textarea/with-label`)
+  await expect(page.getByLabel('Your message')).toHaveAttribute('data-radcn-textarea', '')
+  await expect(page.getByLabel('Your message')).toHaveAttribute('id', 'candidate-textarea-message')
+
+  await page.goto(`${candidate}/fixtures/textarea/with-text`)
+  let withText = page.getByLabel('Your Message')
+  await expect(withText).toHaveAttribute('aria-describedby', 'candidate-textarea-message-2-help')
+  await expect(page.locator('#candidate-textarea-message-2-help')).toHaveText('Your message will be copied to the support team.')
+})
+
 test('candidate customization hooks affect rendered styles', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/button/custom-class`)
   let button = page.locator('[data-radcn-button]')

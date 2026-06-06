@@ -1,9 +1,9 @@
 # Textarea Example Parity Inventory
 
-Experiment 37 audits the 10 upstream shadcn/ui New York v4 textarea-related
-examples against the current RadCN `Textarea` package, docs, fixtures, prior
-Issue 4 inventories, and Playwright evidence. This is an audit only; it does
-not implement Textarea changes.
+Experiment 37 audited the 10 upstream shadcn/ui New York v4 textarea-related
+examples against the RadCN `Textarea` package, docs, fixtures, prior Issue 4
+inventories, and Playwright evidence. Experiment 38 completed the missing
+named plain Textarea example proof.
 
 ## Summary
 
@@ -13,11 +13,11 @@ support. Existing fixtures prove default and disabled native textarea behavior,
 and prior Form, Field, and InputGroup experiments prove several composed
 textarea outcomes.
 
-Textarea example parity is not complete at the named plain Textarea example
-level. Current proof is strongest for Field, InputGroup, and Form compositions,
-but the Textarea docs and fixture routes do not yet cover the 5 plain upstream
-Textarea examples as named examples: demo, disabled, with Button, with Label,
-and with helper text.
+Textarea example parity is complete for the 10 upstream New York v4
+textarea-related examples. The Textarea package remains a native control
+primitive, while docs, fixtures, and Playwright now prove the 5 plain Textarea
+examples and prior inventories prove the Field, InputGroup, and Form textarea
+variants.
 
 ## Current RadCN Evidence
 
@@ -25,10 +25,10 @@ and with helper text.
 | --- | --- | --- |
 | Package API | `radcn/packages/radcn/src/components/textarea.tsx` | Native textarea with class/style hooks, placeholder, disabled, rows, value, id/name, required, `aria-describedby`, and `aria-invalid` |
 | Package styles | `radcn/packages/radcn/src/styles/tokens.css` | Textarea sizing, border, radius, muted placeholder, disabled state, invalid state, focus ring, and token-driven colors |
-| Docs | `radcn/apps/docs/app/content/components.tsx` | Seed Textarea docs route with one generic live Textarea preview; Form, Field, and InputGroup rich docs include composed textarea examples |
-| Candidate fixtures | `radcn/fixtures/candidate-remix/app/fixtures/textarea.tsx` | Default Label + Textarea + FieldDescription route and disabled Textarea route |
-| Candidate fixture scenarios | `radcn/fixtures/scenarios/index.ts` | `textarea/default`, `textarea/disabled`, plus Field/Form/InputGroup textarea routes |
-| Playwright | `radcn/fixtures/tests/native-controls.spec.ts`; `radcn/fixtures/tests/form-input-cluster.spec.ts` | Disabled textarea state, Field textarea label wiring, InputGroupTextarea toolbar proof, and Form textarea ARIA description proof |
+| Docs | `radcn/apps/docs/app/content/components.tsx` | Rich Textarea docs page with stable hooks for `textarea-demo`, `textarea-disabled`, `textarea-with-button`, `textarea-with-label`, and `textarea-with-text`; Form, Field, and InputGroup rich docs include composed textarea examples |
+| Candidate fixtures | `radcn/fixtures/candidate-remix/app/fixtures/textarea.tsx` | Default route plus named routes for all 5 plain upstream Textarea examples |
+| Candidate fixture scenarios | `radcn/fixtures/scenarios/index.ts` | `textarea/default`, `textarea/demo`, `textarea/disabled`, `textarea/with-button`, `textarea/with-label`, `textarea/with-text`, plus Field/Form/InputGroup textarea routes |
+| Playwright | `radcn/fixtures/tests/native-controls.spec.ts`; `radcn/apps/docs/tests/coverage.spec.ts`; `radcn/fixtures/tests/form-input-cluster.spec.ts` | Fixture and docs coverage for all 5 plain Textarea examples, plus prior Field/InputGroup/Form textarea proof |
 | Prior inventories | `form-example-inventory.md`; `field-example-inventory.md`; `input-group-example-inventory.md` | Form textarea library variants, `field-textarea`, and `input-group-textarea` are already covered by prior clusters |
 
 ## Mapping Decisions
@@ -56,11 +56,11 @@ and with helper text.
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `textarea-demo` | Plain textarea with placeholder text `Type your message here.` | React `Textarea` with `placeholder`; Tailwind package styling and `data-slot`. | RadCN `Textarea` supports placeholder and the docs seed renders a generic placeholder example, but no named `textarea-demo` docs/fixture/Playwright proof exists. | Partial | Add named docs/fixture/Playwright proof for the plain demo placeholder. |
-| `textarea-disabled` | Disabled textarea with placeholder text. | React `Textarea` with `disabled`; Tailwind disabled opacity/cursor styling. | Candidate route `textarea/disabled` and Playwright prove disabled textarea state; docs do not show named disabled Textarea example parity yet. | Partial | Add named docs evidence and keep fixture evidence tied to the upstream example id. |
-| `textarea-with-button` | Textarea stacked with a `Send message` Button. | Tailwind grid wrapper with `Textarea` and `Button`. | RadCN has Button and Textarea primitives, and Form/Field/InputGroup examples compose textareas with buttons, but there is no named plain Textarea + Button docs/fixture/Playwright proof. | Partial | Add named docs/fixture/Playwright proof for Textarea plus Button composition. |
-| `textarea-with-label` | Label `Your message` wired to a textarea by id. | `Label htmlFor` plus `Textarea id`; Tailwind grid wrapper. | Candidate `textarea/default` composes Label + Textarea and `native-controls.spec.ts` covers broader label wiring, but no named upstream label example proof exists. | Partial | Add named docs/fixture/Playwright proof for Label + Textarea composition with accessible name. |
-| `textarea-with-text` | Label, textarea, and helper prose explaining the submitted message. | `Label`, `Textarea`, and a muted paragraph helper text. | Candidate `textarea/default` has Label + Textarea + FieldDescription, and Field/Form docs show helper text, but no named plain Textarea helper-text example proof exists. | Partial | Add named docs/fixture/Playwright proof for helper text and description styling around Textarea. |
+| `textarea-demo` | Plain textarea with placeholder text `Type your message here.` | React `Textarea` with `placeholder`; Tailwind package styling and `data-slot`. | Docs route, candidate fixture route, and Playwright coverage render a native RadCN Textarea with the upstream placeholder and public hook. | Covered | None. |
+| `textarea-disabled` | Disabled textarea with placeholder text. | React `Textarea` with `disabled`; Tailwind disabled opacity/cursor styling. | Docs route, candidate fixture route, and Playwright coverage render disabled native Textarea behavior. | Covered | None. |
+| `textarea-with-button` | Textarea stacked with a `Send message` Button. | Tailwind grid wrapper with `Textarea` and `Button`. | Docs route, candidate fixture route, and Playwright coverage render Textarea plus RadCN Button composition. | Covered | None. |
+| `textarea-with-label` | Label `Your message` wired to a textarea by id. | `Label htmlFor` plus `Textarea id`; Tailwind grid wrapper. | Docs route, candidate fixture route, and Playwright coverage render Label + Textarea composition with accessible name wiring. | Covered | None. |
+| `textarea-with-text` | Label, textarea, and helper prose explaining the submitted message. | `Label`, `Textarea`, and a muted paragraph helper text. | Docs route, candidate fixture route, and Playwright coverage render Label, Textarea, helper text, and explicit `aria-describedby` wiring. | Covered | None. |
 | `field-textarea` | FieldSet/FieldGroup wrapping a textarea with label and description. | Field primitives compose `FieldLabel`, `Textarea`, and `FieldDescription`. | `field-example-inventory.md` marks `field-textarea` Covered; candidate route `field/textarea`, Field docs, and Playwright verify label wiring and FieldGroup composition. | Covered | None. |
 | `input-group-textarea` | Textarea code editor with block-start file toolbar, block-end status/action toolbar, refresh/copy/run buttons, and icon text. | `InputGroupTextarea`, block-start/block-end `InputGroupAddon`, buttons, text parts, and Tabler icons. | `input-group-example-inventory.md` marks `input-group-textarea` Covered; Experiment 16 docs/fixtures/tests prove block-start and block-end toolbar rows, status text, and action buttons, with icons app-owned. | Covered | None. |
 | `form-rhf-textarea` | Card form with textarea field, helper text, validation errors, reset, submit, and toast result. | React Hook Form `Controller`, Zod resolver, Sonner toast, Card layout, Field primitives, and Textarea. | `form-example-inventory.md` marks this Covered by RadCN Form textarea examples and Textarea primitives; Experiment 6 records React Hook Form/Zod/toast as app-owned mappings. | Covered | None. |
@@ -69,12 +69,11 @@ and with helper text.
 
 ## Outcome
 
-Textarea example parity is not complete.
+Textarea example parity is complete.
 
-The next implementation cluster should be **Textarea example parity depth** for
-the 5 plain Textarea examples: `textarea-demo`, `textarea-disabled`,
-`textarea-with-button`, `textarea-with-label`, and `textarea-with-text`. That
-implementation should add named docs examples, candidate fixture routes, and
-Playwright coverage while preserving Textarea as a native control primitive and
-leaving Button, Label, Field, InputGroup, Form, Card, validation, toast, icons,
-and autosize behavior with their owning packages/apps.
+Experiment 38 added named docs examples, candidate fixture routes, and
+Playwright coverage for the 5 plain upstream Textarea examples while preserving
+the prior covered outcomes for Field, InputGroup, and Form textarea variants.
+Textarea remains a native control primitive, and Button, Label, Field,
+InputGroup, Form, Card, validation, toast, icons, and autosize behavior remain
+with their owning packages/apps.

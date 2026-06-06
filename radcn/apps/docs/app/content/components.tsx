@@ -1259,6 +1259,41 @@ export function TogglePreview() {
 	  )
 	}`
 
+const textareaSource = `import { Button } from 'radcn/button'
+import { Label } from 'radcn/label'
+import { Textarea } from 'radcn/textarea'
+
+export function TextareaPreview() {
+  return (
+    <div class="textarea-examples">
+      <Textarea name="message" placeholder="Type your message here." />
+
+      <Textarea disabled name="message" placeholder="Type your message here." />
+
+      <div class="field">
+        <Textarea name="message" placeholder="Type your message here." />
+        <Button type="submit">Send message</Button>
+      </div>
+
+      <div class="field">
+        <Label for="message">Your message</Label>
+        <Textarea id="message" name="message" placeholder="Type your message here." />
+      </div>
+
+      <div class="field">
+        <Label for="message-2">Your Message</Label>
+        <Textarea
+          ariaDescribedBy="message-2-help"
+          id="message-2"
+          name="message"
+          placeholder="Type your message here."
+        />
+        <p id="message-2-help">Your message will be copied to the support team.</p>
+      </div>
+    </div>
+  )
+}`
+
 const kbdSource = `import { Button } from 'radcn/button'
 import { ButtonGroup } from 'radcn/button-group'
 import { InputGroup, InputGroupAddon, InputGroupInput } from 'radcn/input-group'
@@ -1885,6 +1920,41 @@ function InputPreview() {
           type="email"
         />
         <p id="docs-input-text-description">Enter your workspace email address.</p>
+      </div>
+    </div>
+  )
+}
+
+function TextareaPreview() {
+  return () => (
+    <div style="display:grid;gap:1rem;width:min(100%,42rem)">
+      <div data-radcn-docs-textarea-family="textarea-demo" mix={previewFieldStyle}>
+        <Textarea name="message" placeholder="Type your message here." />
+      </div>
+
+      <div data-radcn-docs-textarea-family="textarea-disabled" mix={previewFieldStyle}>
+        <Textarea disabled name="message" placeholder="Type your message here." />
+      </div>
+
+      <div data-radcn-docs-textarea-family="textarea-with-button" mix={previewFieldStyle}>
+        <Textarea name="message" placeholder="Type your message here." />
+        <Button type="submit">Send message</Button>
+      </div>
+
+      <div data-radcn-docs-textarea-family="textarea-with-label" mix={previewFieldStyle}>
+        <Label for="docs-textarea-message">Your message</Label>
+        <Textarea id="docs-textarea-message" name="message" placeholder="Type your message here." />
+      </div>
+
+      <div data-radcn-docs-textarea-family="textarea-with-text" mix={previewFieldStyle}>
+        <Label for="docs-textarea-message-2">Your Message</Label>
+        <Textarea
+          ariaDescribedBy="docs-textarea-message-2-help"
+          id="docs-textarea-message-2"
+          name="message"
+          placeholder="Type your message here."
+        />
+        <p id="docs-textarea-message-2-help">Your message will be copied to the support team.</p>
       </div>
     </div>
   )
@@ -3874,6 +3944,46 @@ const richComponentDocs: ComponentDoc[] = [
       'The Remix 3 input uses explicit string props such as ariaDescribedBy instead of React prop aliases.',
       'It keeps a deliberate typed native input surface instead of forwarding arbitrary React ComponentProps.',
       'Label, Button, helper text, and form state are explicit composition, not Input-owned behavior.',
+    ],
+  },
+  {
+    slug: 'textarea',
+    title: 'Textarea',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native textarea primitive for multi-line text input, disabled states, labels, helper text, and button composition.',
+    importPath: 'radcn/textarea',
+    importExample: "import { Textarea } from 'radcn/textarea'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the five plain shadcn Textarea examples with native Remix 3 controls and explicit RadCN composition.',
+        source: textareaSource,
+        preview: <TextareaPreview />,
+      },
+    ],
+    accessibility: [
+      'Renders a native textarea element, preserving browser focus, editing, selection, resize, and form submission behavior.',
+      'Supports ariaDescribedBy and ariaInvalid for helper text and validation state through explicit string props.',
+      'Leaves labeling to real Label components and helper text to authored content so accessible names and descriptions stay explicit.',
+      'Disabled textareas use the native disabled attribute and public RadCN disabled styling.',
+    ],
+    customization: [
+      'Textarea dimensions, borders, focus rings, placeholder color, disabled state, invalid state, and resize behavior are controlled by RadCN CSS variables and app CSS.',
+      'The public data-radcn-textarea hook supports targeted app CSS without relying on generated DOM wrappers.',
+      'Button, Label, helper text, Field, Form, and InputGroup composition stay outside the Textarea package, so layout and submission behavior remain app-owned.',
+    ],
+    divergence: [
+      'shadcn/ui data-slot="textarea" maps to RadCN public data-radcn-textarea and the radcn-textarea class.',
+      'Tailwind utility styling maps to RadCN classes, inline styles, CSS variables, and docs/fixture layout wrappers.',
+      'React prop spreading maps to explicit Remix UI props such as id, name, placeholder, disabled, rows, value, ariaDescribedBy, and ariaInvalid.',
+      'Autosize behavior, form-library integration, toast results, and icon presentation are app-owned or covered by Field, Form, and InputGroup rather than Textarea-owned dependencies.',
     ],
   },
   {

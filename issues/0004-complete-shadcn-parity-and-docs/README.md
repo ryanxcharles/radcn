@@ -601,6 +601,15 @@ Record cross-component discoveries here as experiments complete.
   example level. The next implementation cluster should add docs, fixtures, and
   Playwright proof for `textarea-demo`, `textarea-disabled`,
   `textarea-with-button`, `textarea-with-label`, and `textarea-with-text`.
+- Experiment 38 completed Textarea example parity depth. The docs page,
+  candidate fixtures, and Playwright checks now cover all 5 plain upstream
+  Textarea examples, while prior Field, InputGroup, and Form outcomes continue
+  to cover the other 5 textarea-related examples.
+- Textarea remains a native control primitive. shadcn `data-slot` maps to RadCN
+  public hooks, Tailwind utility styling maps to RadCN classes/CSS variables,
+  React prop spreading maps to explicit Remix UI props, and autosize,
+  form-library, toast, icon, helper-text, Button, Label, Field, Form, and
+  InputGroup behavior remains app-owned or owned by the composing packages.
 
 ## Experiments
 
@@ -679,4 +688,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 37: Audit textarea example parity](37-audit-textarea-example-parity.md)
   — **Pass**
 - [Experiment 38: Implement textarea example parity depth](38-implement-textarea-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

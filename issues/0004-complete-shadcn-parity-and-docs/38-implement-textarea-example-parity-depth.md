@@ -215,3 +215,136 @@ commit, vendor checkouts are clean, the plan preserves Textarea as a native
 control primitive, the dependency/scope commands are runnable as no-match
 gates, and `textarea` is only marked resolved after docs, fixtures, Playwright,
 inventory, resolved-cluster, and regenerated parity evidence exist.
+
+## Result
+
+**Result:** Pass
+
+Experiment 38 completed Textarea example parity depth for the 5 plain upstream
+shadcn/ui Textarea examples:
+
+- `textarea-demo`
+- `textarea-disabled`
+- `textarea-with-button`
+- `textarea-with-label`
+- `textarea-with-text`
+
+Implementation changes:
+
+- `radcn/apps/docs/app/content/components.tsx` now has a rich Textarea docs
+  page with package-imported `Textarea`, `Button`, and `Label`, stable
+  `data-radcn-docs-textarea-family` hooks for all 5 plain examples, and
+  divergence copy for `data-slot`, Tailwind utilities, React prop spreading,
+  autosize ownership, form-library ownership, toast ownership, and icon
+  ownership.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/textarea.tsx` now expose named
+  candidate routes for `demo`, `disabled`, `with-button`, `with-label`, and
+  `with-text`, while preserving the existing `default` route.
+- `radcn/fixtures/tests/native-controls.spec.ts` verifies the 5 named Textarea
+  fixture routes with native textarea hooks, disabled state, Button
+  composition, Label accessible-name wiring, and helper text
+  `aria-describedby` wiring.
+- `radcn/apps/docs/tests/coverage.spec.ts` verifies the 5 named Textarea docs
+  hooks plus source/API text for `Button`, `Label`, `data-slot`,
+  `ariaDescribedBy`, Tailwind mapping, React prop mapping, and ownership copy
+  for autosize/form-library/toast/icon behavior.
+- `textarea-example-inventory.md` marks all 10 upstream textarea-related rows
+  `Covered`, preserving prior Field, InputGroup, and Form evidence.
+- `resolved-clusters.json` marks `textarea` resolved in the example queue, and
+  the regenerated `parity-inventory.md` now recommends example parity for
+  `toast`.
+- Issue 4 `README.md` records the final Textarea example outcome and mapping
+  decisions.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+```
+
+All three commands passed.
+
+```text
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-controls.spec.ts
+```
+
+Output summary:
+
+```text
+7 passed
+```
+
+```text
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Output summary:
+
+```text
+5 passed
+```
+
+The Playwright commands emitted the existing Node `module.register()`
+deprecation warning and `NO_COLOR`/`FORCE_COLOR` warning.
+
+Additional deterministic checks passed:
+
+```text
+node scripts/audit-shadcn-parity.mjs
+```
+
+Output:
+
+```text
+wrote issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+```
+
+Deterministic inventory checks proved all 10 textarea-related rows appear
+exactly once in `textarea-example-inventory.md` with `Covered` outcomes,
+`resolved-clusters.json` contains the `textarea` resolved example entry with
+Experiment 37, Experiment 38, and inventory evidence, `textarea` is absent from
+unresolved example clusters, and the first recommended cluster is no longer
+`Example parity for textarea`.
+
+Dependency and hygiene checks passed:
+
+```text
+rg -n "from ['\"]react['\"]|from ['\"][^'\"]*react-hook-form|from ['\"][^'\"]*@tanstack/react-form|from ['\"][^'\"]*@formisch|from ['\"][^'\"]*zod|from ['\"][^'\"]*valibot|from ['\"][^'\"]*@tabler|from ['\"][^'\"]*lucide-react|from ['\"][^'\"]*react-textarea-autosize|from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json
+rg -n "\"(react|react-hook-form|@tanstack/react-form|@formisch/react|zod|valibot|@tabler/icons-react|lucide-react|react-textarea-autosize)\"\\s*:" package.json radcn/packages/radcn/package.json radcn/apps/docs/package.json radcn/fixtures/candidate-remix/package.json
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Both dependency `rg` commands exited 1 with no matches. `git diff --check` and
+vendor status produced no output.
+
+## Completion Review
+
+Reviewer: Schrodinger (`019e9b7d-d37b-7b72-ace3-9903fd98d23b`)
+
+Fresh context: yes (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Schrodinger verified that the experiment has Result
+and Conclusion; the issue README marks Experiment 38 `Pass` and records
+Textarea learnings; docs, fixtures, and Playwright coverage cover the 5 plain
+examples; the inventory marks all 10 textarea-related examples covered with
+prior Field/InputGroup/Form evidence preserved; `resolved-clusters.json`
+contains resolved Textarea evidence for Experiments 37 and 38 plus inventory;
+the regenerated parity inventory no longer lists `textarea` unresolved and now
+recommends `toast`; `git diff --check`, vendor status, both dependency `rg`
+gates, and deterministic inventory/resolved-cluster checks matched the recorded
+result; and the result commit had not been made before completion review.
+
+## Conclusion
+
+Textarea example parity is resolved. The next experiment should follow the
+regenerated inventory recommendation and audit example parity for `toast`.

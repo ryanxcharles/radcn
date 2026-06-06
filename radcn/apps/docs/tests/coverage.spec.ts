@@ -137,6 +137,27 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText("import { Button } from 'radcn/button'").first()).toBeVisible()
     await expect(page.getByText("import { Label } from 'radcn/label'").first()).toBeVisible()
 
+    await page.goto('/docs/components/textarea')
+    for (let slug of [
+      'textarea-demo',
+      'textarea-disabled',
+      'textarea-with-button',
+      'textarea-with-label',
+      'textarea-with-text',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-textarea-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-textarea-family="textarea-demo"] textarea[data-radcn-textarea]')).toHaveAttribute('placeholder', 'Type your message here.')
+    await expect(page.locator('[data-radcn-docs-textarea-family="textarea-disabled"] textarea[data-radcn-textarea]')).toBeDisabled()
+    await expect(page.locator('[data-radcn-docs-textarea-family="textarea-with-button"] [data-radcn-button]')).toHaveText('Send message')
+    await expect(page.getByText('Button').first()).toBeVisible()
+    await expect(page.getByText('Label').first()).toBeVisible()
+    await expect(page.getByText('data-slot').first()).toBeVisible()
+    await expect(page.getByText('ariaDescribedBy').first()).toBeVisible()
+    await expect(page.getByText('Tailwind utility styling maps to RadCN classes').first()).toBeVisible()
+    await expect(page.getByText('React prop spreading maps to explicit Remix UI props').first()).toBeVisible()
+    await expect(page.getByText('Autosize behavior, form-library integration, toast results, and icon presentation are app-owned').first()).toBeVisible()
+
     await page.goto('/docs/components/dialog')
     await expect(page.locator('[data-radcn-dialog-content]').first()).toBeVisible()
 

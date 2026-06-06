@@ -142,6 +142,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/36-implement-kbd-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/kbd-example-inventory.md"
       ]
+    },
+    {
+      "slug": "textarea",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/37-audit-textarea-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/38-implement-textarea-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/textarea-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

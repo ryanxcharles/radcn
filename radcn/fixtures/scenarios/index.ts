@@ -476,6 +476,30 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Disabled textarea state with helper text.",
   },
   {
+    component: "textarea",
+    id: "demo",
+    title: "Textarea Demo",
+    description: "Plain textarea with upstream placeholder text.",
+  },
+  {
+    component: "textarea",
+    id: "with-button",
+    title: "Textarea With Button",
+    description: "Textarea composed with a send button.",
+  },
+  {
+    component: "textarea",
+    id: "with-label",
+    title: "Textarea With Label",
+    description: "Textarea wired to an explicit label.",
+  },
+  {
+    component: "textarea",
+    id: "with-text",
+    title: "Textarea With Text",
+    description: "Textarea with label and helper text.",
+  },
+  {
     component: "alert",
     id: "default",
     title: "Default Alert",
