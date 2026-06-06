@@ -28,6 +28,7 @@ import { renderNavigationMenuFixture } from './navigation-menu.tsx'
 import { renderResizableFixture } from './resizable.tsx'
 import {
   renderCheckboxFixture,
+  renderLabelFixture,
   renderProgressFixture,
   renderRadioGroupFixture,
   renderSwitchFixture,
@@ -130,6 +131,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderKbdFixture(fixture)
     case 'item':
       return renderItemFixture(fixture)
+    case 'label':
+      return renderLabelFixture(fixture)
     case 'menubar':
       return renderMenubarFixture(fixture)
     case 'pagination':

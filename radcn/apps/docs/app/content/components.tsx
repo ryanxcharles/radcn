@@ -6764,6 +6764,35 @@ export function ChartPreview() {
   )
 }`
 
+const labelDemoSource = `import { Checkbox } from 'radcn/checkbox'
+import { Label } from 'radcn/label'
+
+export function LabelDemo() {
+  return (
+    <div>
+      <div class="flex items-center space-x-2">
+        <Checkbox id="terms" />
+        <Label for="terms">Accept terms and conditions</Label>
+      </div>
+    </div>
+  )
+}`
+
+function LabelDemoPreview() {
+  return () => (
+    <div>
+      <div
+        data-radcn-docs-label-family="label-demo"
+        data-radcn-docs-label-layout="inline"
+        style="display:flex;align-items:center;gap:0.5rem;"
+      >
+        <Checkbox id="terms" name="terms" />
+        <Label for="terms">Accept terms and conditions</Label>
+      </div>
+    </div>
+  )
+}
+
 const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'accordion',
@@ -7793,6 +7822,48 @@ const richComponentDocs: ComponentDoc[] = [
       'lucide icons are app presentation choices; RadCN Kbd examples use app-owned spans or inline SVGs instead of adding an icon dependency.',
       'TooltipTrigger asChild maps to explicit RadCN TooltipTrigger composition, avoiding Radix Slot while preserving visible trigger behavior.',
       'Kbd does not own Button, ButtonGroup, InputGroup, Tooltip, command palette, icon-package, or shortcut-routing state.',
+    ],
+  },
+  {
+    slug: 'label',
+    title: 'Label',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native label primitive for explicit form-control association, disabled state, and app-owned control composition.',
+    importPath: 'radcn/label',
+    importExample: "import { Label } from 'radcn/label'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'label-demo',
+        title: 'Label Demo',
+        description:
+          'Render the upstream Checkbox and Label composition with exact terms copy, flex row layout, and native label activation.',
+        source: labelDemoSource,
+        preview: <LabelDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Label renders native label markup, so for links directly to a form control id in server HTML.',
+      'Clicking the Label activates the associated native Checkbox without React state or Radix Label behavior.',
+      'The upstream htmlFor prop maps to the native for prop in Remix UI.',
+      'Disabled label presentation is explicit through disabled, data-disabled, and native disabled controls composed by the app.',
+    ],
+    customization: [
+      'Label exposes class, style, data-disabled, and data-radcn-label for app-level styling and tests.',
+      'Checkbox composition exposes data-radcn-checkbox-wrapper, data-radcn-checkbox-input, and data-radcn-checkbox-indicator hooks.',
+      'The upstream flex items-center space-x-2 wrapper maps to app-owned row layout around RadCN primitives.',
+      'className, cn, and data-slot map to class and data-radcn-label hooks.',
+    ],
+    divergence: [
+      'use client and Radix LabelPrimitive Root map to native label markup.',
+      'Radix Label remains a non-dependency because browser label semantics provide the required association and activation.',
+      'Tailwind text-sm, leading-none, font-medium, and select-none styling maps to package CSS plus app-owned class/style overrides.',
+      'group-data disabled and peer-disabled behavior map to explicit disabled props, native disabled controls, and app-owned composition.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

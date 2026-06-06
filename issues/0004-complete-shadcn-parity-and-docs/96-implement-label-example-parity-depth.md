@@ -288,3 +288,72 @@ Approved. The reviewer confirmed the issue README links Experiment 96 with
 status `Designed`, the plan has the required sections, the dirty state is
 plan-only, vendor checkouts are clean, and the technical plan targets the exact
 Experiment 95 Partial gap without adding forbidden dependencies.
+
+## Result
+
+**Result:** Pass
+
+Experiment 96 resolved the direct upstream `label-demo` example without package
+code changes.
+
+- `radcn/apps/docs/app/content/components.tsx` now provides a rich Label docs
+  page with a named `label-demo` example, exact `Checkbox id="terms"` and
+  `Label for="terms"` composition, visible text `Accept terms and conditions`,
+  flex/center/8px layout evidence, public Label/Checkbox hooks, source snippet,
+  and React/Radix/`htmlFor`/`className`/Tailwind/`cn`/`data-slot`/disabled/
+  peer-disabled/vendor-source mapping copy.
+- `radcn/fixtures/scenarios/index.ts`,
+  `radcn/fixtures/scenarios/types.ts`,
+  `radcn/fixtures/candidate-remix/app/fixtures/index.tsx`, and
+  `radcn/fixtures/candidate-remix/app/fixtures/native-state.tsx` add the
+  candidate `/fixtures/label/demo` route.
+- `radcn/apps/docs/tests/coverage.spec.ts` and
+  `radcn/fixtures/tests/native-state.spec.ts` verify the named docs and fixture
+  examples, id/for association, layout evidence, public hooks, exact visible
+  copy, and native label click activation.
+- `label-example-inventory.md` now marks the single direct Label example as
+  `Covered`, and `resolved-clusters.json` marks `label` resolved in the
+  examples queue.
+- `node scripts/audit-shadcn-parity.mjs` regenerated
+  `parity-inventory.md`; the next generated recommendation is example parity
+  for `menubar`.
+
+Verification passed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-state.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+deterministic label inventory, resolved-clusters, parity recommendation, README, forbidden-import, manifest, lockfile, diff, and vendor checks
+```
+
+## Conclusion
+
+The direct Label example cluster is resolved. RadCN's existing native Label and
+Checkbox primitives already matched the upstream user-facing behavior; the
+missing work was named docs, a named fixture route, and tests proving the
+composition on the Label surface. The next Issue 4 experiment should audit
+direct Menubar example parity.
+
+## Completion Review
+
+Reviewer: Arendt the 3rd
+(`019e9e05-ed61-75c2-80fa-aa9bbd4eebfb`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the implementation matched the approved
+Experiment 96 scope; Result and Conclusion were present; the Issue 4 README
+recorded the Label learning and `Pass` status; docs and fixture Playwright
+assertions covered id/for wiring, public hooks, layout, exact text, and native
+label activation; inventory, resolved-cluster, and regenerated parity files
+were updated; verification commands were rerun successfully; vendor status was
+clean; and the result commit had not yet been made.

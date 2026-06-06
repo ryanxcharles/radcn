@@ -33,6 +33,7 @@ export type FixtureComponent =
   | "input-otp"
   | "item"
   | "menubar"
+  | "label"
   | "native-select"
   | "navigation-menu"
   | "pagination"

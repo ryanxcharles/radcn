@@ -84,6 +84,28 @@ test('candidate checkbox covers named upstream examples', async ({ page }) => {
   await expect(terms).toBeChecked()
 })
 
+test('candidate label covers named upstream demo composition', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/label/demo`)
+  let demo = page.locator('[data-candidate-label-family="label-demo"]')
+  let checkbox = demo.locator('[data-radcn-checkbox-input]')
+  let label = demo.locator('[data-radcn-label]')
+
+  await expect(demo).toBeVisible()
+  await expect(demo).toHaveAttribute('data-candidate-label-layout', 'inline')
+  await expect(demo).toHaveCSS('display', 'flex')
+  await expect(demo).toHaveCSS('align-items', 'center')
+  await expect(demo).toHaveCSS('gap', '8px')
+  await expect(demo.locator('[data-radcn-checkbox-wrapper]')).toHaveCount(1)
+  await expect(demo.locator('[data-radcn-checkbox-indicator]')).toHaveCount(1)
+  await expect(checkbox).toHaveAttribute('id', 'terms')
+  await expect(checkbox).toHaveAttribute('name', 'terms')
+  await expect(label).toHaveAttribute('for', 'terms')
+  await expect(label).toHaveText('Accept terms and conditions')
+  await expect(checkbox).not.toBeChecked()
+  await label.click()
+  await expect(checkbox).toBeChecked()
+})
+
 test('candidate radio group exposes native radios hooks and forms', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/radio-group/default`)
   let group = page.locator('[data-radcn-radio-group]')

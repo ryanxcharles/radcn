@@ -403,6 +403,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/94-implement-hover-card-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/hover-card-example-inventory.md"
       ]
+    },
+    {
+      "slug": "label",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/95-audit-label-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/96-implement-label-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/label-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

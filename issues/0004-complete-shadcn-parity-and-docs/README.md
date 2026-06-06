@@ -1277,6 +1277,16 @@ Record cross-component discoveries here as experiments complete.
   React/Radix/`htmlFor`/Tailwind/`cn`/`data-slot`/peer-disabled mapping.
   The next experiment should implement named `label-demo` docs, candidate
   fixture, and Playwright coverage.
+- Experiment 96 completed direct Label example parity for `label-demo`.
+  `label-example-inventory.md` now marks the single direct Label example
+  covered. Docs and candidate fixtures render the exact `Checkbox id="terms"`
+  and `Label for="terms"` composition with `Accept terms and conditions`,
+  flex/center/8px spacing evidence, public Label and Checkbox hooks, and native
+  label click activation. The Label docs record the React `"use client"`,
+  Radix `LabelPrimitive.Root`, `htmlFor`, `className`, Tailwind, `cn`,
+  `data-slot`, group disabled, `peer-disabled`, and vendor-source mapping.
+  Package code did not need changes. After regenerating parity inventory, the
+  next generated recommendation is example parity for `menubar`.
 
 ## Experiments
 
@@ -1471,4 +1481,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 95: Audit label example parity](95-audit-label-example-parity.md)
   — **Partial**
 - [Experiment 96: Implement label example parity depth](96-implement-label-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

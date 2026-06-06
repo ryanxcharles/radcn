@@ -19,6 +19,21 @@ const checkboxDescriptionStyle = 'margin:0;color:var(--radcn-muted-foreground);f
 const checkboxStackStyle = 'display:grid;gap:24px;max-width:420px'
 const checkboxCardStyle = 'display:flex;align-items:flex-start;gap:12px;border:1px solid #2563eb;border-radius:8px;padding:12px;background:#eff6ff'
 
+export function renderLabelFixture(_fixture: FixtureScenario) {
+  return (
+    <div>
+      <div
+        data-candidate-label-family="label-demo"
+        data-candidate-label-layout="inline"
+        style="display:flex;align-items:center;gap:8px"
+      >
+        <Checkbox id="terms" name="terms" />
+        <Label for="terms">Accept terms and conditions</Label>
+      </div>
+    </div>
+  )
+}
+
 export function renderCheckboxFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
     case 'demo':

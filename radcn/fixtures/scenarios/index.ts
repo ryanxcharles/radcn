@@ -176,6 +176,12 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Field error styling customized through a RadCN CSS variable.",
   },
   {
+    component: "label",
+    id: "demo",
+    title: "Label Demo",
+    description: "Checkbox and Label composition with native label activation.",
+  },
+  {
     component: "input",
     id: "demo",
     title: "Input Demo",
