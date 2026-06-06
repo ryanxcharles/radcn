@@ -369,3 +369,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 18: Implement item example parity depth](18-implement-item-example-parity-depth.md)
   — **Pass**
+- [Experiment 19: Audit spinner example parity](19-audit-spinner-example-parity.md)
+  — **Designed**
