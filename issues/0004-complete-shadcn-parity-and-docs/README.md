@@ -237,3 +237,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 7: Track resolved parity clusters](07-track-resolved-parity-clusters.md)
   — **Pass**
+- [Experiment 8: Resolve typography outcome](08-resolve-typography-outcome.md)
+  — **Designed**
