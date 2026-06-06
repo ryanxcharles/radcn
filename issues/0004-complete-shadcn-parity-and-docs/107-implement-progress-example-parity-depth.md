@@ -199,3 +199,76 @@ follows Experiment 106's conclusion, verification includes concrete pass/fail
 criteria and hygiene checks, implementation had not started before the plan
 commit, vendor checks are clean, and the modified blocks/chart-gallery scope is
 respected while retaining `radcn/chart` package scope.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `progress-demo` parity across docs, candidate fixtures,
+scoped browser behavior, and Playwright evidence. The docs page now renders the
+upstream timed Progress demo with value `13`, class `w-[60%]`, explicit 60%
+wrapper width, source snippet, native progress semantics, wrapper/track/
+indicator hooks, and mapping copy for React state/effect/timer, Radix
+primitives, Tailwind utilities, `cn`, `className`, `data-slot`, transform
+movement, custom tokens, and vendor source. The docs browser entry enhances the
+named example to value `66` after 500ms without React.
+
+The candidate fixture now has a named `progress/demo` route with the same
+initial value, width mapping, and timed enhancement. Existing default,
+indeterminate, and custom-token Progress scenarios remain covered. The Progress
+inventory marks `progress-demo` as `Covered`, `resolved-clusters.json` records
+`progress` as resolved, and the regenerated parity inventory removes Progress
+from unresolved examples.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-state.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic checks for progress-example-inventory.md, resolved-clusters.json,
+  parity-inventory.md, forbidden source imports, and forbidden manifest dependencies
+git diff --exit-code -- pnpm-lock.yaml
+git ls-files vendor
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. The first Playwright attempt exposed two implementation
+issues: the docs Progress wrapper had no stable width context for the 60%
+mapping, and the candidate fixture placed the demo data hook on `Field`, which
+does not forward arbitrary data attributes. Both were fixed before the passing
+runs. The final Playwright runs reported 7 passing native-state tests and 5
+passing docs coverage tests.
+
+## Conclusion
+
+Progress direct example parity is resolved for Issue 4. The reusable learning
+is that width-percentage examples need a stable containing block in docs
+previews, and fixture hooks must live on host elements or package parts that
+actually forward the needed attributes. The next generated recommendation is
+example parity for `radio-group`.
+
+## Completion Review
+
+Reviewer: Epicurus the 3rd (`019e9e87-d46c-7b22-b070-3334051cdf38`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the experiment has `## Result` and
+`## Conclusion`, the Issue 4 README marks Experiment 107 as `Pass` and records
+the Progress learning plus next `radio-group` recommendation, docs and fixture
+surfaces cover initial `13`, delayed `66`, 60% width, hooks, source/mapping
+copy, and scoped enhancement, tests assert docs and fixture behavior,
+`progress-example-inventory.md` marks the single row as `Covered`, `progress`
+is resolved and removed from unresolved examples, typechecks and Playwright
+verification passed, vendor checks passed, and the result commit had not yet
+been made.

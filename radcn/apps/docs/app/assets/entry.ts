@@ -262,10 +262,27 @@ function setupCommandDialogShortcutExample() {
   })
 }
 
+function setupProgressDemoExample(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-radcn-docs-progress-family="progress-demo"]').forEach((example) => {
+    if (example.dataset.radcnDocsProgressDemoReady === 'true') return
+    let progress = example.querySelector<HTMLProgressElement>('[data-radcn-progress]')
+    let indicator = example.querySelector<HTMLElement>('[data-radcn-progress-indicator]')
+    if (!progress || !indicator) return
+
+    example.dataset.radcnDocsProgressDemoReady = 'true'
+    window.setTimeout(() => {
+      progress.value = 66
+      progress.setAttribute('value', '66')
+      indicator.style.width = '66%'
+    }, 500)
+  })
+}
+
 setupThemeModeControl()
 setupCodeCopyButtons()
 setupInputOTPControlledExamples()
 setupCommandDialogShortcutExample()
+setupProgressDemoExample()
 
 run({
   async loadModule(moduleUrl, exportName) {

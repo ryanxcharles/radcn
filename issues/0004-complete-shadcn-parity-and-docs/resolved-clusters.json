@@ -456,6 +456,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/105-implement-popover-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/popover-example-inventory.md"
       ]
+    },
+    {
+      "slug": "progress",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/106-audit-progress-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/107-implement-progress-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/progress-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

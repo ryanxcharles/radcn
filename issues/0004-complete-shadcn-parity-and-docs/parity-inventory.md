@@ -163,6 +163,7 @@ These are documented in RadCN but are not current package exports.
 | examples | navigation-menu | resolved | `issues/0004-complete-shadcn-parity-and-docs/100-audit-navigation-menu-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/101-implement-navigation-menu-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/navigation-menu-example-inventory.md` |
 | examples | pagination | resolved | `issues/0004-complete-shadcn-parity-and-docs/102-audit-pagination-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/103-implement-pagination-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/pagination-example-inventory.md` |
 | examples | popover | resolved | `issues/0004-complete-shadcn-parity-and-docs/104-audit-popover-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/105-implement-popover-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/popover-example-inventory.md` |
+| examples | progress | resolved | `issues/0004-complete-shadcn-parity-and-docs/106-audit-progress-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/107-implement-progress-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/progress-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -243,7 +244,6 @@ parity decision.
 
 | Component | Example count | Examples |
 | --- | ---: | --- |
-| progress | 1 | `progress-demo` |
 | radio-group | 1 | `radio-group-demo` |
 | separator | 1 | `separator-demo` |
 | slider | 1 | `slider-demo` |
@@ -481,13 +481,13 @@ These chart-gallery clusters are intentionally excluded from the current Issue
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for progress
+**Cluster:** Example parity for radio-group
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for progress.
+- Audit upstream examples for radio-group.
 
 ## Notes
 

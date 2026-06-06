@@ -281,6 +281,16 @@ export function renderSwitchFixture(fixture: FixtureScenario) {
 
 export function renderProgressFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return (
+        <div data-fixture-progress-family="progress-demo" style="width:100%;">
+          <Field>
+            <Label>Progress</Label>
+            <Progress ariaLabel="Progress" class="w-[60%]" value={13} style="width:60%;" />
+            <FieldDescription>Timed progress demo.</FieldDescription>
+          </Field>
+        </div>
+      )
     case 'indeterminate':
       return (
         <Field>

@@ -177,6 +177,23 @@ test('candidate switch exposes checkbox role switch hooks and forms', async ({ p
 })
 
 test('candidate progress exposes native progress semantics and customization', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/progress/demo`)
+  let demo = page.locator('[data-fixture-progress-family="progress-demo"]')
+  let demoProgress = demo.locator('progress[data-radcn-progress]')
+  let demoWrapper = demo.locator('[data-radcn-progress-wrapper]')
+  let demoIndicator = demo.locator('[data-radcn-progress-indicator]')
+  await expect(demo).toBeVisible()
+  await expect(demoProgress).toHaveAttribute('aria-label', 'Progress')
+  await expect(demoProgress).toHaveAttribute('max', '100')
+  await expect(demoProgress).toHaveAttribute('value', '13')
+  await expect(demoWrapper).toHaveAttribute('data-state', 'determinate')
+  await expect(demoWrapper).toHaveClass(/w-\[60%\]/)
+  await expect(demoWrapper).toHaveAttribute('style', /width:60%/)
+  await expect(demo.locator('[data-radcn-progress-track]')).toHaveCount(1)
+  await expect(demoIndicator).toHaveAttribute('style', 'width:13%')
+  await expect(demoProgress).toHaveAttribute('value', '66', { timeout: 1500 })
+  await expect(demoIndicator).toHaveAttribute('style', 'width: 66%;')
+
   await page.goto(`${candidate}/fixtures/progress/default`)
   let progress = page.locator('progress[data-radcn-progress]')
   await expect(progress).toHaveAttribute('aria-label', 'Upload progress')

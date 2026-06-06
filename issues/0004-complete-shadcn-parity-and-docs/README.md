@@ -1431,6 +1431,18 @@ Record cross-component discoveries here as experiments complete.
   `13`, update to `66` after 500ms, and `className="w-[60%]"` width mapping.
   The next experiment should implement named `progress-demo` docs, candidate
   fixture, dependency-free browser behavior, and Playwright coverage.
+- Experiment 107 implemented named `progress-demo` parity and updated
+  `progress-example-inventory.md` to `Covered`. The docs site now has a rich
+  Progress page with exact source, initial value `13`, scoped dependency-free
+  browser behavior that updates to `66` after 500ms, explicit `w-[60%]` and
+  60% wrapper width mapping, native progress semantics, wrapper/track/indicator
+  hooks, and mapping copy for React state/effect/timer, Radix primitives,
+  Tailwind utilities, `cn`, `className`, `data-slot`, transform movement,
+  custom tokens, and vendor source. The candidate fixture now has
+  `progress/demo` with matching timed behavior while existing default,
+  indeterminate, and custom-token scenarios remain covered. `progress` is
+  resolved in the example queue; the next generated recommendation is example
+  parity for `radio-group`.
 
 ## Experiments
 
@@ -1647,4 +1659,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 106: Audit progress example parity](106-audit-progress-example-parity.md)
   — **Partial**
 - [Experiment 107: Implement progress example parity depth](107-implement-progress-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

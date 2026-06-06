@@ -1749,6 +1749,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "progress",
+    id: "demo",
+    title: "Progress Demo",
+    description: "Timed upstream progress demo.",
+  },
+  {
+    component: "progress",
     id: "default",
     title: "Default Progress",
     description: "Determinate native progress value.",

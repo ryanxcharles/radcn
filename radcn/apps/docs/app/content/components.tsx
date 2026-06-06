@@ -7545,6 +7545,27 @@ function PopoverDemoPreview() {
   )
 }
 
+const progressDemoSource = `import { Progress } from 'radcn/progress'
+
+export function ProgressDemo() {
+  return (
+    <Progress
+      ariaLabel="Progress"
+      class="w-[60%]"
+      value={13}
+      style="width:60%;"
+    />
+  )
+}`
+
+function ProgressDemoPreview() {
+  return () => (
+    <div data-radcn-docs-progress-family="progress-demo" mix={previewRowStyle} style="width:100%;">
+      <Progress ariaLabel="Progress" class="w-[60%]" value={13} style="width:60%;" />
+    </div>
+  )
+}
+
 const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'accordion',
@@ -8791,6 +8812,51 @@ const richComponentDocs: ComponentDoc[] = [
       'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-popover* hooks.',
       'Tailwind grid, gap, width, col-span, height, leading, font, text-sm, muted foreground, transition, data-state, and data-side utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
       'Input defaultValue maps to RadCN Input value for deterministic server-rendered default form values.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'progress',
+    title: 'Progress',
+    category: 'Feedback',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native progress primitive with determinate, indeterminate, timed-demo, and tokenized indicator states.',
+    importPath: 'radcn/progress',
+    importExample: "import { Progress } from 'radcn/progress'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'progress-demo',
+        title: 'Progress Demo',
+        description:
+          'Render the upstream timed progress demo from value 13 to 66 with a 60% wrapper width.',
+        source: progressDemoSource,
+        preview: <ProgressDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Progress renders a native progress element with an accessible label, max value, and determinate value in server HTML.',
+      'The named demo starts with value 13 and updates to value 66 through scoped browser enhancement without React state.',
+      'The native progress element remains the semantic source of progress state while the visual indicator mirrors the value.',
+      'Indeterminate state remains available when value is omitted and is covered by existing fixture behavior.',
+    ],
+    customization: [
+      'Wrapper, native progress, track, and indicator parts expose public data-radcn-progress hooks and package classes.',
+      'className="w-[60%]" maps to class plus explicit 60% wrapper width style evidence.',
+      'bg-primary/20 and bg-primary map to --radcn-progress-bg, --radcn-progress-fg, and package token defaults.',
+      'Apps can customize width, class, style, max, value, accessible label, and CSS variables without changing the package API.',
+      'Existing custom-token fixtures remain the evidence for public Progress token modifiability.',
+    ],
+    divergence: [
+      'use client, React useState, React useEffect, and the 500ms timeout map to scoped dependency-free browser behavior in the docs and fixture apps.',
+      'React component props and Radix Progress primitives map to server-rendered RadCN markup with a native progress element.',
+      'ProgressPrimitive.Root maps to data-radcn-progress-wrapper plus the native progress element; ProgressPrimitive.Indicator maps to data-radcn-progress-indicator.',
+      'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-progress* hooks.',
+      'Tailwind w-[60%], bg-primary/20, bg-primary, h-2, rounded-full, overflow-hidden, flex, transition-all, and transform utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
+      'Upstream translateX indicator movement maps to equivalent visible percentage progress through indicator width, not literal transform style equivalence.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

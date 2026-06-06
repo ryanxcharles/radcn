@@ -246,6 +246,22 @@ function enhanceFixtureCommandDialogShortcut(root: ParentNode = document) {
   })
 }
 
+function enhanceFixtureProgressDemo(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-fixture-progress-family="progress-demo"]').forEach((example) => {
+    if (example.dataset.fixtureProgressDemoReady === 'true') return
+    let progress = example.querySelector<HTMLProgressElement>('[data-radcn-progress]')
+    let indicator = example.querySelector<HTMLElement>('[data-radcn-progress-indicator]')
+    if (!progress || !indicator) return
+
+    example.dataset.fixtureProgressDemoReady = 'true'
+    window.setTimeout(() => {
+      progress.value = 66
+      progress.setAttribute('value', '66')
+      indicator.style.width = '66%'
+    }, 500)
+  })
+}
+
 document.addEventListener('click', (event) => {
   let target = event.target
   if (!(target instanceof Element)) return
@@ -267,6 +283,7 @@ enhanceFixtureCarouselStatus()
 enhanceFixtureCarouselAutoplay()
 enhanceFixtureComboboxExamples()
 enhanceFixtureCommandDialogShortcut()
+enhanceFixtureProgressDemo()
 
 document.addEventListener('click', (event) => {
   let target = event.target
