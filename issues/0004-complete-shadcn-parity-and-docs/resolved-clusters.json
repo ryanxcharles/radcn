@@ -474,6 +474,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/109-implement-radio-group-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/radio-group-example-inventory.md"
       ]
+    },
+    {
+      "slug": "separator",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/110-audit-separator-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/111-implement-separator-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/separator-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

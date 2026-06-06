@@ -1476,6 +1476,17 @@ Record cross-component discoveries here as experiments complete.
   description, `my-4` horizontal separator, `Blog`/`Docs`/`Source` row, and two
   vertical separators. The next experiment should implement named
   `separator-demo` docs, fixture, and Playwright parity.
+- Experiment 111 implemented named `separator-demo` parity and updated
+  `separator-example-inventory.md` to `Covered`. The docs site now has a rich
+  Separator page with exact upstream text, one horizontal `my-4` separator,
+  two vertical separators, `Blog`/`Docs`/`Source` row labels, row layout class
+  and style evidence, source snippet, decorative default evidence, and mapping
+  copy for React/Radix/Tailwind/`cn`/`className`/`data-slot`/vendor
+  divergences. The candidate fixture now routes `separator/demo` through the
+  static-display fixture dispatcher while preserving `separator/orientations`
+  semantic coverage for `decorative={false}`. `separator` is resolved in the
+  example queue; the next generated recommendation is example parity for
+  `slider`.
 
 ## Experiments
 
@@ -1700,4 +1711,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 110: Audit separator example parity](110-audit-separator-example-parity.md)
   — **Partial**
 - [Experiment 111: Implement separator example parity depth](111-implement-separator-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

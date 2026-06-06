@@ -3,14 +3,14 @@
 ## Summary
 
 Upstream shadcn/ui New York v4 has one direct Separator example,
-`separator-demo`. RadCN already has the package API and styling substrate for
+`separator-demo`. RadCN has the package API and styling substrate for
 horizontal and vertical separators, including decorative and semantic modes,
-but the current docs and fixture evidence does not prove the exact upstream
-demo composition.
+and now has named docs, candidate fixture, and Playwright evidence for the
+exact upstream demo composition.
 
-The current outcome is `Partial`. The next experiment should add named
-`separator-demo` parity across the docs page, candidate fixture route, and
-Playwright coverage before marking Separator resolved.
+The current outcome is `Covered`. Separator is ready to mark resolved for Issue
+4 once `resolved-clusters.json` and the generated parity inventory record the
+cluster.
 
 Current RadCN evidence compared in this audit:
 
@@ -24,22 +24,29 @@ Current RadCN evidence compared in this audit:
   `SeparatorOrientation`, and `SeparatorProps`.
 - `radcn/packages/radcn/package.json` exposes the `./separator` package
   subpath.
-- `radcn/apps/docs/app/content/components.tsx` includes the generic Separator
-  docs route and preview seed, but not a named `separator-demo`.
-- `radcn/apps/docs/tests/coverage.spec.ts` checks only generic docs hook
-  presence for `[data-radcn-separator]`, not named `separator-demo` parity.
-- `radcn/fixtures/scenarios/index.ts` lists a `separator/orientations`
-  scenario.
-- `radcn/fixtures/candidate-remix/app/fixtures/native-state.tsx` does not
-  currently render a Separator fixture route.
-- `radcn/fixtures/tests/native-state.spec.ts` does not currently assert
-  Separator fixture behavior.
+- `radcn/apps/docs/app/content/components.tsx` includes named
+  `separator-demo` docs with exact upstream text, one horizontal separator,
+  two vertical separators, row layout evidence, source snippet, and mapping
+  copy.
+- `radcn/apps/docs/tests/coverage.spec.ts` checks the named docs demo, exact
+  text, public hooks, orientations, decorative defaults, row layout, source
+  snippet, and dependency-divergence copy.
+- `radcn/fixtures/scenarios/index.ts` lists `separator/demo` and
+  `separator/orientations` scenarios.
+- `radcn/fixtures/candidate-remix/app/fixtures/index.tsx` routes Separator
+  scenarios through `renderSeparatorFixture(fixture)`.
+- `radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx` renders
+  named `separator-demo` parity and preserves `separator/orientations`
+  semantic behavior.
+- `radcn/fixtures/tests/native-state.spec.ts` asserts the named fixture demo,
+  decorative default behavior, row layout, horizontal and vertical
+  orientations, and semantic `decorative={false}` behavior.
 
 ## Examples
 
 | Upstream example | User-facing behavior and upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `separator-demo` | Renders a text block with heading `Radix Primitives` and description `An open-source UI component library.`, then a horizontal separator with `className="my-4"`, then an inline row with `Blog`, `Docs`, and `Source` separated by two vertical separators. The row uses `flex h-5 items-center space-x-4 text-sm`. Upstream package mechanics include `"use client"`, React component props, Radix Separator primitive, `SeparatorPrimitive.Root`, default `orientation="horizontal"`, default `decorative={true}`, `className`, Tailwind utilities, `cn`, `data-slot="separator"`, `data-orientation`, horizontal sizing, vertical sizing, decorative separator behavior, semantic separator behavior, browser accessibility behavior, custom tokens through border color, and vendor source. | RadCN exports `Separator` from `radcn/separator` and the package manifest exposes `./separator`. The component is dependency-free, accepts `class`, `decorative`, `orientation`, and `style`, emits `data-radcn-separator` and `data-orientation`, defaults to horizontal/decorative, uses `role="none"` for decorative separators and `role="separator"` plus `aria-orientation` when semantic, and styles `.radcn-separator--horizontal` as full-width 1px and `.radcn-separator--vertical` as 1px with stretched block size through `--radcn-border`. The docs registry has a generic Separator route and preview seed, and docs coverage has only generic hook presence for `[data-radcn-separator]`. `radcn/fixtures/scenarios/index.ts` lists `separator/orientations`, but `native-state.tsx` and `native-state.spec.ts` do not currently render or assert a Separator fixture route. No current named docs, fixture, or Playwright evidence proves the exact upstream heading, description, `my-4` horizontal separator, inline `Blog`/`Docs`/`Source` row, or two vertical separators. | Partial | Add named `separator-demo` docs, candidate fixture, and Playwright evidence. The implementation should preserve the exact upstream text and three-label row, prove one horizontal and two vertical `Separator` instances, verify `data-orientation`, decorative default behavior, semantic opt-in coverage or an explicit existing fixture reference, row layout mapping for `flex h-5 items-center space-x-4 text-sm`, source snippet, and mapping copy for React/Radix/className/Tailwind/cn/data-slot/vendor divergences. |
+| `separator-demo` | Renders a text block with heading `Radix Primitives` and description `An open-source UI component library.`, then a horizontal separator with `className="my-4"`, then an inline row with `Blog`, `Docs`, and `Source` separated by two vertical separators. The row uses `flex h-5 items-center space-x-4 text-sm`. Upstream package mechanics include `"use client"`, React component props, Radix Separator primitive, `SeparatorPrimitive.Root`, default `orientation="horizontal"`, default `decorative={true}`, `className`, Tailwind utilities, `cn`, `data-slot="separator"`, `data-orientation`, horizontal sizing, vertical sizing, decorative separator behavior, semantic separator behavior, browser accessibility behavior, custom tokens through border color, and vendor source. | RadCN exports `Separator` from `radcn/separator` and the package manifest exposes `./separator`. The named docs demo and `separator/demo` fixture preserve exact text, one horizontal separator, two vertical separators, `Blog`/`Docs`/`Source`, and row layout class/style evidence. Docs and fixture Playwright assert three public separator hooks, `data-orientation`, decorative default `role="none"`, horizontal/vertical sizing, source snippet, and mapping copy. `separator/orientations` fixture coverage asserts semantic `decorative={false}` behavior with `role="separator"` and `aria-orientation`. | Covered | No follow-up. |
 
 ## Decisions
 

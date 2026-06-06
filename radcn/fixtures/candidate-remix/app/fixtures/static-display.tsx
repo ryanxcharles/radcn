@@ -596,9 +596,34 @@ export function renderKbdFixture(fixture: FixtureScenario) {
   )
 }
 
-export function renderSeparatorFixture() {
+export function renderSeparatorFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') {
+    return (
+      <div data-candidate-separator-family="separator-demo" style="width:384px">
+        <div class="space-y-1" data-candidate-separator-copy style="display:grid;gap:4px">
+          <h4 class="text-sm leading-none font-medium" style="margin:0;font-size:14px;line-height:1;font-weight:500">Radix Primitives</h4>
+          <p class="text-sm text-muted-foreground" style="margin:0;color:var(--radcn-muted-foreground);font-size:14px">
+            An open-source UI component library.
+          </p>
+        </div>
+        <Separator class="my-4" data-candidate-separator-horizontal style="margin:16px 0" />
+        <div
+          class="flex h-5 items-center space-x-4 text-sm"
+          data-candidate-separator-row
+          style="display:flex;height:20px;align-items:center;gap:16px;font-size:14px"
+        >
+          <div>Blog</div>
+          <Separator data-candidate-separator-vertical orientation="vertical" />
+          <div>Docs</div>
+          <Separator data-candidate-separator-vertical orientation="vertical" />
+          <div>Source</div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div style="display:flex;gap:24px;align-items:stretch;height:96px">
+    <div data-candidate-separator-family="orientations" style="display:flex;gap:24px;align-items:stretch;height:96px">
       <div style="display:grid;gap:12px;align-content:start;width:260px">
         <span>General</span>
         <Separator decorative={false} orientation="horizontal" />

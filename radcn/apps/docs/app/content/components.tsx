@@ -7609,6 +7609,54 @@ function RadioGroupDemoPreview() {
   )
 }
 
+const separatorDemoSource = `import { Separator } from 'radcn/separator'
+
+export function SeparatorDemo() {
+  return (
+    <div>
+      <div class="space-y-1">
+        <h4 class="text-sm leading-none font-medium">Radix Primitives</h4>
+        <p class="text-sm text-muted-foreground">
+          An open-source UI component library.
+        </p>
+      </div>
+      <Separator class="my-4" style="margin:1rem 0;" />
+      <div class="flex h-5 items-center space-x-4 text-sm" style="display:flex;height:1.25rem;align-items:center;gap:1rem;font-size:0.875rem;">
+        <div>Blog</div>
+        <Separator orientation="vertical" />
+        <div>Docs</div>
+        <Separator orientation="vertical" />
+        <div>Source</div>
+      </div>
+    </div>
+  )
+}`
+
+function SeparatorDemoPreview() {
+  return () => (
+    <div data-radcn-docs-separator-family="separator-demo" style="width:min(100%,24rem);">
+      <div class="space-y-1" data-radcn-docs-separator-copy style="display:grid;gap:0.25rem;">
+        <h4 class="text-sm leading-none font-medium" style="margin:0;font-size:0.875rem;line-height:1;font-weight:500;">Radix Primitives</h4>
+        <p class="text-sm text-muted-foreground" style="margin:0;color:var(--radcn-muted-foreground);font-size:0.875rem;">
+          An open-source UI component library.
+        </p>
+      </div>
+      <Separator class="my-4" data-radcn-docs-separator-horizontal style="margin:1rem 0;" />
+      <div
+        class="flex h-5 items-center space-x-4 text-sm"
+        data-radcn-docs-separator-row
+        style="display:flex;height:1.25rem;align-items:center;gap:1rem;font-size:0.875rem;"
+      >
+        <div>Blog</div>
+        <Separator data-radcn-docs-separator-vertical orientation="vertical" />
+        <div>Docs</div>
+        <Separator data-radcn-docs-separator-vertical orientation="vertical" />
+        <div>Source</div>
+      </div>
+    </div>
+  )
+}
+
 const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'accordion',
@@ -8944,6 +8992,49 @@ const richComponentDocs: ComponentDoc[] = [
       'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-radio* hooks.',
       'Tailwind grid, gap, flex, items-center, size, rounded-full, border, focus, disabled, invalid, fill, translate, and transition utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
       'Label htmlFor maps to RadCN Label for while preserving native label/input association.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'separator',
+    title: 'Separator',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A decorative or semantic separator primitive with horizontal and vertical orientation support.',
+    importPath: 'radcn/separator',
+    importExample: "import { Separator } from 'radcn/separator'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'separator-demo',
+        title: 'Separator Demo',
+        description:
+          'Render the upstream Radix Primitives copy, horizontal rule, and Blog/Docs/Source row with vertical separators.',
+        source: separatorDemoSource,
+        preview: <SeparatorDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Separator defaults to decorative mode for visual grouping, matching upstream decorative=true behavior.',
+      'The named demo uses decorative separators for the horizontal rule and the two vertical dividers.',
+      'Semantic separator behavior remains available with decorative={false}, which exposes role="separator" and aria-orientation.',
+      'Browser accessibility behavior is verified through roles and aria-orientation instead of React or Radix internals.',
+    ],
+    customization: [
+      'Separator exposes public data-radcn-separator hooks, data-orientation, orientation classes, and class/style customization.',
+      'className="my-4" maps to class plus explicit margin style evidence for the horizontal separator.',
+      'The upstream flex h-5 items-center space-x-4 text-sm row layout maps to class plus explicit display, height, alignment, gap, and font-size styles.',
+      'Horizontal and vertical sizing map to package CSS over .radcn-separator--horizontal and .radcn-separator--vertical with --radcn-border token color.',
+    ],
+    divergence: [
+      'use client, React component props, and Radix Separator primitive map to dependency-free server-rendered RadCN markup.',
+      'SeparatorPrimitive.Root maps to a div with data-radcn-separator and data-orientation.',
+      'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-separator plus data-orientation hooks.',
+      'Tailwind my-4, flex, h-5, items-center, space-x-4, text-sm, bg-border, shrink-0, h-px, w-full, h-full, and w-px utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
+      'decorative={true} maps to role="none"; semantic decorative={false} maps to role="separator" with aria-orientation.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

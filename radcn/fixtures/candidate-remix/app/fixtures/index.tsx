@@ -154,7 +154,7 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
     case 'native-select':
       return renderNativeSelectFixture(fixture)
     case 'separator':
-      return renderSeparatorFixture()
+      return renderSeparatorFixture(fixture)
     case 'sheet':
       return renderSheetFixture(fixture)
     case 'sidebar':

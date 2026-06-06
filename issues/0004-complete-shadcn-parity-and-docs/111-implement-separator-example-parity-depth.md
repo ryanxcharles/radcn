@@ -219,3 +219,87 @@ expected-file whitelist is present, dependency scanning is scoped to changed
 implementation files, repo hygiene and vendor checks are present, and the
 modified blocks/chart-gallery scope remains respected while retaining
 `radcn/chart`.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `separator-demo` parity across docs, candidate fixtures, and
+Playwright evidence. The docs page now renders the exact upstream
+`Radix Primitives` heading, `An open-source UI component library.` description,
+one horizontal `my-4` separator, `Blog`/`Docs`/`Source` row labels, two
+vertical separators, row layout class/style evidence, source snippet,
+decorative default behavior, public `data-radcn-separator` and
+`data-orientation` hooks, and mapping copy for React props, Radix primitives,
+Tailwind utilities, `cn`, `className`, `data-slot`, custom tokens, decorative
+versus semantic behavior, and vendor source.
+
+The candidate fixture dispatcher now passes Separator scenarios into
+`renderSeparatorFixture(fixture)`. The static-display fixture renders a named
+`separator/demo` route while preserving `separator/orientations` for
+`decorative={false}` semantic coverage. Fixture Playwright evidence proves the
+named demo's exact text, one horizontal separator, two vertical separators,
+decorative default role behavior, public orientation hooks, row layout, and
+semantic separator role/aria-orientation behavior.
+
+The first Playwright run failed because `Source` matched both the row label and
+the description word `source`; the tests now use exact text matching. The
+second Playwright run failed because the tests asserted custom marker props on
+`Separator`, but `Separator` intentionally exposes only public package hooks;
+the tests now assert `data-radcn-separator` plus `data-orientation`.
+
+`separator-example-inventory.md` now marks `separator-demo` `Covered`,
+`resolved-clusters.json` records `separator` as resolved, and the regenerated
+parity inventory removes Separator from unresolved examples. The next generated
+recommendation is example parity for `slider`.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-state.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic checks for separator-example-inventory.md,
+  resolved-clusters.json, parity-inventory.md, changed-file forbidden imports,
+  and manifest dependencies
+git diff --exit-code -- pnpm-lock.yaml
+git diff --check
+git ls-files vendor
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+git status --short
+```
+
+All final commands passed. The final fixture Playwright run reported 8 passing
+native-state tests, and the final docs Playwright run reported 5 passing
+coverage tests.
+
+## Conclusion
+
+Separator direct example parity is resolved for Issue 4. The next generated
+recommendation is example parity for `slider`.
+
+## Completion Review
+
+Reviewer: Delta-111 (`019e9eb1-3db3-7e72-8e61-939faf7e8699`), fresh-context
+Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed Experiment 111 has `Result` and `Conclusion`
+recorded as `Pass`, the Issue 4 README records the learning and marks the
+experiment `Pass`, docs render the named `separator-demo` with exact text,
+horizontal and vertical separators, row labels/layout, source snippet, and
+mapping copy, docs and fixture Playwright cover the named demo, the candidate
+dispatcher uses `renderSeparatorFixture(fixture)` through the actual
+static-display path, semantic `separator/orientations` coverage remains, the
+inventory marks `separator-demo` `Covered`, `resolved-clusters.json` and the
+regenerated parity inventory resolve Separator and recommend Slider next,
+dependency/lockfile/vendor checks passed, the final status matched the expected
+Experiment 111 file set, and the result commit had not yet been made.

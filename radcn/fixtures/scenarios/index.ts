@@ -843,6 +843,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "separator",
+    id: "demo",
+    title: "Separator Demo",
+    description: "Named upstream separator demo with horizontal and vertical separators.",
+  },
+  {
+    component: "separator",
     id: "orientations",
     title: "Separator Orientations",
     description: "Horizontal and vertical separator semantics.",
