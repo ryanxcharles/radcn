@@ -935,3 +935,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 57: Audit alert example parity](57-audit-alert-example-parity.md)
   — **Partial**
+- [Experiment 58: Implement alert example parity depth](58-implement-alert-example-parity-depth.md)
+  — **Designed**
