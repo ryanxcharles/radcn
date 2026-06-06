@@ -228,3 +228,73 @@ scope is audit-sized, implementation has not started before the plan commit,
 verification includes concrete pass/fail criteria and hygiene checks, vendor
 checkouts are clean, and the modified blocks/chart-gallery scope remains out
 of scope while retaining `radcn/chart` package scope.
+
+## Result
+
+**Result:** Partial
+
+Added `slider-example-inventory.md` and audited the single direct upstream
+Slider example cluster, `slider-demo`.
+
+The audit found that RadCN already has strong Slider substrate:
+dependency-free native range input behavior, root/input/track/range/thumb
+hooks, `data-value`, `data-min`, `data-max`, `data-step`,
+`data-orientation="horizontal"`, scalar default/value props, min/max/step
+attributes, percent CSS variable visual state, disabled behavior, keyboard
+behavior, form submit/reset behavior, custom-token evidence, generic docs, and
+Playwright coverage in `radcn/fixtures/tests/slider.spec.ts`.
+
+The direct example remains partial. Current RadCN evidence does not prove a
+named `slider-demo` docs page, candidate fixture route, or Playwright tests for
+the exact upstream composition: `defaultValue={[50]}`, `max={100}`, `step={1}`,
+`className={cn("w-[60%]", className)}`, prop-spread customization, source
+snippet, and dependency-divergence mapping for React props,
+`React.ComponentProps`, React `useMemo`, Radix Slider primitives,
+single-value array to scalar value, Tailwind utilities, `cn`, `className`,
+`data-slot`, custom tokens, and vendor source.
+
+Verification run:
+
+```text
+node deterministic check for direct slider registry/file/inventory count
+node deterministic check for slider-demo row outcome and follow-up
+rg checks for required upstream mechanics and required RadCN evidence paths
+rg -n "Experiment 112|slider-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+node deterministic tracked-vendor-source check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All checks passed. `git status --short` showed only the Experiment 112 result
+documentation changes before the completion review.
+
+## Conclusion
+
+Slider direct example parity is not complete yet, but the remaining work is
+well-scoped. The next experiment should implement named `slider-demo` parity
+in docs, candidate fixtures, and Playwright coverage, then update
+`slider-example-inventory.md`, `resolved-clusters.json`, and the generated
+parity inventory.
+
+## Completion Review
+
+Reviewer: Miter (`codex-fresh-slider-112`,
+`019e9eb9-b10e-7db3-9dea-8abe2f4f766c`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the result stayed documentation-only,
+Experiment 112 has `Result` and `Conclusion`, the Issue 4 README records the
+Slider learning and marks Experiment 112 `Partial`, `slider-example-inventory.md`
+has exactly one `slider-demo` row with outcome `Partial` and concrete follow-up,
+the inventory compares the correct Slider evidence including `slider.spec.ts`,
+upstream evidence matches one direct `slider-demo`, `git diff --check` and
+lockfile checks passed, vendor checkouts are clean, tracked vendor files remain
+limited to `vendor/.gitignore`, and the result commit had not yet been made.

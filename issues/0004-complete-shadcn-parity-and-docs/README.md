@@ -1487,6 +1487,17 @@ Record cross-component discoveries here as experiments complete.
   semantic coverage for `decorative={false}`. `separator` is resolved in the
   example queue; the next generated recommendation is example parity for
   `slider`.
+- Experiment 112 audited Slider direct example parity in
+  `slider-example-inventory.md`. RadCN already has a strong native range
+  substrate with value/min/max/step hooks, horizontal orientation, input/
+  track/range/thumb parts, percent CSS variable state, keyboard behavior,
+  disabled behavior, form submit/reset behavior, and custom-token evidence in
+  `slider.spec.ts`. The direct upstream `slider-demo` remains partial because
+  no named docs, candidate fixture, or Playwright evidence currently proves the
+  exact `defaultValue={[50]}`, `max={100}`, `step={1}`, `w-[60%]` width
+  mapping, source snippet, and React/Radix/Tailwind/`cn`/`className`/
+  `data-slot` divergence copy. The next experiment should implement named
+  `slider-demo` docs, fixture, and Playwright parity.
 
 ## Experiments
 
@@ -1713,4 +1724,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 111: Implement separator example parity depth](111-implement-separator-example-parity-depth.md)
   — **Pass**
 - [Experiment 112: Audit slider example parity](112-audit-slider-example-parity.md)
-  — **Designed**
+  — **Partial**
