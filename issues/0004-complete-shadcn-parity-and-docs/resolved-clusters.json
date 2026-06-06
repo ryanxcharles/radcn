@@ -196,6 +196,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/48-implement-input-otp-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/input-otp-example-inventory.md"
       ]
+    },
+    {
+      "slug": "native-select",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/49-audit-native-select-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/50-implement-native-select-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/native-select-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

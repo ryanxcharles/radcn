@@ -98,10 +98,10 @@ Adjacent upstream references such as `native-select-rtl` and
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `native-select-demo` | A default native select offers an empty prompt plus `Todo`, `In Progress`, `Done`, and `Cancelled` status options. | Uses `NativeSelect` with four `NativeSelectOption` values and no React state. | Candidate `default` fixture renders the same status options and the Playwright test proves wrapper size, select name/value, label association, five options, and decorative icon. Docs currently show a generic Frameworks optgroup example, not the named status demo. | Partial | Add a named `native-select-demo` docs/example fixture or otherwise prove the upstream demo composition by id before resolving the cluster. |
-| `native-select-disabled` | A native select is disabled and offers a priority option set. | Uses `NativeSelect disabled` and priority options. | Candidate `disabled` fixture renders a disabled Native Select; Playwright proves the select is disabled. The fixture currently has `Low` and `Medium`, not the full upstream `Low`, `Medium`, `High`, `Critical` option set, and docs do not expose this named example. | Partial | Add or adjust named coverage so the disabled example proves the upstream priority options and disabled state together. |
-| `native-select-groups` | A native select groups department options under Engineering, Sales, and Operations. | Uses `NativeSelectOptGroup` and grouped `NativeSelectOption` children. | Candidate `groups` fixture proves real optgroup semantics and Engineering options; package supports optgroups and Playwright checks the first optgroup label and a child option. The fixture currently omits upstream Operations and some Sales options, and docs only show one Frameworks group. | Partial | Add named coverage for the complete upstream grouped department composition. |
-| `native-select-invalid` | A native select has invalid ARIA state for role choices. | Uses `NativeSelect aria-invalid="true"` and role options. | Candidate `invalid` fixture renders `ariaInvalid`, `ariaDescribedBy`, Field error text, and role options; Playwright proves `aria-invalid`, `aria-describedby`, and visible error text. The fixture currently omits upstream `Viewer` and `Guest` options, and docs do not expose the named invalid example. | Partial | Add named coverage for the complete upstream invalid role option list and invalid state. |
+| `native-select-demo` | A default native select offers an empty prompt plus `Todo`, `In Progress`, `Done`, and `Cancelled` status options. | Uses `NativeSelect` with four `NativeSelectOption` values and no React state. | Docs render `data-radcn-docs-native-select-family="native-select-demo"` with the full status option set. Candidate `demo` fixture and Playwright prove the prompt, four options, native value selection, wrapper/select/option hooks, label association, and decorative icon. | Covered | None. |
+| `native-select-disabled` | A native select is disabled and offers a priority option set. | Uses `NativeSelect disabled` and priority options. | Docs render `data-radcn-docs-native-select-family="native-select-disabled"` with the full priority option set. Candidate `disabled-upstream` fixture and Playwright prove disabled state plus `Low`, `Medium`, `High`, and `Critical`. | Covered | None. |
+| `native-select-groups` | A native select groups department options under Engineering, Sales, and Operations. | Uses `NativeSelectOptGroup` and grouped `NativeSelectOption` children. | Docs render `data-radcn-docs-native-select-family="native-select-groups"` with the complete grouped department composition. Candidate `groups-upstream` fixture and Playwright prove Engineering, Sales, and Operations optgroups plus all upstream option labels. | Covered | None. |
+| `native-select-invalid` | A native select has invalid ARIA state for role choices. | Uses `NativeSelect aria-invalid="true"` and role options. | Docs render `data-radcn-docs-native-select-family="native-select-invalid"` with invalid state and the full role option set. Candidate `invalid-upstream` fixture and Playwright prove `aria-invalid`, `aria-describedby`, FieldError composition, and `Admin`, `Editor`, `Viewer`, and `Guest`. | Covered | None. |
 
 ## Coverage Notes
 
@@ -109,9 +109,8 @@ Adjacent upstream references such as `native-select-rtl` and
   real browser-native select, option, and optgroup elements, so keyboard,
   pointer, popup, value, form, reset, and constraint-validation behavior remain
   browser-owned.
-- The current gap is named example parity depth, not a package API blocker.
-  Existing fixtures cover the behavior families, but they do not prove all four
-  upstream examples by id with complete upstream option sets and docs examples.
+- Named example parity depth is now covered by docs examples, candidate
+  fixtures, and Playwright assertions for all four upstream example ids.
 - The decorative icon is intentionally dependency-free today. Exact
   `ChevronDownIcon` path parity is not required for Native Select behavior, but
   visual parity can be revisited when the icon strategy is audited broadly.
@@ -121,8 +120,6 @@ Adjacent upstream references such as `native-select-rtl` and
 
 ## Decision
 
-`native-select` is not resolved yet. The next experiment should implement
-Native Select example parity depth by adding named docs/fixture/test evidence
-for `native-select-demo`, `native-select-disabled`, `native-select-groups`, and
-`native-select-invalid`, without changing the package API unless that
-implementation uncovers a concrete blocker.
+`native-select` is resolved for the active four-example cluster. The package API
+did not need to change; the solution was named docs, fixture, and Playwright
+evidence for complete upstream option sets and state examples.

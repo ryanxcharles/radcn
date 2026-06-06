@@ -1455,6 +1455,30 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "native-select",
+    id: "demo",
+    title: "Native Select Demo",
+    description: "Upstream Native Select demo status option set.",
+  },
+  {
+    component: "native-select",
+    id: "disabled-upstream",
+    title: "Native Select Disabled Example",
+    description: "Upstream disabled Native Select priority option set.",
+  },
+  {
+    component: "native-select",
+    id: "groups-upstream",
+    title: "Native Select Groups Example",
+    description: "Upstream grouped Native Select department option set.",
+  },
+  {
+    component: "native-select",
+    id: "invalid-upstream",
+    title: "Native Select Invalid Example",
+    description: "Upstream invalid Native Select role option set.",
+  },
+  {
+    component: "native-select",
     id: "default",
     title: "Default Native Select",
     description: "Native select with label and options.",

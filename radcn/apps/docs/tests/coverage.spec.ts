@@ -355,6 +355,65 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
     await expect(page.getByText('Controlled entered-value display text is app-owned').first()).toBeVisible()
 
+    await page.goto('/docs/components/native-select')
+    for (let slug of [
+      'native-select-demo',
+      'native-select-disabled',
+      'native-select-groups',
+      'native-select-invalid',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-native-select-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-native-select-family="native-select-demo"] option[data-radcn-native-select-option]')).toHaveText([
+      'Select status',
+      'Todo',
+      'In Progress',
+      'Done',
+      'Cancelled',
+    ])
+    await expect(page.locator('[data-radcn-docs-native-select-family="native-select-disabled"] select[data-radcn-native-select]')).toBeDisabled()
+    await expect(page.locator('[data-radcn-docs-native-select-family="native-select-disabled"] option[data-radcn-native-select-option]')).toHaveText([
+      'Select priority',
+      'Low',
+      'Medium',
+      'High',
+      'Critical',
+    ])
+    await expect(page.locator('[data-radcn-docs-native-select-family="native-select-groups"] optgroup[data-radcn-native-select-optgroup]')).toHaveCount(3)
+    await expect(page.locator('[data-radcn-docs-native-select-family="native-select-groups"] option[data-radcn-native-select-option]')).toHaveText([
+      'Select department',
+      'Frontend',
+      'Backend',
+      'DevOps',
+      'Sales Rep',
+      'Account Manager',
+      'Sales Director',
+      'Customer Support',
+      'Product Manager',
+      'Operations Manager',
+    ])
+    await expect(page.locator('[data-radcn-docs-native-select-family="native-select-invalid"] select[data-radcn-native-select]')).toHaveAttribute('aria-invalid', 'true')
+    await expect(page.locator('[data-radcn-docs-native-select-family="native-select-invalid"] option[data-radcn-native-select-option]')).toHaveText([
+      'Select role',
+      'Admin',
+      'Editor',
+      'Viewer',
+      'Guest',
+    ])
+    await expect(page.getByText('NativeSelectOption').first()).toBeVisible()
+    await expect(page.getByText('NativeSelectOptGroup').first()).toBeVisible()
+    await expect(page.getByText('data-radcn-native-select-wrapper').first()).toBeVisible()
+    await expect(page.getByText('--radcn-native-select-border').first()).toBeVisible()
+    await expect(page.getByText('React props and state examples map to explicit RadCN props').first()).toBeVisible()
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to data-radcn-native-select-* hooks').first()).toBeVisible()
+    await expect(page.getByText('aria-invalid maps to ariaInvalid').first()).toBeVisible()
+    await expect(page.getByText('ChevronDownIcon and lucide-react are app-owned presentation').first()).toBeVisible()
+    await expect(page.getByText('Tailwind utilities map to RadCN classes').first()).toBeVisible()
+    await expect(page.getByText('Canvas and CanvasText').first()).toBeVisible()
+    await expect(page.getByText('Browser-native option popup rendering is intentionally not forced').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/chart')
     await expect(page.locator('[data-radcn-chart]')).toHaveCount(5)
     await expect(page.locator('[data-radcn-chart-grid]')).toHaveCount(20)

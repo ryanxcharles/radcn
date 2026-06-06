@@ -15,6 +15,70 @@ function statusOptions(selected = 'todo') {
 
 export function renderNativeSelectFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return (
+        <Field>
+          <Label for="candidate-native-select-demo">Status</Label>
+          <NativeSelect id="candidate-native-select-demo" name="status">
+            <NativeSelectOption value="">Select status</NativeSelectOption>
+            <NativeSelectOption selected value="todo">Todo</NativeSelectOption>
+            <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+            <NativeSelectOption value="done">Done</NativeSelectOption>
+            <NativeSelectOption value="cancelled">Cancelled</NativeSelectOption>
+          </NativeSelect>
+        </Field>
+      )
+    case 'disabled-upstream':
+      return (
+        <Field>
+          <Label disabled for="candidate-native-select-priority">Priority</Label>
+          <NativeSelect disabled id="candidate-native-select-priority" name="priority">
+            <NativeSelectOption value="">Select priority</NativeSelectOption>
+            <NativeSelectOption value="low">Low</NativeSelectOption>
+            <NativeSelectOption value="medium">Medium</NativeSelectOption>
+            <NativeSelectOption value="high">High</NativeSelectOption>
+            <NativeSelectOption value="critical">Critical</NativeSelectOption>
+          </NativeSelect>
+        </Field>
+      )
+    case 'groups-upstream':
+      return (
+        <Field>
+          <Label for="candidate-native-select-department">Department</Label>
+          <NativeSelect id="candidate-native-select-department" name="department">
+            <NativeSelectOption value="">Select department</NativeSelectOption>
+            <NativeSelectOptGroup label="Engineering">
+              <NativeSelectOption value="frontend">Frontend</NativeSelectOption>
+              <NativeSelectOption value="backend">Backend</NativeSelectOption>
+              <NativeSelectOption value="devops">DevOps</NativeSelectOption>
+            </NativeSelectOptGroup>
+            <NativeSelectOptGroup label="Sales">
+              <NativeSelectOption value="sales-rep">Sales Rep</NativeSelectOption>
+              <NativeSelectOption value="account-manager">Account Manager</NativeSelectOption>
+              <NativeSelectOption value="sales-director">Sales Director</NativeSelectOption>
+            </NativeSelectOptGroup>
+            <NativeSelectOptGroup label="Operations">
+              <NativeSelectOption value="support">Customer Support</NativeSelectOption>
+              <NativeSelectOption value="product-manager">Product Manager</NativeSelectOption>
+              <NativeSelectOption value="ops-manager">Operations Manager</NativeSelectOption>
+            </NativeSelectOptGroup>
+          </NativeSelect>
+        </Field>
+      )
+    case 'invalid-upstream':
+      return (
+        <Field invalid>
+          <Label for="candidate-native-select-role">Role</Label>
+          <NativeSelect ariaDescribedBy="candidate-native-select-role-error" ariaInvalid id="candidate-native-select-role" name="role">
+            <NativeSelectOption selected value="">Select role</NativeSelectOption>
+            <NativeSelectOption value="admin">Admin</NativeSelectOption>
+            <NativeSelectOption value="editor">Editor</NativeSelectOption>
+            <NativeSelectOption value="viewer">Viewer</NativeSelectOption>
+            <NativeSelectOption value="guest">Guest</NativeSelectOption>
+          </NativeSelect>
+          <FieldError id="candidate-native-select-role-error">Choose a role.</FieldError>
+        </Field>
+      )
     case 'groups':
       return (
         <Field>

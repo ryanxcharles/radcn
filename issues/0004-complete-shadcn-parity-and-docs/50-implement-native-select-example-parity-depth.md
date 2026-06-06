@@ -263,3 +263,111 @@ implementation scope, verification includes concrete typecheck, Playwright,
 deterministic inventory, resolved-cluster, dependency, hygiene, and vendor
 checks, and the current git state shows only plan/index docs modified before
 implementation.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Native Select example parity depth for all four active
+upstream examples:
+
+- `native-select-demo`
+- `native-select-disabled`
+- `native-select-groups`
+- `native-select-invalid`
+
+The docs page now renders stable
+`data-radcn-docs-native-select-family` hooks for all four named examples with
+complete upstream option sets and mapping copy. Candidate fixtures now include
+named upstream routes for the status demo, disabled priority select, grouped
+department select, and invalid role select. Playwright coverage proves the
+named routes and the docs page while preserving the existing generic Native
+Select behavior tests.
+
+Updated `native-select-example-inventory.md` so every active row is `Covered`,
+added `native-select` to `resolved-clusters.json`, and regenerated
+`parity-inventory.md`. The regenerated inventory no longer lists
+`native-select` under unresolved example clusters and now recommends
+`resizable` as the next example parity audit.
+
+No `radcn/native-select` package API change was needed.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pass
+
+pnpm --dir radcn/apps/docs typecheck
+initial fail: missing FieldError import in docs content
+fixed by importing FieldError from radcn/field
+rerun pass
+
+pnpm fixtures:candidate:typecheck
+pass
+
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-select.spec.ts
+4 passed
+
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+5 passed
+
+native-select-example-inventory.md deterministic row/status check
+native-select-demo: 1 Covered
+native-select-disabled: 1 Covered
+native-select-groups: 1 Covered
+native-select-invalid: 1 Covered
+
+resolved-clusters.json deterministic check
+native-select: resolved
+Experiment 49 evidence: true
+Experiment 50 evidence: true
+native-select-example-inventory.md evidence: true
+
+node scripts/audit-shadcn-parity.mjs
+wrote issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+
+parity-inventory deterministic check
+unresolved native-select: false
+first native-select: false
+
+forbidden import and dependency checks
+pass
+
+git diff --check
+pass
+
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+pass, no output
+```
+
+Playwright warnings observed:
+
+```text
+[DEP0205] DeprecationWarning: `module.register()` is deprecated.
+Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+```
+
+## Conclusion
+
+Native Select example parity is resolved for the active Issue 4 cluster.
+Browser-native select behavior, option/optgroup semantics, disabled state,
+invalid ARIA state, public hooks, CSS variable customization, and complete
+upstream option sets are now proven by docs, fixtures, Playwright tests,
+inventory state, and regenerated parity state. The next experiment should audit
+the newly recommended `resizable` example parity cluster.
+
+## Completion Review
+
+Reviewer: Sartre the 2nd (`019e9c03-7614-7821-91d7-eb9362b6623d`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that Result and
+Conclusion are present, the Issue 4 README learning and `Pass` status match the
+result, docs and fixtures implement the four scoped examples with matching
+upstream option labels, tests cover the named docs and fixture evidence,
+`git diff --check` passed, vendor status printed no output, typechecks passed,
+deterministic inventory/resolved-cluster/parity/dependency checks passed, and
+the result commit had not been made before review.

@@ -140,6 +140,7 @@ import {
   Field,
   FieldContent,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldLegend,
@@ -2464,6 +2465,119 @@ function InputOTPPreview() {
   )
 }
 
+const nativeSelectSource = `import { NativeSelect, NativeSelectOptGroup, NativeSelectOption } from 'radcn/native-select'
+
+export function NativeSelectExamples() {
+  return (
+    <>
+      <NativeSelect name="status">
+        <NativeSelectOption value="">Select status</NativeSelectOption>
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+        <NativeSelectOption value="cancelled">Cancelled</NativeSelectOption>
+      </NativeSelect>
+
+      <NativeSelect disabled name="priority">
+        <NativeSelectOption value="">Select priority</NativeSelectOption>
+        <NativeSelectOption value="low">Low</NativeSelectOption>
+        <NativeSelectOption value="medium">Medium</NativeSelectOption>
+        <NativeSelectOption value="high">High</NativeSelectOption>
+        <NativeSelectOption value="critical">Critical</NativeSelectOption>
+      </NativeSelect>
+
+      <NativeSelect name="department">
+        <NativeSelectOption value="">Select department</NativeSelectOption>
+        <NativeSelectOptGroup label="Engineering">
+          <NativeSelectOption value="frontend">Frontend</NativeSelectOption>
+          <NativeSelectOption value="backend">Backend</NativeSelectOption>
+          <NativeSelectOption value="devops">DevOps</NativeSelectOption>
+        </NativeSelectOptGroup>
+        <NativeSelectOptGroup label="Sales">
+          <NativeSelectOption value="sales-rep">Sales Rep</NativeSelectOption>
+          <NativeSelectOption value="account-manager">Account Manager</NativeSelectOption>
+          <NativeSelectOption value="sales-director">Sales Director</NativeSelectOption>
+        </NativeSelectOptGroup>
+        <NativeSelectOptGroup label="Operations">
+          <NativeSelectOption value="support">Customer Support</NativeSelectOption>
+          <NativeSelectOption value="product-manager">Product Manager</NativeSelectOption>
+          <NativeSelectOption value="ops-manager">Operations Manager</NativeSelectOption>
+        </NativeSelectOptGroup>
+      </NativeSelect>
+
+      <NativeSelect ariaInvalid name="role">
+        <NativeSelectOption value="">Select role</NativeSelectOption>
+        <NativeSelectOption value="admin">Admin</NativeSelectOption>
+        <NativeSelectOption value="editor">Editor</NativeSelectOption>
+        <NativeSelectOption value="viewer">Viewer</NativeSelectOption>
+        <NativeSelectOption value="guest">Guest</NativeSelectOption>
+      </NativeSelect>
+    </>
+  )
+}`
+
+function NativeSelectPreview() {
+  return () => (
+    <div style="display:grid;gap:1.25rem;width:min(100%,42rem)">
+      <div data-radcn-docs-native-select-family="native-select-demo" mix={previewFieldStyle}>
+        <Label for="docs-native-select-status">Status</Label>
+        <NativeSelect id="docs-native-select-status" name="status">
+          <NativeSelectOption value="">Select status</NativeSelectOption>
+          <NativeSelectOption selected value="todo">Todo</NativeSelectOption>
+          <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+          <NativeSelectOption value="done">Done</NativeSelectOption>
+          <NativeSelectOption value="cancelled">Cancelled</NativeSelectOption>
+        </NativeSelect>
+      </div>
+
+      <div data-radcn-docs-native-select-family="native-select-disabled" mix={previewFieldStyle}>
+        <Label disabled for="docs-native-select-priority">Priority</Label>
+        <NativeSelect disabled id="docs-native-select-priority" name="priority">
+          <NativeSelectOption value="">Select priority</NativeSelectOption>
+          <NativeSelectOption value="low">Low</NativeSelectOption>
+          <NativeSelectOption value="medium">Medium</NativeSelectOption>
+          <NativeSelectOption value="high">High</NativeSelectOption>
+          <NativeSelectOption value="critical">Critical</NativeSelectOption>
+        </NativeSelect>
+      </div>
+
+      <div data-radcn-docs-native-select-family="native-select-groups" mix={previewFieldStyle}>
+        <Label for="docs-native-select-department">Department</Label>
+        <NativeSelect id="docs-native-select-department" name="department">
+          <NativeSelectOption value="">Select department</NativeSelectOption>
+          <NativeSelectOptGroup label="Engineering">
+            <NativeSelectOption value="frontend">Frontend</NativeSelectOption>
+            <NativeSelectOption value="backend">Backend</NativeSelectOption>
+            <NativeSelectOption value="devops">DevOps</NativeSelectOption>
+          </NativeSelectOptGroup>
+          <NativeSelectOptGroup label="Sales">
+            <NativeSelectOption value="sales-rep">Sales Rep</NativeSelectOption>
+            <NativeSelectOption value="account-manager">Account Manager</NativeSelectOption>
+            <NativeSelectOption value="sales-director">Sales Director</NativeSelectOption>
+          </NativeSelectOptGroup>
+          <NativeSelectOptGroup label="Operations">
+            <NativeSelectOption value="support">Customer Support</NativeSelectOption>
+            <NativeSelectOption value="product-manager">Product Manager</NativeSelectOption>
+            <NativeSelectOption value="ops-manager">Operations Manager</NativeSelectOption>
+          </NativeSelectOptGroup>
+        </NativeSelect>
+      </div>
+
+      <div data-radcn-docs-native-select-family="native-select-invalid" mix={previewFieldStyle}>
+        <Label for="docs-native-select-role">Role</Label>
+        <NativeSelect ariaDescribedBy="docs-native-select-role-error" ariaInvalid id="docs-native-select-role" name="role">
+          <NativeSelectOption selected value="">Select role</NativeSelectOption>
+          <NativeSelectOption value="admin">Admin</NativeSelectOption>
+          <NativeSelectOption value="editor">Editor</NativeSelectOption>
+          <NativeSelectOption value="viewer">Viewer</NativeSelectOption>
+          <NativeSelectOption value="guest">Guest</NativeSelectOption>
+        </NativeSelect>
+        <FieldError id="docs-native-select-role-error">Choose a role.</FieldError>
+      </div>
+    </div>
+  )
+}
+
 function InputPreview() {
   return () => (
     <div style="display:grid;gap:1rem;width:min(100%,42rem)">
@@ -4496,6 +4610,50 @@ const richComponentDocs: ComponentDoc[] = [
       'Tailwind utilities map to class, containerClass, style, CSS variables, and app-authored CSS.',
       'className maps to class, containerClassName maps to containerClass, data-slot maps to data-radcn-input-otp-* hooks, and vendor source remains read-only evidence.',
       'input-otp-form and otp-* block recipes are adjacent form/block evidence rather than part of this four-example cluster.',
+    ],
+  },
+  {
+    slug: 'native-select',
+    title: 'Native Select',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A token-driven wrapper around browser-native select, option, and optgroup elements.',
+    importPath: 'radcn/native-select',
+    importExample:
+      "import { NativeSelect, NativeSelectOption, NativeSelectOptGroup } from 'radcn/native-select'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the four upstream Native Select examples with real select, option, and optgroup markup.',
+        source: nativeSelectSource,
+        preview: <NativeSelectPreview />,
+      },
+    ],
+    accessibility: [
+      'NativeSelect renders a real select element, so keyboard, pointer, value, form, reset, and constraint-validation behavior stay browser-owned.',
+      'NativeSelectOption renders option and NativeSelectOptGroup renders optgroup for native option grouping semantics.',
+      'Disabled and invalid states map to the select disabled attribute and aria-invalid attribute.',
+      'Labels and error text stay composed with RadCN Label, Field, and FieldError rather than becoming Native Select-owned state.',
+    ],
+    customization: [
+      'NativeSelect exposes data-radcn-native-select-wrapper, data-radcn-native-select, data-radcn-native-select-icon, data-radcn-native-select-option, and data-radcn-native-select-optgroup hooks.',
+      'Use class and style on the wrapper plus CSS variables such as --radcn-native-select-border, --radcn-native-select-bg, --radcn-native-select-fg, and --radcn-native-select-invalid.',
+      'The size prop supports default and sm sizes while native option popup chrome remains browser-owned.',
+      'Option and optgroup Canvas colors map to package CSS using Canvas and CanvasText.',
+    ],
+    divergence: [
+      'React props and state examples map to explicit RadCN props and browser-native select state.',
+      'className maps to class, data-slot maps to data-radcn-native-select-* hooks, aria-invalid maps to ariaInvalid, and disabled maps to disabled.',
+      'ChevronDownIcon and lucide-react are app-owned presentation; RadCN keeps a dependency-free decorative icon span.',
+      'Tailwind utilities map to RadCN classes, CSS variables, and app-authored CSS.',
+      'Browser-native option popup rendering is intentionally not forced into DOM parity.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

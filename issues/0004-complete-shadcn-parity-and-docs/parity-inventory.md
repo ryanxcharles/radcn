@@ -134,6 +134,7 @@ These are documented in RadCN but are not current package exports.
 | examples | combobox | resolved | `issues/0004-complete-shadcn-parity-and-docs/43-audit-combobox-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/44-implement-combobox-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/combobox-example-inventory.md` |
 | examples | dropdown-menu | resolved | `issues/0004-complete-shadcn-parity-and-docs/45-audit-dropdown-menu-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/46-implement-dropdown-menu-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/dropdown-menu-example-inventory.md` |
 | examples | input-otp | resolved | `issues/0004-complete-shadcn-parity-and-docs/47-audit-input-otp-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/48-implement-input-otp-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/input-otp-example-inventory.md` |
+| examples | native-select | resolved | `issues/0004-complete-shadcn-parity-and-docs/49-audit-native-select-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/50-implement-native-select-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/native-select-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -233,7 +234,6 @@ parity decision.
 | label | 1 | `label-demo` |
 | menubar | 1 | `menubar-demo` |
 | mode-toggle | 1 | `mode-toggle` |
-| native-select | 4 | `native-select-demo`, `native-select-disabled`, `native-select-groups`, `native-select-invalid` |
 | navigation-menu | 1 | `navigation-menu-demo` |
 | pagination | 1 | `pagination-demo` |
 | popover | 1 | `popover-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for native-select
+**Cluster:** Example parity for resizable
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for native-select.
+- Audit upstream examples for resizable.
 
 ## Notes
 

@@ -725,6 +725,16 @@ Record cross-component discoveries here as experiments complete.
   `native-select-invalid`. The next experiment should implement those named
   examples without changing the Native Select package API unless a concrete
   package-level gap appears.
+- Experiment 50 completed Native Select example parity depth. The docs page
+  now renders stable `data-radcn-docs-native-select-family` hooks for
+  `native-select-demo`, `native-select-disabled`, `native-select-groups`, and
+  `native-select-invalid` with complete upstream option sets and mapping copy.
+  Candidate fixtures and Playwright coverage prove the named status, disabled
+  priority, grouped department, and invalid role examples while preserving the
+  generic Native Select tests. `native-select-example-inventory.md` now marks
+  all four rows `Covered`, `resolved-clusters.json` records `native-select` as
+  resolved, and the regenerated parity inventory recommends auditing
+  `resizable` examples next. No Native Select package API change was needed.
 
 ## Experiments
 
@@ -827,4 +837,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 49: Audit native-select example parity](49-audit-native-select-example-parity.md)
   — **Pass**
 - [Experiment 50: Implement native-select example parity depth](50-implement-native-select-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

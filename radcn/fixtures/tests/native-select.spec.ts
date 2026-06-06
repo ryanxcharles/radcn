@@ -2,6 +2,67 @@ import { expect, test } from '@playwright/test'
 
 const candidate = 'http://localhost:4602'
 
+test('candidate native select covers named upstream examples', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/native-select/demo`)
+  let demo = page.locator('#candidate-native-select-demo')
+  await expect(page.locator('[data-radcn-native-select-wrapper]')).toHaveAttribute('data-size', 'default')
+  await expect(demo).toHaveAttribute('name', 'status')
+  await expect(demo).toHaveValue('todo')
+  await expect(page.getByLabel('Status')).toHaveId('candidate-native-select-demo')
+  await expect(page.locator('option[data-radcn-native-select-option]')).toHaveText([
+    'Select status',
+    'Todo',
+    'In Progress',
+    'Done',
+    'Cancelled',
+  ])
+  await demo.selectOption('done')
+  await expect(demo).toHaveValue('done')
+  await expect(page.locator('[data-radcn-native-select-icon]')).toHaveAttribute('aria-hidden', 'true')
+
+  await page.goto(`${candidate}/fixtures/native-select/disabled-upstream`)
+  let disabled = page.locator('#candidate-native-select-priority')
+  await expect(disabled).toBeDisabled()
+  await expect(page.locator('option[data-radcn-native-select-option]')).toHaveText([
+    'Select priority',
+    'Low',
+    'Medium',
+    'High',
+    'Critical',
+  ])
+
+  await page.goto(`${candidate}/fixtures/native-select/groups-upstream`)
+  let optgroups = page.locator('optgroup[data-radcn-native-select-optgroup]')
+  await expect(optgroups).toHaveCount(3)
+  await expect(optgroups.nth(0)).toHaveAttribute('label', 'Engineering')
+  await expect(optgroups.nth(1)).toHaveAttribute('label', 'Sales')
+  await expect(optgroups.nth(2)).toHaveAttribute('label', 'Operations')
+  await expect(page.locator('option[data-radcn-native-select-option]')).toHaveText([
+    'Select department',
+    'Frontend',
+    'Backend',
+    'DevOps',
+    'Sales Rep',
+    'Account Manager',
+    'Sales Director',
+    'Customer Support',
+    'Product Manager',
+    'Operations Manager',
+  ])
+
+  await page.goto(`${candidate}/fixtures/native-select/invalid-upstream`)
+  let invalid = page.locator('#candidate-native-select-role')
+  await expect(invalid).toHaveAttribute('aria-invalid', 'true')
+  await expect(invalid).toHaveAttribute('aria-describedby', 'candidate-native-select-role-error')
+  await expect(page.locator('option[data-radcn-native-select-option]')).toHaveText([
+    'Select role',
+    'Admin',
+    'Editor',
+    'Viewer',
+    'Guest',
+  ])
+})
+
 test('candidate native select exposes real select option and optgroup hooks', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/native-select/default`)
   let select = page.locator('select[data-radcn-native-select]')
