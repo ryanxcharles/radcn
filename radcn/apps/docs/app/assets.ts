@@ -11,6 +11,7 @@ export const assetServer = createAssetServer({
     'app/*path': 'app/*path',
     'node_modules/.pnpm/*path': '../../../node_modules/.pnpm/*path',
     'node_modules/*path': 'node_modules/*path',
+    'packages/radcn/*path': '../../packages/radcn/*path',
   },
   allow: [
     'app/assets/**',
@@ -18,6 +19,7 @@ export const assetServer = createAssetServer({
     'node_modules/**',
     '../../../node_modules/.pnpm/**',
     path.join(workspaceDir, 'node_modules/.pnpm/**'),
+    '../../packages/radcn/src/**',
   ],
   deny: ['app/**/*.server.*'],
   sourceMaps: process.env.NODE_ENV === 'development' ? 'external' : undefined,

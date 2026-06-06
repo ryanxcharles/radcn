@@ -305,21 +305,60 @@ function contextItems(scenario: string) {
   )
 }
 
+function contextMenuDemoExample() {
+  return (
+    <>
+      <ContextMenuItem inset textValue="Back">Back<ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
+      <ContextMenuItem disabled inset textValue="Forward">Forward<ContextMenuShortcut>⌘]</ContextMenuShortcut></ContextMenuItem>
+      <ContextMenuItem inset textValue="Reload">Reload<ContextMenuShortcut>⌘R</ContextMenuShortcut></ContextMenuItem>
+      <ContextMenuSub>
+        <ContextMenuSubTrigger inset textValue="More Tools">More Tools</ContextMenuSubTrigger>
+        <ContextMenuSubContent class="w-44" style="width:11rem;min-width:11rem">
+          <ContextMenuItem textValue="Save Page">Save Page...</ContextMenuItem>
+          <ContextMenuItem textValue="Create Shortcut">Create Shortcut...</ContextMenuItem>
+          <ContextMenuItem textValue="Name Window">Name Window...</ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem textValue="Developer Tools">Developer Tools</ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem textValue="Delete" variant="destructive">Delete</ContextMenuItem>
+        </ContextMenuSubContent>
+      </ContextMenuSub>
+      <ContextMenuSeparator />
+      <ContextMenuCheckboxItem checked textValue="Show Bookmarks">Show Bookmarks</ContextMenuCheckboxItem>
+      <ContextMenuCheckboxItem textValue="Show Full URLs">Show Full URLs</ContextMenuCheckboxItem>
+      <ContextMenuSeparator />
+      <ContextMenuRadioGroup value="pedro">
+        <ContextMenuLabel inset>People</ContextMenuLabel>
+        <ContextMenuRadioItem value="pedro" textValue="Pedro Duarte">Pedro Duarte</ContextMenuRadioItem>
+        <ContextMenuRadioItem value="colm" textValue="Colm Tuite">Colm Tuite</ContextMenuRadioItem>
+      </ContextMenuRadioGroup>
+    </>
+  )
+}
+
 export function renderContextMenuFixture(fixture: FixtureScenario) {
   let custom = fixture.id === 'custom-token'
   let collision = fixture.id === 'collision'
+  let demo = fixture.id === 'demo'
 
   return (
     <div style={menuStageStyle(collision)}>
       <ContextMenu defaultOpen id={`candidate-context-menu-${fixture.id}`}>
-        <ContextMenuTrigger>
-          <div data-context-target style={contextTargetStyle(collision)}>
-            {fixture.id === 'keyboard-trigger' ? 'Focus and press Context Menu' : 'Right click target'}
-          </div>
+        <ContextMenuTrigger
+          class={demo ? 'flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm' : undefined}
+          style={demo ? 'display:flex;width:300px;height:150px;align-items:center;justify-content:center;border:1px dashed var(--radcn-border);border-radius:calc(var(--radcn-radius) - 0.125rem);font-size:0.875rem;' : undefined}
+        >
+          {demo ? (
+            <span data-context-target>Right click here</span>
+          ) : (
+            <div data-context-target style={contextTargetStyle(collision)}>
+              {fixture.id === 'keyboard-trigger' ? 'Focus and press Context Menu' : 'Right click target'}
+            </div>
+          )}
         </ContextMenuTrigger>
         <ContextMenuPortal>
-          <ContextMenuContent class={custom ? 'radcn-fixture-custom-menu' : undefined}>
-            {contextItems(fixture.id)}
+          <ContextMenuContent class={demo ? 'w-52' : custom ? 'radcn-fixture-custom-menu' : undefined} style={demo ? 'width:13rem;min-width:13rem' : undefined}>
+            {demo ? contextMenuDemoExample() : contextItems(fixture.id)}
           </ContextMenuContent>
         </ContextMenuPortal>
       </ContextMenu>

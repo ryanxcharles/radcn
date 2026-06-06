@@ -1192,6 +1192,22 @@ Record cross-component discoveries here as experiments complete.
   presentation, and the React/Radix/lucide/Tailwind mapping. The next
   experiment should implement named `context-menu-demo` docs, candidate
   fixture, and Playwright coverage.
+- Experiment 90 resolved Context Menu example parity for
+  `context-menu-demo`. Docs, candidate fixtures, and Playwright now prove the
+  exact `Right click here` trigger text, 300x150 dashed trigger layout,
+  `w-52`/208px content, inset Back/Forward/Reload rows with shortcuts,
+  disabled Forward behavior, More Tools submenu with `w-44`/176px content and
+  exact submenu items, separators, checked `Show Bookmarks`, unchecked `Show
+  Full URLs`, `People` label, selected `Pedro Duarte`, unselected `Colm
+  Tuite`, destructive `Delete`, public Context Menu hooks, app-owned
+  indicator/caret presentation, and the React/Radix/`data-slot`/`className`/
+  `cn`/Tailwind/lucide/custom-token/vendor-source mapping. Two reusable
+  learnings were recorded: exact shadcn menu widths narrower than the RadCN
+  package default must override both `width` and `min-width`, and docs examples
+  that exercise package browser enhancement need RadCN package-source asset
+  allowance plus tests scoped around portal relocation. The regenerated parity
+  inventory marks `context-menu` resolved and recommends auditing `data-table`
+  examples next.
 
 ## Experiments
 
@@ -1374,4 +1390,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 89: Audit context-menu example parity](89-audit-context-menu-example-parity.md)
   — **Partial**
 - [Experiment 90: Implement context-menu example parity depth](90-implement-context-menu-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

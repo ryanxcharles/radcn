@@ -384,3 +384,95 @@ started before the plan commit, verification has concrete pass/fail criteria
 and hygiene checks, vendor cleanliness checks are present, necessary learnings
 will be recorded in the issue, and the technical plan is likely to resolve the
 Context Menu example parity goal.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `context-menu-demo` parity across docs, fixtures, and tests.
+The docs page now renders the exact upstream Browser Tools composition with a
+stable `data-radcn-docs-context-menu-family="context-menu-demo"` hook, 300x150
+dashed trigger, 208px main content, 176px subcontent, Back/Forward/Reload
+shortcuts, More Tools submenu, destructive Delete row, checked and unchecked
+checkbox rows, People radio group, selected Pedro Duarte, unselected Colm
+Tuite, public Context Menu hooks, app-owned indicator/caret presentation, and
+the required React/Radix/`data-slot`/`className`/`cn`/Tailwind/lucide/custom
+token/vendor-source mapping copy.
+
+Added `context-menu/demo` to the candidate fixture matrix and Playwright
+coverage for right-click opening, ContextMenu key, Shift+F10, trigger styling,
+content/subcontent widths, all exact item/shortcut/label text, disabled Forward
+behavior, inset evidence, separator count, checked/radio state, destructive
+styling, submenu hover and keyboard behavior, public hooks, closing behavior,
+and no React/Radix DOM-equivalence assumption.
+
+Docs coverage now imports and calls `enhanceContextMenu()` through the docs
+browser entry. To support that real package enhancement path, the docs asset
+server allows `../../packages/radcn/src/**`, matching the package-source
+allowance already used by the candidate fixture without exposing `vendor/`.
+
+Updated `context-menu-example-inventory.md`, `resolved-clusters.json`, the
+Issue 4 README learnings, and regenerated `parity-inventory.md`. The generated
+first recommendation is now example parity for `data-table`.
+
+Verification passed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts menu-overlays.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+deterministic context-menu inventory check
+deterministic resolved-clusters check
+deterministic parity recommendation check
+forbidden import scanner
+forbidden manifest dependency check
+git diff --exit-code -- pnpm-lock.yaml
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+`tokens.css` did not change, so the style serialization check was not
+applicable.
+
+## Conclusion
+
+Context Menu example parity is resolved for the single active upstream New York
+v4 direct example, `context-menu-demo`. The package API did not need changes;
+the existing dependency-free `ContextMenu` primitives and `enhanceContextMenu`
+runtime were sufficient once docs and fixtures supplied the exact upstream
+composition.
+
+Two learnings were recorded for later menu-like examples:
+
+- Exact shadcn widths that are narrower than RadCN's package default menu
+  min-width require examples to override both `width` and `min-width`.
+- Docs examples that exercise package browser enhancement need RadCN package
+  source allowed in the docs asset server, and tests should account for portal
+  relocation outside the preview wrapper after enhancement.
+
+The next experiment should audit the generated first recommendation: direct
+upstream `data-table` example parity.
+
+## Completion Review
+
+Reviewer: Pauli the 3rd
+(`019e9dbf-1f29-7dd3-b10c-c46a699b9afb`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Initial findings:
+
+- Blocker: none.
+- Major: Fixture coverage asserted Context Menu root, trigger, portal,
+  content, sub-trigger, and sub-content hooks, but not the public
+  `ContextMenuSub` wrapper hook required by the experiment. Fixed by adding
+  `[data-radcn-context-menu-sub]` assertions to both fixture and docs
+  Playwright coverage.
+- Minor: none.
+
+Re-review: approved. The reviewer confirmed the prior finding is resolved:
+`radcn/fixtures/tests/menu-overlays.spec.ts` asserts the sub public hook, and
+`radcn/apps/docs/tests/coverage.spec.ts` asserts the same hook in docs
+coverage. No new blocker was introduced.

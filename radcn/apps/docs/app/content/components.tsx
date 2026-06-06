@@ -79,7 +79,22 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from 'radcn/command'
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from 'radcn/context-menu'
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuPortal,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from 'radcn/context-menu'
 import {
   DataTable,
   DataTableBody,
@@ -637,6 +652,29 @@ const collapsibleDemoStyle = css({
     flexDirection: 'column',
     gap: '0.5rem',
     padding: 0,
+  },
+})
+
+const contextMenuDemoStyle = css({
+  display: 'grid',
+  gap: '0.75rem',
+  width: 'min(100%, 42rem)',
+  '& [data-radcn-context-menu-portal][hidden]': {
+    display: 'block !important',
+    position: 'static !important',
+    visibility: 'visible !important',
+  },
+  '& [data-radcn-context-menu-content][hidden], & [data-radcn-context-menu-sub-content][hidden]': {
+    display: 'grid !important',
+    position: 'static !important',
+    visibility: 'visible !important',
+    opacity: '1 !important',
+  },
+  '& [data-radcn-docs-context-menu-layout]': {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    gap: '1rem',
   },
 })
 
@@ -3615,6 +3653,129 @@ function CollapsibleDemoPreview() {
         React useState(false), open, and onOpenChange map to native
         details/summary open state for this example; apps can add browser
         enhancement if they need synchronized state outside the disclosure.
+      </p>
+    </div>
+  )
+}
+
+const contextMenuDemoSource = `import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuPortal,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from 'radcn/context-menu'
+
+export function ContextMenuDemo() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger class="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
+        Right click here
+      </ContextMenuTrigger>
+      <ContextMenuPortal>
+        <ContextMenuContent class="w-52" style="width:13rem;min-width:13rem">
+          <ContextMenuItem inset textValue="Back">
+            Back
+            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem disabled inset textValue="Forward">
+            Forward
+            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem inset textValue="Reload">
+            Reload
+            <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuSub>
+            <ContextMenuSubTrigger inset textValue="More Tools">More Tools</ContextMenuSubTrigger>
+            <ContextMenuSubContent class="w-44" style="width:11rem;min-width:11rem">
+              <ContextMenuItem textValue="Save Page">Save Page...</ContextMenuItem>
+              <ContextMenuItem textValue="Create Shortcut">Create Shortcut...</ContextMenuItem>
+              <ContextMenuItem textValue="Name Window">Name Window...</ContextMenuItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem textValue="Developer Tools">Developer Tools</ContextMenuItem>
+              <ContextMenuSeparator />
+              <ContextMenuItem textValue="Delete" variant="destructive">Delete</ContextMenuItem>
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+          <ContextMenuSeparator />
+          <ContextMenuCheckboxItem checked textValue="Show Bookmarks">Show Bookmarks</ContextMenuCheckboxItem>
+          <ContextMenuCheckboxItem textValue="Show Full URLs">Show Full URLs</ContextMenuCheckboxItem>
+          <ContextMenuSeparator />
+          <ContextMenuRadioGroup value="pedro">
+            <ContextMenuLabel inset>People</ContextMenuLabel>
+            <ContextMenuRadioItem value="pedro" textValue="Pedro Duarte">Pedro Duarte</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="colm" textValue="Colm Tuite">Colm Tuite</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenuContent>
+      </ContextMenuPortal>
+    </ContextMenu>
+  )
+}`
+
+function ContextMenuDemoItems() {
+  return (
+    <>
+      <ContextMenuItem inset textValue="Back">Back<ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
+      <ContextMenuItem disabled inset textValue="Forward">Forward<ContextMenuShortcut>⌘]</ContextMenuShortcut></ContextMenuItem>
+      <ContextMenuItem inset textValue="Reload">Reload<ContextMenuShortcut>⌘R</ContextMenuShortcut></ContextMenuItem>
+      <ContextMenuSub>
+        <ContextMenuSubTrigger inset textValue="More Tools">More Tools</ContextMenuSubTrigger>
+        <ContextMenuSubContent class="w-44" style="width:11rem;min-width:11rem">
+          <ContextMenuItem textValue="Save Page">Save Page...</ContextMenuItem>
+          <ContextMenuItem textValue="Create Shortcut">Create Shortcut...</ContextMenuItem>
+          <ContextMenuItem textValue="Name Window">Name Window...</ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem textValue="Developer Tools">Developer Tools</ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem textValue="Delete" variant="destructive">Delete</ContextMenuItem>
+        </ContextMenuSubContent>
+      </ContextMenuSub>
+      <ContextMenuSeparator />
+      <ContextMenuCheckboxItem checked textValue="Show Bookmarks">Show Bookmarks</ContextMenuCheckboxItem>
+      <ContextMenuCheckboxItem textValue="Show Full URLs">Show Full URLs</ContextMenuCheckboxItem>
+      <ContextMenuSeparator />
+      <ContextMenuRadioGroup value="pedro">
+        <ContextMenuLabel inset>People</ContextMenuLabel>
+        <ContextMenuRadioItem value="pedro" textValue="Pedro Duarte">Pedro Duarte</ContextMenuRadioItem>
+        <ContextMenuRadioItem value="colm" textValue="Colm Tuite">Colm Tuite</ContextMenuRadioItem>
+      </ContextMenuRadioGroup>
+    </>
+  )
+}
+
+function ContextMenuDemoPreview() {
+  return () => (
+    <div data-radcn-docs-context-menu-family="context-menu-demo" mix={contextMenuDemoStyle}>
+      <div data-radcn-docs-context-menu-layout>
+        <ContextMenu defaultOpen id="docs-context-menu-demo">
+          <ContextMenuTrigger
+            class="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm radcn-docs-context-menu-demo-trigger"
+            style="display:flex;width:300px;height:150px;align-items:center;justify-content:center;border:1px dashed var(--radcn-border);border-radius:calc(var(--radcn-radius) - 0.125rem);font-size:0.875rem;"
+          >
+            Right click here
+          </ContextMenuTrigger>
+          <ContextMenuPortal>
+            <ContextMenuContent class="w-52 radcn-docs-context-menu-demo-content" style="width:13rem;min-width:13rem">
+              {ContextMenuDemoItems()}
+            </ContextMenuContent>
+          </ContextMenuPortal>
+        </ContextMenu>
+      </div>
+      <p style="margin:0;color:var(--radcn-docs-muted);font-size:0.875rem;">
+        React client components and Radix Context Menu map to RadCN
+        dependency-free menu-overlay behavior: right-click and keyboard
+        activation enhance public data hooks while this docs preview keeps
+        content visible for inspection.
       </p>
     </div>
   )
@@ -7821,6 +7982,52 @@ const richComponentDocs: ComponentDoc[] = [
       'shadcn/ui demonstrates Data Table with React state and TanStack Table. RadCN ships composition slots, not a React table engine.',
       'Column visibility, sorting, filtering, pagination, row editing, and row actions are app-owned controls built from native forms, links, and existing RadCN primitives.',
       'Dashboard-only drag/reorder and chart detail patterns stay as recipe/block composition until a later experiment proves a reusable package behavior is needed.',
+    ],
+  },
+  {
+    slug: 'context-menu',
+    title: 'Context Menu',
+    category: 'Overlays',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free contextual menu primitive for right-click and keyboard-triggered action lists with submenus and checked state.',
+    importPath: 'radcn/context-menu',
+    importExample:
+      "import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from 'radcn/context-menu'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'context-menu-demo',
+        title: 'Context Menu Demo',
+        description:
+          'Render the upstream browser-tools context menu with exact trigger, shortcuts, submenu, checked rows, radio items, and destructive item.',
+        source: contextMenuDemoSource,
+        preview: <ContextMenuDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'ContextMenuTrigger is focusable and enhanced for right-click, ContextMenu key, and Shift+F10 activation.',
+      'ContextMenuContent renders menu semantics while items expose menuitem, menuitemcheckbox, and menuitemradio roles.',
+      'Disabled Forward exposes aria-disabled and data-disabled and must not highlight or close the menu when activated.',
+      'Checkbox and radio rows expose aria-checked and package-owned indicator hooks while the visible text remains ordinary menu text.',
+    ],
+    customization: [
+      'Trigger sizing maps from h-[150px] w-[300px] flex centering, rounded, dashed border, and text-sm utilities to class/style on ContextMenuTrigger.',
+      'Content widths map from w-52 and w-44 to class/style or --radcn-menu-width on ContextMenuContent and ContextMenuSubContent.',
+      'Item inset maps to inset props and radcn-menu-item--inset / radcn-menu-label--inset package classes.',
+      'Shortcuts, separators, checked indicators, radio indicators, submenu caret, destructive item styling, and highlight state expose public RadCN hooks and classes.',
+      'Custom tokens remain available through menu CSS variables such as --radcn-menu-width, --radcn-menu-border, --radcn-menu-bg, --radcn-menu-highlight-bg, and --radcn-menu-indicator-fg.',
+    ],
+    divergence: [
+      'React client component markers and Radix Context Menu primitives map to dependency-free RadCN menu-overlay enhancement.',
+      'Radix Portal, Content, Sub, CheckboxItem, RadioGroup, and RadioItem mechanics map to explicit RadCN portal/content/sub/checkbox/radio parts and public data hooks.',
+      'data-slot maps to data-radcn-context-menu* and shared data-radcn-menu-* hooks.',
+      'className maps to class, and cn maps to explicit class composition, style, CSS variables, and app CSS.',
+      'Tailwind sizing, layout, border, typography, animation, focus, and inset utilities map to RadCN classes, inline styles, package CSS, data-state hooks, and tokens.',
+      'lucide CheckIcon, ChevronRightIcon, and CircleIcon map to package-owned indicator/caret glyphs or app-owned presentation, not lucide-react dependencies.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

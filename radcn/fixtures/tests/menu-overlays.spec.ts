@@ -330,3 +330,117 @@ test('candidate context menu roves typeahead handles disabled checked submenu an
   await expect(opened.content).toHaveClass(/radcn-fixture-custom-menu/)
   await expect(opened.content).toHaveCSS('border-color', 'rgb(124, 58, 237)')
 })
+
+test('candidate context menu matches named demo example composition', async ({ page }) => {
+  let opened = await freshContext(page, 'demo')
+  let trigger = opened.trigger
+  let target = opened.target
+
+  await expect(trigger).toHaveText('Right click here')
+  await expect(trigger).toHaveClass(/flex/)
+  await expect(trigger).toHaveClass(/h-\[150px\]/)
+  await expect(trigger).toHaveClass(/w-\[300px\]/)
+  await expect(trigger).toHaveClass(/items-center/)
+  await expect(trigger).toHaveClass(/justify-center/)
+  await expect(trigger).toHaveClass(/rounded-md/)
+  await expect(trigger).toHaveClass(/border/)
+  await expect(trigger).toHaveClass(/border-dashed/)
+  await expect(trigger).toHaveClass(/text-sm/)
+  await expect(trigger).toHaveCSS('display', 'flex')
+  await expect(trigger).toHaveCSS('width', '300px')
+  await expect(trigger).toHaveCSS('height', '150px')
+  await expect(trigger).toHaveCSS('align-items', 'center')
+  await expect(trigger).toHaveCSS('justify-content', 'center')
+  await expect(trigger).toHaveCSS('border-top-style', 'dashed')
+  await expect(trigger).toHaveCSS('font-size', '14px')
+
+  await target.click({ button: 'right' })
+  await expect(opened.content).toBeVisible()
+  await expect(opened.content).toHaveAttribute('role', 'menu')
+  await expect(opened.content).toHaveClass(/w-52/)
+  await expect(opened.content).toHaveCSS('width', '208px')
+  await expect(page.locator('[data-radcn-context-menu]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-context-menu-trigger]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-context-menu-portal]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-context-menu-content]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-context-menu-sub]')).toHaveCount(1)
+  await expectFocusedText(page, 'Back')
+
+  await expect(page.locator('[data-radcn-context-menu-item]')).toContainText([
+    /Back/,
+    /Forward/,
+    /Reload/,
+  ])
+  await expect(page.locator('[data-radcn-context-menu-shortcut]')).toHaveText(['⌘[', '⌘]', '⌘R'])
+  await expect(page.locator('[data-radcn-context-menu-item]').filter({ hasText: 'Back' })).toHaveClass(/radcn-menu-item--inset/)
+  await expect(page.locator('[data-radcn-context-menu-item]').filter({ hasText: 'Reload' })).toHaveClass(/radcn-menu-item--inset/)
+
+  let forward = page.getByRole('menuitem', { name: /Forward/ })
+  await expect(forward).toHaveAttribute('aria-disabled', 'true')
+  await expect(forward).toHaveAttribute('data-disabled', 'true')
+  await forward.hover()
+  await expect(forward).not.toHaveAttribute('data-highlighted', 'true')
+  await forward.click({ force: true })
+  await expect(opened.content).toBeVisible()
+
+  let subTrigger = page.locator('[data-radcn-context-menu-sub-trigger]')
+  await expect(subTrigger).toContainText('More Tools')
+  await expect(subTrigger).toHaveClass(/radcn-menu-item--inset/)
+  await expect(subTrigger.locator('.radcn-menu-sub-caret')).toHaveText('›')
+  await subTrigger.hover()
+  let subContent = page.locator('[data-radcn-context-menu-sub-content]')
+  await expect(subTrigger).toHaveAttribute('aria-expanded', 'true')
+  await expect(subContent).toBeVisible()
+  await expect(subContent).toHaveClass(/w-44/)
+  await expect(subContent).toHaveCSS('width', '176px')
+  await expect(subContent.getByRole('menuitem')).toHaveText([
+    'Save Page...',
+    'Create Shortcut...',
+    'Name Window...',
+    'Developer Tools',
+    'Delete',
+  ])
+  let deleteItem = subContent.getByRole('menuitem', { name: 'Delete' })
+  await expect(deleteItem).toHaveAttribute('data-variant', 'destructive')
+  await expect(deleteItem).toHaveClass(/radcn-menu-item--destructive/)
+  await subTrigger.focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(subContent).toBeVisible()
+  await page.keyboard.press('ArrowLeft')
+  await expect(subContent).toBeHidden()
+
+  await expect(page.locator('[data-radcn-context-menu-separator]')).toHaveCount(4)
+
+  let bookmarks = page.getByRole('menuitemcheckbox', { name: 'Show Bookmarks' })
+  let urls = page.getByRole('menuitemcheckbox', { name: 'Show Full URLs' })
+  await expect(bookmarks).toHaveAttribute('aria-checked', 'true')
+  await expect(bookmarks).toHaveAttribute('data-state', 'checked')
+  await expect(bookmarks.locator('[data-radcn-menu-item-indicator]')).toBeVisible()
+  await expect(urls).toHaveAttribute('aria-checked', 'false')
+  await expect(urls).toHaveAttribute('data-state', 'unchecked')
+
+  let radioGroup = page.locator('[data-radcn-context-menu-radio-group]')
+  await expect(radioGroup).toHaveAttribute('data-value', 'pedro')
+  await expect(page.locator('[data-radcn-context-menu-label]')).toHaveText('People')
+  await expect(page.locator('[data-radcn-context-menu-label]')).toHaveClass(/radcn-menu-label--inset/)
+  let pedro = page.getByRole('menuitemradio', { name: 'Pedro Duarte' })
+  let colm = page.getByRole('menuitemradio', { name: 'Colm Tuite' })
+  await expect(pedro).toHaveAttribute('aria-checked', 'true')
+  await expect(pedro).toHaveAttribute('data-state', 'checked')
+  await expect(colm).toHaveAttribute('aria-checked', 'false')
+  await expect(colm).toHaveAttribute('data-state', 'unchecked')
+
+  await page.keyboard.press('Escape')
+  opened = await freshContext(page, 'demo')
+  await opened.trigger.focus()
+  await page.keyboard.press('ContextMenu')
+  await expect(opened.content).toBeVisible()
+  await expectFocusedText(page, 'Back')
+
+  await page.keyboard.press('Escape')
+  opened = await freshContext(page, 'demo')
+  await opened.trigger.focus()
+  await page.keyboard.press('Shift+F10')
+  await expect(opened.content).toBeVisible()
+  await expectFocusedText(page, 'Back')
+})

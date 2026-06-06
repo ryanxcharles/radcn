@@ -2163,6 +2163,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "context-menu",
+    id: "demo",
+    title: "Context Menu Demo",
+    description: "Named shadcn context-menu-demo with shortcuts, submenu, checkboxes, and radio items.",
+  },
+  {
+    component: "context-menu",
     id: "default",
     title: "Default Context Menu",
     description: "Context menu opened from a target region.",

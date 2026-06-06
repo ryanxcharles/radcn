@@ -376,6 +376,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/88-implement-collapsible-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/collapsible-example-inventory.md"
       ]
+    },
+    {
+      "slug": "context-menu",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/89-audit-context-menu-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/90-implement-context-menu-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/context-menu-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

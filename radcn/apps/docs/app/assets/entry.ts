@@ -1,4 +1,5 @@
 import { run } from 'remix/ui'
+import { enhanceContextMenu } from 'radcn/context-menu'
 
 const THEME_MODE_STORAGE_KEY = 'radcn-theme-mode'
 const LEGACY_THEME_STORAGE_KEY = 'radcn-theme'
@@ -267,3 +268,5 @@ run({
     return mod[exportName]
   },
 })
+
+enhanceContextMenu()
