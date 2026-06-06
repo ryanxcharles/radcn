@@ -1778,6 +1778,18 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Scroll area customized through public tokens.",
   },
   {
+    component: "scroll-area",
+    id: "demo",
+    title: "Scroll Area Demo",
+    description: "Named upstream Tags list Scroll Area composition.",
+  },
+  {
+    component: "scroll-area",
+    id: "horizontal-demo",
+    title: "Horizontal Scroll Area Demo",
+    description: "Named upstream horizontal artwork Scroll Area composition.",
+  },
+  {
     component: "dialog",
     id: "default",
     title: "Default Dialog",

@@ -545,6 +545,65 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('responsive Dialog/Drawer example is proven with deterministic desktop and mobile branch fixtures').first()).toBeVisible()
     await expect(page.getByText('Vendor source remains read-only evidence').first()).toBeVisible()
 
+    await page.goto('/docs/components/scroll-area')
+    for (let slug of [
+      'scroll-area-demo',
+      'scroll-area-horizontal-demo',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-scroll-area-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    let scrollAreaDemo = page.locator('[data-radcn-docs-scroll-area-family="scroll-area-demo"]')
+    await expect(scrollAreaDemo.locator('[data-radcn-scroll-area]')).toHaveClass(/radcn-docs-scroll-area-demo/)
+    await expect(scrollAreaDemo.locator('[data-radcn-scroll-area]')).toHaveCSS('width', '192px')
+    await expect(scrollAreaDemo.locator('[data-radcn-scroll-area]')).toHaveCSS('height', '288px')
+    await expect(scrollAreaDemo.locator('[data-radcn-scroll-area-viewport]')).toHaveAttribute('aria-label', 'Tags')
+    await expect(scrollAreaDemo.getByRole('heading', { name: 'Tags' })).toBeVisible()
+    await expect(scrollAreaDemo.locator('[data-radcn-docs-scroll-area-tag]')).toHaveCount(50)
+    await expect(scrollAreaDemo.locator('[data-radcn-docs-scroll-area-tag]').first()).toHaveText('v1.2.0-beta.50')
+    await expect(scrollAreaDemo.locator('[data-radcn-docs-scroll-area-tag]').last()).toHaveText('v1.2.0-beta.1')
+    await expect(scrollAreaDemo.locator('[data-radcn-separator]')).toHaveCount(49)
+    await expect(scrollAreaDemo.locator('[data-radcn-scroll-area-scrollbar][data-orientation="vertical"]')).toHaveCount(1)
+    await expect(scrollAreaDemo.locator('[data-radcn-scroll-area-thumb]')).toHaveCount(1)
+    await expect.poll(() => scrollAreaDemo.locator('[data-radcn-scroll-area-viewport]').evaluate((node) => {
+      node.scrollTop = 180
+      return node.scrollTop
+    })).toBeGreaterThan(0)
+
+    let scrollAreaHorizontal = page.locator('[data-radcn-docs-scroll-area-family="scroll-area-horizontal-demo"]')
+    await expect(scrollAreaHorizontal.locator('[data-radcn-scroll-area]')).toHaveClass(/radcn-docs-scroll-area-horizontal-demo/)
+    await expect(scrollAreaHorizontal.locator('[data-radcn-scroll-area]')).toHaveCSS('white-space', 'nowrap')
+    await expect(scrollAreaHorizontal.locator('[data-radcn-scroll-area-viewport]')).toHaveAttribute('aria-label', 'Artwork gallery')
+    await expect(scrollAreaHorizontal.locator('[data-radcn-docs-scroll-area-artwork-strip]')).toBeAttached()
+    await expect(scrollAreaHorizontal.locator('figure[data-radcn-docs-scroll-area-artwork]')).toHaveCount(3)
+    await expect(scrollAreaHorizontal.locator('[data-radcn-docs-scroll-area-artwork-caption]')).toHaveText([
+      'Photo by Ornella Binni',
+      'Photo by Tom Byrom',
+      'Photo by Vladimir Malyavko',
+    ])
+    for (let artist of ['Ornella Binni', 'Tom Byrom', 'Vladimir Malyavko']) {
+      let image = scrollAreaHorizontal.getByRole('img', { name: `Photo by ${artist}` })
+      await expect(image).toBeAttached()
+      await expect(image).toHaveAttribute('width', '300')
+      await expect(image).toHaveAttribute('height', '400')
+      let src = await image.getAttribute('src')
+      expect(src).toBeTruthy()
+      expect(src!).not.toMatch(/^https?:/i)
+      expect(src!).not.toContain('images.unsplash.com')
+    }
+    await expect(scrollAreaHorizontal.locator('[data-radcn-scroll-area-scrollbar][data-orientation="horizontal"]')).toHaveCount(1)
+    await expect(scrollAreaHorizontal.locator('[data-radcn-scroll-area-thumb]')).toHaveCount(1)
+    await expect(scrollAreaHorizontal.locator('[data-radcn-scroll-area-corner]')).toHaveCount(1)
+    await expect.poll(() => scrollAreaHorizontal.locator('[data-radcn-scroll-area-viewport]').evaluate((node) => {
+      node.scrollLeft = 240
+      return node.scrollLeft
+    })).toBeGreaterThan(0)
+    await expect(page.getByText('React props, Radix ScrollAreaPrimitive').first()).toBeVisible()
+    await expect(page.getByText('The upstream default vertical ScrollBar maps to explicit ScrollBar composition').first()).toBeVisible()
+    await expect(page.getByText('React fragments and keys are upstream rendering mechanics').first()).toBeVisible()
+    await expect(page.getByText('next/image, remote Unsplash URLs, and image optimization').first()).toBeVisible()
+    await expect(page.getByText('deterministic non-network artwork data').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/tabs')
     await expect(page.locator('[data-radcn-tabs]').first()).toBeVisible()
 

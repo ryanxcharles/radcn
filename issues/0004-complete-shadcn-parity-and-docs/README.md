@@ -945,6 +945,17 @@ Record cross-component discoveries here as experiments complete.
   the named `scroll-area-demo` and `scroll-area-horizontal-demo` upstream
   compositions: the 50-tag `Tags` list with separators and the horizontal
   artwork strip with figure/figcaption/image semantics.
+- Experiment 70 resolved Scroll Area example parity. Docs, candidate fixtures,
+  and Playwright now prove named `scroll-area-demo` and
+  `scroll-area-horizontal-demo` examples with exact `Tags` heading, 50 beta tag
+  rows, first/last ordering, Separator composition, native vertical scrolling,
+  three artwork figures, artist captions, image alt/dimension/aspect evidence,
+  deterministic non-network data images, native horizontal scrolling,
+  horizontal scrollbar/thumb/corner hooks, public hooks, and mapping copy. No
+  Scroll Area package API change was needed. `scroll-area-example-inventory.md`
+  marks both rows `Covered`, `resolved-clusters.json` records `scroll-area` as
+  resolved, and the regenerated parity inventory recommends example parity for
+  `select` next.
 
 ## Experiments
 
@@ -1087,4 +1098,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 69: Audit scroll-area example parity](69-audit-scroll-area-example-parity.md)
   — **Partial**
 - [Experiment 70: Implement scroll-area example parity depth](70-implement-scroll-area-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

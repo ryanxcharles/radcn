@@ -199,7 +199,7 @@ import { Popover, PopoverContent, PopoverDescription, PopoverPortal, PopoverTitl
 import { Progress } from 'radcn/progress'
 import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'radcn/resizable'
-import { ScrollArea, ScrollAreaThumb, ScrollAreaViewport, ScrollBar } from 'radcn/scroll-area'
+import { ScrollArea, ScrollAreaCorner, ScrollAreaThumb, ScrollAreaViewport, ScrollBar } from 'radcn/scroll-area'
 import {
   Select,
   SelectContent,
@@ -1438,6 +1438,52 @@ export function DrawerPreview() {
           </DrawerContent>
         </DrawerPortal>
       </Drawer>
+    </>
+  )
+}`
+
+const scrollAreaSource = `import { ScrollArea, ScrollAreaThumb, ScrollAreaViewport, ScrollBar } from 'radcn/scroll-area'
+import { Separator } from 'radcn/separator'
+
+const tags = Array.from({ length: 50 }, (_, index) => \`v1.2.0-beta.\${50 - index}\`)
+
+const artworks = [
+  { artist: 'Ornella Binni', src: 'data:image/svg+xml,...' },
+  { artist: 'Tom Byrom', src: 'data:image/svg+xml,...' },
+  { artist: 'Vladimir Malyavko', src: 'data:image/svg+xml,...' },
+]
+
+export function ScrollAreaPreview() {
+  return (
+    <>
+      <ScrollArea style="width:12rem;height:18rem;">
+        <ScrollAreaViewport ariaLabel="Tags">
+          <div style="padding:1rem;">
+            <h4>Tags</h4>
+            {tags.map((tag, index) => (
+              <>
+                <div>{tag}</div>
+                {index < tags.length - 1 && <Separator />}
+              </>
+            ))}
+          </div>
+        </ScrollAreaViewport>
+        <ScrollBar><ScrollAreaThumb /></ScrollBar>
+      </ScrollArea>
+
+      <ScrollArea style="width:24rem;">
+        <ScrollAreaViewport ariaLabel="Artwork gallery">
+          <div style="display:flex;width:max-content;gap:1rem;padding:1rem;white-space:nowrap;">
+            {artworks.map((artwork) => (
+              <figure>
+                <img src={artwork.src} alt={\`Photo by \${artwork.artist}\`} width="300" height="400" />
+                <figcaption>Photo by <strong>{artwork.artist}</strong></figcaption>
+              </figure>
+            ))}
+          </div>
+        </ScrollAreaViewport>
+        <ScrollBar orientation="horizontal"><ScrollAreaThumb /></ScrollBar>
+      </ScrollArea>
     </>
   )
 }`
@@ -3875,6 +3921,86 @@ function DrawerPreview() {
   }
 }
 
+const scrollAreaTags = Array.from({ length: 50 }, (_, index) => `v1.2.0-beta.${50 - index}`)
+const scrollAreaArtworks = [
+  {
+    artist: 'Ornella Binni',
+    color: '#0f766e',
+    src: "data:image/svg+xml,%3Csvg viewBox='0 0 300 400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='400' fill='%230f766e'/%3E%3Ccircle cx='92' cy='112' r='52' fill='%23ccfbf1'/%3E%3Cpath d='M24 332 C92 246 176 286 276 176 L276 400 L24 400 Z' fill='%23134e4a'/%3E%3C/svg%3E",
+  },
+  {
+    artist: 'Tom Byrom',
+    color: '#7c3aed',
+    src: "data:image/svg+xml,%3Csvg viewBox='0 0 300 400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='400' fill='%237c3aed'/%3E%3Crect x='54' y='74' width='192' height='252' rx='28' fill='%23ede9fe'/%3E%3Cpath d='M72 304 L144 188 L204 248 L246 156 L246 326 L72 326 Z' fill='%235b21b6'/%3E%3C/svg%3E",
+  },
+  {
+    artist: 'Vladimir Malyavko',
+    color: '#be123c',
+    src: "data:image/svg+xml,%3Csvg viewBox='0 0 300 400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='300' height='400' fill='%23be123c'/%3E%3Cpath d='M40 96 L260 40 L222 344 L76 360 Z' fill='%23ffe4e6'/%3E%3Ccircle cx='192' cy='156' r='46' fill='%239f1239'/%3E%3C/svg%3E",
+  },
+]
+
+function ScrollAreaPreview() {
+  return () => (
+    <div mix={previewStackStyle}>
+      <div data-radcn-docs-scroll-area-family="scroll-area-demo">
+        <ScrollArea
+          class="radcn-docs-scroll-area-demo"
+          style="width:12rem;height:18rem;"
+        >
+          <ScrollAreaViewport ariaLabel="Tags">
+            <div data-radcn-docs-scroll-area-tags style="display:grid;padding:1rem;">
+              <h4 style="margin:0 0 1rem;font-size:0.875rem;font-weight:500;line-height:1;">Tags</h4>
+              {scrollAreaTags.map((tag, index) => (
+                <div data-radcn-docs-scroll-area-tag-row>
+                  <div data-radcn-docs-scroll-area-tag style="font-size:0.875rem;">{tag}</div>
+                  {index < scrollAreaTags.length - 1 && <Separator class="radcn-docs-scroll-area-tag-separator" style="margin:0.5rem 0;" />}
+                </div>
+              ))}
+            </div>
+          </ScrollAreaViewport>
+          <ScrollBar>
+            <ScrollAreaThumb />
+          </ScrollBar>
+        </ScrollArea>
+      </div>
+
+      <div data-radcn-docs-scroll-area-family="scroll-area-horizontal-demo">
+        <ScrollArea
+          class="radcn-docs-scroll-area-horizontal-demo"
+          style="width:min(100%,24rem);height:29rem;white-space:nowrap;"
+        >
+          <ScrollAreaViewport ariaLabel="Artwork gallery">
+            <div data-radcn-docs-scroll-area-artwork-strip style="display:flex;width:max-content;gap:1rem;padding:1rem;">
+              {scrollAreaArtworks.map((artwork) => (
+                <figure data-radcn-docs-scroll-area-artwork style="flex:0 0 auto;margin:0;">
+                  <div style="overflow:hidden;border-radius:var(--radcn-radius);">
+                    <img
+                      alt={`Photo by ${artwork.artist}`}
+                      data-radcn-docs-scroll-area-artwork-image
+                      height="400"
+                      src={artwork.src}
+                      style={`display:block;width:300px;height:400px;aspect-ratio:3 / 4;object-fit:cover;background:${artwork.color};`}
+                      width="300"
+                    />
+                  </div>
+                  <figcaption data-radcn-docs-scroll-area-artwork-caption style="padding-top:0.5rem;color:var(--radcn-muted-foreground);font-size:0.75rem;">
+                    Photo by <strong style="color:var(--radcn-foreground);">{artwork.artist}</strong>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </ScrollAreaViewport>
+          <ScrollBar orientation="horizontal">
+            <ScrollAreaThumb />
+          </ScrollBar>
+          <ScrollAreaCorner />
+        </ScrollArea>
+      </div>
+    </div>
+  )
+}
+
 function TabsPreview() {
   return () => (
     <Tabs defaultValue="preview" style="width: min(100%, 28rem);">
@@ -5694,6 +5820,50 @@ const richComponentDocs: ComponentDoc[] = [
       'className maps to class, data-slot maps to data-radcn-resizable-* hooks, and Tailwind utilities map to class, style, CSS variables, and app CSS.',
       'GripVerticalIcon and lucide-react are app-owned presentation; RadCN uses a dependency-free decorative grip.',
       'Nested panel groups are supported as independent groups rather than relying on React context from upstream.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'scroll-area',
+    title: 'Scroll Area',
+    category: 'Layout',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native scroll container primitive with viewport, scrollbar, thumb, corner, focus, and app-owned content composition.',
+    importPath: 'radcn/scroll-area',
+    importExample:
+      "import { ScrollArea, ScrollAreaViewport, ScrollBar } from 'radcn/scroll-area'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the upstream tag list and horizontal artwork Scroll Area examples with native scrolling and deterministic non-network artwork.',
+        source: scrollAreaSource,
+        preview: <ScrollAreaPreview />,
+      },
+    ],
+    accessibility: [
+      'ScrollAreaViewport is focusable by default and can provide an ariaLabel for named scroll regions.',
+      'Native overflow owns keyboard, pointer, and assistive-technology scroll behavior without a client-side scroll engine.',
+      'Scrollbar, thumb, and corner parts are aria-hidden presentation while the viewport remains the accessible scroll container.',
+      'Figure, figcaption, image alt text, headings, tag text, and Separator semantics remain authored content inside the viewport.',
+    ],
+    customization: [
+      'ScrollArea exposes root, viewport, scrollbar, thumb, and corner hooks through data-radcn-scroll-area* attributes and package classes.',
+      'Use class, style, and CSS variables to tune width, height, border, radius, background, thumb color, and corner color.',
+      'Use ScrollBar orientation="horizontal" when an example needs explicit horizontal scroll affordance.',
+      'Repeated content, Separator rows, image presentation, whitespace, max-content strip layout, and spacing stay app-owned composition.',
+    ],
+    divergence: [
+      'React props, Radix ScrollAreaPrimitive, className, data-slot, Tailwind utilities, and cn map to explicit RadCN props, class, public data hooks, package CSS, inline style, and CSS variables.',
+      'The upstream default vertical ScrollBar maps to explicit ScrollBar composition in RadCN examples.',
+      'React fragments and keys are upstream rendering mechanics; RadCN examples render ordinary repeated markup.',
+      'next/image, remote Unsplash URLs, and image optimization are app presentation concerns, not RadCN dependencies.',
+      'The horizontal artwork example uses deterministic non-network artwork data so tests do not depend on remote image loading.',
       'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

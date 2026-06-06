@@ -286,6 +286,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/68-implement-drawer-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/drawer-example-inventory.md"
       ]
+    },
+    {
+      "slug": "scroll-area",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/69-audit-scroll-area-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/70-implement-scroll-area-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/scroll-area-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

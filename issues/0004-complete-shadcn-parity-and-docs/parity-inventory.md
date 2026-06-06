@@ -144,6 +144,7 @@ These are documented in RadCN but are not current package exports.
 | examples | command | resolved | `issues/0004-complete-shadcn-parity-and-docs/63-audit-command-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/64-implement-command-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/command-example-inventory.md` |
 | examples | dialog | resolved | `issues/0004-complete-shadcn-parity-and-docs/65-audit-dialog-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/66-implement-dialog-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/dialog-example-inventory.md` |
 | examples | drawer | resolved | `issues/0004-complete-shadcn-parity-and-docs/67-audit-drawer-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/68-implement-drawer-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/drawer-example-inventory.md` |
+| examples | scroll-area | resolved | `issues/0004-complete-shadcn-parity-and-docs/69-audit-scroll-area-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/70-implement-scroll-area-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/scroll-area-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -240,7 +241,6 @@ parity decision.
 | popover | 1 | `popover-demo` |
 | progress | 1 | `progress-demo` |
 | radio-group | 1 | `radio-group-demo` |
-| scroll-area | 2 | `scroll-area-demo`, `scroll-area-horizontal-demo` |
 | select | 2 | `select-demo`, `select-scrollable` |
 | separator | 1 | `separator-demo` |
 | sheet | 2 | `sheet-demo`, `sheet-side` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for scroll-area
+**Cluster:** Example parity for select
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for scroll-area.
+- Audit upstream examples for select.
 
 ## Notes
 

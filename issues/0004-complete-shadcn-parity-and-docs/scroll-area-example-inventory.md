@@ -5,25 +5,23 @@
 Upstream shadcn/ui New York v4 has two active Scroll Area examples:
 `scroll-area-demo` and `scroll-area-horizontal-demo`. RadCN already ships
 `radcn/scroll-area` with the core native scroll-container behavior needed for
-both examples, but current docs, fixtures, and Playwright tests do not yet
+both examples. Experiment 70 added docs, fixtures, and Playwright tests that
 prove the named upstream example compositions.
 
-**Audit outcome:** Partial.
+**Audit outcome:** Covered.
 
-The next experiment should add named docs, candidate fixture routes, and
-Playwright coverage for `scroll-area-demo` and
-`scroll-area-horizontal-demo`. The audit found no mandatory Scroll Area
-package API change yet. React, Radix ScrollArea primitives, `className`,
-`data-slot`, Tailwind, `cn`, `next/image`, image optimization, remote image
-loading, and vendor source remain non-dependencies unless a later
-implementation pass discovers and records a concrete RadCN package gap.
+Experiment 70 added named docs, candidate fixture routes, and Playwright
+coverage for `scroll-area-demo` and `scroll-area-horizontal-demo`. No Scroll
+Area package API change was needed. React, Radix ScrollArea primitives,
+`className`, `data-slot`, Tailwind, `cn`, `next/image`, image optimization,
+remote image loading, and vendor source remain non-dependencies.
 
 ## Examples
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `scroll-area-demo` | Scroll Area with `h-72 w-48 rounded-md border`; vertical scrolling of 50 generated tags from `v1.2.0-beta.50` down to `v1.2.0-beta.1`; inner `p-4` content; heading `Tags`; each tag rendered as text-sm content separated by a horizontal Separator with `my-2`; default vertical scrollbar and corner from the Scroll Area component. | `radcn/scroll-area` supports root, viewport, vertical scrollbar, thumb, native scrolling, focus-visible treatment, custom width/height through style or tokens, rounded/bordered surfaces, and public hooks. `radcn/separator` supports horizontal separators. Existing candidate fixtures prove generic vertical scrolling and custom tokens, and docs render a generic component-list Scroll Area, but no docs/fixture/test evidence renders the named 50-tag list, exact `Tags` heading, beta tag ordering, Separator composition, shadcn dimensions, or named upstream example id. | Partial | Add named docs and candidate fixture evidence for `scroll-area-demo`; cover exact tag count/order/copy, heading, Separator composition, vertical native scrolling, default vertical scrollbar/thumb, sizing/layout evidence, public hooks, focus behavior, and mapping copy. |
-| `scroll-area-horizontal-demo` | Scroll Area with `w-96 rounded-md border whitespace-nowrap`; horizontal strip with `flex w-max space-x-4 p-4`; three `figure` items for Ornella Binni, Tom Byrom, and Vladimir Malyavko; each has rounded overflow image wrapper, Next Image remote image with `alt="Photo by {artist}"`, `width=300`, `height=400`, `aspect-[3/4]`, object-cover presentation, and figcaption `Photo by {artist}` with emphasized artist text; explicit horizontal `ScrollBar orientation="horizontal"`. | `radcn/scroll-area` supports horizontal scrollbar/thumb, corner, native horizontal scrolling, custom width/height/layout via class/style, and public hooks. Existing candidate fixtures prove generic horizontal scrolling with card-like release-note content, but no docs/fixture/test evidence renders the named three-artwork strip, figure/figcaption semantics, artist names, image dimensions/aspect evidence, alt text, horizontal `w-max`-style content width, `whitespace-nowrap` behavior, or explicit upstream example id. | Partial | Add named docs and candidate fixture evidence for `scroll-area-horizontal-demo`; cover three artwork items, artist copy, figure/figcaption semantics, accessible image alt text or documented local image substitute, dimensions/aspect/layout evidence, horizontal native scrolling, explicit horizontal scrollbar/thumb/corner evidence, public hooks, and mapping copy. |
+| `scroll-area-demo` | Scroll Area with `h-72 w-48 rounded-md border`; vertical scrolling of 50 generated tags from `v1.2.0-beta.50` down to `v1.2.0-beta.1`; inner `p-4` content; heading `Tags`; each tag rendered as text-sm content separated by a horizontal Separator with `my-2`; default vertical scrollbar and corner from the Scroll Area component. | Docs, candidate fixtures, and Playwright now render the named `scroll-area-demo` composition. Evidence covers exact `Tags` heading, 50 tag rows, first/last tag ordering, Separator composition, vertical scrollbar/thumb hooks, viewport focusability, native vertical scrolling, shadcn-equivalent dimensions, public hooks, and mapping copy. | Covered | No follow-up for this row. Repeated tag generation and React fragments/keys remain app-owned rendering details. |
+| `scroll-area-horizontal-demo` | Scroll Area with `w-96 rounded-md border whitespace-nowrap`; horizontal strip with `flex w-max space-x-4 p-4`; three `figure` items for Ornella Binni, Tom Byrom, and Vladimir Malyavko; each has rounded overflow image wrapper, Next Image remote image with `alt="Photo by {artist}"`, `width=300`, `height=400`, `aspect-[3/4]`, object-cover presentation, and figcaption `Photo by {artist}` with emphasized artist text; explicit horizontal `ScrollBar orientation="horizontal"`. | Docs, candidate fixtures, and Playwright now render the named `scroll-area-horizontal-demo` composition. Evidence covers three artwork figures, artist copy, image accessible names, width/height/aspect evidence, figcaption text, horizontal max-content strip layout, `white-space: nowrap`, horizontal scrollbar/thumb/corner hooks, native horizontal scrolling, public hooks, deterministic non-network artwork data, and mapping copy. | Covered | No follow-up for this row. Next Image, remote Unsplash URLs, and image optimization remain app-owned presentation choices; RadCN examples use deterministic data images so tests never depend on network loading. |
 
 ## Capability Mapping
 
@@ -81,12 +79,9 @@ implementation pass discovers and records a concrete RadCN package gap.
 
 ## Decision
 
-The Scroll Area example cluster is not resolved yet. RadCN has the core package
-behavior needed for both upstream examples, and no mandatory React, Radix,
-`next/image`, Tailwind, `cn`, image optimization, remote-image, or vendor
-dependency was identified. The missing proof is named parity depth: docs,
-candidate fixtures, and Playwright should render and test
-`scroll-area-demo` and `scroll-area-horizontal-demo` with exact copy, repeated
-tag and Separator composition, artwork strip content, image/figure semantics
-or a documented image substitute, horizontal/vertical scrolling behavior,
-public hooks, custom layout evidence, and mapping copy.
+The Scroll Area example cluster is resolved. RadCN has the core package
+behavior needed for both upstream examples, and Experiment 70 added the missing
+named docs, candidate fixtures, and Playwright evidence for
+`scroll-area-demo` and `scroll-area-horizontal-demo`. No mandatory React,
+Radix, `next/image`, Tailwind, `cn`, image optimization, remote-image, or
+vendor dependency was identified.

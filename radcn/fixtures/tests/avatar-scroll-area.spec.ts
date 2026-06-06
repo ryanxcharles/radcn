@@ -71,3 +71,69 @@ test('candidate scroll area exposes focus and customization hooks', async ({ pag
   await expect(root).toHaveCSS('border-color', 'rgb(15, 118, 110)')
   await expect(page.locator('[data-radcn-scroll-area-thumb]').first()).toHaveCSS('background-color', 'rgb(15, 118, 110)')
 })
+
+test('candidate scroll area demo matches Tags list composition', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/scroll-area/demo`)
+  let example = page.locator('[data-scroll-area-example="demo"]')
+  let root = example.locator('[data-radcn-scroll-area]')
+  let viewport = example.locator('[data-radcn-scroll-area-viewport]')
+
+  await expect(root).toHaveCSS('width', '192px')
+  await expect(root).toHaveCSS('height', '288px')
+  await expect(viewport).toHaveAttribute('aria-label', 'Tags')
+  await expect(viewport).toHaveAttribute('tabindex', '0')
+  await expect(example.getByRole('heading', { name: 'Tags' })).toBeVisible()
+  await expect(example.locator('[data-scroll-area-tag]')).toHaveCount(50)
+  await expect(example.locator('[data-scroll-area-tag]').first()).toHaveText('v1.2.0-beta.50')
+  await expect(example.locator('[data-scroll-area-tag]').last()).toHaveText('v1.2.0-beta.1')
+  await expect(example.locator('[data-radcn-separator]')).toHaveCount(49)
+  await expect(example.locator('[data-radcn-scroll-area-scrollbar][data-orientation="vertical"]')).toHaveCount(1)
+  await expect(example.locator('[data-radcn-scroll-area-thumb]')).toHaveCount(1)
+
+  await viewport.focus()
+  await expect(viewport).toBeFocused()
+  let verticalScroll = await viewport.evaluate((node) => {
+    node.scrollTop = 180
+    return node.scrollTop
+  })
+  expect(verticalScroll).toBeGreaterThan(0)
+})
+
+test('candidate horizontal scroll area demo matches artwork composition', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/scroll-area/horizontal-demo`)
+  let example = page.locator('[data-scroll-area-example="horizontal-demo"]')
+  let root = example.locator('[data-radcn-scroll-area]')
+  let viewport = example.locator('[data-radcn-scroll-area-viewport]')
+
+  await expect(root).toHaveCSS('width', '384px')
+  await expect(root).toHaveCSS('white-space', 'nowrap')
+  await expect(viewport).toHaveAttribute('aria-label', 'Artwork gallery')
+  await expect(example.locator('[data-scroll-area-artwork-strip]')).toHaveCSS('width', /[1-9]\d+px/)
+  await expect(example.locator('figure[data-scroll-area-artwork]')).toHaveCount(3)
+  await expect(example.locator('[data-scroll-area-artwork-caption]')).toHaveText([
+    'Photo by Ornella Binni',
+    'Photo by Tom Byrom',
+    'Photo by Vladimir Malyavko',
+  ])
+  for (let artist of ['Ornella Binni', 'Tom Byrom', 'Vladimir Malyavko']) {
+    let image = example.getByRole('img', { name: `Photo by ${artist}` })
+    await expect(image).toBeVisible()
+    await expect(image).toHaveAttribute('width', '300')
+    await expect(image).toHaveAttribute('height', '400')
+    let src = await image.getAttribute('src')
+    expect(src).toBeTruthy()
+    expect(src!).not.toMatch(/^https?:/i)
+    expect(src!).not.toContain('images.unsplash.com')
+  }
+  await expect(example.locator('[data-radcn-scroll-area-scrollbar][data-orientation="horizontal"]')).toHaveCount(1)
+  await expect(example.locator('[data-radcn-scroll-area-thumb]')).toHaveCount(1)
+  await expect(example.locator('[data-radcn-scroll-area-corner]')).toHaveCount(1)
+
+  await viewport.focus()
+  await expect(viewport).toBeFocused()
+  let horizontalScroll = await viewport.evaluate((node) => {
+    node.scrollLeft = 240
+    return node.scrollLeft
+  })
+  expect(horizontalScroll).toBeGreaterThan(0)
+})

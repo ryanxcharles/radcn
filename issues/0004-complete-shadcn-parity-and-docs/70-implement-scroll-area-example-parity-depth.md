@@ -355,3 +355,85 @@ implementation-depth experiment, the Issue 4 README links it with status
 `Designed`, the plan has Description, Changes, and Verification sections,
 implementation has not started before the plan commit, vendor checkouts are
 clean, and scoped non-network artwork assertions are now required.
+
+## Result
+
+**Result:** Pass.
+
+Experiment 70 resolved Scroll Area example parity without changing the
+`radcn/scroll-area` package API.
+
+Implemented evidence:
+
+- `radcn/apps/docs/app/content/components.tsx` now promotes Scroll Area to a
+  rich docs page with named `scroll-area-demo` and
+  `scroll-area-horizontal-demo` examples, stable
+  `data-radcn-docs-scroll-area-family` hooks, source snippets, accessibility
+  notes, customization notes, and divergence mapping.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/scroll-area.tsx` now include
+  named `demo` and `horizontal-demo` candidate routes.
+- `radcn/fixtures/tests/avatar-scroll-area.spec.ts` now proves the named Tags
+  list, 50 beta rows, Separator composition, vertical native scrolling, and
+  the horizontal artwork strip with figure/image/figcaption semantics,
+  deterministic non-network image sources, and native horizontal scrolling.
+- `radcn/apps/docs/tests/coverage.spec.ts` now proves the Scroll Area docs page
+  renders both named example families, public hooks, exact copy, tag counts,
+  Separator evidence, artwork semantics, non-network image sources, scroll
+  behavior, and mapping copy.
+- `scroll-area-example-inventory.md` marks `scroll-area-demo` and
+  `scroll-area-horizontal-demo` `Covered`.
+- `resolved-clusters.json` records the `scroll-area` example cluster as
+  resolved with evidence for Experiments 69 and 70 plus the Scroll Area
+  inventory.
+- `parity-inventory.md` was regenerated and now recommends example parity for
+  `select` next.
+
+Verification passed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts avatar-scroll-area.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+```
+
+Remaining required verification checks are recorded in the completion pass
+below before the result commit.
+
+## Conclusion
+
+Scroll Area example parity is complete. RadCN already had the required
+Scroll Area-owned root, viewport, scrollbar, thumb, corner, focus, token, and
+native scrolling behavior. The missing work was named docs, fixture, and
+Playwright proof for the two upstream compositions. Separator rows, repeated
+tag generation, figure/figcaption markup, image presentation, deterministic
+artwork data, and horizontal strip layout remain app-owned content inside the
+Scroll Area viewport. No React, Radix, Next Image, Tailwind, `cn`,
+remote-image loading, image optimization, vendor dependency, or package API
+change was needed.
+
+The regenerated parity inventory recommends auditing `select` example parity
+next.
+
+## Completion Review
+
+Reviewer: Wegener the 2nd (`019e9cd0-d6ba-78b3-bbd1-ef237f356799`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the implementation matches the
+approved scope, the result commit had not been made before review, the result
+and conclusion are recorded, the Issue 4 README learning and status match the
+pass result, both Scroll Area inventory rows are `Covered`,
+`resolved-clusters.json` includes the Scroll Area evidence, the regenerated
+parity inventory recommends `select` next, deterministic non-network artwork
+is used and tested, forbidden dependency checks passed, `git diff --check`
+passed, and vendor status was clean.
