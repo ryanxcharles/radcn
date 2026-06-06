@@ -894,11 +894,16 @@ Record cross-component discoveries here as experiments complete.
   public hooks, and mapping copy. `command-example-inventory.md` now marks both
   rows `Covered`, `resolved-clusters.json` records `command` as resolved, and
   the regenerated parity inventory recommends example parity for `dialog` next.
-- Experiment 65 will audit Dialog example parity in
-  `dialog-example-inventory.md` before implementation. The current expected
-  upstream rows are `dialog-demo` and `dialog-close-button`; the audit must
-  distinguish Dialog-owned modal behavior from app-owned Button, Input, Label,
-  native form, and share-link composition.
+- Experiment 65 audited Dialog example parity in
+  `dialog-example-inventory.md`. RadCN already covers Dialog-owned modal
+  behavior: trigger opening, portal/overlay/content parts, roles and ARIA
+  relationships, focus movement/trap/restoration, Escape and outside dismissal,
+  scroll lock, default open state, explicit/default close actions, public hooks,
+  and custom classes/styles/tokens. The cluster remains partial because docs,
+  fixtures, and tests do not yet prove the named `dialog-demo` and
+  `dialog-close-button` upstream compositions: edit-profile form copy/default
+  values/footer actions and share-link sr-only label/read-only input/secondary
+  close action.
 
 ## Experiments
 
@@ -1031,4 +1036,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 64: Implement command example parity depth](64-implement-command-example-parity-depth.md)
   — **Pass**
 - [Experiment 65: Audit dialog example parity](65-audit-dialog-example-parity.md)
-  — **Designed**
+  — **Partial**

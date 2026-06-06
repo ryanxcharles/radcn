@@ -173,3 +173,65 @@ Issue 4 README with status `Designed`, has not started implementation,
 preserves audit-only scope, includes deterministic row verification, checks
 vendor cleanliness, and separates user-facing parity from React, Radix,
 Tailwind, and related upstream implementation details.
+
+## Result
+
+**Result:** Partial
+
+Created `dialog-example-inventory.md` and audited the two active upstream
+Dialog examples: `dialog-demo` and `dialog-close-button`.
+
+RadCN already covers the core Dialog primitive behavior: root, trigger, portal,
+overlay, content, header, footer, title, description, explicit close actions,
+default close-button control, modal role, ARIA relationships, focus movement,
+focus trap, focus restoration, Escape dismissal, outside dismissal, scroll
+lock, default open state, custom classes/styles/tokens, public hooks, and
+composition with Button, Input, Label, and native form controls.
+
+The active upstream examples are still only partially covered because current
+docs, candidate fixtures, and Playwright tests prove generic Dialog behavior
+rather than the named upstream `Edit profile` and `Share link` compositions.
+The audit did not identify a required package API change. The likely next
+experiment should add named docs examples, candidate fixture routes, and
+Playwright coverage for `dialog-demo` and `dialog-close-button`, while keeping
+React, Radix, `asChild`, Tailwind, `cn`, `lucide-react`, clipboard behavior,
+form-state libraries, and vendor source out of RadCN dependencies.
+
+Verification run:
+
+- `node - <<'NODE' ... NODE` deterministic row-count check:
+  `dialog-demo: 1`, `dialog-close-button: 1`.
+- `rg -n "dialog-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+All verification passed. The only changed files are Issue 4 documentation
+files.
+
+## Conclusion
+
+Dialog example parity needs one implementation-depth experiment. The package
+already owns the modal behavior; the remaining work is named example evidence:
+`dialog-demo` should prove the edit-profile form composition, and
+`dialog-close-button` should prove the share-link/read-only-input composition
+with an explicit secondary close action.
+
+## Completion Review
+
+Reviewer: Hooke the 2nd (`019e9c93-bfe4-70c2-8cb1-ba8b85e6b206`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed that Experiment 65 includes
+`## Result` and `## Conclusion`, records the result as `Partial`, updates the
+Issue 4 README index to `Partial`, limits changes to Issue 4 documentation,
+keeps vendor checkouts clean, contains exactly the active `dialog-demo` and
+`dialog-close-button` rows, does not overclaim completion, and correctly
+recommends a later implementation-depth experiment for named docs, fixture
+routes, and Playwright coverage.
