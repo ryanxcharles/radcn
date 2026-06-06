@@ -255,3 +255,79 @@ Initial findings:
 Re-review: approved. The reviewer confirmed all prior findings are resolved,
 the README links Experiment 91 as `Designed`, the experiment remains
 audit-only, and no new blocker was introduced.
+
+## Result
+
+**Result:** Partial
+
+Created `data-table-example-inventory.md` for the single direct upstream New
+York v4 Data Table example, `data-table-demo`. The audit validates the example
+from the examples registry, cross-checks the matching `data-table-demo.tsx`
+file, and records the dashboard block data-table file as related future block
+evidence rather than a direct example row.
+
+The audit confirms RadCN already covers the package substrate and generic
+recipe surface: `radcn/data-table`, `radcn/table`, semantic table output,
+native filter forms, sortable links, selection checkboxes, pagination, row
+actions, column controls, responsive detail, row editing, dashboard
+composition, empty state, custom tokens, package exports, public hooks, and
+negative dependency checks for React/TanStack-style table engines and other
+external data-display engines.
+
+The direct example remains partial because current docs, fixtures, and tests
+do not prove the exact named upstream `data-table-demo` payments composition:
+payment IDs `m5gr84i9`, `3u1reuv4`, `derv1ws0`, `5kma53ae`, and `bhqecj4p`;
+statuses `success`, `processing`, and `failed`; emails
+`ken99@example.com`, `Abe45@example.com`, `Monserrat44@example.com`,
+`Silas22@example.com`, and `carmella@example.com`; formatted amounts
+`$316.00`, `$242.00`, `$837.00`, `$874.00`, and `$721.00`; filter placeholder
+`Filter emails...`; `Columns` visibility dropdown; row action menu with
+`Open menu`, `Actions`, `Copy payment ID`, `View customer`, and
+`View payment details`; select-all and row checkbox labels; selected/filtered
+row count text; empty text `No results.`; `Previous` and `Next` button state;
+or the exact React/TanStack/lucide/Tailwind/clipboard mapping for the named
+example.
+
+Verification commands run:
+
+```text
+node deterministic registry/file/inventory row check
+node deterministic outcome/follow-up check
+node deterministic related-block scope check
+rg -n "Experiment 91|data-table-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. `git status --short` showed only the new inventory file,
+this experiment file, and the Issue 4 README before the result commit.
+
+## Conclusion
+
+Data Table should proceed to a named example implementation experiment. The
+existing package API is broad enough to represent the upstream demo without
+React or TanStack Table, but the project still needs docs, fixture, and
+Playwright evidence for the exact `data-table-demo` payments surface and
+mapping copy before the cluster can be marked resolved.
+
+The next experiment should implement named `data-table-demo` parity while
+keeping dashboard block behavior reserved for a later block audit.
+
+## Completion Review
+
+Reviewer: Kuhn the 3rd
+(`019e9dc9-9ef3-7f93-9ae8-ecd0bcd07500`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the changes are documentation-only,
+the experiment records `Result` and `Conclusion`, the Issue 4 README status is
+`Partial`, required deterministic checks and hygiene checks pass, vendor source
+remains ignored and uncommitted, and the result commit had not been made before
+review.

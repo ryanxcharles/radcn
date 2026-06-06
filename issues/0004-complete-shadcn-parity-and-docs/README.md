@@ -1208,6 +1208,23 @@ Record cross-component discoveries here as experiments complete.
   allowance plus tests scoped around portal relocation. The regenerated parity
   inventory marks `context-menu` resolved and recommends auditing `data-table`
   examples next.
+- Experiment 91 audited direct Data Table example parity in
+  `data-table-example-inventory.md`. The examples registry has one direct
+  `data-table` example, `data-table-demo`, and the dashboard block data-table
+  file is related future block evidence rather than a direct example row.
+  RadCN already covers the package-backed Data Table composition surface,
+  semantic table primitives, native forms/links, selection checkboxes,
+  pagination, row actions, column controls, responsive detail, row editing,
+  empty state, custom tokens, package exports, and negative dependency checks
+  for React/TanStack-style table engines. The direct example remains partial
+  because docs, fixtures, and tests do not yet prove the exact upstream
+  payments dataset, filter placeholder, `Columns` dropdown, row action menu,
+  select-all/row checkbox labels, selected/filtered row count text, empty
+  state, Previous/Next buttons, formatted status/email/amount output, or the
+  React/TanStack/lucide/Tailwind/clipboard mapping for the named
+  `data-table-demo`. The next experiment should implement named
+  `data-table-demo` docs, candidate fixture, and Playwright coverage while
+  keeping dashboard block behavior out of scope.
 
 ## Experiments
 
@@ -1392,4 +1409,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 90: Implement context-menu example parity depth](90-implement-context-menu-example-parity-depth.md)
   — **Pass**
 - [Experiment 91: Audit data-table example parity](91-audit-data-table-example-parity.md)
-  — **Designed**
+  — **Partial**
