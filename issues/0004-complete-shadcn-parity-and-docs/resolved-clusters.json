@@ -97,6 +97,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/26-implement-breadcrumb-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/breadcrumb-example-inventory.md"
       ]
+    },
+    {
+      "slug": "carousel",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/27-audit-carousel-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/28-implement-carousel-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/carousel-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

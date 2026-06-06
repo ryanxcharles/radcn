@@ -36,6 +36,59 @@ test('candidate carousel exposes region slide semantics and initial state', asyn
   await expect(item(page, 2)).toHaveAttribute('data-selected', 'true')
 })
 
+test('candidate carousel covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/carousel/demo`)
+  await expect(page.getByRole('region', { name: 'Featured slides' })).toHaveAttribute('aria-roledescription', 'carousel')
+  await expect(page.locator('[data-radcn-card]')).toHaveCount(5)
+  await expect(page.getByRole('group', { name: 'Slide 1 of 5' })).toContainText('1')
+  await expect(page.getByRole('button', { name: 'Previous slide' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Next slide' })).toBeEnabled()
+
+  await page.goto(`${candidate}/fixtures/carousel/api`)
+  await expect(page.locator('[data-fixture-carousel-status]')).toHaveText('Slide 1 of 5')
+  await page.getByRole('button', { name: 'Next slide' }).click()
+  await expect(carousel(page)).toHaveAttribute('data-current', '2')
+  await expect(page.locator('[data-fixture-carousel-status]')).toHaveText('Slide 2 of 5')
+
+  await page.setViewportSize({ width: 820, height: 700 })
+  await page.goto(`${candidate}/fixtures/carousel/size`)
+  let mediumViewportWidth = await content(page).evaluate((node) => node.getBoundingClientRect().width)
+  let mediumItemWidth = await item(page, 0).evaluate((node) => node.getBoundingClientRect().width)
+  expect(mediumItemWidth).toBeGreaterThan(mediumViewportWidth * 0.45)
+  expect(mediumItemWidth).toBeLessThan(mediumViewportWidth * 0.6)
+
+  await page.setViewportSize({ width: 1120, height: 700 })
+  await page.goto(`${candidate}/fixtures/carousel/size`)
+  let largeViewportWidth = await content(page).evaluate((node) => node.getBoundingClientRect().width)
+  let largeItemWidth = await item(page, 0).evaluate((node) => node.getBoundingClientRect().width)
+  expect(largeItemWidth).toBeGreaterThan(largeViewportWidth * 0.25)
+  expect(largeItemWidth).toBeLessThan(largeViewportWidth * 0.4)
+
+  await page.goto(`${candidate}/fixtures/carousel/spacing`)
+  await expect(page.locator('[data-radcn-carousel-track]').first()).toHaveCSS('gap', '6px')
+
+  await page.goto(`${candidate}/fixtures/carousel/orientation`)
+  await expect(carousel(page)).toHaveAttribute('data-orientation', 'vertical')
+  await expect(content(page)).toHaveCSS('max-height', '200px')
+  await carousel(page).focus()
+  await page.keyboard.press('ArrowDown')
+  await expect(carousel(page)).toHaveAttribute('data-index', '1')
+
+  await page.goto(`${candidate}/fixtures/carousel/plugin`)
+  let autoplay = page.locator('[data-fixture-carousel-autoplay="true"]')
+  await expect(autoplay).toHaveAttribute('data-autoplay', 'running')
+  await expect(carousel(page)).toHaveAttribute('data-index', '0')
+  await expect(carousel(page)).toHaveAttribute('data-index', '1', { timeout: 1000 })
+  await autoplay.hover()
+  await expect(autoplay).toHaveAttribute('data-autoplay', 'paused')
+  let pausedIndex = await carousel(page).getAttribute('data-index')
+  await page.waitForTimeout(500)
+  await expect(carousel(page)).toHaveAttribute('data-index', pausedIndex || '')
+  await page.mouse.move(0, 0)
+  await expect(autoplay).toHaveAttribute('data-autoplay', 'running')
+  await expect(carousel(page)).not.toHaveAttribute('data-index', pausedIndex || '', { timeout: 1000 })
+})
+
 test('candidate carousel moves with controls and disables boundaries', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/carousel/disabled-boundaries`)
 

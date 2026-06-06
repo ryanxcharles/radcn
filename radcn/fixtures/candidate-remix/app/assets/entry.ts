@@ -59,3 +59,67 @@ enhanceToggle()
 enhanceToggleGroup()
 enhanceInputGroup()
 enhanceInputOTP()
+
+function enhanceFixtureCarouselStatus(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-fixture-carousel-example]').forEach((example) => {
+    let carousel = example.querySelector<HTMLElement>('[data-radcn-carousel]')
+    let status = example.querySelector<HTMLElement>('[data-fixture-carousel-status]')
+    if (!carousel || !status || status.dataset.fixtureCarouselStatusReady === 'true') return
+
+    let sync = () => {
+      let current = carousel.dataset.current || '1'
+      let count = carousel.dataset.count || String(carousel.querySelectorAll('[data-radcn-carousel-item]').length || 0)
+      status.textContent = `Slide ${current} of ${count}`
+    }
+
+    carousel.addEventListener('radcn-carousel-select', sync)
+    carousel.addEventListener('radcn-carousel-scroll', sync)
+    new MutationObserver(sync).observe(carousel, {
+      attributeFilter: ['data-current', 'data-count'],
+      attributes: true,
+    })
+    status.dataset.fixtureCarouselStatusReady = 'true'
+    sync()
+  })
+}
+
+function enhanceFixtureCarouselAutoplay(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-fixture-carousel-autoplay="true"]').forEach((example) => {
+    if (example.dataset.fixtureCarouselAutoplayReady === 'true') return
+    let carousel = example.querySelector<HTMLElement>('[data-radcn-carousel]')
+    let next = example.querySelector<HTMLButtonElement>('[data-radcn-carousel-next]')
+    if (!carousel || !next) return
+
+    let delay = Number(example.dataset.fixtureCarouselDelay || '2000')
+    let timer: number | undefined
+
+    let tick = () => {
+      if (next.disabled) {
+        carousel.focus()
+        carousel.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Home' }))
+      } else {
+        next.click()
+      }
+    }
+
+    let start = () => {
+      window.clearInterval(timer)
+      timer = window.setInterval(tick, delay)
+      example.dataset.autoplay = 'running'
+    }
+
+    let stop = () => {
+      window.clearInterval(timer)
+      timer = undefined
+      example.dataset.autoplay = 'paused'
+    }
+
+    example.addEventListener('mouseenter', stop)
+    example.addEventListener('mouseleave', start)
+    example.dataset.fixtureCarouselAutoplayReady = 'true'
+    start()
+  })
+}
+
+enhanceFixtureCarouselStatus()
+enhanceFixtureCarouselAutoplay()

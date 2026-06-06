@@ -1,6 +1,7 @@
 # Carousel Example Inventory
 
-Generated during Experiment 27 on 2026-06-06.
+Generated during Experiment 27 on 2026-06-06 and resolved during Experiment
+28.
 
 ## Sources
 
@@ -24,34 +25,28 @@ Generated during Experiment 27 on 2026-06-06.
 
 ## Summary
 
-Carousel example parity is not complete yet. RadCN has strong package and
-fixture coverage for core carousel behavior: native region and slide semantics,
-selected slide state, current/count data hooks, previous/next controls,
-disabled boundaries, keyboard movement, native scroll sync, vertical
-orientation, multiple visible slides, compact spacing, and token styling.
-
-The upstream shadcn example surface is broader and named differently. Carousel
-still needs docs, fixture, and Playwright depth for shadcn's six named
-examples, especially the API status text example and the Autoplay plugin
-example. The implementation experiment should decide whether API/plugin parity
-requires narrow package hooks or can stay app-owned browser enhancement over
-existing `radcn-carousel-select` and scroll events.
+Carousel example parity is complete after Experiment 28. RadCN has strong
+package, docs, fixture, and Playwright coverage for native region and slide
+semantics, selected slide state, current/count data hooks, previous/next
+controls, disabled boundaries, keyboard movement, native scroll sync, vertical
+orientation, responsive multi-slide sizing, compact spacing, token styling,
+visible API status text, and deterministic app-owned autoplay behavior with
+hover pause/resume.
 
 No React dependency, Embla dependency, `embla-carousel-autoplay` dependency,
 lucide dependency, Tailwind dependency, vendor import, or npm publishing
-behavior is needed for Carousel parity unless a later reviewed experiment
-records a concrete package-level need.
+behavior was needed for Carousel parity.
 
 ## Example Map
 
 | Upstream id | User-facing behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `carousel-api` | Carousel with five Card slides, previous/next controls, and status text such as `Slide 1 of 5` that updates from Embla API selection events. Uses React `useState`, `useEffect`, `setApi`, `scrollSnapList`, `selectedScrollSnap`, and `api.on("select")`. | RadCN package exposes `data-current`, `data-count`, `data-index`, `radcn-carousel-select`, and `radcn-carousel-scroll` events, and fixtures assert current/count data hooks. There is no named API status docs/fixture example or Playwright assertion for visible `Slide n of m` text updating from events. | Partial | Add docs/fixture/test coverage for visible current/count status text driven by RadCN data hooks or browser enhancement events. Decide whether package API changes are needed or whether app-owned enhancement is enough. |
-| `carousel-demo` | Default horizontal Carousel with five square Card slides, visible numbers, and previous/next controls. Uses Card/CardContent composition, lucide arrows through controls, and Tailwind max-width/aspect/padding utilities. | RadCN `/fixtures/carousel/default` and Playwright prove five slides, controls, disabled boundary state, selected state, and slide semantics. Docs only have a seed-level Carousel snippet and do not show shadcn-style Card slide example parity. | Partial | Promote default Card slide composition into docs and named fixture coverage with visible numbered slides. |
-| `carousel-orientation` | Vertical Carousel with `orientation="vertical"`, Embla `opts={{ align: "start" }}`, vertical content height, half-height slide basis at medium screens, and previous/next controls repositioned for vertical axis. | RadCN `/fixtures/carousel/vertical` and Playwright prove vertical orientation and ArrowDown keyboard behavior. Current docs do not cover the vertical named example, and the audit has not proven shadcn-style content height or responsive half-slide sizing. | Partial | Add named docs/fixture coverage for vertical orientation, height, axis controls, and sizing hooks. Treat Embla `opts.align` as a behavior mapping rather than a required dependency unless a gap is proven. |
-| `carousel-plugin` | Autoplay Carousel using `embla-carousel-autoplay`, `plugins`, `useRef`, `delay: 2000`, `stopOnInteraction: true`, pause on mouse enter, and reset on mouse leave. | RadCN has browser enhancement and movement events, but no autoplay package API, no plugin option, no hover pause/resume fixture, and no Playwright coverage for timed or event-driven autoplay behavior. | Missing | Decide whether plugin parity should be app-owned enhancement or a narrow RadCN package option/event pattern. Add deterministic docs/fixture/test coverage without depending on Embla or `embla-carousel-autoplay`. |
-| `carousel-size` | Horizontal Carousel with responsive item basis: one item by default, half-width slides at medium screens, third-width slides at large screens, Card slides, and controls. Uses Embla `opts.align` and Tailwind `md:basis-1/2 lg:basis-1/3`. | RadCN `/fixtures/carousel/multiple-visible` and Playwright prove multiple visible item sizing through public CSS variables. It does not yet prove named responsive medium/large sizing or docs example parity. | Partial | Add docs/fixture/test coverage for responsive multi-slide sizing and map Tailwind basis utilities to RadCN classes, styles, or CSS variables. |
-| `carousel-spacing` | Horizontal Carousel with compact spacing via negative margin/content offset and item padding, responsive multi-slide basis, Card slides, and controls. | RadCN `/fixtures/carousel/spacing` and Playwright prove compact track gap through `--radcn-carousel-gap`. Docs do not yet show named spacing example parity with Card slides and responsive multi-slide sizing. | Partial | Add docs/fixture/test coverage for compact spacing plus responsive sizing. Keep spacing as RadCN gap/class/CSS-variable behavior rather than Tailwind negative margin utility behavior. |
+| `carousel-api` | Carousel with five Card slides, previous/next controls, and status text such as `Slide 1 of 5` that updates from Embla API selection events. Uses React `useState`, `useEffect`, `setApi`, `scrollSnapList`, `selectedScrollSnap`, and `api.on("select")`. | RadCN docs, `/fixtures/carousel/api`, and Playwright prove visible `Slide n of m` status text initialized from public data hooks and updated after control movement through app-owned enhancement that listens to `radcn-carousel-select` and `radcn-carousel-scroll`. | Covered | React state/effects and `setApi` map to public data hooks/events plus app-owned browser state. |
+| `carousel-demo` | Default horizontal Carousel with five square Card slides, visible numbers, and previous/next controls. Uses Card/CardContent composition, lucide arrows through controls, and Tailwind max-width/aspect/padding utilities. | RadCN docs, `/fixtures/carousel/demo`, and Playwright prove five Card-like numbered slides, controls, disabled boundary state, selected state, and slide semantics. | Covered | Card composition remains independent; lucide arrows map to package-owned control glyphs or app-owned children. |
+| `carousel-orientation` | Vertical Carousel with `orientation="vertical"`, Embla `opts={{ align: "start" }}`, vertical content height, half-height slide basis at medium screens, and previous/next controls repositioned for vertical axis. | RadCN docs, `/fixtures/carousel/orientation`, compatibility route `/fixtures/carousel/vertical`, and Playwright prove vertical orientation, vertical content height, controls, and ArrowDown keyboard movement. | Covered | Embla `opts.align` maps to RadCN orientation, native scroll snap, classes, and CSS variables. |
+| `carousel-plugin` | Autoplay Carousel using `embla-carousel-autoplay`, `plugins`, `useRef`, `delay: 2000`, `stopOnInteraction: true`, pause on mouse enter, and reset on mouse leave. | RadCN docs and `/fixtures/carousel/plugin` show plugin-style autoplay as app-owned browser behavior over public Carousel controls; Playwright proves deterministic movement plus hover pause/resume. | Covered | Embla plugins and `embla-carousel-autoplay` map to app-owned browser enhancement, not a package dependency. |
+| `carousel-size` | Horizontal Carousel with responsive item basis: one item by default, half-width slides at medium screens, third-width slides at large screens, Card slides, and controls. Uses Embla `opts.align` and Tailwind `md:basis-1/2 lg:basis-1/3`. | RadCN docs, `/fixtures/carousel/size`, compatibility route `/fixtures/carousel/multiple-visible`, and Playwright prove responsive medium and large multi-slide sizing through public classes and CSS variables. | Covered | Tailwind basis utilities map to `--radcn-carousel-item-size` and responsive RadCN classes. |
+| `carousel-spacing` | Horizontal Carousel with compact spacing via negative margin/content offset and item padding, responsive multi-slide basis, Card slides, and controls. | RadCN docs, `/fixtures/carousel/spacing`, and Playwright prove compact spacing plus responsive multi-slide sizing through `--radcn-carousel-gap` and public classes. | Covered | Tailwind negative margin and padding utilities map to RadCN gap/class/CSS-variable behavior. |
 
 ## Mapping Decisions
 
@@ -84,7 +79,6 @@ records a concrete package-level need.
 
 ## Resolution
 
-Carousel example parity remains unresolved after Experiment 27. The next Issue
-4 experiment should implement Carousel example parity depth across docs,
-candidate fixtures, Playwright coverage, and any narrowly justified package or
-browser-enhancement hooks.
+Experiment 28 resolved Carousel example parity depth. The next Issue 4 cluster
+should come from the regenerated `parity-inventory.md` first recommended
+cluster.

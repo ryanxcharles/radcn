@@ -2319,6 +2319,36 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "carousel",
+    id: "api",
+    title: "Carousel API",
+    description: "Carousel with visible current/count status text driven by public events.",
+  },
+  {
+    component: "carousel",
+    id: "demo",
+    title: "Carousel Demo",
+    description: "Default Card slide carousel with numbered slides and controls.",
+  },
+  {
+    component: "carousel",
+    id: "orientation",
+    title: "Carousel Orientation",
+    description: "Vertical Carousel example with axis-specific controls and keyboard behavior.",
+  },
+  {
+    component: "carousel",
+    id: "plugin",
+    title: "Carousel Plugin",
+    description: "Autoplay-style Carousel behavior owned by app browser enhancement.",
+  },
+  {
+    component: "carousel",
+    id: "size",
+    title: "Carousel Size",
+    description: "Responsive multi-slide Carousel sizing through public classes.",
+  },
+  {
+    component: "carousel",
     id: "initial-slide",
     title: "Carousel Initial Slide",
     description: "Carousel starting on a deterministic slide.",

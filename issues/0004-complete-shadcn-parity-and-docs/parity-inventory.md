@@ -123,6 +123,7 @@ These are documented in RadCN but are not current package exports.
 | examples | empty | resolved | `issues/0004-complete-shadcn-parity-and-docs/21-audit-empty-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/22-implement-empty-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md` |
 | examples | toggle-group | resolved | `issues/0004-complete-shadcn-parity-and-docs/23-audit-toggle-group-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/24-implement-toggle-group-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/toggle-group-example-inventory.md` |
 | examples | breadcrumb | resolved | `issues/0004-complete-shadcn-parity-and-docs/25-audit-breadcrumb-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/26-implement-breadcrumb-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/breadcrumb-example-inventory.md` |
+| examples | carousel | resolved | `issues/0004-complete-shadcn-parity-and-docs/27-audit-carousel-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/28-implement-carousel-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/carousel-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -211,7 +212,6 @@ parity decision.
 | badge | 4 | `badge-demo`, `badge-destructive`, `badge-outline`, `badge-secondary` |
 | calendar | 2 | `calendar-demo`, `calendar-hijri` |
 | card | 2 | `card-demo`, `card-with-form` |
-| carousel | 6 | `carousel-api`, `carousel-demo`, `carousel-orientation`, `carousel-plugin`, `carousel-size`, `carousel-spacing` |
 | chart | 6 | `chart-bar-demo`, `chart-bar-demo-axis`, `chart-bar-demo-grid`, `chart-bar-demo-legend`, `chart-bar-demo-tooltip`, `chart-tooltip-demo` |
 | checkbox | 3 | `checkbox-demo`, `checkbox-disabled`, `checkbox-with-text` |
 | collapsible | 1 | `collapsible-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for carousel
+**Cluster:** Example parity for chart
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for carousel.
+- Audit upstream examples for chart.
 
 ## Notes
 

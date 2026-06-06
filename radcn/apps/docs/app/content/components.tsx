@@ -1194,6 +1194,104 @@ export function ToggleGroupPreview() {
   )
 }`
 
+const carouselSource = `import { Card, CardContent } from 'radcn/card'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from 'radcn/carousel'
+
+const slides = ['1', '2', '3', '4', '5']
+
+function SlideCard({ label }: { label: string }) {
+  return (
+    <Card class="radcn-carousel-slide-card">
+      <CardContent style="display:grid;min-height:inherit;place-items:center;padding:1rem;">
+        <span>{label}</span>
+      </CardContent>
+    </Card>
+  )
+}
+
+function SlideItems() {
+  return slides.map((slide, index) => (
+    <CarouselItem ariaLabel={\`Slide \${index + 1} of \${slides.length}\`} index={index} selected={index === 0}>
+      <SlideCard label={slide} />
+    </CarouselItem>
+  ))
+}
+
+export function CarouselPreview() {
+  return (
+    <div class="carousel-preview">
+      <Carousel class="radcn-carousel--demo" ariaLabel="Featured slides">
+        <CarouselContent><SlideItems /></CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+
+      <div data-carousel-example>
+        <Carousel class="radcn-carousel--api" ariaLabel="API slides">
+          <CarouselContent><SlideItems /></CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+        <div class="radcn-carousel-status" data-carousel-status>Slide 1 of 5</div>
+      </div>
+
+      <Carousel class="radcn-carousel--size" ariaLabel="Responsive slides">
+        <CarouselContent><SlideItems /></CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+
+      <Carousel class="radcn-carousel--spacing" ariaLabel="Compact slides">
+        <CarouselContent><SlideItems /></CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+
+      <Carousel class="radcn-carousel--orientation" ariaLabel="Vertical slides" orientation="vertical">
+        <CarouselContent><SlideItems /></CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
+
+      <div data-carousel-autoplay data-carousel-delay="2000">
+        <Carousel class="radcn-carousel--plugin" ariaLabel="Autoplay slides">
+          <CarouselContent><SlideItems /></CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+        <div class="radcn-carousel-plugin-note">Autoplay pauses on hover.</div>
+      </div>
+    </div>
+  )
+}
+
+export function enhanceCarouselStatus(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-carousel-example]').forEach((example) => {
+    let carousel = example.querySelector<HTMLElement>('[data-radcn-carousel]')
+    let status = example.querySelector<HTMLElement>('[data-carousel-status]')
+    if (!carousel || !status) return
+    let sync = () => {
+      status.textContent = 'Slide ' + (carousel.dataset.current || '1') + ' of ' + (carousel.dataset.count || '0')
+    }
+    carousel.addEventListener('radcn-carousel-select', sync)
+    carousel.addEventListener('radcn-carousel-scroll', sync)
+    sync()
+  })
+}
+
+export function enhanceCarouselAutoplay(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-carousel-autoplay]').forEach((example) => {
+    let next = example.querySelector<HTMLButtonElement>('[data-radcn-carousel-next]')
+    if (!next) return
+    let delay = Number(example.dataset.carouselDelay || '2000')
+    let timer = window.setInterval(() => next.click(), delay)
+    example.addEventListener('mouseenter', () => window.clearInterval(timer))
+    example.addEventListener('mouseleave', () => {
+      timer = window.setInterval(() => next.click(), delay)
+    })
+  })
+}`
+
 const spinnerSource = `import { Badge } from 'radcn/badge'
 import { Button } from 'radcn/button'
 import { Empty, EmptyContent, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
@@ -2320,6 +2418,102 @@ function ToggleGroupPreview() {
           <ToggleGroupItem ariaLabel="Toggle heart" value="heart"><span aria-hidden="true" class="radcn-toggle-group-icon" style="--radcn-toggle-icon-on-fg:#dc2626">H</span> Heart</ToggleGroupItem>
           <ToggleGroupItem ariaLabel="Toggle bookmark" value="bookmark"><span aria-hidden="true" class="radcn-toggle-group-icon" style="--radcn-toggle-icon-on-fg:#2563eb">B</span> Bookmark</ToggleGroupItem>
         </ToggleGroup>
+      </div>
+    </div>
+  )
+}
+
+function CarouselSlideCard({ label }: { label: string }) {
+  return (
+    <Card class="radcn-carousel-slide-card">
+      <CardContent style="display:grid;min-height:inherit;place-items:center;padding:1rem;">
+        <span>{label}</span>
+      </CardContent>
+    </Card>
+  )
+}
+
+function CarouselPreview() {
+  let slides = ['1', '2', '3', '4', '5']
+
+  return () => (
+    <div mix={previewStackStyle} style="width: min(100%, 44rem);">
+      <div data-radcn-docs-carousel-family="demo">
+        <Carousel ariaLabel="Featured slides" class="radcn-carousel--demo">
+          <CarouselContent>
+            {slides.map((slide, index) => (
+              <CarouselItem ariaLabel={`Slide ${index + 1} of ${slides.length}`} index={index} selected={index === 0}>
+                {CarouselSlideCard({ label: slide })}
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+
+      <div data-radcn-docs-carousel-family="api" class="radcn-carousel-example-stack">
+        <Carousel ariaLabel="API slides" class="radcn-carousel--api">
+          <CarouselContent>
+            {slides.map((slide, index) => (
+              <CarouselItem ariaLabel={`Slide ${index + 1} of ${slides.length}`} index={index} selected={index === 0}>
+                {CarouselSlideCard({ label: slide })}
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+        <div class="radcn-carousel-status">Slide 1 of 5</div>
+      </div>
+
+      <div data-radcn-docs-carousel-family="size">
+        <Carousel ariaLabel="Responsive slides" class="radcn-carousel--size">
+          <CarouselContent>
+            {slides.map((slide, index) => (
+              <CarouselItem index={index}>{CarouselSlideCard({ label: slide })}</CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+
+      <div data-radcn-docs-carousel-family="spacing">
+        <Carousel ariaLabel="Compact slides" class="radcn-carousel--spacing">
+          <CarouselContent>
+            {slides.map((slide, index) => (
+              <CarouselItem index={index}>{CarouselSlideCard({ label: slide })}</CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+
+      <div data-radcn-docs-carousel-family="orientation">
+        <Carousel ariaLabel="Vertical slides" class="radcn-carousel--orientation" orientation="vertical">
+          <CarouselContent>
+            {slides.map((slide, index) => (
+              <CarouselItem index={index}>{CarouselSlideCard({ label: slide })}</CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+
+      <div data-radcn-docs-carousel-family="plugin" class="radcn-carousel-example-stack">
+        <Carousel ariaLabel="Autoplay slides" class="radcn-carousel--plugin">
+          <CarouselContent>
+            {slides.map((slide, index) => (
+              <CarouselItem index={index}>{CarouselSlideCard({ label: slide })}</CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+        <div class="radcn-carousel-plugin-note">Autoplay can be app-owned browser behavior over public Carousel controls.</div>
       </div>
     </div>
   )
@@ -3550,6 +3744,49 @@ const richComponentDocs: ComponentDoc[] = [
       'Tailwind utility classes map to RadCN public classes, inline styles, or CSS variables.',
       'Remote GitHub avatar images are content choices. Use local/static assets, app-owned images, data URIs, or AvatarFallback for deterministic examples.',
       'Empty remains a layout/content primitive and does not own Avatar, AvatarGroup, Button, InputGroup, Kbd, icon-package, image-loading, route, form, or support-link state.',
+    ],
+  },
+  {
+    slug: 'carousel',
+    title: 'Carousel',
+    category: 'Composite',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A browser-enhanced scroll carousel with native region and slide semantics, controls, vertical layout, responsive sizing, status hooks, and app-owned autoplay composition.',
+    importPath: 'radcn/carousel',
+    importExample:
+      "import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from 'radcn/carousel'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render Demo, Size, Spacing, Orientation, API, and Plugin-style examples with Card slides, public events, and app-owned behavior.',
+        source: carouselSource,
+        preview: <CarouselPreview />,
+      },
+    ],
+    accessibility: [
+      'Carousel renders a named region with aria-roledescription="carousel" and each item renders a slide group.',
+      'CarouselItem can provide ariaLabel or ariaLabelledby so numbered Card slides have deterministic accessible names.',
+      'Previous and Next are native buttons with stable accessible labels and disabled boundary states.',
+      'Enhanced carousels expose current/count data hooks and selection events so app-owned status text can remain visible and synchronized.',
+      'Keyboard movement uses the active axis: left/right for horizontal, up/down for vertical, plus Home and End.',
+    ],
+    customization: [
+      'Use class, style, and CSS variables such as --radcn-carousel-width, --radcn-carousel-gap, --radcn-carousel-item-size, and --radcn-carousel-vertical-height to tune layout.',
+      'Card slides are ordinary composition; Carousel does not require or own Card.',
+      'Responsive size and spacing examples map to public classes and CSS variables instead of Tailwind basis or negative-margin utilities.',
+      'Autoplay/plugin behavior can be app-owned browser enhancement over public controls and data hooks.',
+    ],
+    divergence: [
+      'React state/effects/context and shadcn setApi map to public data hooks, radcn-carousel-select events, radcn-carousel-scroll events, and app-owned browser state.',
+      'Embla, useEmblaCarousel, opts, plugins, and embla-carousel-autoplay are upstream implementation mechanics, not RadCN dependencies.',
+      'Lucide arrows are presentation choices; RadCN controls use package-owned glyphs or app-owned children with accessible button labels.',
+      'Tailwind width, max-width, aspect-square, padding, negative margin, basis, height, and responsive utilities map to RadCN classes, inline styles, or CSS variables.',
     ],
   },
   {

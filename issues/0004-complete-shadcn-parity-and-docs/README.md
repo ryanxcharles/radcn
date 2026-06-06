@@ -461,6 +461,23 @@ Record cross-component discoveries here as experiments complete.
   package dependencies.
 - After Experiment 27, the next recommended implementation cluster is
   Carousel example parity depth.
+- Experiment 28 completed Carousel example parity depth. RadCN now proves all
+  six upstream Carousel example families in docs, candidate fixtures, and
+  Playwright coverage: api, demo, orientation, plugin, size, and spacing.
+  Coverage includes Card slide composition, visible current/count status text,
+  responsive multi-slide sizing, compact spacing, vertical orientation,
+  keyboard behavior, controls, disabled boundaries, deterministic autoplay
+  movement, and hover pause/resume.
+- Carousel's stable mappings for later clusters: React state/effects/context
+  and shadcn `setApi` map to public data hooks, `radcn-carousel-select`,
+  `radcn-carousel-scroll`, and app-owned browser state; Embla,
+  `useEmblaCarousel`, `opts`, `plugins`, and `embla-carousel-autoplay` are not
+  RadCN dependencies; lucide arrows map to package-owned glyphs or app-owned
+  control children; Tailwind sizing, spacing, aspect, padding, negative margin,
+  and responsive utilities map to RadCN classes, inline styles, or CSS
+  variables.
+- After Experiment 28, `carousel` is marked resolved in the example queue. The
+  regenerated inventory recommends example parity for `chart` next.
 
 ## Experiments
 
@@ -519,4 +536,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 27: Audit carousel example parity](27-audit-carousel-example-parity.md)
   — **Pass**
 - [Experiment 28: Implement carousel example parity depth](28-implement-carousel-example-parity-depth.md)
-  — **Designed**
+  — **Pass**
