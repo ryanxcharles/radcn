@@ -1116,6 +1116,18 @@ Record cross-component discoveries here as experiments complete.
   the exact upstream remote URL; RadCN remains responsible only for the ratio
   wrapper, while remote image loading and optimization stay app-owned. The
   regenerated parity inventory recommends auditing `avatar` examples next.
+- Experiment 85 audited direct Avatar example parity in
+  `avatar-example-inventory.md`. RadCN already covers dependency-free Avatar
+  markup, native image alt/src/loading props, visible and hidden fallback
+  behavior, badge hooks, group hooks, group count hooks, size variants, custom
+  token styling, and Avatar composition inside Item and Empty examples. The
+  direct Avatar cluster remains partial because docs, fixtures, and tests do
+  not yet prove the named upstream `avatar-demo` composition: exact GitHub
+  image URLs, alt texts `@shadcn`, `@evilrabbit`, and `@maxleiter`, fallback
+  texts `CN`, `ER`, and `LR`, rounded-square Avatar styling, flex/wrapped
+  `gap-12` wrapper layout, and stacked negative-space group ring/grayscale
+  treatment. Related `item-avatar`, `empty-avatar`, and `empty-avatar-group`
+  examples remain owned by the already resolved Item and Empty clusters.
 
 ## Experiments
 
@@ -1288,4 +1300,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 84: Implement aspect-ratio example parity depth](84-implement-aspect-ratio-example-parity-depth.md)
   — **Pass**
 - [Experiment 85: Audit avatar example parity](85-audit-avatar-example-parity.md)
-  — **Designed**
+  — **Partial**

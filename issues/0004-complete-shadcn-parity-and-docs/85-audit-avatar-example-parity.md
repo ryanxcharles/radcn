@@ -187,3 +187,111 @@ Experiment 85 as `Designed`, scope is narrow and audit-only, direct
 has concrete pass/fail criteria and hygiene checks, upstream confirms one
 direct `avatar-demo`, related examples are not direct Avatar rows, and vendor
 checkouts are clean.
+
+## Result
+
+**Result:** Partial
+
+Created `avatar-example-inventory.md` for the single direct upstream New York
+v4 Avatar example, `avatar-demo`. The audit confirms RadCN already covers
+dependency-free Avatar markup, native image alt/src/loading props, visible and
+hidden fallback behavior, badge hooks, group hooks, group count hooks, size
+variants, custom token styling, and Avatar composition inside Item and Empty
+examples.
+
+The direct Avatar cluster remains partial because current docs, fixtures, and
+tests do not prove the exact named upstream `avatar-demo` composition: GitHub
+remote image URLs for `@shadcn`, `@evilrabbit`, and `@maxleiter`; fallback text
+`CN`, `ER`, and `LR`; a rounded-square Avatar; a flex/wrapped `gap-12` wrapper;
+and a stacked negative-space group with ring and grayscale image treatment.
+
+Related `item-avatar`, `empty-avatar`, and `empty-avatar-group` examples were
+recorded outside the direct Avatar table because they are owned by the already
+resolved Item and Empty clusters.
+
+Verification commands run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const vendor = fs.readdirSync('vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples')
+  .filter((file) => /^avatar.*\.tsx$/.test(file))
+  .map((file) => file.replace(/\.tsx$/, ''))
+  .sort()
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/avatar-example-inventory.md', 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|[^\n]+/gm)].map((match) => match[1]).sort()
+console.log(`vendor: ${vendor.join(', ')}`)
+console.log(`inventory: ${rows.join(', ')}`)
+if (vendor.length !== 1 || vendor[0] !== 'avatar-demo') process.exit(1)
+if (rows.length !== 1 || rows[0] !== 'avatar-demo') process.exit(1)
+NODE
+```
+
+Passed with `vendor: avatar-demo` and `inventory: avatar-demo`.
+
+```text
+rg -n "item-avatar|empty-avatar|empty-avatar-group" issues/0004-complete-shadcn-parity-and-docs/avatar-example-inventory.md
+```
+
+Passed with all three related example IDs recorded in `## Related Examples`.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/avatar-example-inventory.md', 'utf8')
+const row = text.match(/^\| `avatar-demo` \|([^\n]+)$/m)?.[0]
+if (!row) process.exit(1)
+const cells = row.split('|').map((cell) => cell.trim())
+const outcome = cells[4]
+const followUp = cells[5]
+console.log(`outcome: ${outcome}`)
+console.log(`follow-up: ${followUp}`)
+if (!['Covered', 'Partial', 'Missing', 'Intentional divergence'].includes(outcome)) process.exit(1)
+if (outcome !== 'Covered' && (!followUp || followUp === 'No follow-up.')) process.exit(1)
+NODE
+```
+
+Passed with `outcome: Partial` and a non-empty follow-up.
+
+```text
+rg -n "Experiment 85|avatar-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+git status --short
+```
+
+The README check found the Experiment 85 learning and index entry,
+`git diff --check` passed, the vendor cleanliness check printed no output, and
+`git status --short` showed only this experiment file, the new inventory file,
+and Issue 4 README modified before result review.
+
+## Completion Review
+
+Reviewer: Zeno the 2nd (`019e9d78-b74d-7d22-a703-9c51426f960b`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: corrected the recorded `git status --short` summary to include this
+  experiment result file alongside the README and new inventory file.
+
+Approval: approved. The reviewer confirmed the audit-only scope held, upstream
+has exactly one direct `avatar*.tsx` example (`avatar-demo`), related
+`item-avatar`, `empty-avatar`, and `empty-avatar-group` are recorded outside
+the direct Avatar table, README status is `Partial`, result and conclusion are
+present, `git diff --check` passes, vendor nested checkouts are clean, ignored
+vendor sources are not committed, and the result commit had not been made
+before review.
+
+## Conclusion
+
+Direct Avatar example parity remains partial. The package primitive is strong
+enough for the upstream behavior, but named docs, fixture, and Playwright
+evidence still need to prove the exact remote image, fallback, shape, stacked
+group, ring, and grayscale details.
+
+The next Issue 4 experiment should implement named `avatar-demo` parity without
+adding React, Radix, Tailwind, `cn`, or vendor dependencies.
