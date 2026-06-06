@@ -1456,3 +1456,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 94: Implement hover-card example parity depth](94-implement-hover-card-example-parity-depth.md)
   — **Pass**
+- [Experiment 95: Audit label example parity](95-audit-label-example-parity.md)
+  — **Designed**
