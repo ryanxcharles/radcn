@@ -181,3 +181,102 @@ Re-review findings:
 - No new blockers were introduced by the fix.
 
 Approval: Approved for plan commit.
+
+## Result
+
+**Result:** Pass
+
+Created `native-select-example-inventory.md` and audited all four active
+upstream Native Select examples:
+
+- `native-select-demo`
+- `native-select-disabled`
+- `native-select-groups`
+- `native-select-invalid`
+
+The audit found strong RadCN primitive coverage for Native Select behavior:
+real `<select>`, `<option>`, and `<optgroup>` elements, wrapper/select/option
+data hooks, default and small sizes, disabled state, invalid ARIA state,
+native value selection, native form submission/reset, required constraint
+validation, custom CSS variables, option/optgroup Canvas colors, docs route
+coverage, reference fixture coverage, candidate fixture coverage, and
+Playwright coverage.
+
+The example cluster remains partially covered because the docs, candidate
+fixtures, and Playwright tests do not yet prove the four named upstream example
+ids with complete upstream option sets as user-facing compositions. No current
+evidence requires changing the `radcn/native-select` package API.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/native-select-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'native-select-demo',
+  'native-select-disabled',
+  'native-select-groups',
+  'native-select-invalid',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+native-select-demo: 1
+native-select-disabled: 1
+native-select-groups: 1
+native-select-invalid: 1
+
+rg -n "native-select-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+716:  `native-select-example-inventory.md`. RadCN already has strong package,
+
+git diff --check
+
+git status --short
+ M issues/0004-complete-shadcn-parity-and-docs/49-audit-native-select-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/native-select-example-inventory.md
+
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+## Conclusion
+
+The next experiment should implement Native Select example parity depth for
+`native-select-demo`, `native-select-disabled`, `native-select-groups`, and
+`native-select-invalid`. It should add named docs/fixture/test evidence and
+complete upstream option sets while preserving the existing dependency-free
+Native Select package API unless implementation reveals a concrete blocker.
+
+## Completion Review
+
+Reviewer: Dewey the 2nd (`019e9bfa-0008-7680-b11f-149e4f5ef8d4`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the
+implementation matches the approved audit-only scope, the experiment has
+`## Result` and `## Conclusion`, the README learning and `Pass` status match
+the result, the inventory has exactly the four active Native Select example
+rows and keeps the cluster unresolved/partial, `parity-inventory.md` supports
+the audited cluster, verification commands were reproduced, vendor status was
+clean, and HEAD was still the plan commit before this result commit.

@@ -712,6 +712,19 @@ Record cross-component discoveries here as experiments complete.
   `input-otp`, Radix, `lucide-react`, Tailwind, or vendor source. The
   regenerated parity inventory now recommends auditing `native-select`
   examples next.
+- Experiment 49 audited Native Select example parity in
+  `native-select-example-inventory.md`. RadCN already has strong package,
+  docs route, candidate fixture, reference fixture, and Playwright evidence
+  for real native select/option/optgroup semantics, wrapper and select hooks,
+  default and small sizes, disabled state, invalid ARIA state, native value
+  selection, form submission/reset, required validation, custom tokens, and
+  option/optgroup Canvas colors. The active upstream examples remain partially
+  covered because docs, fixtures, and tests do not yet prove the four named
+  example ids with complete upstream option sets: `native-select-demo`,
+  `native-select-disabled`, `native-select-groups`, and
+  `native-select-invalid`. The next experiment should implement those named
+  examples without changing the Native Select package API unless a concrete
+  package-level gap appears.
 
 ## Experiments
 
@@ -812,4 +825,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 48: Implement input-otp example parity depth](48-implement-input-otp-example-parity-depth.md)
   — **Pass**
 - [Experiment 49: Audit native-select example parity](49-audit-native-select-example-parity.md)
-  — **Designed**
+  — **Pass**
