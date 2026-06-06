@@ -838,3 +838,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 50: Implement native-select example parity depth](50-implement-native-select-example-parity-depth.md)
   — **Pass**
+- [Experiment 51: Audit resizable example parity](51-audit-resizable-example-parity.md)
+  — **Designed**
