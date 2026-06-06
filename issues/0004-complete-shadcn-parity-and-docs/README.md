@@ -1037,6 +1037,24 @@ Record cross-component discoveries here as experiments complete.
   mappings or app-owned concerns. `sonner-example-inventory.md` marks both rows
   `Covered`, `resolved-clusters.json` records `sonner` as resolved, and the
   regenerated parity inventory recommends auditing `accordion` examples next.
+- Experiment 79 audited Accordion example parity in
+  `accordion-example-inventory.md`. RadCN already covers the Accordion package
+  API, native details/summary disclosure semantics, single and multiple modes,
+  collapsible behavior, disabled items, keyboard toggling, public data hooks,
+  icon hooks, and custom token styling without React, Radix, or lucide
+  dependencies. The cluster remains partial because docs, fixtures, and tests
+  do not yet prove the named upstream `accordion-demo` composition with
+  `defaultValue="item-1"`, values `item-1`/`item-2`/`item-3`, exact
+  `Product Information`, `Shipping Details`, and `Return Policy` triggers,
+  the two exact paragraphs under each item, full-width styling, or flex/gap/
+  text-balance content layout mapping. The audit also found a current RadCN
+  Accordion limitation: root `defaultValue` and `name` are metadata hooks only;
+  item `open` and shared item `name` must still be passed explicitly for
+  server-rendered default state and native single-group behavior. The next
+  experiment should implement named `accordion-demo` docs, candidate fixture,
+  and Playwright coverage, and explicitly decide whether that explicit
+  item-level mapping is the intended RadCN model or whether a package
+  enhancement is needed.
 
 ## Experiments
 
@@ -1197,4 +1215,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 78: Implement sonner example parity depth](78-implement-sonner-example-parity-depth.md)
   — **Pass**
 - [Experiment 79: Audit accordion example parity](79-audit-accordion-example-parity.md)
-  — **Designed**
+  — **Partial**
