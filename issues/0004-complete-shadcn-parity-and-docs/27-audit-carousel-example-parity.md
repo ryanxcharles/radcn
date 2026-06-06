@@ -141,3 +141,112 @@ includes concrete pass/fail checks, includes repo hygiene and vendor
 cleanliness checks, records the need for README learnings, has not started
 implementation before the plan commit, and lists six Carousel example ids that
 exist in the vendored shadcn registry.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/carousel-example-inventory.md` as
+an audit-only inventory for all 6 upstream Carousel examples: `carousel-api`,
+`carousel-demo`, `carousel-orientation`, `carousel-plugin`, `carousel-size`,
+and `carousel-spacing`.
+
+The inventory records each example's user-facing behavior, current RadCN
+evidence, outcome, and required follow-up. It does not mark `carousel`
+resolved, because the examples need docs/fixture/Playwright depth beyond the
+current primitive coverage, especially for visible API status text and
+autoplay/plugin behavior.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/carousel-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = ['carousel-api','carousel-demo','carousel-orientation','carousel-plugin','carousel-size','carousel-spacing']
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+carousel-api: 1
+carousel-demo: 1
+carousel-orientation: 1
+carousel-plugin: 1
+carousel-size: 1
+carousel-spacing: 1
+```
+
+```text
+rg -n 'Card|default|responsive|multi-slide|spacing|vertical|keyboard|previous|next|disabled|current/count|Slide 1 of 5|radcn-carousel-select|scroll|autoplay|plugin|hover|React|Embla|useEmblaCarousel|setApi|plugins|opts|lucide|Tailwind|Playwright' issues/0004-complete-shadcn-parity-and-docs/carousel-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: default Card slide carousel behavior, responsive multi-slide sizing,
+compact spacing, vertical orientation and axis-specific keyboard behavior,
+previous/next controls, boundary disabled state, current/count status text,
+`radcn-carousel-select`, scroll events, autoplay/plugin behavior, hover
+pause/resume, React state/effects, Embla/useEmblaCarousel, `setApi`, `plugins`,
+`opts`, Card composition ownership, lucide arrows, Tailwind utilities, and
+current RadCN package/docs/fixture/Playwright evidence.
+
+Additional verification:
+
+```text
+rg -n "carousel-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:448:  `carousel-example-inventory.md`. Carousel example parity is not complete yet:
+ M issues/0004-complete-shadcn-parity-and-docs/27-audit-carousel-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/carousel-example-inventory.md
+```
+
+`git diff --check` passed with no output. Vendor status printed no output.
+
+## Conclusion
+
+Carousel should be the next implementation cluster. The implementation should
+add named docs and fixture coverage for all six upstream examples, prove
+current/count status text and deterministic autoplay behavior in Playwright,
+map React/Embla/plugin/lucide/Tailwind mechanics to Remix 3 and app-owned
+composition, and only add package-level hooks if existing data hooks/events are
+not enough.
+
+## Completion Review
+
+Reviewer: Ohm (`019e9b0e-7d06-7d93-a95b-61382f44530b`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Review result: approved. Ohm confirmed the completed experiment matches the
+approved audit-only scope; only issue documentation plus the new inventory file
+changed; no package, docs app, fixture, or test source files changed; the
+experiment has `## Result` and `## Conclusion`; the Issue 4 README marks
+Experiment 27 as `Pass` and records Carousel learnings plus the next cluster;
+the inventory has exactly one row for each of the six upstream Carousel ids;
+`git diff --check` passes; vendor status is clean; `git ls-files vendor` only
+reports `vendor/.gitignore`; the plan commit exists; and the result commit had
+not been made before review.

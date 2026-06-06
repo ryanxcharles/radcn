@@ -444,6 +444,23 @@ Record cross-component discoveries here as experiments complete.
   classes, inline styles, or CSS variables.
 - After Experiment 26, `breadcrumb` is marked resolved in the example queue.
   The regenerated inventory recommends example parity for `carousel` next.
+- Experiment 27 audited all 6 upstream Carousel examples in
+  `carousel-example-inventory.md`. Carousel example parity is not complete yet:
+  RadCN has strong primitive behavior for region/slide semantics, selected
+  state, current/count data hooks, controls, disabled boundaries, keyboard
+  movement, native scroll sync, vertical orientation, multiple visible slides,
+  compact spacing, and custom tokens, but it needs named docs/fixture/
+  Playwright depth for demo, size, spacing, orientation, API status text, and
+  autoplay/plugin behavior.
+- Carousel remains a native scroll carousel plus browser enhancement. React
+  state/effects/context, Embla, `setApi`, `opts`, `plugins`,
+  `embla-carousel-autoplay`, lucide icons, Tailwind utilities, and Card
+  composition should map to RadCN enhancement, public events/data hooks,
+  app-owned browser behavior, package/app-owned glyphs, classes/styles/CSS
+  variables, and composed RadCN primitives rather than mandatory Carousel
+  package dependencies.
+- After Experiment 27, the next recommended implementation cluster is
+  Carousel example parity depth.
 
 ## Experiments
 
@@ -500,4 +517,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 26: Implement breadcrumb example parity depth](26-implement-breadcrumb-example-parity-depth.md)
   — **Pass**
 - [Experiment 27: Audit carousel example parity](27-audit-carousel-example-parity.md)
-  — **Designed**
+  — **Pass**
