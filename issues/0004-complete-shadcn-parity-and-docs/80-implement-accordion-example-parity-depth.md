@@ -294,3 +294,307 @@ Approval: approved. The reviewer confirmed the README links Experiment 80 as
 has not started before the plan commit, verification and hygiene checks are
 concrete, vendor checkouts are not in scope, and the Experiment 79
 root-metadata plus explicit item `open`/`name` finding is handled directly.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Accordion example parity for `accordion-demo`.
+
+The docs page now promotes Accordion to a rich component doc and renders
+`data-radcn-docs-accordion-family="accordion-demo"` with the exact upstream
+trigger labels, values, first-open state, six paragraph bodies, full-width root
+evidence, flex/gap/text-balance content evidence, public hooks, and mapping copy
+for React, Radix Accordion, lucide `ChevronDownIcon`, `cn`, `data-slot`,
+`className`, Tailwind utilities, animation utilities, vendor source, and the
+RadCN root-metadata plus explicit item `open`/`name` decision.
+
+The candidate fixture app now exposes `/fixtures/accordion/demo`. The fixture
+passes one stable group name to root `name` and the same value to each enabled
+`AccordionItem name`, while the first item receives `open` explicitly. This
+keeps native details grouping and server-rendered default state dependency-free
+without changing `radcn/packages/radcn`.
+
+`accordion-example-inventory.md` now marks `accordion-demo` `Covered`,
+`resolved-clusters.json` records `accordion` as a resolved example cluster, and
+`node scripts/audit-shadcn-parity.mjs` regenerated `parity-inventory.md`. The
+first recommended cluster is now `alert-dialog`, not Accordion.
+
+Verification commands run:
+
+```text
+pnpm radcn:typecheck
+```
+
+Passed.
+
+```text
+pnpm --dir radcn/apps/docs typecheck
+```
+
+Passed.
+
+```text
+pnpm fixtures:candidate:typecheck
+```
+
+Passed.
+
+```text
+node scripts/audit-shadcn-parity.mjs
+```
+
+Passed and rewrote `parity-inventory.md`.
+
+```text
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts accordion.spec.ts
+```
+
+First run failed because the new named-demo test expected closed Shipping and
+Return panel copy to be visible. That was a test bug: closed details content is
+present but hidden until opened. Fixed the test to assert attached text through
+content hooks, while separately testing click-driven visibility/state changes.
+
+Rerun passed: 4 tests. The run printed the existing Node `module.register()`
+deprecation warning and `NO_COLOR`/`FORCE_COLOR` web-server warnings.
+
+```text
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Passed: 5 tests. The run printed the existing Node `module.register()`
+deprecation warning and `NO_COLOR`/`FORCE_COLOR` web-server warnings.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/accordion-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|[^\n]+/gm)]
+const row = rows.filter((match) => match[1] === 'accordion-demo')
+console.log(`${row.length} ${row[0]?.[0] ?? ''}`)
+if (
+  rows.length !== 1 ||
+  row.length !== 1 ||
+  (!row[0][0].includes('| Covered |') &&
+    !row[0][0].includes('| Intentional divergence |'))
+) {
+  process.exit(1)
+}
+NODE
+```
+
+Passed. The one `accordion-demo` row is `Covered`.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const data = JSON.parse(fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json', 'utf8'))
+const entry = data.examples?.find((item) => item.slug === 'accordion')
+const required = [
+  'issues/0004-complete-shadcn-parity-and-docs/79-audit-accordion-example-parity.md',
+  'issues/0004-complete-shadcn-parity-and-docs/80-implement-accordion-example-parity-depth.md',
+  'issues/0004-complete-shadcn-parity-and-docs/accordion-example-inventory.md',
+]
+if (!entry || entry.status !== 'resolved') {
+  console.error('missing resolved accordion entry')
+  process.exit(1)
+}
+for (const file of required) {
+  if (!entry.evidence?.includes(file)) {
+    console.error(`missing evidence ${file}`)
+    process.exit(1)
+  }
+}
+console.log('accordion resolved evidence ok')
+NODE
+```
+
+Passed.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md', 'utf8')
+const unresolved = text.match(/## Unresolved Example Clusters[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const first = text.match(/## First Recommended Cluster[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+if (unresolved.includes('`accordion`') || first.includes('Example parity for accordion')) {
+  console.error('accordion still appears unresolved or recommended')
+  process.exit(1)
+}
+console.log(first.trim().split('\n').slice(0, 6).join('\n'))
+NODE
+```
+
+Passed. The first recommended cluster is `alert-dialog`.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const path = require('path')
+const roots = ['radcn/packages/radcn', 'radcn/apps/docs', 'radcn/fixtures/candidate-remix']
+function forbiddenImport(name) {
+  return (
+    name === 'react' ||
+    name === 'react-dom' ||
+    name === 'radix-ui' ||
+    name.startsWith('@radix-ui/') ||
+    name === 'lucide-react' ||
+    name === 'tailwindcss' ||
+    name === 'class-variance-authority' ||
+    name.startsWith('@tailwindcss/') ||
+    name.includes('/vendor/') ||
+    name.startsWith('../vendor/')
+  )
+}
+const files = []
+function walk(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'node_modules' || entry.name === '.git') continue
+    const full = path.join(dir, entry.name)
+    if (entry.isDirectory()) walk(full)
+    else if (/\.[cm]?[tj]sx?$/.test(entry.name)) files.push(full)
+  }
+}
+for (const root of roots) walk(root)
+let failed = false
+for (const file of files) {
+  const text = fs.readFileSync(file, 'utf8')
+  for (const match of text.matchAll(/^\s*import(?:\s+type)?[\s\S]*?\sfrom\s+['"]([^'"]+)['"]/gm)) {
+    if (forbiddenImport(match[1])) {
+      console.log(`${file}: forbidden import ${match[1]}`)
+      failed = true
+    }
+  }
+}
+if (failed) process.exit(1)
+console.log('forbidden import check ok')
+NODE
+```
+
+Passed.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const manifests = [
+  'package.json',
+  'radcn/package.json',
+  'radcn/packages/radcn/package.json',
+  'radcn/apps/docs/package.json',
+  'radcn/fixtures/candidate-remix/package.json',
+].filter((file) => fs.existsSync(file))
+const forbidden = [
+  'react',
+  'react-dom',
+  'radix-ui',
+  'lucide-react',
+  'tailwindcss',
+  '@tailwindcss/vite',
+  '@tailwindcss/postcss',
+  'class-variance-authority',
+]
+let failed = false
+for (const file of manifests) {
+  const json = JSON.parse(fs.readFileSync(file, 'utf8'))
+  for (const field of ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies']) {
+    const deps = json[field] || {}
+    for (const name of Object.keys(deps)) {
+      if (
+        forbidden.includes(name) ||
+        name.startsWith('@radix-ui/') ||
+        forbidden.some((prefix) => prefix.endsWith('/') && name.startsWith(prefix))
+      ) {
+        console.log(`${file}: ${field}.${name}`)
+        failed = true
+      }
+    }
+  }
+}
+if (failed) process.exit(1)
+console.log('manifest forbidden dependency check ok')
+NODE
+git diff --exit-code -- pnpm-lock.yaml
+```
+
+Passed. The lockfile is unchanged.
+
+```text
+git diff --check
+```
+
+Passed.
+
+```text
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Passed. No vendor checkout output.
+
+Expected changed files before result commit:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/80-implement-accordion-example-parity-depth.md
+issues/0004-complete-shadcn-parity-and-docs/README.md
+issues/0004-complete-shadcn-parity-and-docs/accordion-example-inventory.md
+issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json
+radcn/apps/docs/app/content/components.tsx
+radcn/apps/docs/tests/coverage.spec.ts
+radcn/fixtures/candidate-remix/app/fixtures/accordion.tsx
+radcn/fixtures/scenarios/index.ts
+radcn/fixtures/tests/accordion.spec.ts
+```
+
+No package source, package metadata, lockfile, or vendor source changes were
+needed.
+
+## Conclusion
+
+Accordion example parity is resolved for the active upstream New York v4
+example. RadCN should keep Accordion dependency-free and preserve the explicit
+server-first mapping: root `defaultValue`/`name` expose metadata, while item
+`open` and matching item `name` props own initial state and native grouping.
+The regenerated parity inventory recommends auditing `alert-dialog` example
+parity next.
+
+## Completion Review
+
+Reviewer: Mendel the 2nd (`019e9d49-148c-7a63-9f2c-aae8492fea4e`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Initial findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: named-demo tests did not explicitly assert
+  `[data-radcn-accordion-trigger]` hooks or initial `data-state` values for the
+  `accordion-demo` composition. Fixed by adding fixture and docs coverage for
+  trigger hook counts and initial item `data-state` values.
+
+Fix verification:
+
+```text
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts accordion.spec.ts
+```
+
+Passed: 4 tests. The run printed the existing Node `module.register()`
+deprecation warning and `NO_COLOR`/`FORCE_COLOR` web-server warnings.
+
+```text
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Passed: 5 tests. The run printed the existing Node `module.register()`
+deprecation warning and `NO_COLOR`/`FORCE_COLOR` web-server warnings.
+
+Re-review findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the prior finding is resolved:
+named fixture and docs tests now assert initial item `data-state` values and
+`[data-radcn-accordion-trigger]` hook counts, with no new blocker introduced.

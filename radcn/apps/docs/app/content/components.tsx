@@ -386,6 +386,66 @@ const forceVisiblePreviewStyle = css({
   },
 })
 
+const accordionDemoSource = `import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from 'radcn/accordion'
+
+const groupName = 'accordion-demo'
+
+export function AccordionDemo() {
+  return (
+    <Accordion
+      class="w-full"
+      collapsible
+      defaultValue="item-1"
+      name={groupName}
+      type="single"
+    >
+      <AccordionItem name={groupName} open value="item-1">
+        <AccordionTrigger>Product Information</AccordionTrigger>
+        <AccordionContent class="flex flex-col gap-4 text-balance">
+          <p>
+            Our flagship product combines cutting-edge technology with sleek
+            design. Built with premium materials, it offers unparalleled
+            performance and reliability.
+          </p>
+          <p>
+            Key features include advanced processing capabilities, and an
+            intuitive user interface designed for both beginners and experts.
+          </p>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem name={groupName} value="item-2">
+        <AccordionTrigger>Shipping Details</AccordionTrigger>
+        <AccordionContent class="flex flex-col gap-4 text-balance">
+          <p>
+            We offer worldwide shipping through trusted courier partners.
+            Standard delivery takes 3-5 business days, while express shipping
+            ensures delivery within 1-2 business days.
+          </p>
+          <p>
+            All orders are carefully packaged and fully insured. Track your
+            shipment in real-time through our dedicated tracking portal.
+          </p>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem name={groupName} value="item-3">
+        <AccordionTrigger>Return Policy</AccordionTrigger>
+        <AccordionContent class="flex flex-col gap-4 text-balance">
+          <p>
+            We stand behind our products with a comprehensive 30-day return
+            policy. If you're not completely satisfied, simply return the item
+            in its original condition.
+          </p>
+          <p>
+            Our hassle-free return process includes free return shipping and
+            full refunds processed within 48 hours of receiving the returned
+            item.
+          </p>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  )
+}`
+
 const previewMediaStyle = css({
   display: 'grid',
   minHeight: '8rem',
@@ -5275,6 +5335,49 @@ function SpinnerPreview() {
   )
 }
 
+const accordionDemoName = 'accordion-demo'
+
+function AccordionDemoPreview() {
+  return () => (
+    <div data-radcn-docs-accordion-family="accordion-demo" mix={previewStackStyle} style="width: min(100%, 42rem);">
+      <Accordion
+        class="radcn-docs-accordion-demo w-full"
+        collapsible
+        defaultValue="item-1"
+        name={accordionDemoName}
+        style="width: 100%;"
+        type="single"
+      >
+        <AccordionItem name={accordionDemoName} open value="item-1">
+          <AccordionTrigger>Product Information</AccordionTrigger>
+          <AccordionContent class="radcn-docs-accordion-demo-content flex flex-col gap-4 text-balance" style="display:flex;flex-direction:column;gap:1rem;text-wrap:balance;">
+            <p>Our flagship product combines cutting-edge technology with sleek design. Built with premium materials, it offers unparalleled performance and reliability.</p>
+            <p>Key features include advanced processing capabilities, and an intuitive user interface designed for both beginners and experts.</p>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem name={accordionDemoName} value="item-2">
+          <AccordionTrigger>Shipping Details</AccordionTrigger>
+          <AccordionContent class="radcn-docs-accordion-demo-content flex flex-col gap-4 text-balance" style="display:flex;flex-direction:column;gap:1rem;text-wrap:balance;">
+            <p>We offer worldwide shipping through trusted courier partners. Standard delivery takes 3-5 business days, while express shipping ensures delivery within 1-2 business days.</p>
+            <p>All orders are carefully packaged and fully insured. Track your shipment in real-time through our dedicated tracking portal.</p>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem name={accordionDemoName} value="item-3">
+          <AccordionTrigger>Return Policy</AccordionTrigger>
+          <AccordionContent class="radcn-docs-accordion-demo-content flex flex-col gap-4 text-balance" style="display:flex;flex-direction:column;gap:1rem;text-wrap:balance;">
+            <p>We stand behind our products with a comprehensive 30-day return policy. If you're not completely satisfied, simply return the item in its original condition.</p>
+            <p>Our hassle-free return process includes free return shipping and full refunds processed within 48 hours of receiving the returned item.</p>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+      <p style="margin:0;color:var(--radcn-docs-muted);font-size:0.875rem;">
+        Root defaultValue and name are RadCN metadata hooks; server-rendered
+        open state and native single grouping are explicit item open/name props.
+      </p>
+    </div>
+  )
+}
+
 function AuthoredPreview(handle: { props: { slug: string; title: string } }) {
   return () => {
     let { slug, title } = handle.props
@@ -5967,6 +6070,49 @@ export function ChartPreview() {
 }`
 
 const richComponentDocs: ComponentDoc[] = [
+  {
+    slug: 'accordion',
+    title: 'Accordion',
+    category: 'Composite',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native details/summary accordion for single or multiple disclosure groups with explicit server-rendered state.',
+    importPath: 'radcn/accordion',
+    importExample:
+      "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from 'radcn/accordion'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'accordion-demo',
+        title: 'Accordion Demo',
+        description:
+          'Render the upstream product, shipping, and return policy example with native single-group behavior and exact copy.',
+        source: accordionDemoSource,
+        preview: <AccordionDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Accordion uses native details and summary elements, so disclosure state, keyboard activation, and content association are present in server HTML.',
+      'Single mode uses matching item name attributes for native single-open behavior without React state.',
+      'The first item is server-rendered open with an explicit item open prop, matching the upstream defaultValue="item-1" initial state.',
+      'Trigger text remains visible text, while the decorative icon uses data-radcn-accordion-icon and aria-hidden.',
+    ],
+    customization: [
+      'Root, item, trigger, trigger text, icon, content, and content inner parts expose public data-radcn hooks and classes.',
+      'Full-width styling maps from upstream w-full to class/style on Accordion and can be tested with public root hooks.',
+      'Tailwind flex, gap, and text-balance content utilities map to class, style, CSS variables, or app-owned wrapper styles over public content hooks.',
+      'Root defaultValue and name are metadata hooks; item open and matching item name props own server-rendered state and native grouping.',
+    ],
+    divergence: [
+      'Radix Accordion maps to browser-native details/summary markup and does not become a RadCN dependency.',
+      'React client markers, React state, className, cn, data-slot, and Tailwind utilities map to explicit Remix UI props, class, style, CSS variables, and public data-radcn hooks.',
+      'lucide ChevronDownIcon maps to the package-owned accordion icon hook; apps can replace presentation without adding an icon dependency.',
+      'Accordion animation utilities map to package CSS transitions and app-owned styling over data-state hooks.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
   {
     slug: 'alert',
     title: 'Alert',

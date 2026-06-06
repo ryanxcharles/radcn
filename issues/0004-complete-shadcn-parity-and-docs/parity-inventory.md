@@ -149,6 +149,7 @@ These are documented in RadCN but are not current package exports.
 | examples | sheet | resolved | `issues/0004-complete-shadcn-parity-and-docs/73-audit-sheet-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/74-implement-sheet-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/sheet-example-inventory.md` |
 | examples | skeleton | resolved | `issues/0004-complete-shadcn-parity-and-docs/75-audit-skeleton-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/76-implement-skeleton-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/skeleton-example-inventory.md` |
 | examples | sonner | resolved | `issues/0004-complete-shadcn-parity-and-docs/77-audit-sonner-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/78-implement-sonner-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/sonner-example-inventory.md` |
+| examples | accordion | resolved | `issues/0004-complete-shadcn-parity-and-docs/79-audit-accordion-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/80-implement-accordion-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/accordion-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -229,7 +230,6 @@ parity decision.
 
 | Component | Example count | Examples |
 | --- | ---: | --- |
-| accordion | 1 | `accordion-demo` |
 | alert-dialog | 1 | `alert-dialog-demo` |
 | aspect-ratio | 1 | `aspect-ratio-demo` |
 | avatar | 1 | `avatar-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for accordion
+**Cluster:** Example parity for alert-dialog
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for accordion.
+- Audit upstream examples for alert-dialog.
 
 ## Notes
 

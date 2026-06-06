@@ -1055,6 +1055,20 @@ Record cross-component discoveries here as experiments complete.
   and Playwright coverage, and explicitly decide whether that explicit
   item-level mapping is the intended RadCN model or whether a package
   enhancement is needed.
+- Experiment 80 resolved Accordion example parity for `accordion-demo`.
+  Docs, candidate fixtures, and Playwright now prove the exact upstream
+  product, shipping, and return policy trigger labels; values
+  `item-1`/`item-2`/`item-3`; six exact paragraph bodies; first-open state;
+  single collapsible behavior; full-width root styling; flex/gap/text-balance
+  content layout mapping; public root/item/trigger/content/icon hooks; and
+  the explicit RadCN mapping where root `defaultValue`/`name` are metadata and
+  item `open`/matching `name` props own server-rendered state and native
+  grouping. No package API or dependency change was needed. React, Radix,
+  lucide, `cn`, `data-slot`, `className`, Tailwind utilities, animation
+  utilities, disabled styling, and vendor source remain dependency-free
+  mappings. `accordion-example-inventory.md` marks `accordion-demo` `Covered`,
+  `resolved-clusters.json` records `accordion` as resolved, and the regenerated
+  parity inventory recommends auditing `alert-dialog` examples next.
 
 ## Experiments
 
@@ -1217,4 +1231,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 79: Audit accordion example parity](79-audit-accordion-example-parity.md)
   — **Partial**
 - [Experiment 80: Implement accordion example parity depth](80-implement-accordion-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

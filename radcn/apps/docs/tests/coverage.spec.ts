@@ -119,6 +119,48 @@ test.describe('docs registry coverage', () => {
     await page.goto('/docs/components/button')
     await expect(page.locator('[data-radcn-button]').first()).toBeVisible()
 
+    await page.goto('/docs/components/accordion')
+    let accordionDemo = page.locator('[data-radcn-docs-accordion-family="accordion-demo"]')
+    await expect(accordionDemo).toBeVisible()
+    await expect(accordionDemo.locator('[data-radcn-accordion]')).toHaveAttribute('data-type', 'single')
+    await expect(accordionDemo.locator('[data-radcn-accordion]')).toHaveAttribute('data-collapsible', 'true')
+    await expect(accordionDemo.locator('[data-radcn-accordion]')).toHaveAttribute('data-default-value', 'item-1')
+    await expect(accordionDemo.locator('[data-radcn-accordion]')).toHaveAttribute('data-accordion-name', 'accordion-demo')
+    await expect(accordionDemo.locator('[data-radcn-accordion]')).toHaveClass(/w-full/)
+    await expect(accordionDemo.locator('[data-radcn-accordion-item]')).toHaveCount(3)
+    for (let index = 0; index < 3; index += 1) {
+      await expect(accordionDemo.locator('[data-radcn-accordion-item]').nth(index)).toHaveAttribute('name', 'accordion-demo')
+    }
+    await expect(accordionDemo.locator('[data-radcn-accordion-item]').nth(0)).toHaveAttribute('data-value', 'item-1')
+    await expect(accordionDemo.locator('[data-radcn-accordion-item]').nth(1)).toHaveAttribute('data-value', 'item-2')
+    await expect(accordionDemo.locator('[data-radcn-accordion-item]').nth(2)).toHaveAttribute('data-value', 'item-3')
+    await expect(accordionDemo.locator('[data-radcn-accordion-item]').nth(0)).toHaveAttribute('data-state', 'open')
+    await expect(accordionDemo.locator('[data-radcn-accordion-item]').nth(1)).toHaveAttribute('data-state', 'closed')
+    await expect(accordionDemo.locator('[data-radcn-accordion-item]').nth(2)).toHaveAttribute('data-state', 'closed')
+    await expect(accordionDemo.locator('[data-radcn-accordion-item]').nth(0)).toHaveAttribute('open', '')
+    await expect(accordionDemo.locator('[data-radcn-accordion-trigger]')).toHaveCount(3)
+    await expect(accordionDemo.locator('[data-radcn-accordion-trigger-text]')).toHaveText([
+      'Product Information',
+      'Shipping Details',
+      'Return Policy',
+    ])
+    await expect(accordionDemo.locator('[data-radcn-accordion-icon]')).toHaveCount(3)
+    await expect(accordionDemo.locator('[data-radcn-accordion-content]')).toHaveClass([
+      /flex flex-col gap-4 text-balance/,
+      /flex flex-col gap-4 text-balance/,
+      /flex flex-col gap-4 text-balance/,
+    ])
+    await expect(accordionDemo).toContainText('Our flagship product combines cutting-edge technology with sleek design.')
+    await expect(accordionDemo).toContainText('Key features include advanced processing capabilities, and an intuitive user interface designed for both beginners and experts.')
+    await expect(accordionDemo).toContainText('We offer worldwide shipping through trusted courier partners.')
+    await expect(accordionDemo).toContainText('All orders are carefully packaged and fully insured. Track your shipment in real-time through our dedicated tracking portal.')
+    await expect(accordionDemo).toContainText("We stand behind our products with a comprehensive 30-day return policy. If you're not completely satisfied, simply return the item in its original condition.")
+    await expect(accordionDemo).toContainText('Our hassle-free return process includes free return shipping and full refunds processed within 48 hours of receiving the returned item.')
+    await expect(page.getByText('Root defaultValue and name are metadata hooks').first()).toBeVisible()
+    await expect(page.getByText('Radix Accordion maps to browser-native details/summary markup').first()).toBeVisible()
+    await expect(page.getByText('lucide ChevronDownIcon maps to the package-owned accordion icon hook').first()).toBeVisible()
+    await expect(page.getByText('Tailwind flex, gap, and text-balance content utilities map to class').first()).toBeVisible()
+
     await page.goto('/docs/components/card')
     for (let slug of [
       'card-demo',

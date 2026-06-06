@@ -2,6 +2,65 @@ import { expect, test } from '@playwright/test'
 
 const candidate = 'http://localhost:4602'
 
+test('candidate accordion covers named upstream demo composition', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/accordion/demo`)
+
+  let root = page.locator('[data-radcn-accordion]')
+  await expect(root).toHaveAttribute('data-type', 'single')
+  await expect(root).toHaveAttribute('data-collapsible', 'true')
+  await expect(root).toHaveAttribute('data-default-value', 'item-1')
+  await expect(root).toHaveAttribute('data-accordion-name', 'candidate-accordion-demo')
+  await expect(root).toHaveClass(/w-full/)
+  await expect(root).toHaveAttribute('style', /width:\s*100%/)
+
+  let items = page.locator('details[data-radcn-accordion-item]')
+  await expect(items).toHaveCount(3)
+  for (let index = 0; index < 3; index += 1) {
+    await expect(items.nth(index)).toHaveAttribute('name', 'candidate-accordion-demo')
+  }
+  await expect(items.nth(0)).toHaveAttribute('data-value', 'item-1')
+  await expect(items.nth(1)).toHaveAttribute('data-value', 'item-2')
+  await expect(items.nth(2)).toHaveAttribute('data-value', 'item-3')
+  await expect(items.nth(0)).toHaveAttribute('data-state', 'open')
+  await expect(items.nth(1)).toHaveAttribute('data-state', 'closed')
+  await expect(items.nth(2)).toHaveAttribute('data-state', 'closed')
+  await expect(items.nth(0)).toHaveAttribute('open', '')
+  await expect(items.nth(1)).not.toHaveAttribute('open', '')
+  await expect(items.nth(2)).not.toHaveAttribute('open', '')
+
+  await expect(page.locator('[data-radcn-accordion-trigger]')).toHaveCount(3)
+  await expect(page.locator('[data-radcn-accordion-trigger-text]')).toHaveText([
+    'Product Information',
+    'Shipping Details',
+    'Return Policy',
+  ])
+  await expect(page.locator('[data-radcn-accordion-icon]')).toHaveCount(3)
+  await expect(page.locator('[data-radcn-accordion-content]')).toHaveCount(3)
+  await expect(page.locator('[data-radcn-accordion-content]')).toHaveClass([
+    /flex flex-col gap-4 text-balance/,
+    /flex flex-col gap-4 text-balance/,
+    /flex flex-col gap-4 text-balance/,
+  ])
+  await expect(page.locator('[data-radcn-accordion-content]').first()).toHaveCSS('display', 'flex')
+  await expect(page.locator('[data-radcn-accordion-content]').first()).toHaveCSS('flex-direction', 'column')
+  await expect(page.locator('[data-radcn-accordion-content]').first()).toHaveCSS('gap', '16px')
+
+  await expect(page.locator('[data-radcn-accordion-content]').nth(0)).toContainText('Our flagship product combines cutting-edge technology with sleek design. Built with premium materials, it offers unparalleled performance and reliability.')
+  await expect(page.locator('[data-radcn-accordion-content]').nth(0)).toContainText('Key features include advanced processing capabilities, and an intuitive user interface designed for both beginners and experts.')
+  await expect(page.locator('[data-radcn-accordion-content]').nth(1)).toContainText('We offer worldwide shipping through trusted courier partners. Standard delivery takes 3-5 business days, while express shipping ensures delivery within 1-2 business days.')
+  await expect(page.locator('[data-radcn-accordion-content]').nth(1)).toContainText('All orders are carefully packaged and fully insured. Track your shipment in real-time through our dedicated tracking portal.')
+  await expect(page.locator('[data-radcn-accordion-content]').nth(2)).toContainText("We stand behind our products with a comprehensive 30-day return policy. If you're not completely satisfied, simply return the item in its original condition.")
+  await expect(page.locator('[data-radcn-accordion-content]').nth(2)).toContainText('Our hassle-free return process includes free return shipping and full refunds processed within 48 hours of receiving the returned item.')
+
+  await page.getByText('Shipping Details').click()
+  await expect(items.nth(0)).not.toHaveAttribute('open', '')
+  await expect(items.nth(1)).toHaveAttribute('open', '')
+  await expect(items.nth(2)).not.toHaveAttribute('open', '')
+
+  await page.getByText('Shipping Details').click()
+  await expect(items.nth(1)).not.toHaveAttribute('open', '')
+})
+
 test('candidate accordion exposes native details summary hooks and single behavior', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/accordion/single`)
 

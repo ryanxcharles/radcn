@@ -2187,6 +2187,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "accordion",
+    id: "demo",
+    title: "Accordion Demo",
+    description: "Named shadcn accordion demo with product, shipping, and return policy sections.",
+  },
+  {
+    component: "accordion",
     id: "multiple",
     title: "Multiple Accordion",
     description: "Multiple accordion sections open at once.",

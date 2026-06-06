@@ -331,6 +331,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/78-implement-sonner-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/sonner-example-inventory.md"
       ]
+    },
+    {
+      "slug": "accordion",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/79-audit-accordion-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/80-implement-accordion-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/accordion-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],
