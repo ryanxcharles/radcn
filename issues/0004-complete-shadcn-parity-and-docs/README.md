@@ -711,3 +711,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 40: Implement toast example parity depth](40-implement-toast-example-parity-depth.md)
   — **Pass**
+- [Experiment 41: Audit badge example parity](41-audit-badge-example-parity.md)
+  — **Designed**
