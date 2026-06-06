@@ -1522,6 +1522,20 @@ Record cross-component discoveries here as experiments complete.
   Tailwind/`cn`/`className`/`data-slot`/`data-size` divergence copy. The next
   experiment should implement named `switch-demo` docs, fixture, and
   Playwright parity.
+- Experiment 115 completed Switch direct example parity and updated
+  `switch-example-inventory.md` to `Covered`. The docs site now has a rich
+  Switch page with named `switch-demo` evidence for id `airplane-mode`,
+  label text `Airplane Mode`, default unchecked state, default size,
+  `flex items-center space-x-2` row layout, source snippet, public wrapper/
+  input/thumb hooks, role switch accessibility, label activation, checked/
+  unchecked `data-state` sync, `data-size`, and mapping copy for React props,
+  `React.ComponentProps`, Radix Switch primitives, `size`, Tailwind/`cn`/
+  `className`/`data-slot`, Label `htmlFor`, custom-token, and vendor
+  divergences. Because static server-rendered state metadata did not update
+  after native browser interaction, `radcn/switch` now exports
+  `enhanceSwitch`, and the docs and fixture browser entries call it. `switch`
+  is resolved in the example queue; the next generated recommendation is
+  example parity for `table`.
 
 ## Experiments
 
@@ -1754,4 +1768,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 114: Audit switch example parity](114-audit-switch-example-parity.md)
   — **Partial**
 - [Experiment 115: Implement switch example parity depth](115-implement-switch-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

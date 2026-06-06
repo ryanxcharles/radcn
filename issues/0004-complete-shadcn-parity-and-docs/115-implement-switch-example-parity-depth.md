@@ -91,12 +91,22 @@ modifiability.
   - Update the Experiment 115 index status from `Designed` to the recorded
     result.
   - Record the next generated recommendation after Switch is resolved.
+- Update `radcn/packages/radcn/src/components/switch.tsx` and
+  `radcn/packages/radcn/src/index.ts` only if implementation proves the
+  current Switch primitive cannot keep public `data-state` metadata in sync
+  after browser interaction. If needed, add a dependency-free `enhanceSwitch`
+  that syncs wrapper/input `data-state` on input, change, and form reset, and
+  export it from the package.
+- Update browser entry files only if `enhanceSwitch` is needed:
+  - `radcn/apps/docs/app/assets/entry.ts`;
+  - `radcn/fixtures/candidate-remix/app/assets/entry.ts`.
+  Scope docs enhancement to the named `switch-demo` example and run fixture
+  enhancement globally with the other package enhancers.
 
-Do not change `radcn/packages/radcn` unless implementation proves the current
-Switch primitive cannot meet the upstream example's user-facing behavior,
-accessibility, browser behavior, and author-facing modifiability. If package
-code changes, add package-level verification and record why the audit
-assumption changed.
+Package code should otherwise stay unchanged. If `enhanceSwitch` is added,
+record in the result that the audit assumption changed because static
+server-rendered `data-state` metadata did not update after native browser
+interaction.
 
 ## Verification
 
@@ -174,11 +184,15 @@ Pass criteria:
     `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`,
     `issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json`,
     `issues/0004-complete-shadcn-parity-and-docs/switch-example-inventory.md`,
+    `radcn/apps/docs/app/assets/entry.ts`,
     `radcn/apps/docs/app/content/components.tsx`,
     `radcn/apps/docs/tests/coverage.spec.ts`,
+    `radcn/fixtures/candidate-remix/app/assets/entry.ts`,
     `radcn/fixtures/candidate-remix/app/fixtures/native-state.tsx`,
     `radcn/fixtures/scenarios/index.ts`, and
-    `radcn/fixtures/tests/native-state.spec.ts`;
+    `radcn/fixtures/tests/native-state.spec.ts`,
+    `radcn/packages/radcn/src/components/switch.tsx`, and
+    `radcn/packages/radcn/src/index.ts`;
   - `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
     prints no output.
 
@@ -217,3 +231,87 @@ repo hygiene, lockfile, vendor, and status checks, vendor state is clean, the
 issue scope excludes upstream blocks and chart-gallery examples while
 retaining ordinary `radcn/chart`, and the technical plan directly addresses
 the missing named docs, fixture, and Playwright proof.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `switch-demo` parity across the docs site, candidate fixture,
+fixture Playwright coverage, docs Playwright coverage, inventory bookkeeping,
+and generated parity inventory.
+
+The docs page now has a rich Switch example that renders id `airplane-mode`,
+label text `Airplane Mode`, default unchecked state, default size,
+`flex items-center space-x-2` row layout, public wrapper/input/thumb hooks,
+`role="switch"` accessibility, native label activation, checked/unchecked
+`data-state`, and `data-size`. The docs source and copy record the Remix 3
+mappings for upstream React props, `React.ComponentProps`, Radix Switch
+primitives, `size = "default"`, Tailwind utilities, `cn`, `className`,
+`data-slot`, Label `htmlFor`, custom tokens, and vendor source.
+
+The candidate fixture now has `switch/demo` with the same id, label, row
+layout, unchecked default state, default size, hooks, and browser behavior.
+`native-state.spec.ts` proves the named route, native checkbox switch
+semantics, label activation, state metadata updates after interaction, and
+the existing Switch behavior scenarios. `switch-example-inventory.md` marks
+`switch-demo` as `Covered`, `resolved-clusters.json` marks `switch` resolved,
+and the regenerated parity inventory now recommends example parity for
+`table`.
+
+The implementation also added `enhanceSwitch` to `radcn/switch` and wired it
+into the docs and candidate fixture browser entries. This package change was
+necessary because the server-rendered Switch metadata correctly started as
+`unchecked`, but wrapper/input `data-state` did not update after native
+browser interaction without a small dependency-free enhancer.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-state.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic check for switch-example-inventory row count and Covered outcome
+node deterministic check for resolved-clusters switch evidence
+node deterministic check that switch left unresolved examples and the next recommendation is table
+rg -n 'Experiment 115|switch-example-inventory|example parity for `table`|example parity for table' issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --exit-code -- pnpm-lock.yaml
+git diff --check
+node deterministic tracked-vendor-source check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+node deterministic forbidden import/dependency scan over changed implementation files and relevant manifests
+git status --short
+```
+
+All checks passed. The Playwright runs reported 8 passed tests for
+`native-state.spec.ts` and 5 passed tests for docs `coverage.spec.ts`.
+
+## Conclusion
+
+Switch direct example parity is complete. The current in-scope unresolved
+example clusters are `table`, `tabs`, and `tooltip`. The next experiment
+should audit upstream `table-demo` parity before implementation.
+
+## Completion Review
+
+Reviewer: Kant the 3rd (`019e9ed4-358c-71f1-85dd-e2ed32e84c5f`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the result commit had not been made before
+review, the experiment has `Result` and `Conclusion`, the Issue 4 README marks
+Experiment 115 `Pass`, the README records the `enhanceSwitch` discovery and
+next `table` recommendation, `switch-demo` is `Covered` with docs, fixture,
+and Playwright evidence, `switch` is resolved with Experiment 114,
+Experiment 115, and inventory evidence, blocks/chart-gallery remain out of
+scope while the ordinary chart package scope remains retained, typechecks
+passed, fixture Playwright passed 8/8, docs Playwright passed 5/5, the audit
+generator and deterministic inventory checks passed, `git diff --check`,
+lockfile, tracked-vendor, and nested vendor checks passed.

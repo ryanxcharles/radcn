@@ -7611,6 +7611,32 @@ function SliderDemoPreview() {
   )
 }
 
+const switchDemoSource = `import { Label } from 'radcn/label'
+import { Switch } from 'radcn/switch'
+
+export function SwitchDemo() {
+  return (
+    <div class="flex items-center space-x-2" style="display:flex;align-items:center;gap:0.5rem;">
+      <Switch id="airplane-mode" />
+      <Label for="airplane-mode">Airplane Mode</Label>
+    </div>
+  )
+}`
+
+function SwitchDemoPreview() {
+  return () => (
+    <div
+      class="flex items-center space-x-2"
+      data-radcn-docs-switch-family="switch-demo"
+      data-radcn-docs-switch-row
+      style="display:flex;align-items:center;gap:0.5rem;"
+    >
+      <Switch id="airplane-mode" />
+      <Label for="airplane-mode">Airplane Mode</Label>
+    </div>
+  )
+}
+
 const radioGroupDemoSource = `import { Label } from 'radcn/label'
 import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'
 
@@ -9081,6 +9107,50 @@ const richComponentDocs: ComponentDoc[] = [
       'The upstream single-value array defaultValue maps to a scalar number because RadCN currently models a single native range input.',
       'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-slider* hooks.',
       'Tailwind w-[60%], relative, flex, touch, select, disabled, orientation, track, range, thumb, border, focus, hover, transition, and sizing utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'switch',
+    title: 'Switch',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native checkbox-backed switch with explicit label wiring, state hooks, sizing, and tokenized thumb styling.',
+    importPath: 'radcn/switch',
+    importExample: "import { Switch } from 'radcn/switch'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'switch-demo',
+        title: 'Switch Demo',
+        description:
+          'Render the upstream Airplane Mode switch row with default unchecked state and native label activation.',
+        source: switchDemoSource,
+        preview: <SwitchDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Switch renders a native checkbox input with role="switch" and keeps the input as the accessible control.',
+      'The named demo maps upstream id="airplane-mode" and Label htmlFor to RadCN id plus Label for, preserving the Airplane Mode accessible name.',
+      'The default demo is unchecked in server HTML and uses size="default" metadata on the wrapper and input.',
+      'Browser checkbox behavior owns pointer, keyboard, label activation, disabled, form submission, and reset behavior while enhanceSwitch mirrors public data-state metadata.',
+    ],
+    customization: [
+      'Wrapper, native input, and thumb expose public data-radcn-switch hooks and package classes.',
+      'The upstream flex items-center space-x-2 row layout maps to class plus explicit display, alignment, and 0.5rem gap style evidence.',
+      'className maps to class, and apps can customize id, name, checked state, value, required, disabled, size, classes, styles, and tokens.',
+      'Existing checked, disabled, form-submit-reset, size sm, and custom-token fixtures remain evidence for broader Switch modifiability.',
+    ],
+    divergence: [
+      'use client, React component props, and React.ComponentProps<typeof SwitchPrimitive.Root> map to explicit Remix UI props and browser-owned checkbox state.',
+      'Radix SwitchPrimitive.Root maps to the RadCN switch wrapper plus native input; SwitchPrimitive.Thumb maps to data-radcn-switch-thumb.',
+      'Radix data-slot maps to public data-radcn-switch-wrapper, data-radcn-switch-input, and data-radcn-switch-thumb hooks.',
+      'size = "default" maps to RadCN size="default" plus data-size="default" metadata.',
+      'Tailwind peer, group, inline-flex, shrink, items-center, rounded, border, shadow, focus, disabled, size, checked/unchecked background, and thumb translation utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
+      'Label htmlFor maps to RadCN Label for while preserving native label/input association.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

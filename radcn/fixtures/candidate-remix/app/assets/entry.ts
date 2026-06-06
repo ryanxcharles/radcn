@@ -21,6 +21,7 @@ import { enhanceSheet } from 'radcn/sheet'
 import { enhanceSidebar } from 'radcn/sidebar'
 import { enhanceSlider } from 'radcn/slider'
 import { enhanceToaster } from 'radcn/sonner'
+import { enhanceSwitch } from 'radcn/switch'
 import { enhanceTabs } from 'radcn/tabs'
 import { enhanceToggle } from 'radcn/toggle'
 import { enhanceToggleGroup } from 'radcn/toggle-group'
@@ -55,6 +56,7 @@ enhanceResizable()
 enhanceSidebar()
 enhanceSlider()
 enhanceToaster()
+enhanceSwitch()
 enhanceToggle()
 enhanceToggleGroup()
 enhanceInputGroup()

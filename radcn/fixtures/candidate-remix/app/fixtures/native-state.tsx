@@ -254,6 +254,18 @@ export function renderRadioGroupFixture(fixture: FixtureScenario) {
 
 export function renderSwitchFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return (
+        <div
+          class="flex items-center space-x-2"
+          data-radcn-fixture-switch-family="switch-demo"
+          data-radcn-fixture-switch-row
+          style="display:flex;align-items:center;gap:0.5rem;"
+        >
+          <Switch id="airplane-mode" />
+          <Label for="airplane-mode">Airplane Mode</Label>
+        </div>
+      )
     case 'checked':
       return (
         <div style={inlineControlStyle}>

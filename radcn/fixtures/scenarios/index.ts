@@ -1731,6 +1731,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "switch",
+    id: "demo",
+    title: "Switch Demo",
+    description: "Direct shadcn switch-demo parity with Airplane Mode label.",
+  },
+  {
+    component: "switch",
     id: "default",
     title: "Default Switch",
     description: "Unchecked native checkbox switch with label wiring.",

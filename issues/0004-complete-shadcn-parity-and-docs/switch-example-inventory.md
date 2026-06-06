@@ -8,9 +8,8 @@ coverage for role switch semantics, checked/unchecked state, disabled state,
 form submit/reset behavior, small/default sizing, custom tokens, wrapper/input/
 thumb hooks, and label wiring through related generic fixtures.
 
-The current outcome is `Partial`. The next experiment should add named
-`switch-demo` parity across the docs page, candidate fixture route, and
-Playwright coverage before marking Switch resolved.
+The current outcome is `Covered`. Experiment 115 added named `switch-demo`
+parity across the docs page, candidate fixture route, and Playwright coverage.
 
 Current RadCN evidence compared in this audit:
 
@@ -27,19 +26,24 @@ Current RadCN evidence compared in this audit:
   and custom switch token styling.
 - `radcn/packages/radcn/src/index.ts` re-exports Switch and Switch types.
 - `radcn/packages/radcn/package.json` exposes the `./switch` package subpath.
-- `radcn/apps/docs/app/content/components.tsx` includes the generic Switch
-  docs route and preview seed, but not a named `switch-demo`.
-- `radcn/apps/docs/tests/coverage.spec.ts` checks only generic docs hook
-  presence for `[data-radcn-switch-wrapper]`, not named `switch-demo` parity.
-- `radcn/fixtures/scenarios/index.ts` lists generic Switch scenarios for
-  default, checked, disabled, custom-token, and form-submit-reset.
-- `radcn/fixtures/candidate-remix/app/fixtures/native-state.tsx` renders those
-  generic Switch fixture scenarios through `renderSwitchFixture`, but not a
-  named `demo` route.
+- `radcn/apps/docs/app/content/components.tsx` includes a named
+  `switch-demo` rich docs example with id `airplane-mode`, label text
+  `Airplane Mode`, default unchecked state, default size, row layout, source
+  snippet, public hooks, and dependency-divergence copy.
+- `radcn/apps/docs/tests/coverage.spec.ts` checks named `switch-demo` docs
+  parity, row layout, id/label mapping, public hooks, role switch behavior,
+  default unchecked/default size metadata, label activation, source snippet,
+  and divergence copy.
+- `radcn/fixtures/scenarios/index.ts` lists the named `demo` route plus
+  generic Switch scenarios for default, checked, disabled, custom-token, and
+  form-submit-reset.
+- `radcn/fixtures/candidate-remix/app/fixtures/native-state.tsx` renders the
+  named `demo` route and generic Switch fixture scenarios through
+  `renderSwitchFixture`.
 - `radcn/fixtures/tests/native-state.spec.ts` asserts Switch role checkbox
   semantics, label association for generic `Available` examples, unchecked and
-  checked state, disabled state, form submit/reset behavior, and custom-token
-  behavior.
+  checked state, disabled state, form submit/reset behavior, custom-token
+  behavior, and named `switch-demo` parity.
 - `radcn/fixtures/tests/native-controls.spec.ts` has related Field Switch
   composition evidence for a labelled switch inside Field, but not direct
   `switch-demo` evidence.
@@ -48,7 +52,7 @@ Current RadCN evidence compared in this audit:
 
 | Upstream example | User-facing behavior and upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `switch-demo` | Renders a row `<div className="flex items-center space-x-2">` with `<Switch id="airplane-mode" />` followed by `<Label htmlFor="airplane-mode">Airplane Mode</Label>`. Upstream package mechanics include `"use client"`, React props, `React.ComponentProps<typeof SwitchPrimitive.Root>`, Radix Switch primitive, `SwitchPrimitive.Root`, `SwitchPrimitive.Thumb`, default `size = "default"`, `data-slot="switch"`, `data-slot="switch-thumb"`, `data-size`, `className`, Tailwind utilities, `cn`, checked/unchecked `data-state`, disabled styling, focus styling, thumb translation, `Label htmlFor`, native switch accessibility through Radix, custom tokens, and vendor source. | RadCN exports a dependency-free `Switch` backed by a native checkbox input with `role="switch"`. It accepts explicit props for checked, disabled, id, name, required, size, class, style, and value; emits wrapper/input/thumb hooks; records checked/unchecked state and size metadata; maps Label `htmlFor` to Label `for`; and uses package CSS for focus, disabled, checked, unchecked, and thumb transform behavior. Current fixture tests prove generic label association, unchecked/checked state, browser check behavior, disabled behavior, form submit/reset behavior, size `sm`, and custom tokens. Current docs have only generic Switch route/preview evidence, `renderSwitchFixture` has no named `demo` route, and no current docs or Playwright evidence proves the exact upstream `airplane-mode` id, `Airplane Mode` label text, row layout, source snippet, or React/Radix/Tailwind divergence copy. | Partial | Add named `switch-demo` docs, candidate fixture, and Playwright evidence. The implementation should preserve id `airplane-mode`, label text `Airplane Mode`, default unchecked state, default size, row layout mapping for `flex items-center space-x-2`, public wrapper/input/thumb hooks, role switch accessibility, browser check behavior, checked/unchecked state metadata, source snippet, and mapping copy for React props, `React.ComponentProps`, Radix Switch primitives, `size`, className/Tailwind/cn/data-slot divergences, Label htmlFor to for, custom tokens, and vendor source. |
+| `switch-demo` | Renders a row `<div className="flex items-center space-x-2">` with `<Switch id="airplane-mode" />` followed by `<Label htmlFor="airplane-mode">Airplane Mode</Label>`. Upstream package mechanics include `"use client"`, React props, `React.ComponentProps<typeof SwitchPrimitive.Root>`, Radix Switch primitive, `SwitchPrimitive.Root`, `SwitchPrimitive.Thumb`, default `size = "default"`, `data-slot="switch"`, `data-slot="switch-thumb"`, `data-size`, `className`, Tailwind utilities, `cn`, checked/unchecked `data-state`, disabled styling, focus styling, thumb translation, `Label htmlFor`, native switch accessibility through Radix, custom tokens, and vendor source. | RadCN exports a dependency-free `Switch` backed by a native checkbox input with `role="switch"`. It accepts explicit props for checked, disabled, id, name, required, size, class, style, and value; emits wrapper/input/thumb hooks; records checked/unchecked state and size metadata; maps Label `htmlFor` to Label `for`; uses package CSS for focus, disabled, checked, unchecked, and thumb transform behavior; and now exports `enhanceSwitch` to sync wrapper/input `data-state` after browser interaction and form reset. Named docs and candidate fixtures now render `switch-demo` with id `airplane-mode`, label text `Airplane Mode`, default unchecked state, default size, public wrapper/input/thumb hooks, and row layout mapping for `flex items-center space-x-2`. `radcn/apps/docs/tests/coverage.spec.ts` proves the docs source snippet, role switch behavior, label activation, state sync, and dependency-divergence copy. `radcn/fixtures/tests/native-state.spec.ts` proves the named fixture route, native checkbox switch semantics, accessible name, label activation, default unchecked state, default size, state sync, existing checked/disabled/form/custom-token behavior, and custom tokens. | Covered | No follow-up. |
 
 ## Decisions
 

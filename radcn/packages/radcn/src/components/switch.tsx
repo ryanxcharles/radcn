@@ -18,6 +18,36 @@ export interface SwitchProps {
   value?: string
 }
 
+function switchState(input: HTMLInputElement) {
+  return input.checked ? 'checked' : 'unchecked'
+}
+
+function syncSwitch(root: HTMLElement, input: HTMLInputElement) {
+  let state = switchState(input)
+  root.dataset.state = state
+  input.dataset.state = state
+}
+
+function setupSwitch(root: HTMLElement) {
+  if (root.dataset.radcnSwitchReady === 'true') return
+
+  let input = root.querySelector<HTMLInputElement>('[data-radcn-switch-input]')
+  if (!input) return
+
+  syncSwitch(root, input)
+  root.dataset.radcnSwitchReady = 'true'
+
+  input.addEventListener('input', () => syncSwitch(root, input))
+  input.addEventListener('change', () => syncSwitch(root, input))
+  input.form?.addEventListener('reset', () => {
+    requestAnimationFrame(() => syncSwitch(root, input))
+  })
+}
+
+export function enhanceSwitch(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-radcn-switch-wrapper]').forEach(setupSwitch)
+}
+
 export function Switch(handle: Handle<SwitchProps>) {
   return () => {
     let {
