@@ -894,6 +894,11 @@ Record cross-component discoveries here as experiments complete.
   public hooks, and mapping copy. `command-example-inventory.md` now marks both
   rows `Covered`, `resolved-clusters.json` records `command` as resolved, and
   the regenerated parity inventory recommends example parity for `dialog` next.
+- Experiment 65 will audit Dialog example parity in
+  `dialog-example-inventory.md` before implementation. The current expected
+  upstream rows are `dialog-demo` and `dialog-close-button`; the audit must
+  distinguish Dialog-owned modal behavior from app-owned Button, Input, Label,
+  native form, and share-link composition.
 
 ## Experiments
 
@@ -1025,3 +1030,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 64: Implement command example parity depth](64-implement-command-example-parity-depth.md)
   — **Pass**
+- [Experiment 65: Audit dialog example parity](65-audit-dialog-example-parity.md)
+  — **Designed**
