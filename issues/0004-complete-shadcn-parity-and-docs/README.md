@@ -1069,6 +1069,18 @@ Record cross-component discoveries here as experiments complete.
   mappings. `accordion-example-inventory.md` marks `accordion-demo` `Covered`,
   `resolved-clusters.json` records `accordion` as resolved, and the regenerated
   parity inventory recommends auditing `alert-dialog` examples next.
+- Experiment 81 audited Alert Dialog example parity in
+  `alert-dialog-example-inventory.md`. RadCN already covers alertdialog role,
+  aria-modal, title/description wiring, focus trapping, non-dismissible
+  Escape/overlay behavior, action/cancel close behavior, default-open state,
+  size, portals, overlays, content, header/footer parts, custom tokens, and
+  body scroll locking without React or Radix dependencies. The cluster remains
+  partial because docs, fixtures, and tests do not yet prove the named upstream
+  `alert-dialog-demo` composition with an outline `Show Dialog` trigger,
+  `Are you absolutely sure?` title, exact account deletion description,
+  `Cancel` and `Continue` controls, no media block, or the Button `asChild`
+  trigger mapping. The next experiment should implement named
+  `alert-dialog-demo` docs, candidate fixture, and Playwright coverage.
 
 ## Experiments
 
@@ -1233,4 +1245,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 80: Implement accordion example parity depth](80-implement-accordion-example-parity-depth.md)
   — **Pass**
 - [Experiment 81: Audit alert-dialog example parity](81-audit-alert-dialog-example-parity.md)
-  — **Designed**
+  — **Partial**

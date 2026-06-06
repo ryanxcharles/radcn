@@ -172,3 +172,136 @@ narrow, implementation has not started before the plan commit, verification and
 hygiene checks are concrete, vendor checkouts are not in scope, and the plan
 captures the upstream `alert-dialog-demo` surface and current RadCN evidence
 well enough to decide the next implementation experiment.
+
+## Result
+
+**Result:** Partial
+
+Created `alert-dialog-example-inventory.md` for the single upstream New York v4
+Alert Dialog example, `alert-dialog-demo`. The audit confirms RadCN already
+covers alertdialog role, aria-modal, title/description wiring, focus trapping,
+non-dismissible Escape/overlay behavior, action/cancel close behavior,
+default-open state, size, portal mounting, overlay/content/header/footer parts,
+custom tokens, and body scroll locking without React or Radix dependencies.
+
+The cluster remains partial because current docs, fixtures, and tests do not
+prove the exact named upstream `alert-dialog-demo` composition: outline
+`Show Dialog` trigger, title `Are you absolutely sure?`, exact account deletion
+description, `Cancel` and `Continue` controls, no media block, and Button
+`asChild` trigger mapping.
+
+Verification commands run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const vendor = fs.readdirSync('vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples')
+  .filter((file) => /^alert-dialog.*\.tsx$/.test(file))
+  .map((file) => file.replace(/\.tsx$/, ''))
+  .sort()
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/alert-dialog-example-inventory.md', 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|[^\n]+/gm)].map((match) => match[1]).sort()
+console.log(`vendor: ${vendor.join(', ')}`)
+console.log(`inventory: ${rows.join(', ')}`)
+if (vendor.length !== 1 || vendor[0] !== 'alert-dialog-demo') process.exit(1)
+if (rows.length !== 1 || rows[0] !== 'alert-dialog-demo') process.exit(1)
+NODE
+```
+
+Passed with `vendor: alert-dialog-demo` and `inventory: alert-dialog-demo`.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/alert-dialog-example-inventory.md', 'utf8')
+const row = text.match(/^\| `alert-dialog-demo` \|([^\n]+)$/m)?.[0]
+if (!row) process.exit(1)
+const cells = row.split('|').map((cell) => cell.trim())
+const outcome = cells[4]
+const followUp = cells[5]
+console.log(`outcome: ${outcome}`)
+console.log(`follow-up: ${followUp}`)
+if (!['Covered', 'Partial', 'Missing', 'Intentional divergence'].includes(outcome)) process.exit(1)
+if (outcome !== 'Covered' && (!followUp || followUp === 'No follow-up.')) process.exit(1)
+NODE
+```
+
+Passed with `outcome: Partial` and a non-empty implementation follow-up.
+
+```text
+rg -n "Experiment 81|alert-dialog-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+```
+
+Passed.
+
+```text
+git diff --check
+```
+
+Passed.
+
+```text
+git status --short
+```
+
+Passed with the expected issue-only output before the result commit:
+
+```text
+ M issues/0004-complete-shadcn-parity-and-docs/81-audit-alert-dialog-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/alert-dialog-example-inventory.md
+```
+
+```text
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Passed. No vendor checkout output.
+
+Expected changed files before result commit:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/81-audit-alert-dialog-example-parity.md
+issues/0004-complete-shadcn-parity-and-docs/README.md
+issues/0004-complete-shadcn-parity-and-docs/alert-dialog-example-inventory.md
+```
+
+No package, docs app, fixture, Playwright implementation, generated parity
+inventory, resolved-cluster, package metadata, lockfile, or vendor source
+changes were made.
+
+## Conclusion
+
+Alert Dialog example parity is partially complete. The next experiment should
+implement named `alert-dialog-demo` docs, candidate fixture, and Playwright
+coverage with the exact upstream trigger, title, description, cancel/action
+copy, no-media composition, alertdialog behavior, Button trigger mapping, and
+dependency-divergence copy. No package API change appears necessary from this
+audit.
+
+## Completion Review
+
+Reviewer: Carver the 2nd (`019e9d51-7a90-70d2-b595-e5063c64467b`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Initial findings:
+
+- Blocker: the recorded `git status --short` verification output omitted the
+  modified experiment file. Fixed by updating the recorded status block to
+  match the final worktree output.
+- Major: none.
+- Minor: none.
+
+Re-review findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the audit stayed issue-doc only,
+the inventory accurately matches the single upstream `alert-dialog-demo`, the
+Partial classification is supported by current evidence, README status and
+learnings match the result, `git diff --check` and vendor cleanliness passed,
+the result commit had not been made before review, and the corrected status
+record matches the actual worktree.
