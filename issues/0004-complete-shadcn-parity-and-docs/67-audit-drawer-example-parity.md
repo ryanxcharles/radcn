@@ -185,3 +185,70 @@ implementation, confirms the active upstream Drawer example ids as
 and separates Drawer-owned modal/edge-panel behavior from React state, Vaul,
 `asChild`, Tailwind, Recharts, icons, responsive branching, form composition,
 and app-owned goal state.
+
+## Result
+
+**Result:** Partial
+
+Created `drawer-example-inventory.md` and audited the two active upstream
+Drawer examples: `drawer-demo` and `drawer-dialog`.
+
+RadCN already covers the core Drawer primitive behavior: root, trigger, portal,
+overlay, content, handle, header, footer, title, description, close actions,
+modal role, ARIA relationships, trigger expanded/controls state, focus
+movement, focus trap, focus restoration, Escape dismissal, outside dismissal,
+scroll lock, default open state, directions, drag dismissal, scrollable
+content, custom classes/styles/tokens, public hooks, and composition with
+Dialog, Button, Input, Label, native forms, and charts.
+
+The active upstream examples are still only partially covered because current
+docs, candidate fixtures, and Playwright tests prove generic Drawer behavior
+rather than the named upstream `Move Goal` goal/chart composition and
+responsive `Edit profile` Dialog/Drawer composition. The audit did not
+identify a required Drawer package API change. The likely next experiment
+should add named docs examples, candidate fixture routes, and Playwright
+coverage for `drawer-demo` and `drawer-dialog`, while keeping React, Vaul,
+`asChild`, Tailwind, `cn`, `lucide-react`, Recharts, media-query hooks,
+form-state libraries, charting-library dependencies, and vendor source out of
+RadCN package dependencies.
+
+Verification run:
+
+- `node - <<'NODE' ... NODE` deterministic row-count check:
+  `drawer-demo: 1`, `drawer-dialog: 1`.
+- `rg -n "drawer-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+All verification passed. The only changed files are Issue 4 documentation
+files.
+
+## Conclusion
+
+Drawer example parity needs one implementation-depth experiment. The package
+already owns modal edge-panel behavior; the remaining work is named example
+evidence: `drawer-demo` should prove the Move Goal counter/chart composition,
+and `drawer-dialog` should prove responsive Dialog/Drawer edit-profile
+composition with shared form content and footer close behavior.
+
+## Completion Review
+
+Reviewer: Kepler the 2nd (`019e9cad-1a78-7870-9aa8-c07222f86eeb`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed that Experiment 67 satisfies the
+audit-only completion review gate: changed files are limited to Issue 4
+documentation, the experiment has `## Result` and `## Conclusion`, the result
+is correctly `Partial`, the Issue 4 README index marks Experiment 67
+`Partial`, and `drawer-example-inventory.md` contains exactly the two active
+upstream Drawer rows: `drawer-demo` and `drawer-dialog`. The reviewer also
+confirmed that the audit does not overclaim completion and explicitly records
+the missing named docs, fixture, and Playwright evidence for Move Goal
+counter/chart behavior and responsive Dialog/Drawer edit-profile branching.
