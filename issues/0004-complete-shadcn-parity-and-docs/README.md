@@ -644,6 +644,15 @@ Record cross-component discoveries here as experiments complete.
   `style`, CSS variables, and app CSS; RadCN still does not depend on React,
   `lucide-react`, Tailwind, or vendor source. The regenerated parity inventory
   now recommends auditing `combobox` examples next.
+- Experiment 43 generated `combobox-example-inventory.md` for the four upstream
+  Combobox examples in the active parity cluster. RadCN's Combobox primitive is
+  strong, but example parity remains partial because the docs, candidate
+  fixtures, and Playwright tests do not yet prove named coverage for
+  `combobox-demo`, `combobox-dropdown-menu`, `combobox-popover`, and
+  `combobox-responsive`. The next experiment should implement those named
+  examples by composing existing RadCN Combobox, Command, Dropdown Menu,
+  Popover, Drawer, and Button primitives, with app-owned label/state behavior
+  and no React, `lucide-react`, Tailwind, `useMediaQuery`, or vendor dependency.
 
 ## Experiments
 
@@ -732,4 +741,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 42: Implement badge example parity depth](42-implement-badge-example-parity-depth.md)
   — **Pass**
 - [Experiment 43: Audit combobox example parity](43-audit-combobox-example-parity.md)
-  — **Designed**
+  — **Pass**
