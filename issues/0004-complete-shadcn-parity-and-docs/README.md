@@ -1509,6 +1509,19 @@ Record cross-component discoveries here as experiments complete.
   routes `slider/demo` while preserving the existing Slider behavior scenarios.
   `slider` is resolved in the example queue; the next generated
   recommendation is example parity for `switch`.
+- Experiment 114 audited Switch direct example parity in
+  `switch-example-inventory.md`. RadCN already has a strong native checkbox
+  switch substrate with role switch semantics, wrapper/input/thumb hooks,
+  checked/unchecked `data-state`, `data-size`, disabled behavior, form
+  submit/reset behavior, label wiring, focus-visible styling, thumb transform
+  behavior, small/default sizing, and custom-token evidence in
+  `native-state.spec.ts`. The direct upstream `switch-demo` remains partial
+  because no named docs, candidate fixture, or Playwright evidence currently
+  proves the exact `airplane-mode` id, `Airplane Mode` label, default
+  unchecked state, default size, row layout, source snippet, and React/Radix/
+  Tailwind/`cn`/`className`/`data-slot`/`data-size` divergence copy. The next
+  experiment should implement named `switch-demo` docs, fixture, and
+  Playwright parity.
 
 ## Experiments
 
@@ -1739,4 +1752,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 113: Implement slider example parity depth](113-implement-slider-example-parity-depth.md)
   — **Pass**
 - [Experiment 114: Audit switch example parity](114-audit-switch-example-parity.md)
-  — **Designed**
+  — **Partial**

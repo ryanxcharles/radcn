@@ -224,3 +224,72 @@ concrete pass/fail criteria, deterministic checks, repo hygiene, lockfile, and
 vendor cleanliness checks, and the issue scope correctly excludes upstream
 blocks and chart-gallery examples while retaining the ordinary `radcn/chart`
 package component scope.
+
+## Result
+
+**Result:** Partial
+
+Added `switch-example-inventory.md` and audited the single direct upstream
+Switch example cluster, `switch-demo`.
+
+The audit found that RadCN already has strong Switch substrate:
+dependency-free native checkbox input with `role="switch"`, wrapper/input/
+thumb hooks, checked and unchecked `data-state`, `data-size`, default and
+small sizes, disabled behavior, form submit/reset behavior, label wiring,
+focus-visible styling, thumb transform behavior, and custom-token evidence in
+`native-state.spec.ts`.
+
+The direct example remains partial. Current RadCN evidence does not prove a
+named `switch-demo` docs page, candidate fixture route, or Playwright tests for
+the exact upstream composition: id `airplane-mode`, label text `Airplane Mode`,
+default unchecked state, default size, `flex items-center space-x-2` row
+layout, source snippet, and dependency-divergence mapping for React props,
+`React.ComponentProps<typeof SwitchPrimitive.Root>`, Radix Switch primitives,
+`SwitchPrimitive.Root`, `SwitchPrimitive.Thumb`, `size = "default"`,
+Tailwind utilities, `cn`, `className`, `data-slot`, `data-size`,
+`data-state`, custom tokens, Label `htmlFor`, and vendor source.
+
+Verification run:
+
+```text
+node deterministic check for direct switch registry/file/inventory count
+node deterministic check for switch-demo row outcome and follow-up
+rg checks for required upstream mechanics and required RadCN evidence paths
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+node deterministic tracked-vendor-source check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+git status --short
+```
+
+All checks passed. `git status --short` showed only the Experiment 114 result
+documentation changes before the completion review.
+
+## Conclusion
+
+Switch direct example parity is not complete yet, but the remaining work is
+well-scoped. The next experiment should implement named `switch-demo` parity
+in docs, candidate fixtures, and Playwright coverage, then update
+`switch-example-inventory.md`, `resolved-clusters.json`, and the generated
+parity inventory.
+
+## Completion Review
+
+Reviewer: Chandrasekhar the 3rd
+(`019e9ecb-424d-7e72-b1fb-bcb33e81c6f3`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the experiment stayed documentation-only,
+the `Partial` result is supported by one upstream direct `switch-demo` row and
+non-empty follow-up, the Issue 4 README records Experiment 114 learnings and
+marks it `Partial`, the experiment has `Result` and `Conclusion`,
+`git diff --check`, lockfile, tracked-vendor, and nested vendor checks passed,
+the result commit had not been made before review, and blocks/chart-gallery
+examples remain out of scope while the ordinary `radcn/chart` package scope is
+retained.
