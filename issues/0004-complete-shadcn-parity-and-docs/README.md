@@ -258,6 +258,13 @@ Record cross-component discoveries here as experiments complete.
   dependency-free browser enhancement if live value text is needed.
 - After Experiment 12, `field` is marked resolved in the example queue. The
   next generated recommendation is example parity for `button-group`.
+- Experiment 13 audited all 11 upstream ButtonGroup examples in
+  `button-group-example-inventory.md`. ButtonGroup example parity is not
+  complete yet: RadCN has the base package API and basic horizontal, vertical,
+  separator, and text-hook proof, but it needs broader docs/fixture/Playwright
+  coverage for nested groups, split buttons, size matrices, input/input-group
+  composition, select composition, dropdown/popover compositions, accessible
+  vertical icon groups, and React state mappings.
 
 ## Experiments
 
@@ -286,4 +293,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 12: Implement field example parity depth](12-implement-field-example-parity-depth.md)
   — **Pass**
 - [Experiment 13: Audit button-group example parity](13-audit-button-group-example-parity.md)
-  — **Designed**
+  — **Pass**

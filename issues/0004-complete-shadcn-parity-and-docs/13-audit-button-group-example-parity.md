@@ -112,3 +112,83 @@ Approval result: approved. Leibniz confirmed the issue README links Experiment
 Verification sections, the scope is audit-only, source changes are explicitly
 excluded, and the verification includes concrete pass/fail criteria plus diff,
 status, and vendor hygiene checks.
+
+## Result
+
+**Result:** Pass
+
+The ButtonGroup example parity audit is complete.
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/button-group-example-inventory.md`
+with all 11 upstream ButtonGroup example ids:
+
+- `button-group-demo`
+- `button-group-dropdown`
+- `button-group-input`
+- `button-group-input-group`
+- `button-group-nested`
+- `button-group-orientation`
+- `button-group-popover`
+- `button-group-select`
+- `button-group-separator`
+- `button-group-size`
+- `button-group-split`
+
+The audit concludes that ButtonGroup example parity is not complete yet. RadCN
+has the base package API and basic horizontal, vertical, separator, and text-hook
+proof, but it still needs broader docs, fixture, and Playwright proof for nested
+groups, split buttons, size matrices, input and InputGroup composition, Select
+composition, DropdownMenu and Popover compositions, accessible vertical icon
+groups, and React state mappings.
+
+Verification run on 2026-06-05:
+
+- Deterministic ButtonGroup id check — passed; all 11 upstream ButtonGroup ids
+  appear exactly once in `button-group-example-inventory.md`.
+- Deterministic required-topic check — passed; the inventory addresses nested
+  ButtonGroups, split buttons, small/default/large and icon sizes, input
+  composition, InputGroup composition, Select composition, DropdownMenu
+  composition, Popover composition, separator behavior, vertical orientation,
+  and React `useState` mappings.
+- `rg -n 'nested|split|small/default/large|input composition|InputGroup|select composition|DropdownMenu|Popover|separator|vertical orientation|React \`useState\`|React state' issues/0004-complete-shadcn-parity-and-docs/button-group-example-inventory.md`
+  — passed.
+- `rg -n "button-group-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`
+  — passed.
+- `git diff --check` — passed.
+- `git status --short` showed only expected issue documentation changes before
+  completion review:
+  `13-audit-button-group-example-parity.md`, `README.md`, and
+  `button-group-example-inventory.md`.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  — passed with no output.
+
+## Conclusion
+
+ButtonGroup should be the next implementation cluster. The follow-up experiment
+should implement ButtonGroup example parity depth by adding docs, candidate
+fixtures, and focused Playwright proof for all 11 upstream examples, while
+recording intentional divergences for React state and `asChild`.
+
+## Completion Review
+
+Reviewer: Ptolemy (`019e9a70-3e27-73c1-ba93-629f07445729`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: the recorded `git status --short` evidence omitted the modified
+  Experiment 13 file itself. Fixed by updating the status evidence to list
+  `13-audit-button-group-example-parity.md`, `README.md`, and
+  `button-group-example-inventory.md`.
+
+Ptolemy verified that Result and Conclusion are present, the Issue 4 README
+marks Experiment 13 as `Pass`, README learnings record the ButtonGroup audit and
+next implementation cluster, the inventory has exactly one row for each of the
+11 upstream ButtonGroup ids, `git diff --check` exits 0, vendor status checks
+print no output, no package/docs app/fixture/test source files are changed, and
+the result commit had not been made before review.
+
+Approval result: approved. No blocker findings remain.
