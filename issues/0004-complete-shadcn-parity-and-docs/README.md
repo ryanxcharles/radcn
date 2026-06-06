@@ -999,3 +999,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 62: Implement card example parity depth](62-implement-card-example-parity-depth.md)
   — **Pass**
+- [Experiment 63: Audit command example parity](63-audit-command-example-parity.md)
+  — **Designed**
