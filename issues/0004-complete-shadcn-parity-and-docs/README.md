@@ -385,3 +385,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 19: Audit spinner example parity](19-audit-spinner-example-parity.md)
   — **Pass**
+- [Experiment 20: Implement spinner example parity depth](20-implement-spinner-example-parity-depth.md)
+  — **Designed**
