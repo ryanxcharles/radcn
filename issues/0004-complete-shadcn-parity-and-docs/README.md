@@ -1528,3 +1528,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 99: Audit mode-toggle example parity](99-audit-mode-toggle-example-parity.md)
   — **Pass**
+- [Experiment 100: Audit navigation-menu example parity](100-audit-navigation-menu-example-parity.md)
+  — **Designed**
