@@ -1421,6 +1421,16 @@ Record cross-component discoveries here as experiments complete.
   corresponding docs asset wiring, not just server-rendered markup. `popover`
   is resolved in the example queue; the next generated recommendation is
   example parity for `progress`.
+- Experiment 106 audited direct Progress example parity in
+  `progress-example-inventory.md`. RadCN already has strong Progress package
+  and behavior substrate: dependency-free native `<progress>` semantics,
+  determinate and indeterminate states, wrapper/track/indicator hooks, width
+  indicator styling, generic docs, candidate fixtures, custom-token evidence,
+  and Playwright coverage. The direct example remains partial because no named
+  docs/fixture/test surface proves the exact upstream timed demo: initial value
+  `13`, update to `66` after 500ms, and `className="w-[60%]"` width mapping.
+  The next experiment should implement named `progress-demo` docs, candidate
+  fixture, dependency-free browser behavior, and Playwright coverage.
 
 ## Experiments
 
@@ -1635,4 +1645,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 105: Implement popover example parity depth](105-implement-popover-example-parity-depth.md)
   — **Pass**
 - [Experiment 106: Audit progress example parity](106-audit-progress-example-parity.md)
-  — **Designed**
+  — **Partial**

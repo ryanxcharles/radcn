@@ -213,3 +213,63 @@ concrete pass/fail criteria and repo hygiene checks, the scope is audit-sized,
 vendor files are reference-only, the modified blocks and chart-gallery scope is
 respected while retaining `radcn/chart` package scope, and upstream has exactly
 one direct `progress-demo` example.
+
+## Result
+
+**Result:** Partial
+
+Experiment 106 added `progress-example-inventory.md` and audited the single
+direct upstream Progress example cluster, `progress-demo`.
+
+The audit found that RadCN already has strong Progress substrate: a
+dependency-free package export, native `<progress>` semantics, determinate and
+indeterminate state, public wrapper/native/track/indicator hooks, width-based
+indicator styling, generic docs, candidate fixtures, custom-token coverage, and
+Playwright coverage. The direct upstream example is still partial because
+current docs and fixtures do not provide a named `progress-demo` surface for the
+exact timed demo: initial value `13`, update to `66` after 500ms, and
+`className="w-[60%]"` width mapping.
+
+Verification run:
+
+```text
+node deterministic checks for progress-example-inventory.md structure, direct
+  upstream row count, row outcome/follow-up, and required mechanics/evidence
+rg -n "Experiment 106|progress-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+node tracked-vendor-source check for vendor/.gitignore only
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. The tracked-vendor-source check printed only
+`vendor/.gitignore`, and the nested vendor status checks printed no modified
+files.
+
+## Conclusion
+
+Progress needs a follow-up implementation experiment. The next experiment
+should add named `progress-demo` docs and candidate fixture coverage that starts
+at value `13`, updates to `66` after roughly 500ms without React, maps upstream
+`w-[60%]` to a 60% wrapper width, verifies native progress attributes and
+indicator width at both states, records source/mapping copy, and preserves the
+existing default, indeterminate, and custom-token Progress coverage.
+
+## Completion Review
+
+Reviewer: Planck the 3rd (`019e9e7d-a26c-7c33-9603-af287a73aeec`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the experiment has `## Result` and
+`## Conclusion`, the Issue 4 README marks Experiment 106 as `Partial` and
+records the Progress learning, `progress-example-inventory.md` supports the
+`Partial` result, upstream has one `progress-demo` with `useState(13)`, a 500ms
+timeout to `66`, and `className="w-[60%]"`, deterministic checks passed,
+vendor cleanliness and tracked-vendor checks passed, the result commit had not
+yet been made, and the modified blocks/chart-gallery scope remains respected.
