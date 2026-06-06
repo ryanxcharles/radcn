@@ -276,6 +276,19 @@ Record cross-component discoveries here as experiments complete.
   RadCN trigger components.
 - After Experiment 14, `button-group` is marked resolved in the example queue.
   The next generated recommendation is example parity for `input-group`.
+- Experiment 15 audited all 11 upstream InputGroup examples in
+  `input-group-example-inventory.md`. InputGroup example parity is not complete
+  yet: RadCN has the base package API and primitive fixture proof, but it needs
+  broader docs/fixture/Playwright coverage for Popover, DropdownMenu, Tooltip,
+  Spinner, ButtonGroup, Label, Separator, icon addons, icon buttons, text
+  addons, textarea toolbars, custom textarea mapping, and non-text input types.
+- InputGroup remains a layout and control-shell primitive. React `useState`,
+  `useCopyToClipboard`, shadcn `asChild`, icon package choices, and
+  `react-textarea-autosize` map to explicit RadCN composition, native
+  server/default state, route/app-owned enhancement, or documented
+  customization rather than package dependencies.
+- After Experiment 15, the next recommended implementation cluster is
+  InputGroup example parity depth.
 
 ## Experiments
 
@@ -308,4 +321,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 14: Implement button-group example parity depth](14-implement-button-group-example-parity-depth.md)
   — **Pass**
 - [Experiment 15: Audit input-group example parity](15-audit-input-group-example-parity.md)
-  — **Designed**
+  — **Pass**

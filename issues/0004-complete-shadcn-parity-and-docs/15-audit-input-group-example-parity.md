@@ -127,3 +127,125 @@ Approval result: approved after applying the two checklist fixes. Singer
 confirmed the issue README links Experiment 15 as `Designed`, the experiment is
 audit-only, repo hygiene checks are present, vendor changes are excluded, and
 the plan is likely to achieve the stated audit goal.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/input-group-example-inventory.md`
+as an audit-only inventory for all 11 upstream InputGroup examples:
+`input-group-button`, `input-group-button-group`, `input-group-custom`,
+`input-group-demo`, `input-group-dropdown`, `input-group-icon`,
+`input-group-label`, `input-group-spinner`, `input-group-text`,
+`input-group-textarea`, and `input-group-tooltip`.
+
+The inventory records each example's user-facing behavior, current RadCN
+evidence, outcome, and required follow-up. It does not mark `input-group`
+resolved, because the examples need package/docs/fixture/test depth beyond the
+current primitive coverage.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/input-group-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = ['input-group-button','input-group-button-group','input-group-custom','input-group-demo','input-group-dropdown','input-group-icon','input-group-label','input-group-spinner','input-group-text','input-group-textarea','input-group-tooltip']
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+input-group-button: 1
+input-group-button-group: 1
+input-group-custom: 1
+input-group-demo: 1
+input-group-dropdown: 1
+input-group-icon: 1
+input-group-label: 1
+input-group-spinner: 1
+input-group-text: 1
+input-group-textarea: 1
+input-group-tooltip: 1
+```
+
+```text
+rg -n "input-group-button|input-group-button-group|input-group-custom|input-group-demo|input-group-dropdown|input-group-icon|input-group-label|input-group-spinner|input-group-text|input-group-textarea|input-group-tooltip|popover|dropdown|tooltip|Spinner|ButtonGroup|Label|Separator|type=\"email\"|type=\"password\"|useState|useCopyToClipboard|react-textarea-autosize" issues/0004-complete-shadcn-parity-and-docs/input-group-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: buttons, icon-sized buttons, ButtonGroup composition, custom autosizing
+textarea behavior, full demo composition, DropdownMenu, icons, labels, Popover,
+Spinner, text addons, textarea toolbars, Tooltip, non-text input types, React
+state, and third-party dependency mappings.
+
+Additional verification:
+
+```text
+rg -n "input-group-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:280:  `input-group-example-inventory.md`. InputGroup example parity is not complete
+```
+
+`git diff --check` passed with no output. `git status --short` showed only the
+expected issue documentation changes:
+
+```text
+ M issues/0004-complete-shadcn-parity-and-docs/15-audit-input-group-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/input-group-example-inventory.md
+```
+
+The vendor status loop printed no output.
+
+## Conclusion
+
+InputGroup parity is not resolved yet. RadCN has the base InputGroup package
+API and primitive fixture evidence, but upstream example parity requires a
+depth implementation pass for Popover, DropdownMenu, Tooltip, Spinner,
+ButtonGroup, Label, Separator, icon addons, icon buttons, text addons, textarea
+toolbars, custom textarea mapping, and non-text input types.
+
+The next experiment should implement InputGroup example parity depth, then mark
+`input-group` resolved only after docs, fixtures, Playwright coverage, and the
+inventory prove all 11 upstream examples are covered or intentionally diverged.
+
+## Completion Review
+
+Reviewer: Meitner (`019e9a87-cd6f-7363-b3e0-7d7c571f78b9`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: the Additional verification section listed `rg`, `git diff --check`,
+  `git status --short`, and the vendor status loop without recording their
+  outputs or explicit pass/no-output results. Fixed by adding the observed
+  README `rg` output, `git diff --check` no-output result, expected
+  `git status --short` output, and vendor status no-output result.
+
+Approval result: approved. Meitner independently reran the checks and confirmed
+that the inventory has exactly one row for each required InputGroup id,
+`git diff --check` is clean, vendor status checks print no output, only issue
+documentation is changed, no nested git repositories outside `./.git` were
+found, the result commit had not been made before review, and the README marks
+Experiment 15 as `Pass` with the required follow-up learnings.
