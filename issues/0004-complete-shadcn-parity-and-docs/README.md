@@ -1246,3 +1246,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 81: Audit alert-dialog example parity](81-audit-alert-dialog-example-parity.md)
   — **Partial**
+- [Experiment 82: Implement alert-dialog example parity depth](82-implement-alert-dialog-example-parity-depth.md)
+  — **Designed**
