@@ -155,3 +155,71 @@ row checks, pass/fail criteria, README learning checks, `git diff --check`,
 expected working tree scope, and vendor cleanliness checks, and the technical
 plan matches the upstream Badge examples including the richer `badge-demo`
 icon, custom class, and count/pill cases.
+
+## Result
+
+**Result:** Pass
+
+Created `badge-example-inventory.md` and audited all four upstream Badge
+examples:
+
+- `badge-demo`
+- `badge-destructive`
+- `badge-outline`
+- `badge-secondary`
+
+The audit found that RadCN already supports the primitive mechanics needed by
+these examples: default, secondary, destructive, outline, ghost, and link
+variants; `href` anchor rendering; public `data-radcn-badge` and
+`data-variant` hooks; custom `class` and `style`; and arbitrary children.
+Badge example parity is still partial because there is no named
+docs/fixture/Playwright evidence for the four upstream Badge example ids, and
+the richer `badge-demo` icon badge plus compact numeric/count pill badges are
+not explicitly documented or tested yet.
+
+Verification:
+
+- `node - <<'NODE' ... NODE` deterministic row check: pass. It reported each
+  of `badge-demo`, `badge-destructive`, `badge-outline`, and
+  `badge-secondary` exactly once in the `## Examples` table.
+- `rg -n "badge-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`:
+  pass.
+- `rg -n "default|secondary|destructive|outline|ghost|link|lucide|count|pill|className|Tailwind|data-slot|React prop|Playwright|vendor" issues/0004-complete-shadcn-parity-and-docs/badge-example-inventory.md`:
+  pass.
+- `git diff --check`: pass.
+- `git status --short`: pass; only expected issue documentation changes were
+  present before the result commit.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`:
+  pass; no output.
+
+## Conclusion
+
+The next experiment should implement Badge example parity depth. It should
+preserve the current package API unless a direct blocker appears, add named
+docs/fixture/Playwright proof for all four upstream Badge examples, prove icon
+composition and compact numeric/count badge styling as app-owned composition,
+and keep `lucide-react`, Tailwind, React, and vendor source out of RadCN Badge
+dependencies.
+
+## Completion Review
+
+Reviewer: Lorentz the 2nd (`019e9b9c-a95e-79a0-a293-6df75ee09b25`)
+
+Fresh context: yes (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Lorentz the 2nd confirmed that the audit-only scope
+holds, only issue docs are modified or untracked, the experiment has Result and
+Conclusion sections, the README marks Experiment 41 as `Pass`, the README
+records the Badge learning without marking Badge resolved prematurely, the
+inventory has exactly the four upstream Badge rows, the deterministic row check
+reported each row once, the inventory treats `lucide-react`, Tailwind, React
+prop spreading, and vendor source as mappings/non-dependencies, the next
+recommendation is specific enough for implementation, `git diff --check`
+passed, vendor cleanliness passed, no ignored vendor source is tracked, and the
+result commit had not been made before review.

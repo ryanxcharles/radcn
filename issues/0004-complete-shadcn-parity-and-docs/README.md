@@ -628,6 +628,13 @@ Record cross-component discoveries here as experiments complete.
   `toast-with-action`, and `toast-with-title`. `sonner` remains a separate
   unresolved current-upstream notification cluster, and the regenerated parity
   inventory now recommends auditing `badge` examples next.
+- Experiment 41 generated `badge-example-inventory.md` for the four upstream
+  Badge examples. RadCN already supports the primitive variants, public hooks,
+  href rendering, custom classes/styles, and arbitrary children needed for the
+  upstream examples, but Badge example parity remains partial because named
+  docs/fixture/Playwright evidence is missing for `badge-demo`,
+  `badge-destructive`, `badge-outline`, and `badge-secondary`, and the richer
+  demo still needs explicit icon and compact count/pill proof.
 
 ## Experiments
 
@@ -712,4 +719,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 40: Implement toast example parity depth](40-implement-toast-example-parity-depth.md)
   — **Pass**
 - [Experiment 41: Audit badge example parity](41-audit-badge-example-parity.md)
-  — **Designed**
+  — **Pass**
