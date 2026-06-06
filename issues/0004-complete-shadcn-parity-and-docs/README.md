@@ -610,6 +610,17 @@ Record cross-component discoveries here as experiments complete.
   React prop spreading maps to explicit Remix UI props, and autosize,
   form-library, toast, icon, helper-text, Button, Label, Field, Form, and
   InputGroup behavior remains app-owned or owned by the composing packages.
+- Experiment 39 generated `toast-example-inventory.md` for the five deprecated
+  shadcn `toast` examples. RadCN has the needed notification primitives for
+  title+description toasts, actions, server-rendered initial state, no-JS
+  initial state, Button-triggered browser events, dismiss behavior, and
+  accessible `status`/`alert` roles, but the deprecated toast example cluster
+  remains partial because named docs/fixture/Playwright evidence is missing and
+  `toast-simple` is description-only while RadCN currently requires `title`.
+  The next toast experiment should decide and implement description-only
+  payload behavior, map shadcn `destructive` to RadCN `type: "error"`, and add
+  explicit deprecated toast example coverage without conflating this cluster
+  with the separate unresolved `sonner` examples.
 
 ## Experiments
 
@@ -690,4 +701,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 38: Implement textarea example parity depth](38-implement-textarea-example-parity-depth.md)
   — **Pass**
 - [Experiment 39: Audit toast example parity](39-audit-toast-example-parity.md)
-  — **Designed**
+  — **Pass**

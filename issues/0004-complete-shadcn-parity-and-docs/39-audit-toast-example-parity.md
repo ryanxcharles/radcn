@@ -175,3 +175,72 @@ package/docs/fixture/test implementation, verification has concrete pass/fail
 criteria and hygiene checks, vendor checkouts are clean, the inventory
 recommends toast and lists exactly the five deprecated toast ids, and Sonner is
 kept as a separate unresolved cluster.
+
+## Result
+
+**Result:** Pass
+
+Created `toast-example-inventory.md` and audited all five deprecated upstream
+New York v4 `toast` examples:
+
+- `toast-demo`
+- `toast-destructive`
+- `toast-simple`
+- `toast-with-action`
+- `toast-with-title`
+
+The audit found that RadCN already has the main notification primitives:
+title+description toasts, action links, Button-triggered browser events,
+server-rendered initial toasts, no-JS initial state, dismiss behavior, and
+accessible `status`/`alert` roles. The cluster is not resolved yet because
+RadCN does not have named docs/fixture/Playwright evidence for the five
+deprecated toast ids, and because upstream `toast-simple` is description-only
+while RadCN currently requires a `title` in `ToastPayload`, ignores titleless
+trigger data, and ignores dispatched events with no title.
+
+Verification:
+
+- `node - <<'NODE' ... NODE` deterministic row check: pass. It reported each
+  of `toast-demo`, `toast-destructive`, `toast-simple`,
+  `toast-with-action`, and `toast-with-title` exactly once in the
+  `## Examples` table.
+- `rg -n "toast-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`:
+  pass.
+- `rg -n "description-only|title-only|title\+description|ToastAction|useToast|Sonner|destructive|type: \"error\"|Playwright|Button-triggered|next-themes|lucide|vendor" issues/0004-complete-shadcn-parity-and-docs/toast-example-inventory.md`:
+  pass.
+- `git diff --check`: pass.
+- `git status --short`: pass; only expected issue documentation changes were
+  present before the result commit.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`:
+  pass; no output.
+
+## Conclusion
+
+The next experiment should implement deprecated toast example parity depth. It
+should preserve the separation between deprecated `toast` and current `sonner`,
+decide whether description-only payloads are supported or intentionally
+rejected, map shadcn `variant: "destructive"` to RadCN `type: "error"`, and add
+named docs/fixture/Playwright evidence for all five deprecated toast examples.
+
+## Completion Review
+
+Reviewer: Dewey (`019e9b87-1e10-7d53-859d-8ed438a37b14`)
+
+Fresh context: yes (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Dewey confirmed that the completed audit matches
+the approved audit-only scope, no package/docs/fixture/test source changes are
+present, the inventory covers the five deprecated upstream toast examples
+exactly once, the experiment has Result and Conclusion sections, the README
+learning is recorded, the README experiment status is `Pass`, the
+description-only gap is supported by package source evidence, existing
+role/action/dismiss/event evidence is supported by notification tests, the
+deterministic row check passed, `git diff --check` passed, vendor nested
+statuses are clean, only expected issue documentation changes are present, and
+the result commit had not been made before review.
