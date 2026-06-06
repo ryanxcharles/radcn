@@ -200,3 +200,65 @@ audit-only, implementation has not started before the plan commit, verification
 has concrete pass/fail criteria and repo hygiene checks, vendor checkouts are
 clean, and the regenerated inventory supports Hover Card as the next
 recommended cluster.
+
+## Result
+
+**Result:** Partial
+
+Experiment 93 added `hover-card-example-inventory.md` and audited the single
+direct upstream Hover Card example, `hover-card-demo`.
+
+The audit found that RadCN already has strong package-level and generic
+behavior evidence for Hover Card: package exports, dependency-free browser
+enhancement, hover/focus interaction, portal/content hooks, open and close
+delays, side/align placement, non-modal behavior, custom tokens, generic docs,
+candidate fixtures, and Playwright coverage.
+
+The direct example is still partial because existing docs, fixtures, and tests
+do not prove the exact upstream `@nextjs` profile composition: Button link
+trigger/asChild mapping, Avatar image URL `https://github.com/vercel.png`,
+fallback `VC`, 20rem `w-80` content width, profile layout, exact description
+and joined-date copy, or the Radix/`asChild`/`className`/Tailwind/`cn`/
+`data-slot`/unused `CalendarIcon` mapping for the named example.
+
+Verification passed:
+
+```text
+deterministic hover-card registry/file/inventory row-count check
+deterministic row outcome/follow-up check
+rg -n "Experiment 93|hover-card-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+deterministic required upstream terms/text check
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+`git status --short` showed only audit-scope issue documentation changes:
+modified `93-audit-hover-card-example-parity.md`, modified Issue 4
+`README.md`, and new `hover-card-example-inventory.md`.
+
+## Conclusion
+
+Hover Card should move to a named implementation experiment next. The next
+experiment should implement `hover-card-demo` docs, candidate fixture, and
+Playwright coverage for the exact upstream `@nextjs` profile while preserving
+RadCN's dependency-free Hover Card package and treating user-facing behavior,
+accessibility, and author-facing modifiability as the parity target.
+
+## Completion Review
+
+Reviewer: Lagrange the 3rd
+(`019e9de6-33d9-7391-9ee0-bab6c4fcc8e3`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Initial findings:
+
+- Blocker: The Result section's `git status --short` note omitted the modified
+  experiment file after result recording. Fixed by recording the actual
+  audit-scope state: modified `93-audit-hover-card-example-parity.md`,
+  modified Issue 4 `README.md`, and new
+  `hover-card-example-inventory.md`.
+- Major: none.
+- Minor: none.
+
+Re-review: approved. The reviewer confirmed the status note now matches the
+current worktree and no new blocker was introduced.

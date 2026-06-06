@@ -1241,6 +1241,19 @@ Record cross-component discoveries here as experiments complete.
 - After Experiment 92, the regenerated parity inventory marks `data-table`
   resolved in the example queue. The next generated recommendation is example
   parity for `hover-card`.
+- Experiment 93 audited direct Hover Card example parity in
+  `hover-card-example-inventory.md`. The examples registry has one direct
+  `hover-card` example, `hover-card-demo`. RadCN already covers the
+  package-backed Hover Card primitive, hover/focus browser enhancement,
+  portal/content hooks, open/close delays, side/align placement, non-modal
+  behavior, custom tokens, package exports, and general docs/fixture coverage.
+  The direct example remains partial because docs, fixtures, and tests do not
+  yet prove the exact upstream `@nextjs` profile composition: Button link
+  trigger/asChild mapping, Avatar image URL and `VC` fallback, 20rem `w-80`
+  content width, exact profile copy, and the Radix/`asChild`/Tailwind/`cn`/
+  `data-slot`/unused `CalendarIcon` mapping. The next experiment should
+  implement named `hover-card-demo` docs, candidate fixture, and Playwright
+  coverage.
 
 ## Experiments
 
@@ -1429,4 +1442,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 92: Implement data-table example parity depth](92-implement-data-table-example-parity-depth.md)
   — **Pass**
 - [Experiment 93: Audit hover-card example parity](93-audit-hover-card-example-parity.md)
-  — **Designed**
+  — **Partial**
