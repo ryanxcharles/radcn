@@ -720,3 +720,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 41: Audit badge example parity](41-audit-badge-example-parity.md)
   — **Pass**
+- [Experiment 42: Implement badge example parity depth](42-implement-badge-example-parity-depth.md)
+  — **Designed**
