@@ -165,3 +165,105 @@ the required sections, the scope is audit-only, verification has concrete
 pass/fail criteria and hygiene checks, vendor checkouts are read-only
 references, and the plan is likely to achieve the stated audit goal without
 starting implementation before the plan commit.
+
+## Result
+
+**Result:** Pass
+
+Created `input-otp-example-inventory.md` and audited all four active upstream
+Input OTP examples:
+
+- `input-otp-controlled`
+- `input-otp-demo`
+- `input-otp-pattern`
+- `input-otp-separator`
+
+The audit found strong RadCN primitive coverage for Input OTP behavior:
+`maxLength`, slot groups, separators, slot character mirroring, active slot and
+caret state, digit-only and alphanumeric pattern filtering, paste filtering,
+keyboard movement, disabled state, invalid ARIA state, native input value,
+native form submission/reset, controlled/default value rendering, custom
+classes/styles, public data hooks, and dependency-free browser enhancement.
+
+The example cluster remains partially covered because the docs, candidate
+fixtures, and Playwright tests do not yet prove the four named upstream example
+ids as user-facing compositions. No current evidence requires changing the
+`radcn/input-otp` package API.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/input-otp-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'input-otp-controlled',
+  'input-otp-demo',
+  'input-otp-pattern',
+  'input-otp-separator',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+input-otp-controlled: 1
+input-otp-demo: 1
+input-otp-pattern: 1
+input-otp-separator: 1
+```
+
+Additional verification:
+
+```text
+rg -n "input-otp-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+`rg` found the new learning. `git diff --check` passed. `git status --short`
+showed only expected Issue 4 documentation changes before the result commit.
+The vendor status loop printed no output.
+
+## Conclusion
+
+Input OTP primitive parity is strong, but named Input OTP example parity is not
+complete. The next experiment should implement docs, candidate fixtures, and
+Playwright coverage for the four upstream examples without adding React,
+upstream `input-otp`, `lucide-react`, Tailwind, or vendor dependencies.
+
+## Completion Review
+
+Reviewer: Ohm the 2nd (`019e9be4-66e8-7d92-bc45-31b723995b6a`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the result
+matches the audit-only scope, the changed files are limited to Issue 4
+documentation, the row check and README learning check pass, `git diff --check`
+passed, vendor cleanliness was checked, the result commit had not yet been
+made, and the Issue 4 README records the matching `Pass` status and follow-up
+learning.

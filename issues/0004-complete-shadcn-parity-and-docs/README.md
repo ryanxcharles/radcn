@@ -688,6 +688,18 @@ Record cross-component discoveries here as experiments complete.
   RadCN still does not depend on React, Radix, `lucide-react`, Tailwind, or
   vendor source. The regenerated parity inventory now recommends auditing
   `input-otp` examples next.
+- Experiment 47 generated `input-otp-example-inventory.md` for the four
+  upstream Input OTP examples in the active parity cluster. RadCN's Input OTP
+  primitive is strong, covering max length, slot groups, separators, slot
+  character mirroring, active slot/caret state, pattern filtering, paste
+  filtering, keyboard movement, disabled/invalid state, native form
+  submission/reset, controlled/default value rendering, custom hooks, and
+  dependency-free enhancement. Example parity remains partial because the docs,
+  candidate fixtures, and Playwright tests do not yet prove named coverage for
+  `input-otp-controlled`, `input-otp-demo`, `input-otp-pattern`, and
+  `input-otp-separator`. The next experiment should implement those named
+  examples without changing the Input OTP package API unless a concrete
+  package-level gap appears.
 
 ## Experiments
 
@@ -784,4 +796,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 46: Implement dropdown-menu example parity depth](46-implement-dropdown-menu-example-parity-depth.md)
   — **Pass**
 - [Experiment 47: Audit input-otp example parity](47-audit-input-otp-example-parity.md)
-  — **Designed**
+  — **Pass**
