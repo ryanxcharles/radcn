@@ -136,6 +136,7 @@ These are documented in RadCN but are not current package exports.
 | examples | input-otp | resolved | `issues/0004-complete-shadcn-parity-and-docs/47-audit-input-otp-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/48-implement-input-otp-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/input-otp-example-inventory.md` |
 | examples | native-select | resolved | `issues/0004-complete-shadcn-parity-and-docs/49-audit-native-select-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/50-implement-native-select-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/native-select-example-inventory.md` |
 | examples | resizable | resolved | `issues/0004-complete-shadcn-parity-and-docs/51-audit-resizable-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/52-implement-resizable-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/resizable-example-inventory.md` |
+| examples | checkbox | resolved | `issues/0004-complete-shadcn-parity-and-docs/53-audit-checkbox-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/54-implement-checkbox-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/checkbox-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -223,7 +224,6 @@ parity decision.
 | avatar | 1 | `avatar-demo` |
 | calendar | 2 | `calendar-demo`, `calendar-hijri` |
 | card | 2 | `card-demo`, `card-with-form` |
-| checkbox | 3 | `checkbox-demo`, `checkbox-disabled`, `checkbox-with-text` |
 | collapsible | 1 | `collapsible-demo` |
 | command | 2 | `command-demo`, `command-dialog` |
 | context-menu | 1 | `context-menu-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for checkbox
+**Cluster:** Example parity for date-picker
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for checkbox.
+- Audit upstream examples for date-picker.
 
 ## Notes
 

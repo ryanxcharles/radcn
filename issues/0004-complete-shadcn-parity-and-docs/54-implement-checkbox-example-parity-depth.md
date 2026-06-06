@@ -265,3 +265,99 @@ the no React/Radix/`lucide-react`/Tailwind/vendor dependency policy unless a
 blocker is recorded, verification has concrete typecheck, Playwright,
 inventory, resolved-cluster, dependency, hygiene, and vendor checks, and no
 implementation files or vendor checkouts are modified before the plan commit.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Checkbox example parity depth for all three active upstream
+examples:
+
+- `checkbox-demo`
+- `checkbox-disabled`
+- `checkbox-with-text`
+
+Docs now render an authored Checkbox page with stable
+`data-radcn-docs-checkbox-family` hooks for every named example. The page shows
+the four `checkbox-demo` compositions, disabled terms example, and with-text
+example, and includes mapping copy for `defaultChecked`, `disabled`,
+`className`, `data-slot`, `aria-invalid`, Radix `CheckboxPrimitive.Root` and
+`CheckboxPrimitive.Indicator`, `data-state`, `CheckIcon`, `lucide-react`,
+Tailwind peer/has selectors, card-like wrappers, public hooks, CSS variables,
+app-owned label/description composition, and vendor non-dependency.
+
+Candidate fixtures now expose named routes for `checkbox/demo`,
+`checkbox/disabled-upstream`, and `checkbox/with-text` while preserving the
+existing generic Checkbox routes. Fixture Playwright coverage proves public
+wrapper/input/indicator hooks, four demo inputs, two checked states, one
+disabled state, upstream label and description copy, the card-like checked
+composition, custom checked styling, disabled upstream state, with-text
+unchecked state, and native label/check behavior.
+
+Updated `checkbox-example-inventory.md` to mark all three rows `Covered`, added
+`checkbox` to `resolved-clusters.json`, and regenerated
+`parity-inventory.md`. The regenerated inventory no longer lists Checkbox as
+unresolved and now recommends `Example parity for date-picker` as the next
+cluster.
+
+No Checkbox package API change was needed.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-state.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Additional deterministic Node checks passed for:
+
+- all three Checkbox inventory rows appearing exactly once and marked
+  `Covered`;
+- `resolved-clusters.json` containing `checkbox` with evidence for Experiments
+  53 and 54 plus `checkbox-example-inventory.md`;
+- `parity-inventory.md` excluding `checkbox` from unresolved examples and no
+  longer recommending Checkbox first;
+- no forbidden imports from React, Radix, `lucide-react`, Tailwind, or
+  `vendor/`;
+- no forbidden dependencies in the RadCN package, docs app, or candidate
+  fixture manifests.
+
+Playwright emitted existing runtime warnings for `module.register()` and
+`NO_COLOR`/`FORCE_COLOR`; neither warning changed the pass result. Vendor
+status printed no output.
+
+## Conclusion
+
+Checkbox example parity is resolved for Issue 4. RadCN covers the three active
+upstream Checkbox examples with package behavior, docs, fixtures, Playwright
+coverage, inventory evidence, and no new dependencies.
+
+The package-level learning is that the base Checkbox primitive can remain a
+small native input wrapper. Upstream card rows, descriptions, peer/has styling,
+and icon presentation are better represented as app-owned composition over
+public hooks and CSS variables than as new package APIs.
+
+The next generated Issue 4 recommendation is `Example parity for date-picker`.
+
+## Completion Review
+
+Reviewer: Carson the 2nd (`019e9c26-03de-7360-939e-67cf7eee34d9`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the
+experiment has `Result` and `Conclusion`, the Issue 4 README marks Experiment
+54 `Pass` and records the Checkbox learning plus next recommendation, all
+three Checkbox inventory rows are `Covered`, `resolved-clusters.json` records
+Checkbox with Experiments 53 and 54 plus inventory evidence, docs render the
+three named hooks and compositions, fixture scenarios and Playwright cover the
+named examples, `git diff --check` passed, vendor status printed no output, the
+result commit had not been made yet, no Checkbox package diff exists, and the
+regenerated parity inventory now recommends `Example parity for date-picker`.

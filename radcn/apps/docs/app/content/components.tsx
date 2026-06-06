@@ -2516,6 +2516,93 @@ export function NativeSelectExamples() {
   )
 }`
 
+const checkboxSource = `import { Checkbox } from 'radcn/checkbox'
+import { Label } from 'radcn/label'
+
+export function CheckboxExamples() {
+  return (
+    <>
+      <div>
+        <Checkbox id="terms" name="terms" />
+        <Label for="terms">Accept terms and conditions</Label>
+      </div>
+
+      <div>
+        <Checkbox checked id="terms-2" name="terms-2" />
+        <Label for="terms-2">Accept terms and conditions</Label>
+        <p>By clicking this checkbox, you agree to the terms and conditions.</p>
+      </div>
+
+      <div>
+        <Checkbox disabled id="toggle" name="toggle" />
+        <Label disabled for="toggle">Enable notifications</Label>
+      </div>
+
+      <label>
+        <Checkbox checked class="custom-checkbox" id="toggle-2" name="toggle-2" />
+        <span>Enable notifications</span>
+        <span>You can enable or disable notifications at any time.</span>
+      </label>
+    </>
+  )
+}`
+
+function CheckboxPreview() {
+  return () => (
+    <div style="display:grid;gap:1.25rem;width:min(100%,42rem)">
+      <div data-radcn-docs-checkbox-family="checkbox-demo" style="display:grid;gap:1.5rem">
+        <div mix={previewRowStyle}>
+          <Checkbox id="docs-checkbox-terms" name="terms" />
+          <Label for="docs-checkbox-terms">Accept terms and conditions</Label>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:0.75rem">
+          <Checkbox checked id="docs-checkbox-terms-2" name="terms-2" />
+          <div style="display:grid;gap:0.5rem">
+            <Label for="docs-checkbox-terms-2">Accept terms and conditions</Label>
+            <FieldDescription>By clicking this checkbox, you agree to the terms and conditions.</FieldDescription>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:flex-start;gap:0.75rem">
+          <Checkbox disabled id="docs-checkbox-toggle" name="toggle" />
+          <Label disabled for="docs-checkbox-toggle">Enable notifications</Label>
+        </div>
+
+        <Label
+          class="radcn-docs-checkbox-card"
+          style="display:flex;align-items:flex-start;gap:0.75rem;border:1px solid var(--radcn-primary);border-radius:var(--radcn-radius);padding:0.75rem;background:color-mix(in srgb, var(--radcn-primary) 8%, transparent)"
+        >
+          <Checkbox
+            checked
+            class="radcn-docs-checkbox-blue"
+            id="docs-checkbox-toggle-2"
+            name="toggle-2"
+            style="--radcn-control-checked-bg:#2563eb;--radcn-control-border:#2563eb"
+          />
+          <div style="display:grid;gap:0.375rem;font-weight:400">
+            <span style="font-size:0.875rem;line-height:1;font-weight:500">Enable notifications</span>
+            <FieldDescription>You can enable or disable notifications at any time.</FieldDescription>
+          </div>
+        </Label>
+      </div>
+
+      <div data-radcn-docs-checkbox-family="checkbox-disabled" mix={previewRowStyle}>
+        <Checkbox disabled id="docs-checkbox-disabled-terms" name="terms2" />
+        <Label disabled for="docs-checkbox-disabled-terms">Accept terms and conditions</Label>
+      </div>
+
+      <div data-radcn-docs-checkbox-family="checkbox-with-text" style="display:flex;align-items:flex-start;gap:0.75rem">
+        <Checkbox id="docs-checkbox-with-text" name="terms1" />
+        <div style="display:grid;gap:0.375rem">
+          <Label for="docs-checkbox-with-text">Accept terms and conditions</Label>
+          <FieldDescription>You agree to our Terms of Service and Privacy Policy.</FieldDescription>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function NativeSelectPreview() {
   return () => (
     <div style="display:grid;gap:1.25rem;width:min(100%,42rem)">
@@ -4523,6 +4610,49 @@ export function ChartPreview() {
 }`
 
 const richComponentDocs: ComponentDoc[] = [
+  {
+    slug: 'checkbox',
+    title: 'Checkbox',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native checkbox primitive with explicit checked, disabled, invalid, mixed, form, label, and customization hooks.',
+    importPath: 'radcn/checkbox',
+    importExample: "import { Checkbox } from 'radcn/checkbox'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the three upstream Checkbox examples with labels, descriptions, disabled state, and card-like checked composition.',
+        source: checkboxSource,
+        preview: <CheckboxPreview />,
+      },
+    ],
+    accessibility: [
+      'Checkbox renders a native input type="checkbox", so checked, unchecked, disabled, form submission, reset, and label activation behavior stay browser-owned.',
+      'Labels are real label elements wired by id/for or wrapping label composition; descriptions remain explicit app-owned markup.',
+      'Invalid state maps to aria-invalid and aria-describedby when composed with Field or Form error text.',
+      'Indeterminate examples use aria-checked="mixed" and data-state hooks for static server-rendered mixed state.',
+    ],
+    customization: [
+      'Checkbox exposes data-radcn-checkbox-wrapper, data-radcn-checkbox-input, and data-radcn-checkbox-indicator hooks.',
+      'Wrapper and input expose data-state for checked, unchecked, and indeterminate styling.',
+      'Use class and style plus CSS variables such as --radcn-control-border, --radcn-control-bg, --radcn-control-checked-bg, --radcn-control-fg, and --radcn-control-invalid.',
+      'Card-like label wrappers, description layout, hover styles, and checked parent styling remain app-owned composition.',
+    ],
+    divergence: [
+      'defaultChecked maps to RadCN checked for server-rendered initial state; apps own later client state if they need it.',
+      'className maps to class, data-slot maps to data-radcn-checkbox-* hooks, and aria-invalid maps to ariaInvalid.',
+      'CheckboxPrimitive.Root, CheckboxPrimitive.Indicator, and Radix state mechanics map to a native input plus explicit RadCN props and data-state hooks.',
+      'CheckIcon and lucide-react are presentation details; RadCN keeps a dependency-free package indicator that apps can restyle.',
+      'Tailwind peer and has selectors map to app CSS using RadCN hooks, class, style, and CSS variables.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
   {
     slug: 'button',
     title: 'Button',

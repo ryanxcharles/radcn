@@ -15,9 +15,62 @@ const inlineControlStyle = 'display:flex;align-items:center;gap:10px'
 const formStyle = 'display:grid;gap:12px;max-width:360px'
 const buttonRowStyle = 'display:flex;gap:12px'
 const radioRowStyle = 'display:flex;align-items:center;gap:10px'
+const checkboxDescriptionStyle = 'margin:0;color:var(--radcn-muted-foreground);font-size:0.875rem;line-height:1.35'
+const checkboxStackStyle = 'display:grid;gap:24px;max-width:420px'
+const checkboxCardStyle = 'display:flex;align-items:flex-start;gap:12px;border:1px solid #2563eb;border-radius:8px;padding:12px;background:#eff6ff'
 
 export function renderCheckboxFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return (
+        <div style={checkboxStackStyle}>
+          <div style={inlineControlStyle}>
+            <Checkbox id="candidate-checkbox-terms" name="terms" />
+            <Label for="candidate-checkbox-terms">Accept terms and conditions</Label>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <Checkbox checked id="candidate-checkbox-terms-2" name="terms-2" />
+            <div style="display:grid;gap:8px">
+              <Label for="candidate-checkbox-terms-2">Accept terms and conditions</Label>
+              <p style={checkboxDescriptionStyle}>By clicking this checkbox, you agree to the terms and conditions.</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px">
+            <Checkbox disabled id="candidate-checkbox-toggle" name="toggle" />
+            <Label disabled for="candidate-checkbox-toggle">Enable notifications</Label>
+          </div>
+          <label data-radcn-checkbox-demo-card style={checkboxCardStyle}>
+            <Checkbox
+              checked
+              class="radcn-fixture-custom-checkbox"
+              id="candidate-checkbox-toggle-2"
+              name="toggle-2"
+              style="--radcn-control-checked-bg:#2563eb;--radcn-control-border:#2563eb"
+            />
+            <div style="display:grid;gap:6px;font-weight:400">
+              <span style="font-size:0.875rem;line-height:1;font-weight:500">Enable notifications</span>
+              <p style={checkboxDescriptionStyle}>You can enable or disable notifications at any time.</p>
+            </div>
+          </label>
+        </div>
+      )
+    case 'disabled-upstream':
+      return (
+        <div style={inlineControlStyle}>
+          <Checkbox disabled id="candidate-checkbox-terms2" name="terms2" />
+          <Label disabled for="candidate-checkbox-terms2">Accept terms and conditions</Label>
+        </div>
+      )
+    case 'with-text':
+      return (
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <Checkbox id="candidate-checkbox-terms1" name="terms1" />
+          <div style="display:grid;gap:6px;line-height:1">
+            <Label for="candidate-checkbox-terms1">Accept terms and conditions</Label>
+            <p style={checkboxDescriptionStyle}>You agree to our Terms of Service and Privacy Policy.</p>
+          </div>
+        </div>
+      )
     case 'checked':
       return (
         <div style={inlineControlStyle}>

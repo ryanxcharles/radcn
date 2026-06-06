@@ -1551,6 +1551,24 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "checkbox",
+    id: "demo",
+    title: "Checkbox Demo",
+    description: "Named upstream checkbox-demo parity with basic, described, disabled, and checked card compositions.",
+  },
+  {
+    component: "checkbox",
+    id: "disabled-upstream",
+    title: "Disabled Checkbox Example",
+    description: "Named upstream checkbox-disabled parity with disabled terms label.",
+  },
+  {
+    component: "checkbox",
+    id: "with-text",
+    title: "Checkbox With Text",
+    description: "Named upstream checkbox-with-text parity with label and description copy.",
+  },
+  {
+    component: "checkbox",
     id: "default",
     title: "Default Checkbox",
     description: "Unchecked native checkbox with label wiring.",

@@ -53,9 +53,9 @@ RadCN references:
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `checkbox-demo` | Four stacked compositions: unchecked checkbox with label, default checked checkbox with label and description, disabled checkbox with label, and checked card-like label with custom blue checked styling and description. | Package supports native input semantics, checked/unchecked/disabled state, labels via `id`, descriptions as app-owned markup, `class`, `style`, public hooks, and custom tokens/classes. Fixtures cover default, checked, disabled, invalid, indeterminate, custom token, and form reset/submit states. Docs only show a single checked checkbox preview and do not expose a named `checkbox-demo` family or the four upstream compositions together. | Partial | Add named docs and candidate fixture coverage for all four demo compositions, including label/description text, disabled row, checked card-like wrapper, custom checked styling via app CSS/class/tokens, and Playwright evidence. No package API change is currently required. |
-| `checkbox-disabled` | Disabled checkbox with `Accept terms and conditions` label and disabled label styling. | Package supports `disabled` on the native input and wrapper state. Candidate fixture and Playwright prove disabled checkbox behavior, but the route is generic `checkbox/disabled`, uses different copy, and docs do not expose a named `checkbox-disabled` example. | Partial | Add named docs/fixture/test evidence for the upstream disabled example id, label copy, disabled input state, and disabled label styling/composition. |
-| `checkbox-with-text` | Unchecked checkbox with label `Accept terms and conditions` and description `You agree to our Terms of Service and Privacy Policy.` | Package supports unchecked native input, label association, and app-owned description markup. Existing docs preview and fixtures do not expose this named example id or exact label/description composition. | Partial | Add named docs/fixture/test evidence for label association, description text, unchecked state, and public hooks under the `checkbox-with-text` example id. |
+| `checkbox-demo` | Four stacked compositions: unchecked checkbox with label, default checked checkbox with label and description, disabled checkbox with label, and checked card-like label with custom blue checked styling and description. | Covered by package native input semantics, docs `data-radcn-docs-checkbox-family="checkbox-demo"`, candidate route `checkbox/demo`, Playwright proof for four wrappers/inputs/indicators, two checked states, one disabled state, upstream labels/descriptions, card-like composition, custom checked styling, public hooks, and native label/click behavior. | Covered | No follow-up for the active example. Card-like wrappers and descriptions remain app-owned composition; custom checked color uses public class/style/CSS variable hooks. |
+| `checkbox-disabled` | Disabled checkbox with `Accept terms and conditions` label and disabled label styling. | Covered by package `disabled`, docs `data-radcn-docs-checkbox-family="checkbox-disabled"`, candidate route `checkbox/disabled-upstream`, and Playwright proof for disabled input state, upstream label copy, and public hooks. | Covered | No follow-up for the active example. Disabled label styling remains composition through `Label disabled`. |
+| `checkbox-with-text` | Unchecked checkbox with label `Accept terms and conditions` and description `You agree to our Terms of Service and Privacy Policy.` | Covered by package unchecked native state, label association, app-owned description markup, docs `data-radcn-docs-checkbox-family="checkbox-with-text"`, candidate route `checkbox/with-text`, and Playwright proof for unchecked state, label copy, description copy, public hooks, and native check behavior. | Covered | No follow-up for the active example. |
 
 ## Capability Matrix
 
@@ -71,9 +71,9 @@ RadCN references:
 | Required/form submission/reset | Covered | Fixture Playwright verifies native form reset and GET submission for checkbox values. |
 | Public hooks | Covered | `data-radcn-checkbox-wrapper`, `data-radcn-checkbox-input`, and `data-radcn-checkbox-indicator` exist; wrapper/input expose `data-state`. |
 | Custom classes/styles/tokens | Covered | `class` and `style` are supported on the wrapper; fixture CSS proves token customization. |
-| Docs named example ids | Partial | Docs currently have generic component preview coverage, not named upstream Checkbox example families. |
-| Candidate fixture named example ids | Partial | Candidate fixtures cover behavior through generic native-state routes, not the active upstream example ids. |
-| Playwright named example proof | Partial | Tests verify behavior but not exact upstream example compositions or ids. |
+| Docs named example ids | Covered | Docs expose `data-radcn-docs-checkbox-family` hooks for all three active upstream examples. |
+| Candidate fixture named example ids | Covered | Candidate fixtures expose named routes for `demo`, `disabled-upstream`, and `with-text`. |
+| Playwright named example proof | Covered | Fixture and docs Playwright coverage prove the named example compositions and mapping copy. |
 
 ## Mapping Decisions
 
@@ -99,11 +99,11 @@ RadCN references:
 
 ## Decision
 
-The Checkbox package API appears sufficient for the active upstream example
-cluster. The gap is named example parity depth: docs, candidate fixtures, and
-Playwright tests need to prove the three upstream example ids and exact
-user-facing compositions.
+The Checkbox package API is sufficient for the active upstream example cluster.
+All three active examples are covered by package behavior, docs, candidate
+fixtures, Playwright coverage, and mapping decisions.
 
-Recommended next experiment: implement Checkbox example parity depth without
-changing `radcn/checkbox` unless implementation reveals a concrete package
-blocker not found in this audit.
+Final API decision: no Checkbox package API change is required. shadcn React and
+Radix mechanics map to native input semantics, explicit initial `checked`
+state, public RadCN hooks, app-owned label/description/card composition, and CSS
+variable/class/style customization.

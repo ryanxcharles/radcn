@@ -774,6 +774,17 @@ Record cross-component discoveries here as experiments complete.
   `checkbox-demo`, `checkbox-disabled`, and `checkbox-with-text`. The next
   experiment should implement those named examples without changing the
   Checkbox package API unless a concrete package-level gap appears.
+- Experiment 54 completed Checkbox example parity depth. The docs page now
+  renders stable `data-radcn-docs-checkbox-family` hooks for `checkbox-demo`,
+  `checkbox-disabled`, and `checkbox-with-text` with upstream label and
+  description copy, disabled state, checked and unchecked states, card-like
+  checked composition, custom checked styling, public hooks, and mapping copy.
+  Candidate fixtures and Playwright coverage prove the named demo, disabled,
+  and with-text examples while preserving generic Checkbox behavior tests.
+  `checkbox-example-inventory.md` now marks all three rows `Covered`,
+  `resolved-clusters.json` records `checkbox` as resolved, and the regenerated
+  parity inventory recommends auditing `date-picker` examples next. No
+  Checkbox package API change was needed.
 
 ## Experiments
 
@@ -884,4 +895,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 53: Audit checkbox example parity](53-audit-checkbox-example-parity.md)
   — **Pass**
 - [Experiment 54: Implement checkbox example parity depth](54-implement-checkbox-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

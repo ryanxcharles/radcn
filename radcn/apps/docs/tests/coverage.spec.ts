@@ -119,6 +119,30 @@ test.describe('docs registry coverage', () => {
     await page.goto('/docs/components/button')
     await expect(page.locator('[data-radcn-button]').first()).toBeVisible()
 
+    await page.goto('/docs/components/checkbox')
+    for (let slug of [
+      'checkbox-demo',
+      'checkbox-disabled',
+      'checkbox-with-text',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-checkbox-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-checkbox-family="checkbox-demo"] [data-radcn-checkbox-wrapper]')).toHaveCount(4)
+    await expect(page.locator('[data-radcn-docs-checkbox-family="checkbox-demo"] [data-radcn-checkbox-input]:checked')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-docs-checkbox-family="checkbox-demo"] [data-radcn-checkbox-input]:disabled')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-checkbox-family="checkbox-demo"] .radcn-docs-checkbox-card')).toBeVisible()
+    await expect(page.locator('[data-radcn-docs-checkbox-family="checkbox-disabled"] [data-radcn-checkbox-input]')).toBeDisabled()
+    await expect(page.locator('[data-radcn-docs-checkbox-family="checkbox-with-text"] [data-radcn-checkbox-input]')).not.toBeChecked()
+    await expect(page.getByText('You agree to our Terms of Service and Privacy Policy.').first()).toBeVisible()
+    await expect(page.getByText('defaultChecked maps to RadCN checked').first()).toBeVisible()
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to data-radcn-checkbox-* hooks').first()).toBeVisible()
+    await expect(page.getByText('CheckboxPrimitive.Root').first()).toBeVisible()
+    await expect(page.getByText('CheckboxPrimitive.Indicator').first()).toBeVisible()
+    await expect(page.getByText('CheckIcon and lucide-react').first()).toBeVisible()
+    await expect(page.getByText('Tailwind peer and has selectors').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/badge')
     for (let slug of [
       'badge-demo',
