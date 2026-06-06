@@ -854,3 +854,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 51: Audit resizable example parity](51-audit-resizable-example-parity.md)
   — **Pass**
+- [Experiment 52: Implement resizable example parity depth](52-implement-resizable-example-parity-depth.md)
+  — **Designed**
