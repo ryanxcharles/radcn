@@ -2,9 +2,10 @@
 
 ## Open
 
-| #                                              | Title                                   | Opened     |
-| ---------------------------------------------- | --------------------------------------- | ---------- |
-| [0005](0005-local-installation-flow/README.md) | Build the RadCN Local Installation Flow | 2026-06-06 |
+| #                                                      | Title                                    | Opened     |
+| ------------------------------------------------------ | ---------------------------------------- | ---------- |
+| [0005](0005-local-installation-flow/README.md)         | Build the RadCN Local Installation Flow  | 2026-06-06 |
+| [0006](0006-tailwind-required-styling-model/README.md) | Make Tailwind the Required Styling Model | 2026-06-06 |
 
 ## Closed
 
