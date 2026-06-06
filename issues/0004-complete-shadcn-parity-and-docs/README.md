@@ -1725,3 +1725,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 112: Audit slider example parity](112-audit-slider-example-parity.md)
   — **Partial**
+- [Experiment 113: Implement slider example parity depth](113-implement-slider-example-parity-depth.md)
+  — **Designed**
