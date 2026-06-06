@@ -373,6 +373,21 @@ Record cross-component discoveries here as experiments complete.
   than package dependencies.
 - After Experiment 21, the next recommended implementation cluster is Empty
   example parity depth.
+- Experiment 22 completed Empty example parity depth without changing the
+  Empty package API. Existing `class`, `style`, `EmptyMedia variant`, and
+  composition with Avatar, AvatarGroup, Button, InputGroup, Kbd, and native
+  anchors were enough to cover the upstream examples.
+- Empty docs, fixtures, and Playwright coverage now prove all 7 upstream Empty
+  example families: avatar, avatar-group, background, demo, icon, input-group,
+  and outline. The recorded divergences are stable for later components:
+  shadcn `asChild` maps to explicit `Button href` or native anchors; lucide
+  and Tabler icons map to app-owned glyphs/assets; Tailwind utilities map to
+  RadCN classes, inline styles, or CSS variables; remote GitHub avatar images
+  map to deterministic local/static/app-owned images or AvatarFallback; and
+  Empty does not own Avatar, AvatarGroup, Button, InputGroup, Kbd, route, form,
+  icon-package, or support-link state.
+- After Experiment 22, `empty` is marked resolved in the example queue. The
+  regenerated inventory recommends example parity for `toggle-group` next.
 
 ## Experiments
 
@@ -419,4 +434,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 21: Audit empty example parity](21-audit-empty-example-parity.md)
   — **Pass**
 - [Experiment 22: Implement empty example parity depth](22-implement-empty-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

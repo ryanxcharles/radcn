@@ -120,6 +120,7 @@ These are documented in RadCN but are not current package exports.
 | examples | input-group | resolved | `issues/0004-complete-shadcn-parity-and-docs/15-audit-input-group-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/16-implement-input-group-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/input-group-example-inventory.md` |
 | examples | item | resolved | `issues/0004-complete-shadcn-parity-and-docs/17-audit-item-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/18-implement-item-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md` |
 | examples | spinner | resolved | `issues/0004-complete-shadcn-parity-and-docs/19-audit-spinner-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/20-implement-spinner-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md` |
+| examples | empty | resolved | `issues/0004-complete-shadcn-parity-and-docs/21-audit-empty-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/22-implement-empty-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -221,7 +222,6 @@ parity decision.
 | dialog | 2 | `dialog-close-button`, `dialog-demo` |
 | drawer | 2 | `drawer-demo`, `drawer-dialog` |
 | dropdown-menu | 4 | `dropdown-menu-checkboxes`, `dropdown-menu-demo`, `dropdown-menu-dialog`, `dropdown-menu-radio-group` |
-| empty | 7 | `empty-avatar`, `empty-avatar-group`, `empty-background`, `empty-demo`, `empty-icon`, `empty-input-group`, `empty-outline` |
 | hover-card | 1 | `hover-card-demo` |
 | input | 6 | `input-demo`, `input-disabled`, `input-file`, `input-with-button`, `input-with-label`, `input-with-text` |
 | input-otp | 4 | `input-otp-controlled`, `input-otp-demo`, `input-otp-pattern`, `input-otp-separator` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for empty
+**Cluster:** Example parity for toggle-group
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for empty.
+- Audit upstream examples for toggle-group.
 
 ## Notes
 

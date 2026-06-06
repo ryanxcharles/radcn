@@ -5,6 +5,11 @@ import {
   AlertDescription,
   AlertTitle,
   AspectRatio,
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
   Badge,
   Button,
   Card,
@@ -126,6 +131,137 @@ export function renderCardFixture(fixture: FixtureScenario) {
 }
 
 export function renderEmptyFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'avatar') {
+    return (
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia>
+            <Avatar size="lg">
+              <AvatarImage alt="Riley Chen" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%230f766e'/%3E%3Ctext x='24' y='29' text-anchor='middle' font-size='16' fill='white' font-family='Arial'%3ERC%3C/text%3E%3C/svg%3E" width={48} height={48} />
+              <AvatarFallback>RC</AvatarFallback>
+            </Avatar>
+          </EmptyMedia>
+          <EmptyTitle>Riley is offline</EmptyTitle>
+          <EmptyDescription>Leave a message and Riley will see it when they return.</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent><Button size="sm">Leave Message</Button></EmptyContent>
+      </Empty>
+    )
+  }
+
+  if (fixture.id === 'avatar-group') {
+    return (
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia>
+            <AvatarGroup ariaLabel="Invited members">
+              <Avatar><AvatarFallback>AD</AvatarFallback></Avatar>
+              <Avatar><AvatarFallback>GH</AvatarFallback></Avatar>
+              <Avatar><AvatarFallback>LP</AvatarFallback></Avatar>
+              <AvatarGroupCount>+2</AvatarGroupCount>
+            </AvatarGroup>
+          </EmptyMedia>
+          <EmptyTitle>Invite your team</EmptyTitle>
+          <EmptyDescription>Start collaborating by inviting teammates into this workspace.</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent><Button size="sm">Invite Members</Button></EmptyContent>
+      </Empty>
+    )
+  }
+
+  if (fixture.id === 'background') {
+    return (
+      <Empty
+        class="radcn-fixture-empty-background"
+        style="min-height:18rem;background:var(--radcn-muted);border-color:transparent"
+      >
+        <EmptyHeader>
+          <EmptyMedia variant="icon">!</EmptyMedia>
+          <EmptyTitle>No notifications</EmptyTitle>
+          <EmptyDescription>Refresh to check for new deployment alerts.</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent><Button size="sm" variant="outline">Refresh</Button></EmptyContent>
+      </Empty>
+    )
+  }
+
+  if (fixture.id === 'demo') {
+    return (
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">+</EmptyMedia>
+          <EmptyTitle>No projects yet</EmptyTitle>
+          <EmptyDescription>Create a project or import an existing workspace to populate this dashboard.</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem">
+          <Button size="sm">Create Project</Button>
+          <Button size="sm" variant="outline">Import Project</Button>
+          <Button href="/fixtures/empty/demo" size="sm" variant="link">Learn More</Button>
+        </EmptyContent>
+      </Empty>
+    )
+  }
+
+  if (fixture.id === 'icon-grid') {
+    let items = [
+      ['M', 'No messages', 'Messages from collaborators appear here.'],
+      ['F', 'No favorites', 'Save pages to revisit them quickly.'],
+      ['L', 'No likes', 'Liked releases will show up here.'],
+      ['B', 'No bookmarks', 'Bookmark components as you review them.'],
+    ]
+
+    return (
+      <div style="display:grid;gap:1rem;grid-template-columns:repeat(2,minmax(12rem,1fr));width:min(100%,42rem)">
+        {items.map(([glyph, title, description]) => (
+          <Empty style="min-height:13rem;width:100%;padding:1.25rem">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">{glyph}</EmptyMedia>
+              <EmptyTitle>{title}</EmptyTitle>
+              <EmptyDescription>{description}</EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ))}
+      </div>
+    )
+  }
+
+  if (fixture.id === 'input-group') {
+    return (
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">?</EmptyMedia>
+          <EmptyTitle>Page not found</EmptyTitle>
+          <EmptyDescription>
+            Search the docs or <a href="/fixtures/empty/input-group">contact support</a>.
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent style="width:min(100%,24rem)">
+          <InputGroup ariaLabel="Search documentation">
+            <InputGroupAddon align="inline-start">S</InputGroupAddon>
+            <InputGroupInput name="q" placeholder="Search documentation" />
+            <InputGroupAddon align="inline-end"><Kbd>/</Kbd></InputGroupAddon>
+          </InputGroup>
+        </EmptyContent>
+      </Empty>
+    )
+  }
+
+  if (fixture.id === 'outline') {
+    return (
+      <Empty
+        class="radcn-fixture-empty-outline"
+        style="border-style:dashed;border-color:color-mix(in srgb,var(--radcn-border) 80%,var(--radcn-primary))"
+      >
+        <EmptyHeader>
+          <EmptyMedia variant="icon">C</EmptyMedia>
+          <EmptyTitle>No files uploaded</EmptyTitle>
+          <EmptyDescription>Upload files to make this cloud workspace useful.</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent><Button size="sm" variant="outline">Upload Files</Button></EmptyContent>
+      </Empty>
+    )
+  }
+
   let icon = fixture.id === 'icon'
 
   return (

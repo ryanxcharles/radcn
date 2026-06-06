@@ -192,3 +192,112 @@ the separate docs check allows mapping/divergence prose while forbidding
 executable Empty example code or install instructions from using `asChild`,
 `Slot.Root`, or `@radix-ui/react-slot`. No new blocker was introduced by the
 fix.
+
+## Result
+
+**Result:** Pass
+
+Implemented Empty example parity depth without changing the Empty package API.
+
+- `radcn/apps/docs/app/content/components.tsx` now has rich Empty docs with a
+  package-backed example matrix for `avatar`, `avatar-group`, `background`,
+  `demo`, `icon`, `input-group`, and `outline`.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx` now expose
+  direct `/fixtures/empty/*` scenarios for the upstream Empty example surface.
+- `radcn/fixtures/tests/static-display.spec.ts` now proves multi-action
+  default Empty states, icon grids, Avatar media, stacked Avatar media,
+  InputGroup/Kbd search composition, outline styling, muted/background styling,
+  link-style actions, and support links.
+- `issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md`
+  now marks all 7 upstream Empty examples `Covered` and preserves mapping
+  decisions for `asChild`, lucide icons, Tabler icons, Tailwind utility
+  classes, remote GitHub avatar images, deterministic local/image fallback
+  choices, and composed primitive ownership.
+- `issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json` marks
+  the `empty` example cluster resolved, and regenerated
+  `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md` no longer
+  lists `empty` as unresolved. The first generated recommendation is now
+  example parity for `toggle-group`.
+
+Verification run:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts static-display.spec.ts`
+  failed once because the muted token assertion expected `rgb(245, 245, 245)`
+  while the actual computed token is `rgb(244, 244, 245)`. The assertion was
+  corrected.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts static-display.spec.ts`
+  passed after the fix: 8 passed.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  passed: 5 passed.
+- `node scripts/audit-shadcn-parity.mjs` passed and regenerated
+  `parity-inventory.md`.
+- The parity inventory idempotence check passed:
+  ```text
+  tmp=$(mktemp) && cp issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md "$tmp" && node scripts/audit-shadcn-parity.mjs >/tmp/radcn-parity-regen.log && diff -u "$tmp" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md; regen_status=$?; rm "$tmp"; cat /tmp/radcn-parity-regen.log; exit $regen_status
+  ```
+  Output:
+  ```text
+  wrote issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+  ```
+- Deterministic Node checks confirmed:
+  - all 7 upstream Empty example ids appear exactly once in
+    `empty-example-inventory.md`;
+  - all 7 rows have final outcome `Covered`;
+  - `resolved-clusters.json` includes `slug = "empty"`,
+    `status = "resolved"`, and evidence for Experiment 21, Experiment 22, and
+    `empty-example-inventory.md`;
+  - `empty` is absent from `## Unresolved Example Clusters` and is not the
+    `## First Recommended Cluster`; the first recommendation is
+    `Example parity for toggle-group`;
+  - Empty docs contain the intended example family labels and required mapping
+    copy;
+  - `asChild`, `Slot.Root`, and `@radix-ui/react-slot` do not appear in
+    executable Empty preview code.
+- Dependency-policy checks passed:
+  ```text
+  rg -n "from ['\"]react['\"]|from ['\"][^'\"]*lucide-react|from ['\"][^'\"]*@tabler/icons-react|from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|github\\.com/[^\"']*/\\.png|avatars\\.githubusercontent\\.com|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json
+  rg -n "asChild|Slot\\.Root|@radix-ui/react-slot" radcn/packages/radcn radcn/fixtures/candidate-remix
+  ```
+  Both exited 1 with no matches, as expected.
+- The targeted Tailwind-avoidance check passed with:
+  ```text
+  no upstream Tailwind utility implementation strings
+  ```
+- `git diff --check` passed with no output.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  printed no output.
+
+## Conclusion
+
+Empty example parity is resolved. The existing Empty primitive remained a
+layout/content primitive: richer behavior came from composition with Avatar,
+AvatarGroup, Button, InputGroup, Kbd, native anchors, deterministic image
+content, and public class/style hooks. The next experiment should follow the
+regenerated recommendation and audit example parity for `toggle-group`.
+
+## Completion Review
+
+Reviewer: Locke (`019e9adf-b3f4-7280-b6ff-b53f04b8e8c6`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Review result: approved. Locke confirmed the completed result matches
+Experiment 22 scope; docs and fixtures cover all 7 Empty example families; the
+Empty package API stays untouched; the experiment has `## Result` and
+`## Conclusion`; the Issue 4 README marks Experiment 22 as `Pass` and records
+learnings; `empty-example-inventory.md` marks all 7 rows `Covered`;
+`resolved-clusters.json` records `empty` as resolved; and the result commit had
+not been made before review. Locke also re-ran the key verification:
+`pnpm radcn:typecheck`, `pnpm --dir radcn/apps/docs typecheck`,
+`pnpm fixtures:candidate:typecheck`, fixture Playwright, docs coverage
+Playwright, parity audit/idempotence, dependency/asChild/Tailwind policy greps,
+`git diff --check`, and vendor cleanliness all passed.

@@ -72,6 +72,59 @@ test('candidate empty and kbd expose semantic slot hooks', async ({ page }) => {
   await expect(keys.first()).toHaveClass(/radcn-kbd/)
 })
 
+test('candidate empty covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/empty/demo`)
+  await expect(page.locator('[data-radcn-empty]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-empty-media]')).toHaveAttribute('data-variant', 'icon')
+  await expect(page.locator('[data-radcn-empty-title]')).toHaveText('No projects yet')
+  await expect(page.getByRole('button', { name: 'Create Project' })).toHaveAttribute('data-variant', 'default')
+  await expect(page.getByRole('button', { name: 'Import Project' })).toHaveAttribute('data-variant', 'outline')
+  await expect(page.getByRole('link', { name: 'Learn More' })).toHaveAttribute('data-variant', 'link')
+  await expect(page.getByRole('link', { name: 'Learn More' })).toHaveAttribute('href', '/fixtures/empty/demo')
+
+  await page.goto(`${candidate}/fixtures/empty/icon-grid`)
+  let iconGridItems = page.locator('[data-radcn-empty]')
+  await expect(iconGridItems).toHaveCount(4)
+  await expect(page.locator('[data-radcn-empty-media][data-variant="icon"]')).toHaveCount(4)
+  await expect(page.locator('[data-radcn-empty-title]')).toHaveText([
+    'No messages',
+    'No favorites',
+    'No likes',
+    'No bookmarks',
+  ])
+
+  await page.goto(`${candidate}/fixtures/empty/avatar`)
+  await expect(page.locator('[data-radcn-empty-media] [data-radcn-avatar]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-avatar-image]')).toHaveAttribute('alt', 'Riley Chen')
+  await expect(page.locator('[data-radcn-avatar-fallback]')).toHaveText('RC')
+  await expect(page.getByRole('button', { name: 'Leave Message' })).toHaveAttribute('data-radcn-button', '')
+
+  await page.goto(`${candidate}/fixtures/empty/avatar-group`)
+  await expect(page.locator('[data-radcn-empty-media] [data-radcn-avatar-group]')).toHaveAttribute('aria-label', 'Invited members')
+  await expect(page.locator('[data-radcn-avatar-group] [data-radcn-avatar]')).toHaveCount(3)
+  await expect(page.locator('[data-radcn-avatar-group-count]')).toHaveText('+2')
+  await expect(page.getByRole('button', { name: 'Invite Members' })).toHaveAttribute('data-radcn-button', '')
+
+  await page.goto(`${candidate}/fixtures/empty/input-group`)
+  await expect(page.locator('[data-radcn-empty-title]')).toHaveText('Page not found')
+  await expect(page.locator('[data-radcn-empty-content] [data-radcn-input-group]')).toHaveAttribute('role', 'group')
+  await expect(page.getByRole('textbox', { name: '' })).toHaveAttribute('placeholder', 'Search documentation')
+  await expect(page.locator('[data-radcn-input-group-addon][data-align="inline-end"] [data-radcn-kbd]')).toHaveText('/')
+  await expect(page.getByRole('link', { name: 'contact support' })).toHaveAttribute('href', '/fixtures/empty/input-group')
+
+  await page.goto(`${candidate}/fixtures/empty/outline`)
+  let outline = page.locator('[data-radcn-empty]')
+  await expect(outline).toHaveClass(/radcn-fixture-empty-outline/)
+  await expect(outline).toHaveCSS('border-style', 'dashed')
+  await expect(page.getByRole('button', { name: 'Upload Files' })).toHaveAttribute('data-variant', 'outline')
+
+  await page.goto(`${candidate}/fixtures/empty/background`)
+  let background = page.locator('[data-radcn-empty]')
+  await expect(background).toHaveClass(/radcn-fixture-empty-background/)
+  await expect(background).toHaveCSS('background-color', 'rgb(244, 244, 245)')
+  await expect(page.getByRole('button', { name: 'Refresh' })).toHaveAttribute('data-variant', 'outline')
+})
+
 test('candidate separator spinner and skeleton expose expected semantics', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/separator/orientations`)
   await expect(page.locator('[data-radcn-separator][data-orientation="horizontal"]')).toHaveAttribute('role', 'separator')

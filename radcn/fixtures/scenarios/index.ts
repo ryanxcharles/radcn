@@ -578,6 +578,48 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Empty state using the icon media variant.",
   },
   {
+    component: "empty",
+    id: "avatar",
+    title: "Empty Avatar",
+    description: "Empty state using Avatar media and a direct action.",
+  },
+  {
+    component: "empty",
+    id: "avatar-group",
+    title: "Empty Avatar Group",
+    description: "Empty state using stacked AvatarGroup media.",
+  },
+  {
+    component: "empty",
+    id: "background",
+    title: "Empty Background",
+    description: "Muted background Empty state with a refresh action.",
+  },
+  {
+    component: "empty",
+    id: "demo",
+    title: "Empty Demo",
+    description: "Default Empty state with primary, outline, and link-style actions.",
+  },
+  {
+    component: "empty",
+    id: "icon-grid",
+    title: "Empty Icon Grid",
+    description: "Grid of multiple icon Empty states.",
+  },
+  {
+    component: "empty",
+    id: "input-group",
+    title: "Empty Input Group",
+    description: "Empty search miss with InputGroup and Kbd composition.",
+  },
+  {
+    component: "empty",
+    id: "outline",
+    title: "Empty Outline",
+    description: "Dashed outline Empty state with an upload action.",
+  },
+  {
     component: "kbd",
     id: "default",
     title: "Keyboard Shortcut",

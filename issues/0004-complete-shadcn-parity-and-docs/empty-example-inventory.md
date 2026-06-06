@@ -27,40 +27,29 @@ Generated during Experiment 21 on 2026-06-06.
 
 ## Summary
 
-Empty example parity is not complete yet. RadCN currently exports the core
+Empty example parity is complete after Experiment 22. RadCN exports the core
 upstream Empty parts: `Empty`, `EmptyHeader`, `EmptyMedia`, `EmptyTitle`,
-`EmptyDescription`, and `EmptyContent`. Existing fixtures prove the basic
-package slots, the default media hook, the `variant="icon"` media hook, and one
-Spinner loading composition from the Spinner cluster.
+`EmptyDescription`, and `EmptyContent`. Docs, fixtures, and Playwright coverage
+now prove the package slots, default media, icon media, multiple action rows,
+link-style actions, Avatar media, stacked Avatar media, InputGroup/Kbd search
+composition, outline/dashed styling, muted/background styling, support links,
+and composed loading states from the Spinner cluster.
 
-That coverage proves the primitive, but it does not yet cover the full upstream
-Empty example surface.
-
-The missing Empty parity depth is:
-
-- richer default Empty composition with multiple Button actions and a
-  link-style action;
-- representative icon media grids;
-- Avatar and stacked-avatar media composition;
-- InputGroup search composition with Kbd addon and support/help link;
-- outline/dashed and muted/background surface styling examples;
-- documented mappings for shadcn `asChild`, lucide icons, Tabler icons,
-  Tailwind utility classes, remote GitHub avatar images, and link composition.
-
-Do not mark the `empty` example cluster resolved yet. The next experiment
-should implement Empty example parity depth.
+The existing Empty package API was enough. No new Empty prop, React dependency,
+Radix Slot dependency, icon package dependency, Tailwind dependency, remote
+image dependency, vendor import, or npm publishing behavior was needed.
 
 ## Example Map
 
 | Upstream id | User-facing behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `empty-avatar` | Empty state with Avatar media, offline user title/description, and Leave Message Button. Uses remote GitHub avatar image and grayscale/size utilities. | RadCN has Avatar, AvatarFallback, AvatarImage, Button, and Empty media primitives, but current Empty fixtures/docs do not prove Avatar composition inside EmptyMedia or remote image mapping. | Partial | Add docs/fixtures/Playwright proof for Avatar media inside Empty and map remote GitHub images to local/static/app-owned image choices or AvatarFallback. |
-| `empty-avatar-group` | Empty state with stacked Avatar media, invite copy, and Invite Members Button with icon. Uses remote GitHub avatar images, Tailwind stack/ring/grayscale utilities, and lucide Plus icon. | RadCN has AvatarGroup, Avatar, Button, and Empty primitives, but current Empty fixtures/docs do not prove stacked-avatar media composition or invite action parity. | Partial | Add stacked Avatar/AvatarGroup Empty proof and map lucide icon plus utility styling to app-owned glyphs/classes/styles. |
-| `empty-background` | Full-height muted/background Empty state with icon media, title/description, and outline Refresh Button. Uses Tabler bell icon, lucide refresh icon, and gradient utility classes. | RadCN supports Empty class/style hooks and Button variants, but current fixtures do not prove muted/background surface customization or icon-button composition in Empty. | Partial | Add background/muted Empty proof using RadCN classes/styles/CSS variables and record icon packages as presentation choices. |
-| `empty-demo` | Default project Empty state with icon media, title/description, primary Create Project Button, outline Import Project Button, and link-style Learn More action using `asChild`. | Current default Empty fixture proves one media/title/description/action composition, but not multiple action buttons, link-style action, or `asChild` mapping. | Partial | Add richer default Empty proof with multiple actions and explicit RadCN link behavior instead of shadcn `asChild`. |
-| `empty-icon` | Grid of four Empty states with icon media and distinct titles/descriptions for messages, favorites, likes, and bookmarks. Uses Tabler icons. | Current icon fixture proves one `EmptyMedia variant="icon"` case, but not a representative icon grid or multiple Empty states. | Partial | Add docs/fixtures/Playwright proof for a multi-empty icon grid and map Tabler icons to app-owned glyphs/assets. |
-| `empty-input-group` | 404 Empty state with title/description, InputGroup search field, Search icon addon, inline-end Kbd addon, and support link in description. | RadCN has InputGroup and Kbd packages, but current Empty fixtures/docs do not prove InputGroup/Kbd composition inside EmptyContent or support link copy. | Missing | Add InputGroup search proof inside EmptyContent with Kbd addon and support link semantics. |
-| `empty-outline` | Dashed outline Empty state with icon media, cloud storage title/description, and outline Upload Files Button. Uses Tabler cloud icon and border utility classes. | Current Empty base style already has dashed border, and Button outline exists, but current fixtures/docs do not prove the upstream outline example as a named parity case. | Partial | Add explicit outline Empty proof and map Tabler icon plus utility border styling to RadCN hooks/styles. |
+| `empty-avatar` | Empty state with Avatar media, offline user title/description, and Leave Message Button. Uses remote GitHub avatar image and grayscale/size utilities. | RadCN docs and `/fixtures/empty/avatar` prove Avatar, AvatarImage, AvatarFallback, Button, and EmptyMedia composition with deterministic data-URI image content and fallback text. | Covered | Remote GitHub image and grayscale/size utilities map to deterministic app-owned image/fallback choices and public style hooks. |
+| `empty-avatar-group` | Empty state with stacked Avatar media, invite copy, and Invite Members Button with icon. Uses remote GitHub avatar images, Tailwind stack/ring/grayscale utilities, and lucide Plus icon. | RadCN docs and `/fixtures/empty/avatar-group` prove AvatarGroup, Avatar, AvatarFallback, AvatarGroupCount, Button, and EmptyMedia composition. | Covered | Remote images, ring/stack utilities, and lucide Plus map to app-owned content, RadCN AvatarGroup styles, and button/action composition. |
+| `empty-background` | Full-height muted/background Empty state with icon media, title/description, and outline Refresh Button. Uses Tabler bell icon, lucide refresh icon, and gradient utility classes. | RadCN docs and `/fixtures/empty/background` prove muted/background styling through Empty `class`/`style`, icon media, and outline Button action. | Covered | Tabler/lucide icons and gradient utilities map to app-owned glyphs plus RadCN public class/style/CSS-variable hooks. |
+| `empty-demo` | Default project Empty state with icon media, title/description, primary Create Project Button, outline Import Project Button, and link-style Learn More action using `asChild`. | RadCN docs and `/fixtures/empty/demo` prove multi-action default Empty composition with primary Button, outline Button, and link-style `Button href`. | Covered | shadcn `asChild` maps to explicit native link semantics through `Button href`. |
+| `empty-icon` | Grid of four Empty states with icon media and distinct titles/descriptions for messages, favorites, likes, and bookmarks. Uses Tabler icons. | RadCN docs and `/fixtures/empty/icon-grid` prove a four-item icon Empty grid with `EmptyMedia variant="icon"` and distinct titles/descriptions. | Covered | Tabler icons map to app-owned glyphs/assets inside `EmptyMedia`. |
+| `empty-input-group` | 404 Empty state with title/description, InputGroup search field, Search icon addon, inline-end Kbd addon, and support link in description. | RadCN docs and `/fixtures/empty/input-group` prove InputGroup, InputGroupAddon, InputGroupInput, Kbd, support link, title, description, and EmptyContent composition. | Covered | Search icon and support route behavior are app-owned; Empty does not own form or route state. |
+| `empty-outline` | Dashed outline Empty state with icon media, cloud storage title/description, and outline Upload Files Button. Uses Tabler cloud icon and border utility classes. | RadCN docs and `/fixtures/empty/outline` prove dashed/border styling through Empty `class`/`style`, icon media, and outline Button action. | Covered | Tabler cloud icon and border utilities map to app-owned glyphs plus public class/style hooks. |
 
 ## Mapping Decisions
 
@@ -87,19 +76,8 @@ should implement Empty example parity depth.
   equivalent visual empty-state composition, accessibility, and author-facing
   customization.
 
-## Next Recommendation
+## Resolution
 
-Implement Empty example parity depth:
-
-- add docs and candidate fixtures for all 7 upstream Empty examples;
-- add focused Playwright coverage for default multi-action Empty states, icon
-  grids, Avatar media, stacked-avatar media, InputGroup/Kbd search composition,
-  outline styling, muted/background styling, link-style actions, and support
-  links;
-- decide whether the existing Empty parts and style hooks are enough for
-  upstream outline/background parity or whether narrow style hooks are needed;
-- record intentional divergences for `asChild`, lucide icons, Tabler icons,
-  Tailwind utilities, remote GitHub avatar images, and ownership of composed
-  primitives;
-- then mark `empty` resolved in `resolved-clusters.json` and regenerate
-  `parity-inventory.md`.
+Experiment 22 resolved Empty example parity depth. The next Issue 4 cluster
+should come from the regenerated `parity-inventory.md` first recommended
+cluster.

@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger,
 } from 'radcn/alert-dialog'
 import { AspectRatio } from 'radcn/aspect-ratio'
-import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount } from 'radcn/avatar'
+import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage } from 'radcn/avatar'
 import { Badge } from 'radcn/badge'
 import {
   Breadcrumb,
@@ -1012,6 +1012,52 @@ export function SonnerPreview() {
   )
 }`
 
+const emptySource = `import { Avatar, AvatarFallback, AvatarGroup } from 'radcn/avatar'
+import { Button } from 'radcn/button'
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
+import { InputGroup, InputGroupAddon, InputGroupInput } from 'radcn/input-group'
+import { Kbd } from 'radcn/kbd'
+
+export function EmptyPreview() {
+  return (
+    <div class="empty-preview">
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">+</EmptyMedia>
+          <EmptyTitle>No projects yet</EmptyTitle>
+          <EmptyDescription>Create a project or import an existing workspace.</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <Button size="sm">Create Project</Button>
+          <Button size="sm" variant="outline">Import Project</Button>
+          <Button href="/docs/components/empty" size="sm" variant="link">Learn More</Button>
+        </EmptyContent>
+      </Empty>
+
+      <Empty>
+        <EmptyMedia><Avatar><AvatarFallback>RC</AvatarFallback></Avatar></EmptyMedia>
+        <EmptyHeader><EmptyTitle>User offline</EmptyTitle></EmptyHeader>
+      </Empty>
+
+      <Empty>
+        <EmptyMedia><AvatarGroup><Avatar><AvatarFallback>AD</AvatarFallback></Avatar></AvatarGroup></EmptyMedia>
+        <EmptyHeader><EmptyTitle>Invite your team</EmptyTitle></EmptyHeader>
+      </Empty>
+
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">?</EmptyMedia>
+          <EmptyTitle>Page not found</EmptyTitle>
+          <EmptyDescription>Search docs or contact support.</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <InputGroup ariaLabel="Search docs"><InputGroupInput name="q" placeholder="Search documentation" /><InputGroupAddon align="inline-end"><Kbd>/</Kbd></InputGroupAddon></InputGroup>
+        </EmptyContent>
+      </Empty>
+    </div>
+  )
+}`
+
 const spinnerSource = `import { Badge } from 'radcn/badge'
 import { Button } from 'radcn/button'
 import { Empty, EmptyContent, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
@@ -1815,6 +1861,119 @@ function SonnerPreview() {
           },
         ]}
       />
+    </div>
+  )
+}
+
+function EmptyPreview() {
+  return () => (
+    <div mix={previewStackStyle} style="width: min(100%, 44rem);">
+      <div data-radcn-docs-empty-family="demo">
+        <Empty style="width: min(100%, 34rem);">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">+</EmptyMedia>
+            <EmptyTitle>No projects yet</EmptyTitle>
+            <EmptyDescription>Create a project or import an existing workspace to populate this dashboard.</EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem">
+            <Button size="sm">Create Project</Button>
+            <Button size="sm" variant="outline">Import Project</Button>
+            <Button href="/docs/components/empty" size="sm" variant="link">Learn More</Button>
+          </EmptyContent>
+        </Empty>
+      </div>
+
+      <div data-radcn-docs-empty-family="icon" style="display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));">
+        {[
+          ['Mail', 'No messages', 'Messages from collaborators appear here.'],
+          ['Star', 'No favorites', 'Save pages to revisit them quickly.'],
+          ['Heart', 'No likes', 'Liked releases will show up here.'],
+          ['Mark', 'No bookmarks', 'Bookmark components as you review them.'],
+        ].map(([glyph, title, description]) => (
+          <Empty style="min-height: 13rem; width: 100%; padding: 1.25rem;">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">{glyph.slice(0, 1)}</EmptyMedia>
+              <EmptyTitle>{title}</EmptyTitle>
+              <EmptyDescription>{description}</EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ))}
+      </div>
+
+      <div data-radcn-docs-empty-family="avatar">
+        <Empty style="width: min(100%, 34rem);">
+          <EmptyHeader>
+            <EmptyMedia>
+              <Avatar size="lg">
+                <AvatarImage alt="Riley Chen" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%230f766e'/%3E%3Ctext x='24' y='29' text-anchor='middle' font-size='16' fill='white' font-family='Arial'%3ERC%3C/text%3E%3C/svg%3E" width={48} height={48} />
+                <AvatarFallback>RC</AvatarFallback>
+              </Avatar>
+            </EmptyMedia>
+            <EmptyTitle>Riley is offline</EmptyTitle>
+            <EmptyDescription>Leave a message and Riley will see it when they return.</EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent><Button size="sm">Leave Message</Button></EmptyContent>
+        </Empty>
+      </div>
+
+      <div data-radcn-docs-empty-family="avatar-group">
+        <Empty style="width: min(100%, 34rem);">
+          <EmptyHeader>
+            <EmptyMedia>
+              <AvatarGroup ariaLabel="Invited members">
+                <Avatar><AvatarFallback>AD</AvatarFallback></Avatar>
+                <Avatar><AvatarFallback>GH</AvatarFallback></Avatar>
+                <Avatar><AvatarFallback>LP</AvatarFallback></Avatar>
+                <AvatarGroupCount>+2</AvatarGroupCount>
+              </AvatarGroup>
+            </EmptyMedia>
+            <EmptyTitle>Invite your team</EmptyTitle>
+            <EmptyDescription>Start collaborating by inviting teammates into this workspace.</EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent><Button size="sm">Invite Members</Button></EmptyContent>
+        </Empty>
+      </div>
+
+      <div data-radcn-docs-empty-family="input-group">
+        <Empty style="width: min(100%, 34rem);">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">?</EmptyMedia>
+            <EmptyTitle>Page not found</EmptyTitle>
+            <EmptyDescription>
+              Search the docs or <a href="/docs/components/empty">contact support</a>.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent style="width:min(100%, 24rem);">
+            <InputGroup ariaLabel="Search documentation">
+              <InputGroupAddon align="inline-start">S</InputGroupAddon>
+              <InputGroupInput name="q" placeholder="Search documentation" />
+              <InputGroupAddon align="inline-end"><Kbd>/</Kbd></InputGroupAddon>
+            </InputGroup>
+          </EmptyContent>
+        </Empty>
+      </div>
+
+      <div data-radcn-docs-empty-family="outline">
+        <Empty style="width: min(100%, 34rem); border-style: dashed; border-color: color-mix(in srgb, var(--radcn-border) 80%, var(--radcn-primary));">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">C</EmptyMedia>
+            <EmptyTitle>No files uploaded</EmptyTitle>
+            <EmptyDescription>Upload files to make this cloud workspace useful.</EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent><Button size="sm" variant="outline">Upload Files</Button></EmptyContent>
+        </Empty>
+      </div>
+
+      <div data-radcn-docs-empty-family="background">
+        <Empty style="width: min(100%, 34rem); min-height: 18rem; background: var(--radcn-muted); border-color: transparent;">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">!</EmptyMedia>
+            <EmptyTitle>No notifications</EmptyTitle>
+            <EmptyDescription>Refresh to check for new deployment alerts.</EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent><Button size="sm" variant="outline">Refresh</Button></EmptyContent>
+        </Empty>
+      </div>
     </div>
   )
 }
@@ -2958,6 +3117,49 @@ const richComponentDocs: ComponentDoc[] = [
     divergence: [
       'RadCN keeps the event bridge explicit with enhanceToaster and the RadCN toast event instead of React context.',
       'Initial toasts can be server-rendered, while later notifications are appended by browser enhancement.',
+    ],
+  },
+  {
+    slug: 'empty',
+    title: 'Empty',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A centered empty-state layout for missing content, onboarding prompts, search misses, and recovery actions.',
+    importPath: 'radcn/empty',
+    importExample:
+      "import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Compose default actions, icon grids, avatar media, stacked avatars, input-group search, outline surfaces, and muted background states with package primitives.',
+        source: emptySource,
+        preview: <EmptyPreview />,
+      },
+    ],
+    accessibility: [
+      'Empty renders server-first layout markup and lets headings, descriptions, links, inputs, and buttons keep their native semantics.',
+      'Use EmptyTitle and EmptyDescription for the visible message, then put actions or controls in EmptyContent.',
+      'Avatar, AvatarGroup, Button, InputGroup, Kbd, and links keep their own accessible behavior when composed inside Empty.',
+      'Icon media remains decorative unless the surrounding title and description need a more specific accessible label.',
+    ],
+    customization: [
+      'Empty, EmptyHeader, EmptyMedia, EmptyTitle, EmptyDescription, and EmptyContent expose public RadCN classes and data hooks.',
+      'Use class, style, and CSS variables to tune width, height, border, background, spacing, and icon presentation.',
+      'Outline, dashed, muted, and background examples are styling over the same Empty parts rather than separate state APIs.',
+      'Media can be text, inline SVG, Avatar, AvatarGroup, Spinner, or app-owned imagery.',
+    ],
+    divergence: [
+      'shadcn/ui asChild maps to explicit RadCN Button href or native anchor composition, preserving link semantics without Radix Slot.',
+      'Lucide and Tabler icons are presentation choices; RadCN examples use package-owned markup or app-owned glyphs instead of icon package dependencies.',
+      'Tailwind utility classes map to RadCN public classes, inline styles, or CSS variables.',
+      'Remote GitHub avatar images are content choices. Use local/static assets, app-owned images, data URIs, or AvatarFallback for deterministic examples.',
+      'Empty remains a layout/content primitive and does not own Avatar, AvatarGroup, Button, InputGroup, Kbd, icon-package, image-loading, route, form, or support-link state.',
     ],
   },
   {

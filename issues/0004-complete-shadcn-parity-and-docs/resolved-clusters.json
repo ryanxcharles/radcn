@@ -70,6 +70,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/20-implement-spinner-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md"
       ]
+    },
+    {
+      "slug": "empty",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/21-audit-empty-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/22-implement-empty-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],
