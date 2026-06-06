@@ -99,6 +99,7 @@ Pass criteria:
   const fs = require('fs')
   const file = 'issues/0004-complete-shadcn-parity-and-docs/textarea-example-inventory.md'
   const text = fs.readFileSync(file, 'utf8')
+  const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
   const ids = [
     'textarea-demo',
     'textarea-disabled',
@@ -111,14 +112,14 @@ Pass criteria:
     'form-tanstack-textarea',
     'form-formisch-textarea',
   ]
-  const rows = [...text.matchAll(/\| `([^`]+)` \|[^\n]+/g)].map((match) => match[1])
+  const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
   let failed = rows.length !== ids.length
   if (rows.length !== ids.length) {
     console.log(`row-count: ${rows.length}`)
   }
   for (const id of ids) {
     const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
-    const count = (text.match(pattern) || []).length
+    const count = (examples.match(pattern) || []).length
     console.log(`${id}: ${count}`)
     if (count !== 1) failed = true
   }
@@ -193,3 +194,142 @@ concrete pass/fail and hygiene criteria, vendor checkouts are clean, the design
 accounts for the 10 requested textarea-related examples, and React/form/schema/
 toast/icon/Tailwind/vendor concerns are treated as mapping decisions rather
 than required `Textarea` package dependencies.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/textarea-example-inventory.md` as
+an audit-only inventory for all 10 upstream New York v4 textarea-related
+examples:
+
+- `textarea-demo`
+- `textarea-disabled`
+- `textarea-with-button`
+- `textarea-with-label`
+- `textarea-with-text`
+- `field-textarea`
+- `input-group-textarea`
+- `form-rhf-textarea`
+- `form-tanstack-textarea`
+- `form-formisch-textarea`
+
+The audit does not mark `textarea` resolved. Prior clusters already cover
+`field-textarea`, `input-group-textarea`, `form-rhf-textarea`,
+`form-tanstack-textarea`, and `form-formisch-textarea`, including the
+intentional dependency mappings for React Hook Form, TanStack Form, Formisch,
+Zod, Valibot, Sonner toast, Tabler icons, and app-owned presentation/state.
+The remaining follow-up is named docs, fixture, and Playwright proof for the 5
+plain Textarea examples: demo, disabled, with Button, with Label, and with
+helper text.
+
+The initial deterministic row-count check from the plan counted backticked file
+paths in the current-evidence table. The check was tightened to inspect only
+the `## Examples` section before verification was recorded.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/textarea-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'textarea-demo',
+  'textarea-disabled',
+  'textarea-with-button',
+  'textarea-with-label',
+  'textarea-with-text',
+  'field-textarea',
+  'input-group-textarea',
+  'form-rhf-textarea',
+  'form-tanstack-textarea',
+  'form-formisch-textarea',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+textarea-demo: 1
+textarea-disabled: 1
+textarea-with-button: 1
+textarea-with-label: 1
+textarea-with-text: 1
+field-textarea: 1
+input-group-textarea: 1
+form-rhf-textarea: 1
+form-tanstack-textarea: 1
+form-formisch-textarea: 1
+```
+
+```text
+rg -n 'default textarea|disabled textarea|Button|Label|helper|FieldDescription|InputGroupTextarea|block-start|block-end|React Hook Form|TanStack Form|Formisch|Zod|Valibot|Sonner|Tabler|React event|Tailwind|data-slot|Playwright|fixture|docs|textarea-example-inventory' issues/0004-complete-shadcn-parity-and-docs/textarea-example-inventory.md issues/0004-complete-shadcn-parity-and-docs/README.md
+```
+
+Confirmed that the inventory addresses the required examples and mapping
+topics: default placeholder, disabled state, Button composition, Label/helper
+text composition, FieldDescription composition, InputGroupTextarea block-start
+and block-end addons, Form validation/error/reset/submit/Card/toast mappings,
+React Hook Form, TanStack Form, Formisch, Zod, Valibot, Sonner, Tabler icons,
+React event handlers, Tailwind, `data-slot`, current docs, fixture, and
+Playwright evidence.
+
+Additional verification:
+
+```text
+rg -n "textarea-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+The README search found the new learning. `git diff --check` and vendor status
+produced no output.
+
+## Completion Review
+
+Reviewer: Euclid (`019e9b74-dcbb-7082-95b3-3967bbb60454`)
+
+Fresh context: yes (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Euclid verified that the audit-only scope holds,
+the experiment has Result and Conclusion, the README marks Experiment 37
+`Pass` and records the follow-up implementation depth, the inventory contains
+exactly the 10 requested textarea-related example rows and no extras, the
+inventory does not mark `textarea` resolved and recommends docs/fixtures/
+Playwright depth for the 5 plain examples, upstream registry evidence supports
+the 10 ids, `git diff --check` passed, vendor cleanliness produced no output,
+and the result commit had not been made before completion review.
+
+## Conclusion
+
+Textarea example parity is not complete. The next experiment should implement
+Textarea example parity depth for `textarea-demo`, `textarea-disabled`,
+`textarea-with-button`, `textarea-with-label`, and `textarea-with-text`.

@@ -592,6 +592,15 @@ Record cross-component discoveries here as experiments complete.
   must use valid wrapper markup instead of nesting `KbdGroup` inside a native
   `p`; otherwise the browser reparents the groups and tests no longer prove the
   intended composition.
+- Experiment 37 audited all 10 upstream New York v4 textarea-related examples
+  in `textarea-example-inventory.md`. Field, InputGroup, and Form textarea
+  variants are already covered by prior clusters, including the form-library
+  dependency divergences for React Hook Form, TanStack Form, Formisch, Zod,
+  Valibot, Sonner toast, and app-owned icons.
+- Textarea example parity is still incomplete at the named plain Textarea
+  example level. The next implementation cluster should add docs, fixtures, and
+  Playwright proof for `textarea-demo`, `textarea-disabled`,
+  `textarea-with-button`, `textarea-with-label`, and `textarea-with-text`.
 
 ## Experiments
 
@@ -668,4 +677,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 36: Implement kbd example parity depth](36-implement-kbd-example-parity-depth.md)
   — **Pass**
 - [Experiment 37: Audit textarea example parity](37-audit-textarea-example-parity.md)
-  — **Designed**
+  — **Pass**
