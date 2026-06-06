@@ -140,7 +140,7 @@ import {
 import { Form, FormDescription, FormField, FormLabel, FormMessage, formControlAttributes, formFieldIds } from 'radcn/form'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'radcn/hover-card'
 import { Input } from 'radcn/input'
-import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText } from 'radcn/input-group'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from 'radcn/input-group'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from 'radcn/input-otp'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from 'radcn/item'
 import { Kbd, KbdGroup } from 'radcn/kbd'
@@ -479,6 +479,73 @@ export function ButtonGroupPreview() {
         <ButtonGroupSeparator />
         <Button ariaLabel="Add" size="icon" variant="secondary">+</Button>
       </ButtonGroup>
+    </div>
+  )
+}`
+
+const inputGroupSource = `import { ButtonGroup, ButtonGroupText } from 'radcn/button-group'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'radcn/dropdown-menu'
+import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from 'radcn/input-group'
+import { Label } from 'radcn/label'
+import { Popover, PopoverContent, PopoverDescription, PopoverTitle, PopoverTrigger } from 'radcn/popover'
+import { Separator } from 'radcn/separator'
+import { Spinner } from 'radcn/spinner'
+import { Tooltip, TooltipContent, TooltipTrigger } from 'radcn/tooltip'
+
+export function InputGroupPreview() {
+  return (
+    <div class="input-group-preview">
+      <InputGroup ariaLabel="Repository URL">
+        <InputGroupInput name="clone" readOnly value="git@github.com:radcn/radcn.git" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton ariaLabel="Copy URL" size="icon-xs">⧉</InputGroupButton>
+          <Popover>
+            <PopoverTrigger ariaLabel="Explain URL">?</PopoverTrigger>
+            <PopoverContent>
+              <PopoverTitle>Clone URL</PopoverTitle>
+              <PopoverDescription>Copy behavior is app-owned enhancement.</PopoverDescription>
+            </PopoverContent>
+          </Popover>
+        </InputGroupAddon>
+      </InputGroup>
+
+      <ButtonGroup ariaLabel="Workspace URL">
+        <ButtonGroupText><Label for="workspace">https://</Label></ButtonGroupText>
+        <InputGroup ariaLabel="Workspace">
+          <InputGroupInput id="workspace" name="workspace" value="radcn" />
+          <InputGroupAddon align="inline-end"><InputGroupText>✓</InputGroupText></InputGroupAddon>
+        </InputGroup>
+        <ButtonGroupText>.dev</ButtonGroupText>
+      </ButtonGroup>
+
+      <InputGroup ariaLabel="Command message">
+        <InputGroupTextarea name="message" rows={4} value="Ship InputGroup parity." />
+        <InputGroupAddon align="block-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger>Commands</DropdownMenuTrigger>
+            <DropdownMenuContent><DropdownMenuItem>Insert snippet</DropdownMenuItem></DropdownMenuContent>
+          </DropdownMenu>
+          <Separator orientation="vertical" />
+          <InputGroupText>63%</InputGroupText>
+          <InputGroupButton disabled>Send</InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+
+      <InputGroup disabled ariaLabel="Saving workspace">
+        <InputGroupAddon><Spinner ariaLabel="Saving" /></InputGroupAddon>
+        <InputGroupInput disabled name="workspace-status" value="radcn" />
+        <InputGroupAddon align="inline-end"><InputGroupText>Saving...</InputGroupText></InputGroupAddon>
+      </InputGroup>
+
+      <InputGroup ariaLabel="Password">
+        <InputGroupInput name="password" type="password" value="radical-secret" />
+        <InputGroupAddon align="inline-end">
+          <Tooltip>
+            <TooltipTrigger ariaLabel="Password requirements">?</TooltipTrigger>
+            <TooltipContent>Use at least twelve characters.</TooltipContent>
+          </Tooltip>
+        </InputGroupAddon>
+      </InputGroup>
     </div>
   )
 }`
@@ -1052,6 +1119,89 @@ function ButtonGroupPreview() {
         <ButtonGroupSeparator />
         <Button ariaLabel="Add" size="icon" variant="secondary">+</Button>
       </ButtonGroup>
+    </div>
+  )
+}
+
+function InputGroupPreview() {
+  return () => (
+    <div mix={[previewStackStyle, forceVisiblePreviewStyle]} style="width: min(100%, 34rem);">
+      <InputGroup ariaLabel="Repository clone URL" style="max-width:100%">
+        <InputGroupInput name="clone" readOnly value="git@github.com:radcn/radcn.git" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton ariaLabel="Copy URL" size="icon-xs">⧉</InputGroupButton>
+          <Popover defaultOpen>
+            <PopoverTrigger ariaLabel="Explain clone URL" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</PopoverTrigger>
+            <PopoverPortal>
+              <PopoverContent align="end">
+                <PopoverTitle>Clone URL</PopoverTitle>
+                <PopoverDescription>Copy behavior belongs to app enhancement.</PopoverDescription>
+              </PopoverContent>
+            </PopoverPortal>
+          </Popover>
+          <InputGroupButton ariaLabel="Favorite repository" size="icon-xs">☆</InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+
+      <ButtonGroup ariaLabel="Workspace URL" style="max-width:100%">
+        <ButtonGroupText><Label for="docs-input-group-workspace">https://</Label></ButtonGroupText>
+        <InputGroup ariaLabel="Workspace host">
+          <InputGroupInput id="docs-input-group-workspace" name="workspace" value="radcn" />
+          <InputGroupAddon align="inline-end"><InputGroupText>✓</InputGroupText></InputGroupAddon>
+        </InputGroup>
+        <ButtonGroupText>.dev</ButtonGroupText>
+      </ButtonGroup>
+
+      <InputGroup ariaLabel="Scoped docs search" style="max-width:100%">
+        <InputGroupAddon><InputGroupText>⌕</InputGroupText></InputGroupAddon>
+        <InputGroupInput name="query" value="input group" />
+        <InputGroupAddon align="inline-end">
+          <DropdownMenu defaultOpen>
+            <DropdownMenuTrigger ariaLabel="Search scope" class="radcn-input-group-button radcn-input-group-button--sm">Docs</DropdownMenuTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuContent align="end">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>Search docs</DropdownMenuItem>
+                  <DropdownMenuItem>Search packages</DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenuPortal>
+          </DropdownMenu>
+        </InputGroupAddon>
+      </InputGroup>
+
+      <InputGroup ariaLabel="Command message" style="max-width:100%">
+        <InputGroupAddon align="block-start">
+          <Label for="docs-input-group-message">app/routes.ts</Label>
+          <Tooltip defaultOpen>
+            <TooltipTrigger ariaLabel="File help" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</TooltipTrigger>
+            <TooltipPortal><TooltipContent>Labels and help actions compose in addons.</TooltipContent></TooltipPortal>
+          </Tooltip>
+        </InputGroupAddon>
+        <InputGroupTextarea id="docs-input-group-message" name="message" rows={4} value="Ship InputGroup parity." />
+        <InputGroupAddon align="block-end">
+          <InputGroupButton ariaLabel="Add attachment" size="icon-xs">+</InputGroupButton>
+          <Separator orientation="vertical" />
+          <InputGroupText>63%</InputGroupText>
+          <InputGroupButton disabled size="sm">Send</InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+
+      <InputGroup disabled ariaLabel="Saving workspace" style="max-width:100%">
+        <InputGroupAddon><Spinner ariaLabel="Saving" /></InputGroupAddon>
+        <InputGroupInput disabled name="workspace-status" value="radcn" />
+        <InputGroupAddon align="inline-end"><InputGroupText>Saving...</InputGroupText></InputGroupAddon>
+      </InputGroup>
+
+      <InputGroup ariaLabel="Password" style="max-width:100%">
+        <InputGroupInput name="password" type="password" value="radical-secret" />
+        <InputGroupAddon align="inline-end">
+          <Tooltip defaultOpen>
+            <TooltipTrigger ariaLabel="Password requirements" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</TooltipTrigger>
+            <TooltipPortal><TooltipContent>Use at least twelve characters.</TooltipContent></TooltipPortal>
+          </Tooltip>
+        </InputGroupAddon>
+      </InputGroup>
     </div>
   )
 }
@@ -2044,6 +2194,48 @@ const richComponentDocs: ComponentDoc[] = [
       'shadcn/ui examples use React asChild for overlay triggers. RadCN maps that to explicit DropdownMenuTrigger and PopoverTrigger components.',
       'React useState examples map to server-provided defaults, native submitted values, route state, or app-owned dependency-free enhancement.',
       'ButtonGroup is a layout primitive; it composes controls but does not own select, menu, popover, tooltip, or input state.',
+    ],
+  },
+  {
+    slug: 'input-group',
+    title: 'Input Group',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A control shell for inputs, textareas, addons, inline actions, toolbar rows, and composed overlay triggers.',
+    importPath: 'radcn/input-group',
+    importExample:
+      "import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from 'radcn/input-group'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Compose buttons, ButtonGroup, dropdowns, popovers, tooltips, spinners, labels, text addons, and textarea toolbars with the InputGroup primitive.',
+        source: inputGroupSource,
+        preview: <InputGroupPreview />,
+      },
+    ],
+    accessibility: [
+      'InputGroup renders role="group" and supports ariaLabel or ariaLabelledby for grouped controls.',
+      'InputGroupInput preserves native input semantics, including email, password, URL, tel, and text types.',
+      'Icon-only InputGroupButton actions use ariaLabel so decorative glyphs do not become the only accessible name.',
+      'Labels, tooltips, dropdowns, popovers, spinners, and separators keep their own RadCN semantics when composed inside addons.',
+    ],
+    customization: [
+      'InputGroup exposes data-radcn-input-group, addon alignment hooks, input/textarea control hooks, and button size hooks.',
+      'Inline addons, block addons, and toolbar rows are token-driven and can be extended with app CSS.',
+      'Autosizing textarea behavior is app-owned. Use InputGroupTextarea or a custom control that follows the documented control hook.',
+      'Icon packages are presentation choices; examples can use inline SVG, text glyphs, or app icons without changing InputGroup.',
+    ],
+    divergence: [
+      'shadcn/ui asChild trigger examples map to explicit RadCN PopoverTrigger, DropdownMenuTrigger, and TooltipTrigger components.',
+      'React useState and useCopyToClipboard examples map to server/default state, native submitted values, route state, or app-owned browser enhancement.',
+      'react-textarea-autosize is not a RadCN package dependency; textarea autosize remains optional app behavior.',
+      'InputGroup is a layout and control-shell primitive. It composes other RadCN primitives but does not own clipboard, favorite, menu, popover, tooltip, spinner, label, separator, or autosize state.',
     ],
   },
   {

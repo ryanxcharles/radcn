@@ -27,6 +27,7 @@ export interface InputGroupAddonProps {
 
 export interface InputGroupButtonProps {
   ariaDisabled?: boolean
+  ariaLabel?: string
   children?: RemixNode
   class?: string
   disabled?: boolean
@@ -109,6 +110,7 @@ export function InputGroupButton(handle: Handle<InputGroupButtonProps>) {
   return () => {
     let {
       ariaDisabled,
+      ariaLabel,
       children,
       class: className,
       disabled,
@@ -124,6 +126,7 @@ export function InputGroupButton(handle: Handle<InputGroupButtonProps>) {
     return (
       <Button
         ariaDisabled={ariaDisabled}
+        ariaLabel={ariaLabel}
         class={classes('radcn-input-group-button', `radcn-input-group-button--${size}`, className)}
         disabled={disabled}
         name={name}
@@ -163,26 +166,38 @@ export function InputGroupInput(handle: Handle<InputGroupInputProps>) {
       id,
       name,
       placeholder,
+      readOnly,
+      required,
+      style,
+      type = 'text',
+      value,
+    } = handle.props
+    let sharedProps = {
+      'aria-describedby': ariaDescribedBy,
+      'aria-invalid': ariaInvalid ? true : undefined,
+      class: classes('radcn-input', 'radcn-input-group-input', className),
+      'data-radcn-input': true,
+      'data-radcn-input-group-control': true,
+      disabled,
+      id,
+      name,
+      placeholder,
+      readonly: readOnly,
       required,
       style,
       value,
-    } = handle.props
+    }
+
+    if (type === 'password') {
+      return <input {...sharedProps} type="password" aria-invalid={ariaInvalid ? 'true' : undefined} />
+    }
 
     return (
       <input
-        aria-describedby={ariaDescribedBy}
+        {...sharedProps}
         aria-invalid={ariaInvalid ? 'true' : undefined}
-        class={classes('radcn-input', 'radcn-input-group-input', className)}
-        data-radcn-input
-        data-radcn-input-group-control
-        disabled={disabled}
-        id={id}
-        name={name}
-        placeholder={placeholder}
-        required={required}
-        style={style}
-        type="text"
-        value={value}
+        role="textbox"
+        type={type}
       />
     )
   }

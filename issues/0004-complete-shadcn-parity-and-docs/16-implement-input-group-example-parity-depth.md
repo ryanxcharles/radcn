@@ -177,3 +177,122 @@ the plan now separates positive documentation proof for the intentional
 `useState`, `useCopyToClipboard`, `react-textarea-autosize`, and `asChild`
 mappings from the negative import/dependency hygiene scan, which is limited to
 code and package paths. No new blocker was found.
+
+## Result
+
+**Result:** Pass
+
+InputGroup example parity depth is implemented.
+
+Package changes:
+
+- `radcn/packages/radcn/src/components/input.tsx` now exports
+  `InputType = 'text' | 'email' | 'password' | 'tel' | 'url'`.
+- `Input` supports `type`, `readOnly`, and the existing aria/form props while
+  preserving `type="text"` as the default.
+- `InputGroupInput` passes the same native type and read-only support through
+  the grouped control slot.
+- `InputGroupButton` now accepts `ariaLabel` and forwards it to `Button`, so
+  icon-only InputGroup actions can expose accessible names.
+
+Docs, fixtures, tests, and inventory changes:
+
+- `radcn/apps/docs/app/content/components.tsx` now has an authored Input Group
+  docs page with package imports, live examples, source, accessibility notes,
+  customization notes, and Remix 3 divergence notes.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/input-group.tsx` add scenarios
+  for all 11 upstream InputGroup example families: `button`, `button-group`,
+  `custom`, `demo`, `dropdown`, `icon`, `label`, `spinner`, `text`,
+  `textarea`, and `tooltip`.
+- `radcn/fixtures/tests/form-input-cluster.spec.ts` verifies button and
+  icon-button names, read-only inputs, ButtonGroup composition, DropdownMenu,
+  Popover, Tooltip, Spinner, Label, Separator, text addons, textarea toolbar
+  rows, custom textarea mapping, native email/password input types, and the
+  dependency policy.
+- `input-group-example-inventory.md` now has final outcomes for every upstream
+  row: 10 `Covered` rows and one `Intentional divergence` row for
+  `react-textarea-autosize`.
+- `resolved-clusters.json` marks `input-group` resolved in the example queue,
+  and the regenerated `parity-inventory.md` now recommends example parity for
+  `item`.
+
+Implementation discovery:
+
+- Remix UI's accessible input typings do not currently accept `type="search"`
+  in this package's textbox branch. The experiment preserves user-facing
+  search behavior with labeled text inputs and records the discovery in
+  `input-group-example-inventory.md`.
+- `aria-invalid` must render as the string `"true"` for the current tests and
+  browser assertions. A boolean `true` rendered as an empty attribute, so the
+  implementation keeps explicit string output.
+
+Verification run:
+
+- `pnpm radcn:typecheck` — passed.
+- `pnpm fixtures:candidate:typecheck` — passed.
+- `pnpm --dir radcn/apps/docs typecheck` — passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts form-input-cluster.spec.ts`
+  — passed: 10 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  — passed: 5 tests.
+- `node scripts/audit-shadcn-parity.mjs` — passed and regenerated
+  `parity-inventory.md`.
+- The parity inventory regeneration diff check exited 0 and printed no diff.
+- The deterministic 11-id InputGroup inventory check exited 0 and proved each
+  upstream id appears exactly once.
+- The deterministic final-outcome check exited 0 and proved every upstream
+  InputGroup row is `Covered` or `Intentional divergence`.
+- The deterministic resolved-cluster check exited 0 and proved
+  `resolved-clusters.json` contains `input-group` with evidence from
+  Experiments 15 and 16 plus `input-group-example-inventory.md`.
+- The deterministic type-surface check exited 0 and proved `InputType`,
+  `readOnly`, `ariaLabel`, and InputGroup type pass-through are present in the
+  package/root type surface.
+- The positive mapping check exited 0 and found `useState`,
+  `useCopyToClipboard`, `react-textarea-autosize`, and `asChild` documented in
+  `input-group-example-inventory.md`.
+- The negative dependency/import hygiene scan exited 1 with no matches for
+  React imports, `useState(` calls, `react-textarea-autosize`, upstream icon
+  package imports, vendor imports, or publish commands in code/package paths.
+- `rg -n "Example parity for input-group|Audit upstream examples for input-group" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  exited 1 with no matches.
+- `git diff --check` — passed with no output.
+- `git status --short` showed only expected package, docs, fixture, test,
+  issue, resolved-cluster, and generated-inventory changes.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  printed no output.
+
+## Conclusion
+
+InputGroup parity is resolved for Issue 4's example-depth queue. RadCN now
+matches the upstream shadcn InputGroup example surface through package APIs,
+docs examples, candidate fixtures, Playwright proof, and documented Remix 3
+divergences.
+
+The next experiment should audit example parity for `item`, which is the first
+recommended unresolved cluster in the regenerated parity inventory.
+
+## Completion Review
+
+Reviewer: Popper (`019e9a98-8f44-7030-ba7a-928ed0ea7621`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: the docs InputGroup accessibility note claimed `InputGroupInput`
+  preserved native `search` input semantics, but the package `InputType` union
+  intentionally supports only `text`, `email`, `password`, `tel`, and `url`,
+  and this experiment records `type="search"` as unsupported by the current
+  Remix UI typings. Fixed by removing `search` from the docs support claim.
+- Major: none.
+- Minor: none.
+
+Review result: not approved until the blocker is fixed. The finding above has
+been addressed and requires re-review before the result commit.
+
+Re-review result: approved. Popper confirmed the prior blocker is fixed: the
+docs now claim support for `email`, `password`, `URL`, `tel`, and `text`, and
+no longer claim native `search` support. This matches the recorded
+`type="search"` divergence in the experiment and inventory. No new blocker was
+introduced.

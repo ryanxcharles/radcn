@@ -2,6 +2,8 @@ import type { Handle } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+export type InputType = 'text' | 'email' | 'password' | 'tel' | 'url'
+
 export interface InputProps {
   ariaDescribedBy?: string
   ariaInvalid?: boolean
@@ -10,8 +12,10 @@ export interface InputProps {
   id?: string
   name?: string
   placeholder?: string
+  readOnly?: boolean
   required?: boolean
   style?: string
+  type?: InputType
   value?: string
 }
 
@@ -25,25 +29,36 @@ export function Input(handle: Handle<InputProps>) {
       id,
       name,
       placeholder,
+      readOnly,
       required,
       style,
+      type = 'text',
       value,
     } = handle.props
+    let sharedProps = {
+      class: classes('radcn-input', className),
+      'data-radcn-input': true,
+      id,
+      name,
+      placeholder,
+      readonly: readOnly,
+      required,
+      disabled,
+      style,
+      value,
+      'aria-describedby': ariaDescribedBy,
+    }
+
+    if (type === 'password') {
+      return <input {...sharedProps} type="password" aria-invalid={ariaInvalid ? 'true' : undefined} />
+    }
 
     return (
       <input
-        class={classes('radcn-input', className)}
-        data-radcn-input
-        id={id}
-        name={name}
-        placeholder={placeholder}
-        required={required}
-        disabled={disabled}
-        style={style}
-        type="text"
-        value={value}
-        aria-describedby={ariaDescribedBy}
+        {...sharedProps}
         aria-invalid={ariaInvalid ? 'true' : undefined}
+        role="textbox"
+        type={type}
       />
     )
   }

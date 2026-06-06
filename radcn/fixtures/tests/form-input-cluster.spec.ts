@@ -26,6 +26,9 @@ test('form input cluster exports supported package source', async () => {
   expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('zod')
   expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('@hookform/resolvers')
   expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('input-otp')
+  expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('react-textarea-autosize')
+  expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('lucide-react')
+  expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('@tabler/icons-react')
 })
 
 test('candidate input group exposes semantics addon focus and nested button behavior', async ({ page }) => {
@@ -66,6 +69,75 @@ test('candidate input group preserves textarea states form reset and custom toke
   await page.goto(`${candidate}/fixtures/input-group/custom-token`)
   await expect(page.locator('[data-radcn-input-group]')).toHaveClass(/radcn-fixture-custom-input-group/)
   await expect(page.locator('[data-radcn-input-group]')).toHaveCSS('background-color', 'rgb(240, 253, 250)')
+})
+
+test('candidate input group covers button popover and ButtonGroup parity', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/input-group/button`)
+  await expect(page.getByRole('button', { name: 'Copy URL' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Explain clone URL' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Favorite repository' })).toBeVisible()
+  await expect(page.locator('#candidate-input-group-copy')).toHaveAttribute('readonly', '')
+  await expect(page.locator('#candidate-input-group-button-search')).toHaveAttribute('type', 'text')
+  await page.getByRole('button', { name: 'Search' }).click()
+  await expect(page).toHaveURL(/\/fixtures\/input-group\/button\?repo=radcn&intent=search$/)
+
+  await page.goto(`${candidate}/fixtures/input-group/button-group`)
+  await expect(page.getByRole('group', { name: 'Workspace URL' })).toHaveAttribute('data-radcn-button-group', '')
+  await expect(page.locator('[data-radcn-button-group] [data-radcn-input-group]')).toHaveCount(1)
+  await expect(page.getByLabel('https://')).toHaveValue('radcn')
+  await expect(page.getByText('.dev')).toBeVisible()
+})
+
+test('candidate input group covers overlays icons labels spinners and native types', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/input-group/dropdown`)
+  await expect(page.locator('[data-radcn-dropdown-menu]')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Search scope' })).toBeVisible()
+
+  await page.goto(`${candidate}/fixtures/input-group/icon`)
+  await expect(page.locator('#candidate-input-group-email')).toHaveAttribute('type', 'email')
+  await expect(page.getByRole('button', { name: 'Favorite card' })).toBeVisible()
+
+  await page.goto(`${candidate}/fixtures/input-group/label`)
+  await expect(page.locator('#candidate-input-group-label-inline')).toHaveValue('radcn')
+  await expect(page.locator('#candidate-input-group-label-block')).toHaveValue('radcn-token')
+  await expect(page.locator('[data-radcn-tooltip]')).toHaveCount(1)
+
+  await page.goto(`${candidate}/fixtures/input-group/spinner`)
+  await expect(page.getByRole('status', { name: 'Saving' })).toBeVisible()
+  await expect(page.getByRole('status', { name: 'Loading invite' })).toBeVisible()
+  await expect(page.locator('[data-radcn-input-group] input:disabled')).toHaveCount(2)
+
+  await page.goto(`${candidate}/fixtures/input-group/tooltip`)
+  await expect(page.locator('#candidate-input-group-password')).toHaveAttribute('type', 'password')
+  await expect(page.locator('#candidate-input-group-tooltip-email')).toHaveAttribute('type', 'email')
+  await expect(page.getByRole('button', { name: 'Password requirements' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Owner help' })).toBeVisible()
+})
+
+test('candidate input group covers demo text custom and textarea toolbar examples', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/input-group/custom`)
+  await expect(page.locator('[data-radcn-input-group-control]')).toHaveJSProperty('tagName', 'TEXTAREA')
+  await expect(page.getByText('Native textarea; autosize is app-owned.')).toBeVisible()
+
+  await page.goto(`${candidate}/fixtures/input-group/demo`)
+  await expect(page.locator('[data-radcn-dropdown-menu]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-tooltip]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-separator][data-orientation="vertical"]')).toHaveCount(1)
+  await expect(page.getByText('63%')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Send' })).toBeDisabled()
+  await expect(page.getByText('✓ verified')).toBeVisible()
+
+  await page.goto(`${candidate}/fixtures/input-group/text`)
+  await expect(page.getByText('$')).toBeVisible()
+  await expect(page.getByText('USD')).toBeVisible()
+  await expect(page.getByText('.dev')).toBeVisible()
+  await expect(page.getByText('42 / 280')).toBeVisible()
+
+  await page.goto(`${candidate}/fixtures/input-group/textarea`)
+  await expect(page.locator('[data-radcn-input-group-addon][data-align="block-start"]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-input-group-addon][data-align="block-end"]')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Copy code' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Run' })).toBeVisible()
 })
 
 test('candidate input otp mirrors slots filters input and handles keyboard paste and reset', async ({ page }) => {

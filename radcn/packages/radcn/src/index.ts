@@ -55,7 +55,7 @@ export type { FormControlAttributes, FormControlProps, FormEncType, FormFieldIds
 export { HoverCard, HoverCardContent, HoverCardPortal, HoverCardTrigger, enhanceHoverCard } from './components/hover-card.tsx'
 export type { HoverCardButtonProps, HoverCardContentProps, HoverCardPartProps, HoverCardProps } from './components/hover-card.tsx'
 export { Input } from './components/input.tsx'
-export type { InputProps } from './components/input.tsx'
+export type { InputProps, InputType } from './components/input.tsx'
 export { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea, enhanceInputGroup } from './components/input-group.tsx'
 export type { InputGroupAddonAlign, InputGroupAddonProps, InputGroupButtonProps, InputGroupButtonSize, InputGroupInputProps, InputGroupProps, InputGroupTextProps, InputGroupTextareaProps } from './components/input-group.tsx'
 export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, REGEXP_ONLY_DIGITS, REGEXP_ONLY_DIGITS_AND_CHARS, enhanceInputOTP } from './components/input-otp.tsx'

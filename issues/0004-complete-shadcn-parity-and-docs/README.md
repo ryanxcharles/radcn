@@ -289,6 +289,20 @@ Record cross-component discoveries here as experiments complete.
   customization rather than package dependencies.
 - After Experiment 15, the next recommended implementation cluster is
   InputGroup example parity depth.
+- Experiment 16 completed InputGroup example parity depth. `radcn/input` now
+  exports `InputType` and supports native `text`, `email`, `password`, `tel`,
+  and `url` inputs plus `readOnly`; `radcn/input-group` passes those through
+  `InputGroupInput` and adds `ariaLabel` support for icon-only
+  `InputGroupButton` actions.
+- InputGroup docs, fixtures, and Playwright coverage now prove all 11 upstream
+  InputGroup example families: buttons, ButtonGroup composition, custom
+  textarea mapping, full demo composition, DropdownMenu, icon addons, Label,
+  Spinner, text addons, textarea toolbars, and Tooltip.
+- Remix UI's accessible input typings do not currently accept `type="search"`
+  in this package's textbox branch. Search-style InputGroup examples use
+  labeled text inputs while preserving user-facing search behavior.
+- After Experiment 16, `input-group` is marked resolved in the example queue.
+  The regenerated inventory recommends example parity for `item` next.
 
 ## Experiments
 
@@ -323,4 +337,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 15: Audit input-group example parity](15-audit-input-group-example-parity.md)
   — **Pass**
 - [Experiment 16: Implement input-group example parity depth](16-implement-input-group-example-parity-depth.md)
-  — **Designed**
+  — **Pass**
