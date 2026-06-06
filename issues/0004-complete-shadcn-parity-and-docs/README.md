@@ -1301,3 +1301,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 85: Audit avatar example parity](85-audit-avatar-example-parity.md)
   — **Partial**
+- [Experiment 86: Implement avatar example parity depth](86-implement-avatar-example-parity-depth.md)
+  — **Designed**
