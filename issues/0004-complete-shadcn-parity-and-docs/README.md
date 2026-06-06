@@ -826,3 +826,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 49: Audit native-select example parity](49-audit-native-select-example-parity.md)
   — **Pass**
+- [Experiment 50: Implement native-select example parity depth](50-implement-native-select-example-parity-depth.md)
+  — **Designed**
