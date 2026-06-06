@@ -1922,6 +1922,18 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Drawer customized through public tokens.",
   },
   {
+    component: "drawer",
+    id: "demo",
+    title: "Drawer Demo",
+    description: "Move Goal drawer composition matching the active shadcn example.",
+  },
+  {
+    component: "drawer",
+    id: "dialog-demo",
+    title: "Drawer Dialog Demo",
+    description: "Responsive edit-profile Dialog and Drawer composition evidence.",
+  },
+  {
     component: "popover",
     id: "default",
     title: "Default Popover",

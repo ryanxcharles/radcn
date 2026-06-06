@@ -925,12 +925,17 @@ Record cross-component discoveries here as experiments complete.
   `drawer-demo` and `drawer-dialog` upstream compositions: Move Goal
   counter/chart behavior and responsive Dialog/Drawer edit-profile form
   branching.
-- Experiment 68 should resolve Drawer example parity by adding named docs,
-  candidate fixtures, and Playwright coverage for `drawer-demo` and
-  `drawer-dialog`. The audit found no necessary Drawer package API change;
-  React, Vaul, `asChild`, Tailwind, `cn`, `lucide-react`, Recharts,
-  media-query hooks, form-state, charting-library, and vendor dependencies
-  remain out of scope.
+- Experiment 68 resolved Drawer example parity. Docs, candidate fixtures, and
+  Playwright now prove named `drawer-demo` and `drawer-dialog` examples with
+  exact upstream copy, Move Goal layout, goal value, accessible
+  Decrease/Increase controls, deterministic min/max disabled state evidence,
+  dependency-free chart bars as the Recharts substitute, Submit/Cancel actions,
+  responsive Dialog/Drawer branch evidence, shared edit-profile form fields,
+  default values, public hooks, close/focus behavior, and mapping copy. No
+  Drawer package API change was needed. `drawer-example-inventory.md` marks both
+  rows `Covered`, `resolved-clusters.json` records `drawer` as resolved, and
+  the regenerated parity inventory recommends example parity for `scroll-area`
+  next.
 
 ## Experiments
 
@@ -1069,4 +1074,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 67: Audit drawer example parity](67-audit-drawer-example-parity.md)
   — **Partial**
 - [Experiment 68: Implement drawer example parity depth](68-implement-drawer-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

@@ -1338,6 +1338,110 @@ export function DialogPreview() {
   )
 }`
 
+const drawerSource = `import { Button } from 'radcn/button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from 'radcn/dialog'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerTitle,
+  DrawerTrigger,
+} from 'radcn/drawer'
+import { Input } from 'radcn/input'
+import { Label } from 'radcn/label'
+
+export function DrawerPreview() {
+  return (
+    <>
+      <Drawer defaultOpen direction="bottom" id="move-goal">
+        <DrawerTrigger class="radcn-button radcn-button--outline">
+          Open Drawer
+        </DrawerTrigger>
+        <DrawerPortal>
+          <DrawerOverlay />
+          <DrawerContent direction="bottom" showHandle>
+            <DrawerHeader>
+              <DrawerTitle>Move Goal</DrawerTitle>
+              <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+            </DrawerHeader>
+            <div style="margin:0 auto;width:100%;max-width:24rem;">
+              <Button ariaLabel="Decrease" size="icon" variant="outline">-</Button>
+              <strong>350</strong>
+              <Button ariaLabel="Increase" size="icon" variant="outline">+</Button>
+              <span>Calories/day</span>
+            </div>
+            <DrawerFooter>
+              <Button type="submit">Submit</Button>
+              <DrawerClose class="radcn-button radcn-button--outline">Cancel</DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </DrawerPortal>
+      </Drawer>
+
+      <Dialog id="edit-profile-desktop">
+        <DialogTrigger class="radcn-button radcn-button--outline">Edit Profile</DialogTrigger>
+        <DialogPortal>
+          <DialogOverlay />
+          <DialogContent style="width:min(100%,425px);">
+            <DialogHeader>
+              <DialogTitle>Edit profile</DialogTitle>
+              <DialogDescription>
+                Make changes to your profile here. Click save when you're done.
+              </DialogDescription>
+            </DialogHeader>
+            <Label for="email">Email</Label>
+            <Input id="email" type="email" value="shadcn@example.com" />
+            <Label for="username">Username</Label>
+            <Input id="username" value="@shadcn" />
+            <DialogFooter><Button type="submit">Save changes</Button></DialogFooter>
+          </DialogContent>
+        </DialogPortal>
+      </Dialog>
+
+      <Drawer direction="bottom" id="edit-profile-mobile">
+        <DrawerTrigger class="radcn-button radcn-button--outline">Edit Profile</DrawerTrigger>
+        <DrawerPortal>
+          <DrawerOverlay />
+          <DrawerContent direction="bottom" showHandle>
+            <DrawerHeader style="text-align:left;">
+              <DrawerTitle>Edit profile</DrawerTitle>
+              <DrawerDescription>
+                Make changes to your profile here. Click save when you're done.
+              </DrawerDescription>
+            </DrawerHeader>
+            <form method="post" style="display:grid;gap:1rem;padding:0 1rem;">
+              <Label for="mobile-email">Email</Label>
+              <Input id="mobile-email" type="email" value="shadcn@example.com" />
+              <Label for="mobile-username">Username</Label>
+              <Input id="mobile-username" value="@shadcn" />
+              <Button type="submit">Save changes</Button>
+            </form>
+            <DrawerFooter>
+              <DrawerClose class="radcn-button radcn-button--outline">Cancel</DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </DrawerPortal>
+      </Drawer>
+    </>
+  )
+}`
+
 const tabsSource = `import { Tabs, TabsContent, TabsList, TabsTrigger } from 'radcn/tabs'
 
 export function TabsPreview() {
@@ -3651,6 +3755,124 @@ function DialogPreview() {
       </div>
     </div>
   )
+}
+
+function DrawerPreview() {
+  return () => {
+    let data = [400, 300, 200, 300, 200, 278, 189, 239, 300, 200, 278, 189, 349]
+
+    return (
+      <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+        <div data-radcn-docs-drawer-family="drawer-demo">
+          <Drawer defaultOpen direction="bottom" id="docs-drawer-demo">
+            <DrawerTrigger class="radcn-button radcn-button--outline">Open Drawer</DrawerTrigger>
+            <DrawerPortal>
+              <DrawerOverlay />
+              <DrawerContent class="radcn-docs-drawer-demo-content" direction="bottom" showHandle>
+                <div data-radcn-docs-drawer-layout="move-goal" style="margin:0 auto;width:100%;max-width:24rem;">
+                  <DrawerHeader>
+                    <DrawerTitle>Move Goal</DrawerTitle>
+                    <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+                  </DrawerHeader>
+                  <div style="display:grid;gap:1rem;padding:0 1rem;">
+                    <div style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem;">
+                      <Button ariaLabel="Decrease" size="icon" variant="outline">-</Button>
+                      <div style="text-align:center;">
+                        <div data-radcn-docs-drawer-goal-value style="font-size:3rem;font-weight:700;line-height:1;">350</div>
+                        <div>Calories/day</div>
+                      </div>
+                      <Button ariaLabel="Increase" size="icon" variant="outline">+</Button>
+                    </div>
+                    <div data-radcn-docs-drawer-bounds style="display:flex;gap:0.5rem;justify-content:center;">
+                      <Button ariaLabel="Decrease at minimum" disabled size="icon-sm" variant="outline">-</Button>
+                      <Button ariaLabel="Increase at maximum" disabled size="icon-sm" variant="outline">+</Button>
+                    </div>
+                    <div
+                      aria-label="Daily activity goal history"
+                      data-radcn-docs-drawer-chart
+                      role="img"
+                      style="display:flex;align-items:end;gap:0.25rem;height:120px;padding:0.75rem 0;"
+                    >
+                      {data.map((value) => (
+                        <span
+                          data-goal={String(value)}
+                          data-radcn-docs-drawer-bar
+                          style={`display:block;flex:1;min-width:0;border-radius:999px;background:var(--radcn-primary);height:${Math.max(24, Math.round(value / 4))}px;opacity:${value < 220 ? '0.42' : '0.8'};`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <DrawerFooter>
+                    <Button type="submit">Submit</Button>
+                    <DrawerClose class="radcn-button radcn-button--outline">Cancel</DrawerClose>
+                  </DrawerFooter>
+                </div>
+              </DrawerContent>
+            </DrawerPortal>
+          </Drawer>
+        </div>
+
+        <div data-radcn-docs-drawer-family="drawer-dialog" style="display:grid;gap:1rem;">
+          <div data-radcn-docs-drawer-dialog-branch="desktop">
+            <Dialog defaultOpen={true} id="docs-drawer-dialog-desktop">
+              <DialogTrigger class="radcn-button radcn-button--outline">Edit Profile</DialogTrigger>
+              <DialogPortal>
+                <DialogOverlay />
+                <DialogContent class="radcn-docs-drawer-dialog-desktop-content" style="width:min(100%,425px);">
+                  <DialogHeader>
+                    <DialogTitle>Edit profile</DialogTitle>
+                    <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+                  </DialogHeader>
+                  <form action="/docs/components/drawer" data-radcn-docs-drawer-form="desktop" method="post" style="display:grid;gap:1rem;">
+                    <div style="display:grid;gap:0.5rem;">
+                      <Label for="docs-drawer-dialog-desktop-email">Email</Label>
+                      <Input id="docs-drawer-dialog-desktop-email" name="email" type="email" value="shadcn@example.com" />
+                    </div>
+                    <div style="display:grid;gap:0.5rem;">
+                      <Label for="docs-drawer-dialog-desktop-username">Username</Label>
+                      <Input id="docs-drawer-dialog-desktop-username" name="username" value="@shadcn" />
+                    </div>
+                    <DialogFooter>
+                      <Button type="submit">Save changes</Button>
+                    </DialogFooter>
+                  </form>
+                </DialogContent>
+              </DialogPortal>
+            </Dialog>
+          </div>
+
+          <div data-radcn-docs-drawer-dialog-branch="mobile">
+            <Drawer defaultOpen direction="bottom" id="docs-drawer-dialog-mobile">
+              <DrawerTrigger class="radcn-button radcn-button--outline">Edit Profile</DrawerTrigger>
+              <DrawerPortal>
+                <DrawerOverlay />
+                <DrawerContent class="radcn-docs-drawer-dialog-mobile-content" direction="bottom" showHandle>
+                  <DrawerHeader style="text-align:left;">
+                    <DrawerTitle>Edit profile</DrawerTitle>
+                    <DrawerDescription>Make changes to your profile here. Click save when you're done.</DrawerDescription>
+                  </DrawerHeader>
+                  <form action="/docs/components/drawer" data-radcn-docs-drawer-form="mobile" method="post" style="display:grid;gap:1rem;padding:0 1rem;">
+                    <div style="display:grid;gap:0.5rem;">
+                      <Label for="docs-drawer-dialog-mobile-email">Email</Label>
+                      <Input id="docs-drawer-dialog-mobile-email" name="email" type="email" value="shadcn@example.com" />
+                    </div>
+                    <div style="display:grid;gap:0.5rem;">
+                      <Label for="docs-drawer-dialog-mobile-username">Username</Label>
+                      <Input id="docs-drawer-dialog-mobile-username" name="username" value="@shadcn" />
+                    </div>
+                    <Button type="submit">Save changes</Button>
+                  </form>
+                  <DrawerFooter>
+                    <DrawerClose class="radcn-button radcn-button--outline">Cancel</DrawerClose>
+                  </DrawerFooter>
+                </DrawerContent>
+              </DrawerPortal>
+            </Drawer>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 function TabsPreview() {
@@ -6149,6 +6371,50 @@ const richComponentDocs: ComponentDoc[] = [
       'DialogFooter showCloseButton is an upstream convenience API that the active examples do not use; RadCN composes explicit DialogClose actions in the footer.',
       'The share-link example displays a read-only URL only. RadCN does not add copy-to-clipboard behavior for this row.',
       'The docs preview keeps hidden dialog content inspectable so users can review styling; isolated fixture tests prove runtime focus and dismissal behavior.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'drawer',
+    title: 'Drawer',
+    category: 'Overlays',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A modal edge-panel primitive for bottom, side, and app-composed responsive Dialog or Drawer workflows.',
+    importPath: 'radcn/drawer',
+    importExample:
+      "import { Drawer, DrawerContent, DrawerTrigger } from 'radcn/drawer'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'drawer-demo-and-dialog',
+        title: 'Demo and Responsive Dialog',
+        description:
+          'Render the upstream Move Goal drawer and responsive edit-profile Dialog/Drawer examples with app-owned state, chart, form, and viewport branching.',
+        source: drawerSource,
+        preview: <DrawerPreview />,
+      },
+    ],
+    accessibility: [
+      'Enhanced drawers assign dialog roles, aria-labelledby, aria-describedby, focus movement, Escape handling, outside dismissal, focus restoration, and scroll locking.',
+      'DrawerTrigger and DrawerClose are native buttons and expose aria-expanded, aria-controls, and visible or labelled text.',
+      'Move Goal icon-style controls use ariaLabel for Decrease and Increase while the glyphs remain presentation.',
+      'The edit-profile example composes real Label and Input controls so the form remains accessible independent of the Drawer primitive.',
+    ],
+    customization: [
+      'Drawer exposes root, trigger, portal, overlay, content, handle, header, footer, title, description, and close hooks with classes, data attributes, style, and CSS variables.',
+      'Use class and style on DrawerContent for shadcn-style max-width, padding, alignment, and bottom-sheet surface tuning.',
+      'Button, Input, Label, Dialog, native forms, chart visualization, and responsive branch markup remain ordinary composition around the Drawer package.',
+      'Min/max goal states, disabled controls, increments, chart data, and viewport branch selection are app-owned state that can be enhanced without changing radcn/drawer.',
+    ],
+    divergence: [
+      'React props/state, Vaul DrawerPrimitive, controlled open/onOpenChange, useState, useMediaQuery, asChild, className, data-slot, cn, and Tailwind utilities map to explicit RadCN props, browser enhancement, class, public data-radcn hooks, package CSS, and app-owned state.',
+      'Button asChild maps to styling DrawerTrigger and DrawerClose directly with Button classes or composing RadCN Button where a nested button is not involved.',
+      'Minus, Plus, lucide-react, Recharts, chart engines, form-state libraries, and media-query hooks are app presentation or app state and are not RadCN dependencies.',
+      'The docs use dependency-free chart bars as the Recharts composition substitute while preserving the user-facing Move Goal chart slot.',
+      'The responsive Dialog/Drawer example is proven with deterministic desktop and mobile branch fixtures; applications own the actual breakpoint policy.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

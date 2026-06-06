@@ -4,25 +4,24 @@
 
 Upstream shadcn/ui New York v4 has two active Drawer examples:
 `drawer-demo` and `drawer-dialog`. RadCN already ships `radcn/drawer` with the
-core modal edge-panel behavior needed for both examples, but current docs,
-fixtures, and Playwright tests do not yet prove the named upstream example
+core modal edge-panel behavior needed for both examples. Experiment 68 added
+docs, fixtures, and Playwright tests that prove the named upstream example
 compositions.
 
-**Audit outcome:** Partial.
+**Audit outcome:** Covered.
 
-The next experiment should add named docs, candidate fixture routes, and
-Playwright coverage for `drawer-demo` and `drawer-dialog`. The audit found no
-mandatory Drawer package API change yet. React state, Vaul, `asChild`,
-Recharts, `lucide-react`, Tailwind, `cn`, media-query hooks, chart engines,
-form-state libraries, and vendor source remain non-dependencies unless a later
-implementation pass discovers and records a concrete RadCN package gap.
+Experiment 68 added named docs, candidate fixture routes, and Playwright
+coverage for `drawer-demo` and `drawer-dialog`. No Drawer package API change
+was needed. React state, Vaul, `asChild`, Recharts, `lucide-react`, Tailwind,
+`cn`, media-query hooks, chart engines, form-state libraries, and vendor source
+remain non-dependencies.
 
 ## Examples
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `drawer-demo` | Trigger styled as outline Button with text `Open Drawer`; bottom Drawer with handle; title `Move Goal`; description `Set your daily activity goal.`; centered max-width content; app-owned goal value initialized to `350`; minus/plus outline icon buttons with sr-only labels `Decrease`/`Increase`, min/max disabled states at 200/400, and 10-point increments; label `Calories/day`; Recharts bar chart with goal data; footer with `Submit` button and outline `Cancel` close action. | `radcn/drawer` supports root, trigger, portal, overlay, content, handle, header, footer, title, description, close action, modal ARIA, focus movement/trap/restoration, Escape/outside dismissal, scroll lock, default open, bottom direction, drag dismissal, public hooks, classes/styles/tokens, and app-owned Button composition. Existing fixtures use similar generic `Move goal` copy and Submit/Cancel actions, but do not render the named upstream trigger copy, daily-activity description, goal value/increment controls, min/max disabled policy, sr-only icon labels, Calories/day label, or chart visualization. | Partial | Add named docs and candidate fixture evidence for `drawer-demo`; cover trigger/title/description copy, handle, centered content width, goal display, decrement/increment controls, disabled min/max behavior or documented app-owned state mapping, chart visualization or intentional non-Recharts substitute, footer actions, close/focus behavior, public hooks, and mapping copy. |
-| `drawer-dialog` | Responsive component that uses a Dialog branch on desktop and a Drawer branch on mobile; shared trigger text `Edit Profile`; shared title `Edit profile`; shared description `Make changes to your profile here. Click save when you're done.`; shared form with labelled email/username fields, defaults `shadcn@example.com` and `@shadcn`, and submit `Save changes`; mobile Drawer branch uses left-aligned header, padded form, footer with outline `Cancel` close action; desktop Dialog branch uses max-width content. | `radcn/drawer`, `radcn/dialog`, `radcn/input`, `radcn/label`, and `radcn/button` can compose this behavior. Existing Drawer tests prove generic Drawer behavior and prior Dialog experiments prove named Dialog form behavior, but there is no named `drawer-dialog` docs/fixture/test evidence for responsive branch selection, shared form content, mobile Drawer footer cancel, or desktop Dialog branch. | Partial | Add named docs and candidate fixture evidence for `drawer-dialog`; cover mobile Drawer branch, desktop Dialog branch or documented responsive test strategy, shared trigger/copy/form/default values, footer cancel close behavior, app-owned viewport branching, public hooks, and mapping copy. |
+| `drawer-demo` | Trigger styled as outline Button with text `Open Drawer`; bottom Drawer with handle; title `Move Goal`; description `Set your daily activity goal.`; centered max-width content; app-owned goal value initialized to `350`; minus/plus outline icon buttons with sr-only labels `Decrease`/`Increase`, min/max disabled states at 200/400, and 10-point increments; label `Calories/day`; Recharts bar chart with goal data; footer with `Submit` button and outline `Cancel` close action. | Docs, candidate fixtures, and Playwright now render the named `drawer-demo` composition. Evidence covers the `Open Drawer` trigger, bottom Drawer content, handle, exact title/description copy, centered max-width layout, goal value `350`, accessible Decrease/Increase controls, deterministic disabled min/max evidence, `Calories/day`, dependency-free chart bars as the Recharts substitute, Submit/Cancel footer actions, focus behavior, Escape close, explicit close, public hooks, and mapping copy. | Covered | No follow-up for this row. Goal value changes, 10-point increments, persistence, and chart engine choice remain app-owned enhancement/state; the fixture proves the equivalent surface and boundaries without adding package dependencies. |
+| `drawer-dialog` | Responsive component that uses a Dialog branch on desktop and a Drawer branch on mobile; shared trigger text `Edit Profile`; shared title `Edit profile`; shared description `Make changes to your profile here. Click save when you're done.`; shared form with labelled email/username fields, defaults `shadcn@example.com` and `@shadcn`, and submit `Save changes`; mobile Drawer branch uses left-aligned header, padded form, footer with outline `Cancel` close action; desktop Dialog branch uses max-width content. | Docs, candidate fixtures, and Playwright now render deterministic desktop Dialog and mobile Drawer branch evidence for `drawer-dialog`. Evidence covers shared trigger/copy/form/default values, desktop Dialog content width style, mobile Drawer handle and footer Cancel, submit behavior, public Dialog/Drawer/Input/Label/Button hooks, close/focus behavior, and mapping copy. | Covered | No follow-up for this row. Applications own the actual breakpoint policy; RadCN proves the branch composition without adding media-query hooks or React state. |
 
 ## Capability Mapping
 
@@ -86,12 +85,9 @@ implementation pass discovers and records a concrete RadCN package gap.
 
 ## Decision
 
-The Drawer example cluster is not resolved yet. RadCN has the core package
-behavior needed for both upstream examples, and no mandatory React, Vaul,
-`asChild`, Tailwind, `cn`, `lucide-react`, Recharts, media-query hook,
-form-state, charting-library, or vendor dependency was identified. The missing
-proof is named parity depth: docs, candidate fixtures, and Playwright should
-render and test `drawer-demo` and `drawer-dialog` with exact copy, goal-control
-composition, chart or chart-mapping evidence, responsive Dialog/Drawer
-composition, form/input/label composition, footer actions, public hooks, custom
-layout evidence, and modal behavior in those compositions.
+The Drawer example cluster is resolved. RadCN has the core package behavior
+needed for both upstream examples, and Experiment 68 added the missing named
+docs, candidate fixtures, and Playwright evidence for `drawer-demo` and
+`drawer-dialog`. No mandatory React, Vaul, `asChild`, Tailwind, `cn`,
+`lucide-react`, Recharts, media-query hook, form-state, charting-library, or
+vendor dependency was identified.

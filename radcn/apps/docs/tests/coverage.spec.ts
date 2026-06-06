@@ -28,7 +28,7 @@ const publicPreviewHooks: Record<string, string> = {
   'date-picker': '[data-radcn-date-picker]',
   direction: '[data-radcn-direction-provider]',
   dialog: '[data-radcn-dialog-trigger]',
-  drawer: '[data-radcn-drawer-content]',
+  drawer: '[data-radcn-drawer-trigger]',
   'dropdown-menu': '[data-radcn-dropdown-menu]',
   empty: '[data-radcn-empty]',
   field: '[data-radcn-field]',
@@ -494,6 +494,56 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('React open/onOpenChange, Radix DialogPrimitive').first()).toBeVisible()
     await expect(page.getByText('DialogFooter showCloseButton is an upstream convenience API').first()).toBeVisible()
     await expect(page.getByText('does not add copy-to-clipboard behavior').first()).toBeVisible()
+
+    await page.goto('/docs/components/drawer')
+    for (let slug of [
+      'drawer-demo',
+      'drawer-dialog',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-drawer-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] [data-radcn-drawer-trigger]')).toHaveText('Open Drawer')
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] [data-radcn-drawer-content]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] [data-radcn-drawer-content]')).toHaveClass(/radcn-docs-drawer-demo-content/)
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] [data-radcn-drawer-handle]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] [data-radcn-drawer-title]')).toHaveText('Move Goal')
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] [data-radcn-drawer-description]')).toHaveText('Set your daily activity goal.')
+    await expect(page.locator('[data-radcn-docs-drawer-layout="move-goal"]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-drawer-goal-value]')).toHaveText('350')
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"]')).toContainText('Calories/day')
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] button[aria-label="Decrease"]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] button[aria-label="Increase"]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] button[aria-label="Decrease at minimum"]')).toBeDisabled()
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] button[aria-label="Increase at maximum"]')).toBeDisabled()
+    await expect(page.locator('[data-radcn-docs-drawer-chart]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-drawer-bar]')).toHaveCount(13)
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] [data-radcn-drawer-footer] [data-radcn-button]')).toHaveText('Submit')
+    await expect(page.locator('[data-radcn-docs-drawer-family="drawer-demo"] [data-radcn-drawer-footer] [data-radcn-drawer-close]')).toHaveText('Cancel')
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="desktop"] [data-radcn-dialog-trigger]')).toHaveText('Edit Profile')
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="desktop"] [data-radcn-dialog-content]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="desktop"] [data-radcn-dialog-content]')).toHaveClass(/radcn-docs-drawer-dialog-desktop-content/)
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="desktop"] [data-radcn-dialog-title]')).toHaveText('Edit profile')
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="desktop"] [data-radcn-dialog-description]')).toHaveText("Make changes to your profile here. Click save when you're done.")
+    await expect(page.locator('[data-radcn-docs-drawer-form="desktop"] [data-radcn-label]')).toHaveText(['Email', 'Username'])
+    await expect(page.locator('[data-radcn-docs-drawer-form="desktop"] [data-radcn-input]').nth(0)).toHaveValue('shadcn@example.com')
+    await expect(page.locator('[data-radcn-docs-drawer-form="desktop"] [data-radcn-input]').nth(1)).toHaveValue('@shadcn')
+    await expect(page.locator('[data-radcn-docs-drawer-form="desktop"] [data-radcn-button]')).toHaveText('Save changes')
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="mobile"] [data-radcn-drawer-trigger]')).toHaveText('Edit Profile')
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="mobile"] [data-radcn-drawer-content]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="mobile"] [data-radcn-drawer-content]')).toHaveClass(/radcn-docs-drawer-dialog-mobile-content/)
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="mobile"] [data-radcn-drawer-title]')).toHaveText('Edit profile')
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="mobile"] [data-radcn-drawer-description]')).toHaveText("Make changes to your profile here. Click save when you're done.")
+    await expect(page.locator('[data-radcn-docs-drawer-form="mobile"] [data-radcn-label]')).toHaveText(['Email', 'Username'])
+    await expect(page.locator('[data-radcn-docs-drawer-form="mobile"] [data-radcn-input]').nth(0)).toHaveValue('shadcn@example.com')
+    await expect(page.locator('[data-radcn-docs-drawer-form="mobile"] [data-radcn-input]').nth(1)).toHaveValue('@shadcn')
+    await expect(page.locator('[data-radcn-docs-drawer-form="mobile"] [data-radcn-button]')).toHaveText('Save changes')
+    await expect(page.locator('[data-radcn-docs-drawer-dialog-branch="mobile"] [data-radcn-drawer-footer] [data-radcn-drawer-close]')).toHaveText('Cancel')
+    await expect(page.getByText('React props/state, Vaul DrawerPrimitive').first()).toBeVisible()
+    await expect(page.getByText('Button asChild maps to styling DrawerTrigger').first()).toBeVisible()
+    await expect(page.getByText('Minus, Plus, lucide-react, Recharts').first()).toBeVisible()
+    await expect(page.getByText('dependency-free chart bars as the Recharts composition substitute').first()).toBeVisible()
+    await expect(page.getByText('responsive Dialog/Drawer example is proven with deterministic desktop and mobile branch fixtures').first()).toBeVisible()
+    await expect(page.getByText('Vendor source remains read-only evidence').first()).toBeVisible()
 
     await page.goto('/docs/components/tabs')
     await expect(page.locator('[data-radcn-tabs]').first()).toBeVisible()

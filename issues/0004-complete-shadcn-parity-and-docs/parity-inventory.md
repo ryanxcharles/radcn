@@ -143,6 +143,7 @@ These are documented in RadCN but are not current package exports.
 | examples | card | resolved | `issues/0004-complete-shadcn-parity-and-docs/61-audit-card-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/62-implement-card-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/card-example-inventory.md` |
 | examples | command | resolved | `issues/0004-complete-shadcn-parity-and-docs/63-audit-command-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/64-implement-command-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/command-example-inventory.md` |
 | examples | dialog | resolved | `issues/0004-complete-shadcn-parity-and-docs/65-audit-dialog-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/66-implement-dialog-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/dialog-example-inventory.md` |
+| examples | drawer | resolved | `issues/0004-complete-shadcn-parity-and-docs/67-audit-drawer-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/68-implement-drawer-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/drawer-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -230,7 +231,6 @@ parity decision.
 | collapsible | 1 | `collapsible-demo` |
 | context-menu | 1 | `context-menu-demo` |
 | data-table | 1 | `data-table-demo` |
-| drawer | 2 | `drawer-demo`, `drawer-dialog` |
 | hover-card | 1 | `hover-card-demo` |
 | label | 1 | `label-demo` |
 | menubar | 1 | `menubar-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for drawer
+**Cluster:** Example parity for scroll-area
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for drawer.
+- Audit upstream examples for scroll-area.
 
 ## Notes
 

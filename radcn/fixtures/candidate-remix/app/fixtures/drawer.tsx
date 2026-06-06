@@ -1,5 +1,17 @@
 import type { FixtureScenario } from '../../../scenarios/types.ts'
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from 'radcn'
+import {
   Drawer,
   DrawerClose,
   DrawerContent,
@@ -11,7 +23,29 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from 'radcn'
+import { Button, Input, Label } from 'radcn'
 import type { DrawerDirection } from 'radcn'
+
+const moveGoalData = [400, 300, 200, 300, 200, 278, 189, 239, 300, 200, 278, 189, 349]
+
+function MoveGoalBars() {
+  return (
+    <div
+      aria-label="Daily activity goal history"
+      data-drawer-goal-chart
+      role="img"
+      style="display:flex;align-items:end;gap:0.25rem;height:120px;padding:0.75rem 0;"
+    >
+      {moveGoalData.map((value) => (
+        <span
+          data-drawer-goal-bar
+          data-goal={String(value)}
+          style={`display:block;flex:1;min-width:0;border-radius:999px;background:#020617;height:${Math.max(24, Math.round(value / 4))}px;opacity:${value < 220 ? '0.42' : '0.8'};`}
+        />
+      ))}
+    </div>
+  )
+}
 
 function drawerBody(scenario: string) {
   if (scenario === 'scrollable-content') {
@@ -64,7 +98,110 @@ function drawerPanel(scenario: string, direction: 'top' | 'right' | 'bottom' | '
   )
 }
 
+function renderDrawerDemoFixture() {
+  return (
+    <div style="display:grid;place-items:center;min-height:220px">
+      <Drawer defaultOpen direction="bottom" id="candidate-drawer-demo">
+        <DrawerTrigger class="radcn-button radcn-button--outline">Open Drawer</DrawerTrigger>
+        <DrawerPortal>
+          <DrawerOverlay />
+          <DrawerContent class="radcn-fixture-drawer-demo-content" direction="bottom" showHandle>
+            <div data-drawer-demo-layout style="margin:0 auto;width:100%;max-width:24rem;">
+              <DrawerHeader>
+                <DrawerTitle>Move Goal</DrawerTitle>
+                <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+              </DrawerHeader>
+              <div style="display:grid;gap:1rem;padding:0 1rem;">
+                <div style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1rem;">
+                  <Button ariaLabel="Decrease" size="icon" variant="outline">-</Button>
+                  <div style="text-align:center;">
+                    <div data-drawer-goal-value style="font-size:3rem;font-weight:700;line-height:1;">350</div>
+                    <div>Calories/day</div>
+                  </div>
+                  <Button ariaLabel="Increase" size="icon" variant="outline">+</Button>
+                </div>
+                <div data-drawer-goal-bounds style="display:flex;gap:0.5rem;justify-content:center;">
+                  <Button ariaLabel="Decrease at minimum" disabled size="icon-sm" variant="outline">-</Button>
+                  <Button ariaLabel="Increase at maximum" disabled size="icon-sm" variant="outline">+</Button>
+                </div>
+                {MoveGoalBars()}
+              </div>
+              <DrawerFooter>
+                <Button type="submit">Submit</Button>
+                <DrawerClose class="radcn-button radcn-button--outline">Cancel</DrawerClose>
+              </DrawerFooter>
+            </div>
+          </DrawerContent>
+        </DrawerPortal>
+      </Drawer>
+    </div>
+  )
+}
+
+function ProfileForm({ idPrefix, padded = false }: { idPrefix: string; padded?: boolean }) {
+  return (
+    <form data-drawer-dialog-form={idPrefix} method="post" style={`display:grid;gap:1rem;${padded ? 'padding:0 1rem;' : ''}`}>
+      <div style="display:grid;gap:0.5rem;">
+        <Label for={`${idPrefix}-email`}>Email</Label>
+        <Input id={`${idPrefix}-email`} name="email" type="email" value="shadcn@example.com" />
+      </div>
+      <div style="display:grid;gap:0.5rem;">
+        <Label for={`${idPrefix}-username`}>Username</Label>
+        <Input id={`${idPrefix}-username`} name="username" value="@shadcn" />
+      </div>
+      <Button type="submit">Save changes</Button>
+    </form>
+  )
+}
+
+function renderDrawerDialogDemoFixture() {
+  return (
+    <div style="display:grid;gap:1rem;place-items:center;min-height:240px">
+      <div data-drawer-dialog-branch="desktop">
+        <Dialog id="candidate-drawer-dialog-desktop">
+          <DialogTrigger class="radcn-button radcn-button--outline">Edit Profile</DialogTrigger>
+          <DialogPortal>
+            <DialogOverlay />
+            <DialogContent class="radcn-fixture-drawer-dialog-desktop-content" style="width:min(100%,425px);">
+              <DialogHeader>
+                <DialogTitle>Edit profile</DialogTitle>
+                <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+              </DialogHeader>
+              {ProfileForm({ idPrefix: 'drawer-dialog-desktop' })}
+              <DialogFooter>
+                <DialogClose class="radcn-button radcn-button--outline">Cancel</DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </DialogPortal>
+        </Dialog>
+      </div>
+
+      <div data-drawer-dialog-branch="mobile">
+        <Drawer direction="bottom" id="candidate-drawer-dialog-mobile">
+          <DrawerTrigger class="radcn-button radcn-button--outline">Edit Profile</DrawerTrigger>
+          <DrawerPortal>
+            <DrawerOverlay />
+            <DrawerContent class="radcn-fixture-drawer-dialog-mobile-content" direction="bottom" showHandle>
+              <DrawerHeader style="text-align:left;">
+                <DrawerTitle>Edit profile</DrawerTitle>
+                <DrawerDescription>Make changes to your profile here. Click save when you're done.</DrawerDescription>
+              </DrawerHeader>
+              {ProfileForm({ idPrefix: 'drawer-dialog-mobile', padded: true })}
+              <DrawerFooter>
+                <DrawerClose class="radcn-button radcn-button--outline">Cancel</DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </DrawerPortal>
+        </Drawer>
+      </div>
+    </div>
+  )
+}
+
 export function renderDrawerFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') return renderDrawerDemoFixture()
+  if (fixture.id === 'dialog-demo') return renderDrawerDialogDemoFixture()
+
   if (fixture.id === 'directions') {
     return (
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;justify-content:center;min-height:180px">
