@@ -769,3 +769,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 45: Audit dropdown-menu example parity](45-audit-dropdown-menu-example-parity.md)
   — **Pass**
+- [Experiment 46: Implement dropdown-menu example parity depth](46-implement-dropdown-menu-example-parity-depth.md)
+  — **Designed**
