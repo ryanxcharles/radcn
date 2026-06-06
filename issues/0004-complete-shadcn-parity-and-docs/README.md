@@ -1845,3 +1845,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 120: Audit tooltip example parity](120-audit-tooltip-example-parity.md)
   — **Partial**
+- [Experiment 121: Implement tooltip example parity depth](121-implement-tooltip-example-parity-depth.md)
+  — **Designed**
