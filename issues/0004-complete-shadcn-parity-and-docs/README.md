@@ -246,3 +246,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 8: Resolve typography outcome](08-resolve-typography-outcome.md)
   — **Pass**
+- [Experiment 9: Audit button example parity](09-audit-button-example-parity.md)
+  — **Designed**
