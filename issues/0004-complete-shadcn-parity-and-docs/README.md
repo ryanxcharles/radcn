@@ -956,6 +956,17 @@ Record cross-component discoveries here as experiments complete.
   marks both rows `Covered`, `resolved-clusters.json` records `scroll-area` as
   resolved, and the regenerated parity inventory recommends example parity for
   `select` next.
+- Experiment 71 audited Select example parity in
+  `select-example-inventory.md`. RadCN already covers Select-owned root,
+  trigger/value, portal/content/viewport, groups/labels/items, selected
+  indicators, hidden inputs, keyboard navigation, typeahead, disabled skip
+  behavior, scroll buttons, scrollable viewport behavior, popper placement,
+  custom tokens, and form reset behavior. The cluster remains partial because
+  docs, fixtures, and tests do not yet prove the named `select-demo` and
+  `select-scrollable` upstream compositions: the fruit option set with `Fruits`
+  label and the full timezone grouped scrollable list. The next experiment
+  should implement named docs examples, candidate fixture routes, and Playwright
+  coverage for `select-demo` and `select-scrollable`.
 
 ## Experiments
 
@@ -1100,4 +1111,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 70: Implement scroll-area example parity depth](70-implement-scroll-area-example-parity-depth.md)
   — **Pass**
 - [Experiment 71: Audit select example parity](71-audit-select-example-parity.md)
-  — **Designed**
+  — **Partial**

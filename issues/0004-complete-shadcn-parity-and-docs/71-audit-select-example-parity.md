@@ -160,3 +160,63 @@ with status `Designed`, includes concrete verification, preserves audit-only
 scope, has not started implementation, keeps vendor status clean, and
 correctly identifies the active upstream example ids as `select-demo` and
 `select-scrollable`.
+
+## Result
+
+**Result:** Partial
+
+Created `select-example-inventory.md` and audited the two active upstream
+Select examples: `select-demo` and `select-scrollable`.
+
+RadCN already covers the core Select primitive behavior: root, trigger, value
+placeholder and selected display, portal/content/viewport, groups, labels,
+items, selected indicators, hidden input synchronization, keyboard navigation,
+typeahead, disabled item skip behavior, scroll buttons, scrollable viewport,
+popper placement, disabled and invalid states, custom tokens, and form reset
+behavior.
+
+The active upstream examples are still only partially covered because current
+docs, candidate fixtures, and Playwright tests prove generic Select behavior
+rather than the named upstream fruit option set and grouped timezone list. The
+audit did not identify a required Select package API change. The likely next
+experiment should add named docs examples, candidate fixture routes, and
+Playwright coverage for `select-demo` and `select-scrollable`, while keeping
+React, Radix Select primitives, `lucide-react`, Tailwind, `cn`, and vendor
+source out of RadCN package dependencies.
+
+Verification run:
+
+- `node - <<'NODE' ... NODE` deterministic row-count check:
+  `select-demo: 1`, `select-scrollable: 1`.
+- `rg -n "select-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+## Conclusion
+
+Select example parity is partial. The package API appears sufficient for the
+active upstream examples, but named docs, fixtures, and Playwright coverage are
+still needed to prove the upstream compositions. The next experiment should
+implement parity depth for `select-demo` and `select-scrollable` without adding
+React, Radix Select primitives, `lucide-react`, Tailwind, `cn`, or vendor
+dependencies.
+
+## Completion Review
+
+Reviewer: Archimedes the 2nd (`019e9cda-2258-7bc1-86fe-bb06968016e0`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: the first review found that the inventory miscounted the upstream
+  `select-scrollable` timezone options as 26 instead of 27. Fixed by recording
+  27 timezone options and requiring follow-up coverage for all 27 options and
+  values.
+- Major: the first review found that the Issue 4 README recorded the audit
+  conclusion but not the next recommended experiment. Fixed by adding the
+  named docs, candidate fixture route, and Playwright coverage recommendation.
+- Minor: none.
+
+Approval: approved after re-review. The reviewer confirmed both findings were
+resolved, no new blocker was introduced, and `git diff --check` passes.
