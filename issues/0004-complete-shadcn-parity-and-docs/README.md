@@ -667,3 +667,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 36: Implement kbd example parity depth](36-implement-kbd-example-parity-depth.md)
   — **Pass**
+- [Experiment 37: Audit textarea example parity](37-audit-textarea-example-parity.md)
+  — **Designed**
