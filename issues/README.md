@@ -6,6 +6,7 @@
 | ------------------------------------------------------ | ---------------------------------------- | ---------- |
 | [0005](0005-local-installation-flow/README.md)         | Build the RadCN Local Installation Flow  | 2026-06-06 |
 | [0006](0006-tailwind-required-styling-model/README.md) | Make Tailwind the Required Styling Model | 2026-06-06 |
+| [0007](0007-align-shadcn-model-divergences/README.md)  | Align shadcn Model Divergences           | 2026-06-07 |
 
 ## Closed
 
