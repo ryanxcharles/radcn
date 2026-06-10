@@ -54,6 +54,14 @@ RadCN will use Tailwind v4, the latest Tailwind major version for this project.
 
 In scope:
 
+- Fix the failing fixture Playwright tests observed during this issue's work:
+  `tests/dialog.spec.ts` ("edit profile" and "share link" compositions) and
+  `tests/drawer.spec.ts` ("desktop Dialog and mobile Drawer branches"), which
+  time out clicking dialog/drawer close buttons that Playwright reports as
+  never becoming stable. These surfaced during Issue 6 baseline runs and are
+  owned by this issue: the styling migration must land on a fully green
+  fixture suite, and every experiment that touches fixture styling must leave
+  the full suite passing.
 - Decide and document the Tailwind v4 integration model for Remix 3.
 - Update RadCN package metadata so Tailwind is treated as a required peer where
   appropriate.
@@ -114,6 +122,8 @@ a dependency listed in package manifests.
 
 This issue is complete when:
 
+- the full fixture Playwright suite passes, including the dialog and drawer
+  specs named in the scope;
 - Tailwind v4 is documented as required for RadCN;
 - package metadata declares Tailwind as a peer dependency wherever RadCN
   components or generated source require it;
