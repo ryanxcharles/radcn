@@ -242,7 +242,11 @@ test('candidate hover card preserves trigger content hover region and timer canc
 test('candidate hover card supports focus delay placement custom tokens and non-modal behavior', async ({ page }) => {
   let opened = await openFreshHoverCard(page, 'delay')
   await opened.trigger.hover()
-  await expect(opened.content).toBeHidden()
+  // Single-shot check: the card must not be open immediately after hover (it
+  // honors its open delay). A retrying toBeHidden() here is a race — the delay
+  // timer fires during the retry window (the mouse stays hovering), flipping
+  // the card visible, so the matcher would then time out "Received: visible".
+  expect(await opened.content.isVisible(), 'hover card honors its open delay').toBe(false)
   await expect(opened.content).toBeVisible({ timeout: 1000 })
   await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
 

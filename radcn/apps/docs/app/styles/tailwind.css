@@ -2,12 +2,15 @@
  * Tailwind v4 source for the docs app (Issue 6, Experiment 6). Mirrors the
  * candidate fixture's pipeline: the standalone @tailwindcss/cli compiles this
  * into app/assets/tailwind.generated.css, which createAssetServer() serves and
- * the document shell links before radcnStyles. Preflight is deliberately
- * excluded (a later, page-visible decision). @source scans the RadCN package
- * source so migrated components' utilities are generated.
+ * the document shell links before radcnStyles. Preflight (the global base
+ * reset) is enabled (Issue 6, Experiment 9) because shadcn component utilities
+ * assume it; it is ordered before radcnStyles so bespoke rules win ties.
+ * @source scans the RadCN package source so migrated components' utilities are
+ * generated.
  */
 @source '../../../../packages/radcn/src';
 
 @import 'tailwindcss/theme';
+@import 'tailwindcss/preflight';
 @import 'radcn/theme.css';
 @import 'tailwindcss/utilities';

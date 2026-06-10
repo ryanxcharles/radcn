@@ -146,7 +146,7 @@ a dependency listed in package manifests.
 - [Experiment 8: Migrate Kbd to Tailwind utilities](08-migrate-kbd-to-tailwind.md)
   — **Pass**
 - [Experiment 9: Enable Tailwind preflight](09-enable-tailwind-preflight.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -279,6 +279,24 @@ From Experiment 8 (Kbd migration):
   `[[data-slot=tooltip-content]_&]`, since RadCN tooltips use
   `data-radcn-tooltip-content`); copying verbatim is harmless and flags a
   future structural-alignment item.
+
+From Experiment 9 (enable Tailwind preflight):
+
+- Preflight is ON in both pipelines, ordered before `radcnStyles` (bespoke
+  rules win ties). `border` now renders (border-style solid baseline),
+  `box-sizing: border-box` is global, and margins/headings/lists are reset —
+  bordered components (Empty, Input, Card, Dialog, …) can migrate faithfully
+  without a base-reset workaround.
+- Preflight's blast radius was tiny thanks to the link-before-radcnStyles
+  ordering; the only deterministic break was a positioned-overlay clamp
+  interaction.
+- `menu-overlay.ts` `positionElement()` clamps fixed overlays to
+  `[data-fixture-stage]` when present (else viewport); the vertical clamp is
+  now anchor-aware so a too-tall menu in a short container overflows instead of
+  covering its trigger. Touch carefully.
+- Classify probe failures flaky-vs-deterministic by re-running each in
+  isolation Nx before attributing them to a change (serial-suite timing causes
+  overlay-test flakiness).
 
 ## Completion Criteria
 

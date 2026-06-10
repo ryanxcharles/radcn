@@ -655,7 +655,10 @@ test.describe('docs registry coverage', () => {
     await expect(hoverCardTrigger).toHaveClass(/radcn-button--link/)
     await expect(hoverCardContent).toBeHidden()
     await hoverCardTrigger.hover()
-    await expect(hoverCardContent).toBeVisible({ timeout: 1000 })
+    // The hover card has a 700ms open delay; a 1000ms bound leaves only ~300ms
+    // of slack and flakes under this large test's serial load. Use a generous
+    // timeout — the assertion verifies hovering opens the card, not its latency.
+    await expect(hoverCardContent).toBeVisible({ timeout: 5000 })
     await expect(hoverCardContent).toHaveAttribute('data-side', 'bottom')
     await expect(hoverCardContent).toHaveAttribute('data-align', 'center')
     await expect(hoverCardContent).toHaveAttribute('data-side-offset', '4')

@@ -91,7 +91,24 @@ function positionElement(content: HTMLElement, anchor: AnchorPoint, boundaryAnch
   }
 
   left = clamp(left, boundary.left + gap, boundary.right - contentBox.width - gap)
-  top = clamp(top, boundary.top + gap, boundary.bottom - contentBox.height - gap)
+
+  // Vertical placement clamps within the boundary, but must never pull the menu
+  // up/down over its own anchor. When the boundary is too short to fit the
+  // content on the chosen side (e.g. a tall menu inside a small container, which
+  // Tailwind preflight can produce), keep the menu anchored to the trigger and
+  // allow it to overflow rather than covering the trigger. Side menus
+  // (left/right) sit beside the anchor, so the plain boundary clamp is fine.
+  let topMin = boundary.top + gap
+  let topMax = boundary.bottom - contentBox.height - gap
+  if (side === 'bottom') {
+    let belowAnchor = anchor.y + anchor.height + offset
+    top = topMax >= belowAnchor ? clamp(top, topMin, topMax) : belowAnchor
+  } else if (side === 'top') {
+    let aboveAnchor = anchor.y - contentBox.height - offset
+    top = topMin <= aboveAnchor ? clamp(top, topMin, topMax) : aboveAnchor
+  } else {
+    top = clamp(top, topMin, topMax)
+  }
 
   content.style.position = 'fixed'
   content.style.left = `${Math.round(left)}px`

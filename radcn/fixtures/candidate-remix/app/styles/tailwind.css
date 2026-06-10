@@ -1,11 +1,12 @@
 /*
- * Tailwind v4 source for the candidate fixture. Preflight is deliberately
- * excluded for now (Issue 6, Experiment 1): enabling the base reset is a
- * component-migration decision because it changes rendering on every
- * existing fixture page.
+ * Tailwind v4 source for the candidate fixture. Preflight (the global base
+ * reset) is enabled (Issue 6, Experiment 9) because shadcn component utilities
+ * assume it (e.g. border-style: solid, box-sizing: border-box). It is ordered
+ * before radcn/theme.css and radcnStyles so bespoke rules win cascade ties.
  */
 @source '../../../../packages/radcn/src';
 
 @import 'tailwindcss/theme';
+@import 'tailwindcss/preflight';
 @import 'radcn/theme.css';
 @import 'tailwindcss/utilities';
