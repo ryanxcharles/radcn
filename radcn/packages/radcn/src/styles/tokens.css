@@ -924,55 +924,11 @@
   padding: 0 1.25rem 1.25rem;
 }
 
-.radcn-empty {
-  display: flex;
-  min-height: 13rem;
-  width: min(100%, 32rem);
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  border: 1px dashed var(--radcn-border);
-  border-radius: calc(var(--radcn-radius) + 0.125rem);
-  padding: 2rem;
-  text-align: center;
-  font-family: var(--radcn-font);
-}
-
-.radcn-empty-header,
-.radcn-empty-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.radcn-empty-media {
-  display: flex;
-  width: 3rem;
-  height: 3rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: var(--radcn-secondary);
-  color: var(--radcn-secondary-foreground);
-  font: 600 1rem/1 var(--radcn-font);
-}
-
-.radcn-empty-media--icon {
-  background: var(--radcn-primary);
-  color: var(--radcn-primary-foreground);
-}
-
-.radcn-empty-title {
-  font: 600 1rem/1.3 var(--radcn-font);
-}
-
-.radcn-empty-description {
-  max-width: 22rem;
-  color: var(--radcn-muted-foreground);
-  font: 400 0.875rem/1.45 var(--radcn-font);
-}
+/*
+ * Empty and its sub-components are migrated to Tailwind utilities (Issue 6,
+ * Experiment 10). Their bespoke rules were removed; the components emit shadcn
+ * v4 utility classes. Their data attributes remain as non-visual hooks.
+ */
 
 /*
  * Kbd and KbdGroup are migrated to Tailwind utilities (Issue 6, Experiment 8).

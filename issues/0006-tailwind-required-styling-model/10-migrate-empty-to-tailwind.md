@@ -110,6 +110,61 @@ Fail criteria: any spec regresses (e.g. the `border-style: dashed` or
 `background-color` assertion shifts unexpectedly); a utility is not generated;
 `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Empty and its five sub-components are migrated; both suites are green and
+stable. Verification:
+
+1. Both `styles:build` exit 0; each generated CSS contains the empty utilities
+   (`border-dashed`, `size-10`, `tracking-tight`, etc.).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-empty` rule remains.
+   A `--radcn-empty` grep of the fixtures confirmed no custom-token usage.
+4. Docs suite: **11 passed**, run 5 times consecutively — stable.
+5. Fixture suite: **1191 passed**, run twice — stable; the empty
+   `outline` (`border-style: dashed`) and `background`
+   (`background-color: rgb(244,244,245)`) computed-style assertions both pass.
+6. `git diff --check` clean; `vendor/` untouched; both generated CSS untracked.
+
+Deviation from the design (documented): the design expected only the three
+Empty files to change. In verification the docs `representative rich-example`
+test flaked (~1/3) on the hover-card opening — `#docs-hover-card-demo-content`
+"Received: hidden" even at the 5000ms timeout, meaning the open did not fire
+that run (a pointer-enter miss, not slowness). This is the same docs hover-card
+flake Experiment 9 attempted to fix by raising the timeout; that fix was
+necessary but insufficient. Root cause: in this large single test the pointer
+can already sit over the hover-card trigger from a prior interaction, so
+`hover()` produces no fresh pointer-enter and the 700ms-delayed card never
+opens. Fixed by parking the pointer at (0,0) before the hover so a clean enter
+always fires. `radcn/apps/docs/tests/coverage.spec.ts` is therefore in the
+changed set. This is unrelated to the Empty migration (hover-card is a separate
+docs page) — a pre-existing flake surfaced and now properly stabilized; docs
+ran 5/5 green after the fix.
+
+## Conclusion
+
+Empty is the first bordered component migrated under preflight, faithfully to
+shadcn v4 (borderless by default, transparent default media, `rounded-lg`
+icon media), with its bespoke CSS removed and data hooks retained. Both suites
+are stably green. The recurring docs hover-card flake is now robustly fixed at
+its real cause (clean pointer-enter), closing out the insufficient Experiment 9
+timeout-only fix.
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- shadcn ships some components borderless/transparent by default (Empty's
+  `border-dashed` has no width; EmptyMedia default is `bg-transparent`). Faithful
+  migration adopts that; the visible-box look is opt-in via `class`. No RadCN
+  test asserted the old visible default, so the change is safe — but flag such
+  visual shifts in the result.
+- Flaky delayed-overlay open assertions need BOTH a generous timeout AND a
+  clean pointer-enter (`page.mouse.move(0,0)` before `hover()`); a timeout
+  alone does not fix a missed pointer-enter. Apply this to any
+  hover()→delayed-open→toBeVisible pattern.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -141,3 +196,23 @@ APPROVED.
 
 Approval result: approved (round 2). No blocker findings remain; round 1's
 findings were clarity-only and are folded in.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer compared all six sub-components' strings to the vendor source
+(verbatim), confirmed the EmptyMedia base+variant merge, the retained data
+hooks, the removed `.radcn-empty*` rules with a literal-free comment, the
+byte-identical `index.ts`, and that both empty computed-style assertions
+survive; judged the documented `coverage.spec.ts` hover-card deviation a
+legitimate root-cause flake fix (clean pointer-enter), not masking; and
+independently re-ran both `styles:build`, all three typechecks, the docs suite
+(5/5 = 11) and the fixture suite (2/2 = 1191). Verdict: APPROVED.
+
+Approval result: approved with no blockers.

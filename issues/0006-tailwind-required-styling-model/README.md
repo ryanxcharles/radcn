@@ -148,7 +148,7 @@ a dependency listed in package manifests.
 - [Experiment 9: Enable Tailwind preflight](09-enable-tailwind-preflight.md)
   — **Pass**
 - [Experiment 10: Migrate Empty to Tailwind utilities](10-migrate-empty-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -299,6 +299,17 @@ From Experiment 9 (enable Tailwind preflight):
 - Classify probe failures flaky-vs-deterministic by re-running each in
   isolation Nx before attributing them to a change (serial-suite timing causes
   overlay-test flakiness).
+
+From Experiment 10 (Empty migration — first bordered component under preflight):
+
+- shadcn ships some components borderless/transparent by default (Empty's
+  `border-dashed` carries no width; EmptyMedia default is `bg-transparent`).
+  Faithful migration adopts that; the visible-box look is opt-in via `class`.
+  Flag such visual shifts in the result even when no test asserts the old look.
+- Flaky delayed-overlay open assertions need BOTH a generous timeout AND a
+  clean pointer-enter: `page.mouse.move(0, 0)` before `hover()`. A timeout
+  alone does not fix a missed pointer-enter (the open never fires). Apply to
+  any `hover()` → delayed-open → `toBeVisible` pattern (fixture and docs).
 
 ## Completion Criteria
 

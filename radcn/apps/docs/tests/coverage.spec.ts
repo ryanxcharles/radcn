@@ -654,10 +654,14 @@ test.describe('docs registry coverage', () => {
     await expect(hoverCardTrigger).toHaveText('@nextjs')
     await expect(hoverCardTrigger).toHaveClass(/radcn-button--link/)
     await expect(hoverCardContent).toBeHidden()
+    // Park the pointer away first so the subsequent hover() always produces a
+    // fresh pointer-enter on the trigger — otherwise, if the pointer happens to
+    // already sit over the trigger from a prior interaction in this large test,
+    // hover() fires no enter event and the (700ms-delayed) card never opens.
+    await page.mouse.move(0, 0)
     await hoverCardTrigger.hover()
-    // The hover card has a 700ms open delay; a 1000ms bound leaves only ~300ms
-    // of slack and flakes under this large test's serial load. Use a generous
-    // timeout — the assertion verifies hovering opens the card, not its latency.
+    // The hover card has a 700ms open delay; use a generous timeout (the
+    // assertion verifies hovering opens the card, not its latency).
     await expect(hoverCardContent).toBeVisible({ timeout: 5000 })
     await expect(hoverCardContent).toHaveAttribute('data-side', 'bottom')
     await expect(hoverCardContent).toHaveAttribute('data-align', 'center')

@@ -4,6 +4,21 @@ import { classes } from '../utils/classes.ts'
 
 export type EmptyMediaVariant = 'default' | 'icon'
 
+// Tailwind utility classes copied verbatim from shadcn/ui v4
+// (registry/new-york-v4/ui/empty.tsx). See Issue 6, Experiment 10.
+const emptyClass =
+  'flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12'
+const emptyHeaderClass = 'flex max-w-sm flex-col items-center gap-2 text-center'
+const emptyTitleClass = 'text-lg font-medium tracking-tight'
+const emptyDescriptionClass =
+  'text-sm/relaxed text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary'
+const emptyContentClass = 'flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance'
+const emptyMediaBase = 'mb-2 flex shrink-0 items-center justify-center [&_svg]:pointer-events-none [&_svg]:shrink-0'
+const emptyMediaVariants: Record<EmptyMediaVariant, string> = {
+  default: 'bg-transparent',
+  icon: "flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg:not([class*='size-'])]:size-6",
+}
+
 export interface EmptyProps {
   children?: RemixNode
   class?: string
@@ -25,7 +40,7 @@ export function Empty(handle: Handle<EmptyProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <div class={classes('radcn-empty', className)} data-radcn-empty style={style}>
+      <div class={classes(emptyClass, className)} data-radcn-empty style={style}>
         {children}
       </div>
     )
@@ -33,19 +48,19 @@ export function Empty(handle: Handle<EmptyProps>) {
 }
 
 export function EmptyHeader(handle: Handle<EmptyPartProps>) {
-  return () => emptyPart('radcn-empty-header', 'data-radcn-empty-header', handle.props)
+  return () => emptyPart(emptyHeaderClass, 'data-radcn-empty-header', handle.props)
 }
 
 export function EmptyTitle(handle: Handle<EmptyPartProps>) {
-  return () => emptyPart('radcn-empty-title', 'data-radcn-empty-title', handle.props)
+  return () => emptyPart(emptyTitleClass, 'data-radcn-empty-title', handle.props)
 }
 
 export function EmptyDescription(handle: Handle<EmptyPartProps>) {
-  return () => emptyPart('radcn-empty-description', 'data-radcn-empty-description', handle.props)
+  return () => emptyPart(emptyDescriptionClass, 'data-radcn-empty-description', handle.props)
 }
 
 export function EmptyContent(handle: Handle<EmptyPartProps>) {
-  return () => emptyPart('radcn-empty-content', 'data-radcn-empty-content', handle.props)
+  return () => emptyPart(emptyContentClass, 'data-radcn-empty-content', handle.props)
 }
 
 export function EmptyMedia(handle: Handle<EmptyMediaProps>) {
@@ -54,7 +69,7 @@ export function EmptyMedia(handle: Handle<EmptyMediaProps>) {
 
     return (
       <div
-        class={classes('radcn-empty-media', `radcn-empty-media--${variant}`, className)}
+        class={classes(emptyMediaBase, emptyMediaVariants[variant], className)}
         data-radcn-empty-media
         data-variant={variant}
         style={style}
