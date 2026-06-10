@@ -49,6 +49,14 @@ RadCN will use Tailwind v4, the latest Tailwind major version for this project.
   needs a stable selector.
 - Data attributes may remain for state, behavior, and test selectors, but they
   should not replace Tailwind for visual styling.
+- Tailwind preflight (the global base reset) IS enabled for RadCN (decision by
+  the maintainer, 2026-06-10), reversing the Experiments 1–8 deferral. shadcn
+  component utility strings assume preflight (notably `border-style: solid`,
+  `box-sizing: border-box`, and margin/heading/list resets), so bordered
+  components require it. It is added to both the candidate fixture and docs
+  Tailwind pipelines in a dedicated experiment, ordered before `radcnStyles`
+  so bespoke rules still win cascade ties; the resulting computed-style churn
+  across both suites is triaged and updated in that experiment.
 - Per-component `--radcn-*` custom-token override hooks (e.g.
   `--radcn-badge-bg`) are dropped for shadcn parity (decision by the
   maintainer, 2026-06-10). Migrated components emit only Tailwind utilities;
@@ -137,6 +145,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 8: Migrate Kbd to Tailwind utilities](08-migrate-kbd-to-tailwind.md)
   — **Pass**
+- [Experiment 9: Enable Tailwind preflight](09-enable-tailwind-preflight.md)
+  — **Designed**
 
 ## Learnings
 
