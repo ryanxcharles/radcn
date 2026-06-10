@@ -117,6 +117,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 2: Define the RadCN Tailwind theme/token contract](02-define-tailwind-theme-token-contract.md)
   — **Pass**
+- [Experiment 3: Fix the dialog close-button positioning collision](03-fix-dialog-close-button-collision.md)
+  — **Designed**
 
 ## Completion Criteria
 
