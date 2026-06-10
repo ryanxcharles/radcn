@@ -133,6 +133,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 6: Establish the docs app Tailwind pipeline and repair the docs gate](06-docs-app-tailwind-pipeline.md)
   — **Pass**
+- [Experiment 7: Migrate Skeleton and Separator to Tailwind utilities](07-migrate-skeleton-separator-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
