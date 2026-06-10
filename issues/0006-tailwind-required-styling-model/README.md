@@ -151,6 +151,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 11: Migrate Label to Tailwind utilities](11-migrate-label-to-tailwind.md)
   — **Pass**
+- [Experiment 12: Declare Tailwind as a peer dependency](12-declare-tailwind-peer-dependency.md)
+  — **Designed**
 
 ## Learnings
 
