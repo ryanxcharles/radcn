@@ -135,6 +135,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 7: Migrate Skeleton and Separator to Tailwind utilities](07-migrate-skeleton-separator-to-tailwind.md)
   — **Pass**
+- [Experiment 8: Migrate Kbd to Tailwind utilities](08-migrate-kbd-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
