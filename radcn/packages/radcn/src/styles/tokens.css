@@ -207,7 +207,7 @@
 }
 
 .radcn-field[data-invalid="true"] .radcn-field-label,
-.radcn-field[data-invalid="true"] .radcn-label {
+.radcn-field[data-invalid="true"] [data-radcn-label] {
   color: var(--radcn-field-error, var(--radcn-destructive));
 }
 
@@ -255,14 +255,13 @@
   display: contents;
 }
 
-.radcn-label {
-  color: var(--radcn-foreground);
-  font: 500 0.875rem/1.2 var(--radcn-font);
-}
-
-.radcn-label[data-disabled="true"] {
-  color: var(--radcn-muted-foreground);
-}
+/*
+ * Label is migrated to Tailwind utilities (Issue 6, Experiment 11). Its
+ * bespoke rules were removed; the component emits shadcn v4 utility classes
+ * plus a self data-[disabled] variant. The field-invalid-label color rule
+ * above now targets the [data-radcn-label] hook. data-radcn-label /
+ * data-disabled remain as non-visual hooks.
+ */
 
 .radcn-input,
 .radcn-textarea {

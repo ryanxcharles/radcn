@@ -93,6 +93,48 @@ Fail criteria: any spec regresses (esp. the Field cluster, if the selector
 repoint missed something); a utility not generated; `tokens.css`/`index.ts`
 diverge.
 
+## Result
+
+**Result:** Pass
+
+Label is migrated; both suites are green and stable. Verification:
+
+1. Both `styles:build` exit 0; generated CSS contains the label utilities
+   (`select-none`, `data-[disabled=true]:opacity-50`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; the base `.radcn-label` and
+   `.radcn-label[data-disabled]` rules are gone; the field-invalid rule now
+   targets `.radcn-field[data-invalid="true"] [data-radcn-label]` (tokens.css:210).
+4. Docs suite: **11 passed** ×2 — incl. the label-demo wrapper assertions.
+5. Fixture suite: **1191 passed** ×2 — incl. the Field cluster
+   (`form-input-cluster.spec.ts`) and the disabled-label fixtures
+   (combobox/field/input-otp).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; only
+   the three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+Label is migrated to shadcn v4 utilities, including the first cross-component
+CSS-selector dependency handled cleanly: the Field-invalid-label color rule was
+repointed from the `.radcn-label` class to the `[data-radcn-label]` data hook,
+so dropping the class did not strand the Field interaction. RadCN's `disabled`
+prop keeps working via a self `data-[disabled=true]` variant (opacity-50, the
+shadcn look) while shadcn's inert `group-data`/`peer-disabled` variants are
+kept verbatim.
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- A component's bespoke class can be a CSS-SELECTOR dependency of ANOTHER
+  component (here Field styled `.radcn-label`). Before removing a class, grep
+  `tokens.css` for ALL selectors using it; repoint cross-component selectors to
+  the migrated component's `[data-*]` hook so the interaction survives.
+- When a RadCN component has an API (e.g. Label's `disabled` prop) that shadcn
+  expresses via group/peer context, keep shadcn's variants verbatim (inert) and
+  ADD the self `data-[...]` variant that drives the RadCN prop.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -116,5 +158,25 @@ combobox/field/input-otp but none assert appearance); the self
 while shadcn's inert `group-data`/`peer-disabled` variants are kept verbatim;
 and the disabled muted-color→opacity-50 change is faithful and untested.
 Verdict: APPROVED.
+
+Approval result: approved with no blockers.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed the verbatim shadcn string + self-disabled variant, the
+retained data hooks, no `radcn-label` class emitted, the removed base/disabled
+rules, the field-invalid selector repointed to `[data-radcn-label]` (line 210)
+with the cross-component color still applying (no color utility on the label;
+rule in `radcnStyles`), the byte-identical `index.ts`, and the three-file
+change set; independently re-ran both `styles:build`, all three typechecks,
+the docs suite (2/2 = 11) and the fixture suite (2/2 = 1191, incl. the Field
+cluster and disabled-label fixtures). Verdict: APPROVED.
 
 Approval result: approved with no blockers.

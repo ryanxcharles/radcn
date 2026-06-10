@@ -150,7 +150,7 @@ a dependency listed in package manifests.
 - [Experiment 10: Migrate Empty to Tailwind utilities](10-migrate-empty-to-tailwind.md)
   — **Pass**
 - [Experiment 11: Migrate Label to Tailwind utilities](11-migrate-label-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -312,6 +312,17 @@ From Experiment 10 (Empty migration — first bordered component under preflight
   clean pointer-enter: `page.mouse.move(0, 0)` before `hover()`. A timeout
   alone does not fix a missed pointer-enter (the open never fires). Apply to
   any `hover()` → delayed-open → `toBeVisible` pattern (fixture and docs).
+
+From Experiment 11 (Label migration — first cross-component selector dep):
+
+- A component's bespoke class can be a CSS-SELECTOR dependency of ANOTHER
+  component (Field styled `.radcn-label` for the invalid state). Before
+  removing a class, grep `tokens.css` for ALL selectors using it and repoint
+  any cross-component selector to the migrated component's `[data-*]` hook so
+  the interaction survives.
+- When a RadCN component has an API shadcn expresses via group/peer context
+  (Label's `disabled` prop), keep shadcn's variants verbatim (inert) and ADD
+  the self `data-[...]` variant that drives the RadCN prop.
 
 ## Completion Criteria
 
