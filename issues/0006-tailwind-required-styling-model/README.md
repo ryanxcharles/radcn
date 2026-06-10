@@ -154,7 +154,7 @@ a dependency listed in package manifests.
 - [Experiment 12: Declare Tailwind as a peer dependency](12-declare-tailwind-peer-dependency.md)
   — **Pass**
 - [Experiment 13: Align Issue 5 install-flow docs with Tailwind-required](13-align-issue5-install-flow-tailwind-required.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -336,6 +336,17 @@ From Experiment 12 (Tailwind peer dependency):
 - Issue 5's registry/`components.json`/install-flow must propagate the same
   "Tailwind v4 required" contract to generated consumer projects (the
   remaining peer-dependency completion-criterion surface).
+
+From Experiment 13 (align Issue 5 docs with Tailwind-required):
+
+- Issue 5's install-flow docs now record that the flow must require Tailwind v4
+  in the target and fail loudly if absent; generated `components.json` retains
+  Tailwind config fields (Remix 3 + Tailwind v4); registry items declare
+  Tailwind as a required peer. These are the contract for Issue 5's eventual
+  implementation.
+- A doc-only experiment editing an open issue's spine needs no Playwright run;
+  verify doc consistency with the deciding issue, preserved frontmatter, and a
+  stable regenerated issues index.
 
 ## Completion Criteria
 

@@ -89,9 +89,13 @@ The shadcn install model is:
 - `registryDependencies` are resolved recursively, then merged and
   deduplicated into a single installation tree.
 - Installation updates package dependencies, environment variables, files, and
-  CSS. Tailwind config updates are part of shadcn, but RadCN should only carry
-  Tailwind-specific fields forward if a component or docs requirement actually
-  needs them.
+  CSS. Tailwind config updates are part of shadcn, and for RadCN they are
+  required: Issue 6 established that Tailwind v4 is mandatory (components emit
+  Tailwind utilities and the package declares `tailwindcss` as a peer
+  dependency). The install flow therefore assumes the target project has
+  Tailwind v4, the generated `components.json` carries the Tailwind
+  configuration fields adapted for Remix 3 and Tailwind v4, and registry items
+  declare Tailwind as a required peer.
 - File writes validate safe targets, derive paths from config aliases, skip
   unchanged files, and require explicit overwrite behavior for existing files.
 
@@ -116,10 +120,17 @@ fixture app.
   tradeoff before introducing package-owned primitive imports.
 - RadCN should support TypeScript only. Do not support plain JavaScript output,
   `tsx: false`, or `.jsx` rewrites.
+- Tailwind v4 is a required peer for installed RadCN components (per Issue 6).
+  The install flow must require Tailwind v4 in the target and fail loudly if it
+  is absent (the mechanism is this issue's to design). The generated
+  `components.json` retains the Tailwind configuration fields, adapted for
+  Remix 3 and Tailwind v4, and generated registry items/components declare
+  Tailwind as a required peer.
 - RadCN should carry forward only config fields that make sense for Remix 3.
-  Omit or reinterpret shadcn fields such as `rsc`, Tailwind-specific fields,
-  and icon-library defaults unless an experiment records a concrete Remix 3
-  need for them.
+  Omit or reinterpret shadcn fields such as `rsc` and icon-library defaults
+  unless an experiment records a concrete Remix 3 need for them. (Tailwind
+  configuration fields are an exception: they are required, per the decision
+  above and Issue 6.)
 - The local flow should be close enough to the eventual published flow that the
   local command, config, registry, and generated source can translate directly
   to the public npm-backed version later.
