@@ -136,7 +136,7 @@ a dependency listed in package manifests.
 - [Experiment 7: Migrate Skeleton and Separator to Tailwind utilities](07-migrate-skeleton-separator-to-tailwind.md)
   — **Pass**
 - [Experiment 8: Migrate Kbd to Tailwind utilities](08-migrate-kbd-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -257,6 +257,18 @@ From Experiment 7 (Skeleton + Separator batch migration):
   attribute, so those components migrate without markup changes.
 - Reword in-CSS migration comments to avoid the literal removed selector
   tokens, keeping "no longer present" greps unambiguous.
+
+From Experiment 8 (Kbd migration):
+
+- Before claiming a migration needs no test changes, grep BOTH suites for
+  `toHaveClass(/radcn-<name>/)` (class-presence) AND computed-style assertions
+  on the component. A class-presence assertion on a removed bespoke class must
+  be deleted or repointed to the retained `data-*` hook (the data attributes,
+  not the class, are the durable selector hooks).
+- Verbatim shadcn strings may include variants inert in RadCN (e.g. kbd's
+  `[[data-slot=tooltip-content]_&]`, since RadCN tooltips use
+  `data-radcn-tooltip-content`); copying verbatim is harmless and flags a
+  future structural-alignment item.
 
 ## Completion Criteria
 

@@ -974,25 +974,11 @@
   font: 400 0.875rem/1.45 var(--radcn-font);
 }
 
-.radcn-kbd-group {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.radcn-kbd {
-  display: inline-flex;
-  min-width: 1.75rem;
-  min-height: 1.75rem;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--radcn-border);
-  border-radius: calc(var(--radcn-radius) - 0.125rem);
-  background: var(--radcn-secondary);
-  color: var(--radcn-foreground);
-  font: 500 0.75rem/1 var(--radcn-font);
-  user-select: none;
-}
+/*
+ * Kbd and KbdGroup are migrated to Tailwind utilities (Issue 6, Experiment 8).
+ * Their bespoke rules were removed; the components emit shadcn v4 utility
+ * classes. Their data attributes remain as non-visual hooks.
+ */
 
 /*
  * Skeleton and Separator are migrated to Tailwind utilities (Issue 6,

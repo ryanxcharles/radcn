@@ -201,11 +201,9 @@ test('candidate empty and kbd expose semantic slot hooks', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/kbd/default`)
   let group = page.locator('[data-radcn-kbd-group]')
   await expect(group).toHaveCount(1)
-  await expect(group).toHaveClass(/radcn-kbd-group/)
 
   let keys = page.locator('kbd[data-radcn-kbd]')
   await expect(keys).toHaveText(['Cmd', 'K'])
-  await expect(keys.first()).toHaveClass(/radcn-kbd/)
 })
 
 test('candidate kbd covers shadcn example parity depth', async ({ page }) => {

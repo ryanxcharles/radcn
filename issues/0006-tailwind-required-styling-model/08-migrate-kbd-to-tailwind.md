@@ -156,3 +156,67 @@ leaves a valid suite, and found no other kbd class-presence assertion in either
 suite and no new blocker. Verdict: APPROVED.
 
 Approval result: approved (round 2). No blocker findings remain.
+
+## Result
+
+**Result:** Pass
+
+Kbd and KbdGroup are migrated; both suites are green. Verification:
+
+1. Both `styles:build` runs exit 0; each generated CSS contains the kbd
+   utilities (`.bg-muted`, `.rounded-sm` present).
+2. `pnpm radcn:typecheck`, `pnpm fixtures:candidate:typecheck`,
+   `pnpm --dir radcn/apps/docs typecheck` all pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-kbd` rule remains
+   (the migration comment carries no literal selector).
+4. Docs suite: **11 passed**.
+5. Fixture suite: **1191 passed** — with the two redundant kbd class-presence
+   assertions deleted (the `[data-radcn-kbd-group]`/`kbd[data-radcn-kbd]`
+   locators, count, and text assertions retained and still passing).
+6. `git diff --check` clean; `vendor/` untouched; both generated CSS untracked;
+   exactly the four expected files changed (`kbd.tsx`, `tokens.css`,
+   `index.ts`, fixture `static-display.spec.ts`).
+
+No deviations from the approved design.
+
+## Conclusion
+
+Kbd is off bespoke CSS and onto shadcn v4 utilities. The migration also
+surfaced a generalizable gate lesson the design review caught: a component's
+bespoke class can be the subject of class-PRESENCE assertions
+(`toHaveClass(/radcn-X/)`), not only computed-style assertions — both kinds
+must be searched in both suites before claiming "no test changes."
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- Before claiming a migration needs no test changes, grep BOTH suites for
+  `toHaveClass(/radcn-<name>/)` (class-presence) AND `toHaveCSS`/computed-style
+  assertions on the component. Class-presence assertions on a removed bespoke
+  class must be deleted or repointed to the retained `data-*` hook.
+- Verbatim shadcn strings may include variants that are inert in RadCN (e.g.
+  kbd's `[[data-slot=tooltip-content]_&]` — RadCN tooltips use
+  `data-radcn-tooltip-content`); copying them verbatim is harmless and marks a
+  future structural-alignment item, but note them.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given only `AGENTS.md`, the issue README, this experiment
+file, and read access to the working tree; not the implementer conversation)
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer compared the Kbd/KbdGroup strings token-for-token against the
+vendor source, confirmed the tokens.css rule removals and the literal-free
+comment, the byte-identical `index.ts`, and that exactly the two class-presence
+assertions were deleted while the data-attribute locators/count/text remained;
+independently re-ran both `styles:build` (confirming `.bg-muted`/`.rounded-sm`),
+all three typechecks, the docs suite (**11 passed**), and the fixture suite
+(**1191 passed**); verified the four-file change set, both generated CSS
+untracked, clean `git diff --check`/vendor, README Pass status and Learnings
+entry, plan commit `778d401` present and result commit absent. Verdict:
+APPROVED.
+
+Approval result: approved with no blockers.
