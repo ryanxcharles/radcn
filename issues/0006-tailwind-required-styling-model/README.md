@@ -153,6 +153,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 12: Declare Tailwind as a peer dependency](12-declare-tailwind-peer-dependency.md)
   — **Pass**
+- [Experiment 13: Align Issue 5 install-flow docs with Tailwind-required](13-align-issue5-install-flow-tailwind-required.md)
+  — **Designed**
 
 ## Learnings
 
