@@ -6,4 +6,5 @@ export const routes = route({
   fixtures: '/fixtures',
   fixtureComponent: '/fixtures/:component',
   fixtureScenario: '/fixtures/:component/:scenario',
+  tailwindProbe: '/tailwind-probe',
 })

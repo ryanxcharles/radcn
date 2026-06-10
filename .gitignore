@@ -18,4 +18,5 @@ radcn/fixtures/**/.react-router/
 radcn/fixtures/**/.vite/
 radcn/fixtures/**/test-results/
 radcn/fixtures/**/playwright-report/
+radcn/fixtures/**/app/assets/tailwind.generated.css
 radcn/fixtures/artifacts/

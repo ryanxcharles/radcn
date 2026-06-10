@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node --watch --import remix/node-tsx server.ts",
-    "start": "node --import remix/node-tsx server.ts",
+    "dev": "pnpm styles:build && node --watch --import remix/node-tsx server.ts",
+    "start": "pnpm styles:build && node --import remix/node-tsx server.ts",
+    "styles:build": "tailwindcss --input app/styles/tailwind.css --output app/assets/tailwind.generated.css",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -12,7 +13,9 @@
     "remix": "catalog:"
   },
   "devDependencies": {
+    "@tailwindcss/cli": "catalog:",
     "@types/node": "catalog:",
+    "tailwindcss": "catalog:",
     "typescript": "catalog:"
   }
 }

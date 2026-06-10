@@ -1,0 +1,8 @@
+/*
+ * Tailwind v4 source for the candidate fixture. Preflight is deliberately
+ * excluded for now (Issue 6, Experiment 1): enabling the base reset is a
+ * component-migration decision because it changes rendering on every
+ * existing fixture page.
+ */
+@import 'tailwindcss/theme';
+@import 'tailwindcss/utilities';

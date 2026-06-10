@@ -106,7 +106,7 @@ a dependency listed in package manifests.
 ## Experiments
 
 - [Experiment 1: Prove the Tailwind v4 integration point for native Remix 3](01-prove-tailwind-v4-asset-pipeline.md)
-  — **Designed**
+  — **Pass**
 
 ## Completion Criteria
 

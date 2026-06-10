@@ -160,3 +160,84 @@ source detection without a config file) and confirmed each one fails loudly at
 a concrete verification step if wrong.
 
 Approval result: approved with no blockers.
+
+## Result
+
+**Result:** Pass
+
+All verification steps passed as designed:
+
+1. `pnpm install` resolved the new catalog entries (`tailwindcss` and
+   `@tailwindcss/cli` landed at v4.3.0) and updated `pnpm-lock.yaml`. pnpm
+   asked for a build-script decision on `@parcel/watcher` (a `@tailwindcss/cli`
+   dependency used only for `--watch` mode, which this experiment does not
+   use); it is pinned to `false` in the `allowBuilds` section of
+   `pnpm-workspace.yaml`. This was the only change not anticipated in the
+   design's file list.
+2. `pnpm --dir radcn/fixtures/candidate-remix styles:build` exited 0 in ~24 ms
+   and wrote a 10 KB `app/assets/tailwind.generated.css` starting with
+   `/*! tailwindcss v4.3.0 | MIT License | https://tailwindcss.com */`,
+   containing `.bg-\[\#112233\]` and not containing the unused `#445566`
+   marker. Tailwind v4 automatic source detection found the probe classes in
+   the fixture source with no config file and no `@source` directives.
+3. `pnpm fixtures:candidate:typecheck` passed.
+4. `tests/tailwind-probe.spec.ts` passed (2/2): the stylesheet is served by
+   `createAssetServer()` with HTTP 200, `text/css`, real on-demand Tailwind
+   output; computed styles on the probe match every asserted utility
+   (`display: flex`, `flex-direction: column`, `gap: 16px`, `padding: 24px`,
+   `border-radius: 8px`, `background-color: rgb(17, 34, 51)`,
+   `color: rgb(250, 250, 250)`, `margin-top: 8px` on the child) with no
+   `style` attribute anywhere on the probe elements.
+5. `tests/accordion.spec.ts` and `tests/input.spec.ts` passed (6/6): the
+   dev-script change and new route did not disturb the harness or existing
+   pages.
+6. `git diff --check` clean.
+7. `git status --short vendor/` empty.
+
+## Conclusion
+
+The Key Question from the issue README is answered: the correct Tailwind v4
+integration point for a native Remix 3 app is a standalone `@tailwindcss/cli`
+build step that compiles a Tailwind source file into a generated CSS asset,
+which `createAssetServer()` then serves like any other source CSS (fingerprint
+rewriting included) and pages link via `routes.assets.href(...)`. No Vite, no
+React Router, no PostCSS runner, and no Tailwind config file are needed;
+automatic source detection works from the package directory.
+
+Learnings for later experiments:
+
+- `@import 'tailwindcss/theme'` + `@import 'tailwindcss/utilities'` without
+  preflight works and keeps existing pages untouched. Enabling preflight is a
+  deliberate, page-visible decision that belongs to the experiments that
+  migrate component styling and remove bespoke CSS.
+- Dev DX is "rebuild on demand": `dev`/`start` run `styles:build` once before
+  the server boots. A style change during development needs a re-run (or a
+  future `--watch` refinement, which would require enabling the
+  `@parcel/watcher` build script currently pinned to `false`).
+- The radcn package source is not yet scanned by Tailwind (the CLI runs from
+  the fixture directory). When components start carrying utility classes, the
+  fixture's Tailwind source will need `@source` directives pointing at
+  `../../packages/radcn/src`.
+
+The natural next experiment: define the RadCN Tailwind theme/token contract
+(mapping the `--radcn-*` CSS variables to Tailwind v4 `@theme` tokens, shadcn
+style) so component migration has a target vocabulary.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given only `AGENTS.md`, the issue README, this experiment
+file, and read access to the working tree; not the implementer conversation)
+
+Findings: none (no Blocker, Major, or Minor findings).
+
+The reviewer confirmed the implementation matches the approved scope, re-ran
+`styles:build`, the typecheck, and the probe Playwright spec independently,
+verified the generated CSS is real on-demand Tailwind v4.3.0 output and is
+gitignored/untracked, confirmed the `@parcel/watcher: false` addition is
+explained and correct, verified hygiene checks (`git diff --check`, vendor
+cleanliness, no nested repos), and verified the plan commit exists while the
+result commit did not yet exist at review time.
+
+Approval result: approved with no blockers.

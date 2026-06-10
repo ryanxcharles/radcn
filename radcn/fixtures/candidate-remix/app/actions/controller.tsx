@@ -8,6 +8,7 @@ import {
 } from '../../../scenarios/index.ts'
 import { assetServer } from '../assets.ts'
 import { renderCandidateFixture } from '../fixtures/index.tsx'
+import { renderTailwindProbe } from '../fixtures/tailwind-probe.tsx'
 import {
   descriptionStyle,
   headingStyle,
@@ -109,6 +110,21 @@ export default createController(routes, {
               {renderCandidateFixture(fixture)}
             </section>
           </main>
+        </Document>,
+      )
+    },
+    tailwindProbe(context) {
+      return context.render(
+        <Document
+          title="Tailwind v4 probe"
+          head={
+            <link
+              rel="stylesheet"
+              href={routes.assets.href({ path: 'app/assets/tailwind.generated.css' })}
+            />
+          }
+        >
+          {renderTailwindProbe()}
         </Document>,
       )
     },
