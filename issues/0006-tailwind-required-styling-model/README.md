@@ -155,6 +155,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 13: Align Issue 5 install-flow docs with Tailwind-required](13-align-issue5-install-flow-tailwind-required.md)
   — **Pass**
+- [Experiment 14: Migrate AspectRatio to Tailwind utilities](14-migrate-aspect-ratio-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
