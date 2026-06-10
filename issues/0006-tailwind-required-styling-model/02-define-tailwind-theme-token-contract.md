@@ -251,3 +251,100 @@ judgment as a workflow misreading (design review precedes implementation
 under `AGENTS.md`), and its citation concern was resolved with the live
 Tailwind docs evidence recorded above; round 3's radius-formula finding was
 real and fixed; round 4 confirmed the fix. No blocker findings remain.
+
+## Result
+
+**Result:** Pass
+
+The headline proof landed exactly as designed: `@import 'radcn/theme.css'`
+resolved through the package `exports` map on the first try (no fallback
+needed), `@theme inline` generated the semantic utilities, the
+`[data-radcn-theme="dark"]` token block re-binds variables by cascade, and
+the `dark:` custom variant fires on the data attribute. All verification
+steps pass:
+
+1. `styles:build` exits 0; the generated CSS contains the token blocks, the
+   inlined semantic wiring, and the dark-variant utility rule
+   (`.dark\:bg-\[\#223344\] { &:where([data-radcn-theme='dark'], ...)`).
+2. `pnpm radcn:typecheck` passes with the new `./theme.css` export.
+3. `pnpm fixtures:candidate:typecheck` passes.
+4. `tests/tailwind-probe.spec.ts` passes (3/3) including the new semantic
+   light/dark spec: light block computes
+   `rgb(255, 255, 255)` / `rgb(24, 24, 27)` / `rgb(228, 228, 231)` / `4.8px`,
+   dark block computes `rgb(34, 51, 68)` (the `dark:` utility beating
+   `bg-background`) / `rgb(250, 250, 250)` / `rgb(63, 63, 70)`.
+5. `tests/accordion.spec.ts` + `tests/input.spec.ts` pass (6/6).
+6. `git diff --check` clean. 7. `vendor/` untouched.
+
+Two assertion-level deviations from the design, both discovered by running
+the verification and both recorded here as required:
+
+- The design asserted the generated CSS contains the literal
+  `--color-background: var(--background)`. In reality `@theme inline`
+  substitutes the referenced expression directly into utilities — the
+  emitted proof of the mapping is `background-color: var(--background)`
+  inside the `.bg-background` rule, and no `--color-*` custom properties are
+  emitted at all (that is precisely what `inline` means). The spec asserts
+  the substituted form. Additionally, the asset server's CSS compiler
+  normalizes attribute-selector quoting between the on-disk file and the
+  served response, so the dark-block assertion matches with quoting left
+  open (`/\[data-radcn-theme=.?dark.?\]/`).
+- The design claimed "all Experiment 1 assertions pass unchanged." Wrong by
+  design intent: the theme contract redefines the `--radius-*` scale
+  (`--radius-lg: var(--radius)` = 0.375rem = 6px), so Experiment 1's
+  `rounded-lg` assertion of Tailwind's default `8px` now correctly computes
+  `6px`. The assertion was updated with a comment. This is the contract
+  working as shadcn intends — `rounded-*` utilities across the whole app
+  re-scale through the theme token — and it is exactly the kind of
+  interaction later component-migration experiments must expect.
+
+## Conclusion
+
+The RadCN Tailwind theme/token contract exists and is proven end to end:
+shadcn-named tokens (`--background` ... `--ring`, `--radius`) with RadCN's
+current palette values, `@theme inline` mappings generating
+`bg-background`-style semantic utilities, shadcn's exact radius scale, and a
+`dark:` variant bound to `[data-radcn-theme="dark"]` per Tailwind's
+documented data-attribute pattern. The contract is package-owned and consumed
+via the `radcn/theme.css` export, which Issue 5's registry/config work can
+reuse verbatim.
+
+Learnings for later experiments:
+
+- Consumers of the contract import three layers in order:
+  `tailwindcss/theme`, `radcn/theme.css`, `tailwindcss/utilities`.
+- `@theme inline` emits no `--color-*` variables; tests and tooling must
+  look for the substituted `var(--token)` form in utility rules.
+- Defining `--radius-*` re-scales every `rounded-*` utility application-wide.
+  Component migration experiments must re-baseline any existing assertions
+  that relied on Tailwind default radii (and similar care applies if the
+  contract ever defines spacing or font tokens).
+- The served CSS is not byte-identical to the CLI output (the asset server
+  recompiles it); string assertions against served CSS must tolerate
+  cosmetic normalization.
+
+The natural next experiment: migrate one representative component (Button)
+from bespoke `radcn-*` CSS to Tailwind utilities against this contract,
+including `@source` scanning of the package source from the fixture's
+Tailwind build, and decide the preflight question in that concrete context.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given only `AGENTS.md`, the issue README, this experiment
+file, and read access to the working tree; not the implementer conversation)
+
+Findings: none (no Blocker, Major, or Minor findings).
+
+The reviewer re-ran `styles:build`, both typechecks, and the probe spec
+independently (all passing), verified theme.css token names/values against
+`tokens.css` and the radius formulas against the shadcn v4 vendor sources,
+confirmed the package-export import resolved with no fallback, and assessed
+both recorded deviations as legitimate documented Tailwind v4 behavior rather
+than masked failures — explicitly noting the `rounded-lg` 8px→6px re-baseline
+is the token contract working as shadcn intends. Hygiene verified: clean
+`git diff --check`, vendor untouched, generated CSS untracked, plan commit
+`f94d005` present, result commit absent at review time.
+
+Approval result: approved with no blockers.

@@ -22,6 +22,20 @@ export function renderTailwindProbe() {
           through the Remix 3 asset server.
         </p>
       </section>
+      <section
+        data-tailwind-semantic-light
+        class="mt-8 w-full max-w-md rounded-md border border-border bg-background p-6 text-foreground dark:bg-[#223344]"
+      >
+        <p>Semantic tokens, light context.</p>
+      </section>
+      <div data-radcn-theme="dark">
+        <section
+          data-tailwind-semantic-dark
+          class="mt-8 w-full max-w-md rounded-md border border-border bg-background p-6 text-foreground dark:bg-[#223344]"
+        >
+          <p>Same class string, dark context.</p>
+        </section>
+      </div>
     </main>
   )
 }

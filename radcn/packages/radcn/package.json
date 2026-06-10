@@ -66,6 +66,7 @@
     "./tooltip": "./src/components/tooltip.tsx",
     "./typography": "./src/components/typography.tsx",
     "./styles": "./src/styles/index.ts",
+    "./theme.css": "./src/styles/theme.css",
     "./package.json": "./package.json"
   },
   "dependencies": {

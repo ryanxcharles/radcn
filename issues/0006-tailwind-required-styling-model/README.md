@@ -108,7 +108,7 @@ a dependency listed in package manifests.
 - [Experiment 1: Prove the Tailwind v4 integration point for native Remix 3](01-prove-tailwind-v4-asset-pipeline.md)
   — **Pass**
 - [Experiment 2: Define the RadCN Tailwind theme/token contract](02-define-tailwind-theme-token-contract.md)
-  — **Designed**
+  — **Pass**
 
 ## Completion Criteria
 

@@ -5,4 +5,5 @@
  * existing fixture page.
  */
 @import 'tailwindcss/theme';
+@import 'radcn/theme.css';
 @import 'tailwindcss/utilities';
