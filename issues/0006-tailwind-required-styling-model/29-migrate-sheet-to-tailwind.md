@@ -121,7 +121,56 @@ Fail criteria: a sheet/alert-dialog/dialog assertion regresses; a side variant
 mis-anchors; the custom overlay bg fails; the slide keyframe breaks;
 `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Sheet's overlay + content surface are migrated; both suites are green and
+stable. Verification:
+
+1. Both `styles:build` exit 0; the sheet utilities generate (`bg-background`,
+   `bg-black/50`, `flex-col`, `shadow-lg`, `animate-in`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-sheet-overlay`/
+   `.radcn-sheet-content`/`--{side}` base CLASS rule remains (count 0); the
+   `[data-radcn-sheet-content]` animation + 4 side variant rules present; the
+   `radcn-sheet-slide-in` keyframe kept; the Sheet `@media` block keeps
+   `[data-radcn-sheet-content]` (overlay removed); `.radcn-fixture-custom-sheet`
+   has the descendant overlay + content rules.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `modal-variants.spec.ts` + `dialog.spec.ts`
+   in isolation **14 passed** — incl. the sheet open/close, the four sides, the
+   demo, the custom-token overlay `background-color: rgba(15, 118, 110, 0.25)`,
+   the alert-dialog tests (unaffected), and the dialog tests (shared keyframes
+   intact).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the (corrected) approved design.
+
+## Conclusion
+
+Sheet is the third migrated modal (the side-anchored panel): its overlay +
+content surface render from shadcn utilities, the 4 `side` variants + the
+`radcn-sheet-slide-in` animation stay data-side-keyed bespoke (the panel's
+side-anchoring system), the content's reduced-motion guard is kept (repointed,
+since it retains the bespoke slide) while the overlay's is dropped (shadcn-
+faithful `animate-in`), and the custom-token override (on the portal) became
+descendant rules for the sibling overlay + content. Twenty-one components are
+now migrated (… Dialog, AlertDialog, Sheet — plus sub-parts). Only Drawer
+remains in the modal cluster (its own keyframe + reduced-motion block,
+untouched).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A multi-SIDE overlay variant (Sheet's right/left/top/bottom) is preserved by
+  keeping `data-side` and repointing each `--{side}` rule (position + size) to
+  `[data-…-content][data-side="{side}"]` — the side anchoring survives while the
+  surface migrates.
+- When an overlay's CONTENT keeps a bespoke animation (Sheet's
+  `radcn-sheet-slide-in`) but its OVERLAY moves to the `animate-in` utility,
+  keep the content's `@media (prefers-reduced-motion)` guard (repointed to the
+  data attribute) and drop only the overlay's — don't blanket-remove the block.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -156,3 +205,32 @@ correction is folded into the design.
 Approval result: approved (with the reduced-motion-guard fix applied) — the
 side-anchored modal migration is sound; the custom-token descendant translation,
 the side data-keying, and the kept slide keyframe + guard are correct.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed sheet.tsx emits the shadcn overlay + content-surface
+utilities (no `radcn-sheet-overlay`/`-content`/`--side` class), keeps `data-side`
++ the other data attributes, and leaves trigger/close/sub-parts unchanged;
+tokens.css has ZERO sheet overlay/content/--side class rules, the
+`[data-radcn-sheet-content]` animation + 4 `[data-side=X]` side rules, the kept
+`radcn-sheet-slide-in` keyframe, the Sheet `@media` block keeping
+`[data-radcn-sheet-content]` (overlay removed) with the Drawer block untouched,
+and `.radcn-fixture-custom-sheet` with the kept action token + descendant
+overlay/content rules; byte-identical `index.ts`. It re-ran both `styles:build`,
+the three typechecks, the docs suite (2/2 = 11), the fixture suite (2/2 = 1191),
+and `modal-variants.spec.ts` + `dialog.spec.ts` (14 — the sheet 4 sides/demo/
+custom overlay `rgba(15,118,110,0.25)`, alert-dialog, AND dialog all pass). It
+judged the side-anchored migration faithful, the side variants intact via
+`data-side`, the custom overlay bg from the descendant rule, the content
+reduced-motion guard correctly kept (content retains the bespoke slide), and
+Drawer/AlertDialog/Dialog unaffected. Verdict: APPROVED.
+
+Approval result: approved with no blockers — three modals done; only Drawer
+remains in the modal cluster.

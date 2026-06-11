@@ -3,6 +3,13 @@ import type { Handle, RemixNode } from 'remix/ui'
 import { classes } from '../utils/classes.ts'
 import { setupModal } from './dialog.tsx'
 
+// Sheet overlay + content surface as Tailwind utilities. See Issue 6,
+// Experiment 29 (the modal pattern, side-anchored). ENTER-only (the JS hides
+// via `hidden`). The content's side positioning/sizing (4 `side` variants) and
+// the radcn-sheet-slide-in animation stay data-side-keyed bespoke in tokens.css.
+const sheetOverlayClass = 'fixed inset-0 z-50 bg-black/50 animate-in fade-in-0'
+const sheetContentClass = 'fixed z-50 flex flex-col gap-4 border bg-background p-6 shadow-lg outline-none'
+
 export type SheetSide = 'top' | 'right' | 'bottom' | 'left'
 
 export interface SheetProps {
@@ -102,7 +109,7 @@ export function SheetOverlay(handle: Handle<SheetPartProps>) {
   return () => {
     let { class: className, style } = handle.props
 
-    return <div class={classes('radcn-sheet-overlay', className)} data-radcn-sheet-overlay data-state="closed" hidden style={style} />
+    return <div class={classes(sheetOverlayClass, className)} data-radcn-sheet-overlay data-state="closed" hidden style={style} />
   }
 }
 
@@ -112,7 +119,7 @@ export function SheetContent(handle: Handle<SheetContentProps>) {
 
     return (
       <div
-        class={classes('radcn-sheet-content', `radcn-sheet-content--${side}`, className)}
+        class={classes(sheetContentClass, className)}
         data-radcn-sheet-content
         data-side={side}
         data-state="closed"

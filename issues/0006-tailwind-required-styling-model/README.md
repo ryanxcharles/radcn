@@ -187,7 +187,7 @@ a dependency listed in package manifests.
 - [Experiment 28: Migrate AlertDialog overlay + content surface to Tailwind utilities](28-migrate-alert-dialog-to-tailwind.md)
   — **Pass**
 - [Experiment 29: Migrate Sheet overlay + content surface to Tailwind utilities](29-migrate-sheet-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -573,6 +573,16 @@ From Experiment 28 (AlertDialog — second modal — Pass):
 - The custom-token-on-portal → descendant-rules pattern repeats; confirm the
   fixture puts the class on the PORTAL (so descendant rules reach the sibling
   overlay) AND the content (so `toHaveClass` passes).
+
+From Experiment 29 (Sheet — third modal, side-anchored — Pass):
+
+- A multi-SIDE overlay variant (Sheet right/left/top/bottom) is preserved by
+  keeping `data-side` and repointing each `--{side}` rule to
+  `[data-…-content][data-side="{side}"]`.
+- When an overlay's CONTENT keeps a bespoke animation but its OVERLAY moves to
+  `animate-in`, keep the content's `@media (prefers-reduced-motion)` guard
+  (repointed to the data attribute) and drop only the overlay's — don't
+  blanket-remove the block.
 
 ## Completion Criteria
 
