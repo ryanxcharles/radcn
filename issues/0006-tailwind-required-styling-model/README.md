@@ -254,7 +254,7 @@ a dependency listed in package manifests.
 - [Experiment 61: Migrate Chart to Tailwind utilities](61-migrate-chart-to-tailwind.md)
   — **Pass**
 - [Experiment 62: Migrate Sidebar to Tailwind utilities](62-migrate-sidebar-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1016,6 +1016,18 @@ From Experiment 61 (Chart — Pass):
   the same CSS the original class applied).
 - When a base + variant conflict on multiple props (the chart swatch's w/h/rounded/bg),
   SELECT a full per-variant const in the component rather than base+append (Exp-41).
+
+From Experiment 62 (Sidebar — Pass):
+
+- A parent-state→descendant cascade where the descendant's matching attribute is also
+  set whenever the parent state holds (the enhancer sets the sidebar's data-collapsible
+  only when the provider is collapsed) collapses to the descendant's OWN data-variant —
+  no group/propagation needed; set a var via the variant + read it (Exp-41-safe).
+- When a parent→descendant cascade genuinely must stay (provider-collapse hide,
+  variant→inner add-ons), keeping it BESPOKE and repointing to the kept data-* attrs is
+  reliable PROVIDED the target has no conflicting base utility (a sole display:none, or a
+  clean add) — sidesteps both the Exp-47 override risk and unverified Tailwind named-group
+  features.
 
 ## Remaining Component Migration Map
 

@@ -154,6 +154,46 @@ floating/inset reproduce faithfully; BOTH suites green; byte-identical.
 Fail criteria: a sidebar assertion regresses; the var-set/stacked variants don't
 compile; the collapse/floating drifts; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Sidebar migrated; both suites green. All three `styles:build`/typechecks pass; the
+collapse `data-[collapsible=icon]:[--radcn-sidebar-cur-width:…]` var-set + the stacked
+`data-[collapsible=offcanvas]:data-[side=right]:[--…]` + the `[transition:flex-basis_160ms_ease,margin_160ms_ease]`
+compile (no junk); `index.ts` byte-identical; no migrated `.radcn-sidebar*` base rule
+remains (only the two kept descendant cascades — repointed to data attrs/the
+group-label marker — + the fixture); docs 11 ×2; `application-shell.spec.ts` isolation
+**4 passed** (the sidebar custom class + bg `rgb(240,253,250)`, the data-state/side/
+variant/collapsible attributes, expand/collapse toggle, keyboard shortcut, the
+menu/header/footer/inset/badge/action/skeleton/sub structure); fixture **1191 passed**
+(run 2 clean; run 1 had the single known hover-card serial-load flake — application-shell
+is green in isolation AND run 2 is fully clean, so not a Sidebar regression); `git diff
+--check` clean; three files changed.
+
+## Conclusion
+
+Sidebar renders from Tailwind utilities. The collapse width/margin are the sidebar's
+OWN `data-[collapsible]`/`data-[side]` variants that SET vars the sidebar READS (no
+flex-basis/margin conflict; `data-collapsible`⟹collapsed per the enhancer). Two
+genuinely descendant cascades stay bespoke, repointed to the kept `data-*`
+attributes (+ the group-label class marker) — reliable because each target has no
+conflicting base utility (the hide is a sole `display:none`; the floating/inset is a
+clean add). FIFTY-FIVE components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A parent-state→descendant cascade where the descendant's matching attribute is
+  ALSO set whenever the parent state holds (here the enhancer sets the sidebar's
+  `data-collapsible` only when the provider is collapsed) collapses to the
+  descendant's OWN data-variant — no group/propagation needed; set a var via the
+  variant + read it (Exp-41-safe).
+- When a parent→descendant cascade genuinely must stay (provider-collapse hide,
+  variant→inner add-ons), keeping it BESPOKE and repointing it to the kept `data-*`
+  attributes is reliable PROVIDED the target has no conflicting base utility (a sole
+  `display:none`, or a clean add of margin/border/bg) — this sidesteps both the
+  Exp-47 override risk and any unverified Tailwind named-group/nested-selector feature.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
@@ -180,3 +220,24 @@ is a clean add) — so it uses only proven primitives. The reviewer's other note
 Approval result: approved (after the revision) — the own-variant collapse + the two
 kept-bespoke descendant cascades (repointed to data attrs) avoid both the Exp-47
 override risk and the unverified named-group feature; the mappings + assertions hold.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed the own-variant collapse
+(enhancer sets `data-collapsible`=mode only when collapsed; the sidebar reads
+`--radcn-sidebar-cur-width` + the variant sets it; the stacked side=right variants);
+the two kept cascades present + repointed to the kept data attrs / group-label marker,
+both reliable (clean add / sole `display:none`); all surfaces emit utility consts; the
+`--{variant}` marker dropped, data attributes + the group-label/menu-button markers
+kept; tokens.css has no migrated base `.radcn-sidebar*` rules; byte-identical
+`index.ts`. It rebuilt (the var-sets + stacked variants + `[transition:…]`/
+`[border-inline-end:…]` generate, no junk), re-ran the three typechecks, the docs
+suite (11), `application-shell.spec.ts` (4 — the custom class, bg `rgb(240,253,250)`,
+the data-state/side/variant/collapsible attributes, structure), and the full fixture
+suite (1191, modulo the known hover-card serial-load flake — confirmed NOT a sidebar
+test). Verdict: APPROVED.
+
+Approval result: approved with no blockers — Sidebar migrated (55 components).
