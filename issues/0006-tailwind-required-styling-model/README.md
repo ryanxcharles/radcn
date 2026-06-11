@@ -235,6 +235,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 52: Migrate Menubar + NavigationMenu together to Tailwind utilities](52-migrate-menubar-navigation-menu-to-tailwind.md)
   — **Pass**
+- [Experiment 53: Migrate Command + Combobox together to Tailwind utilities](53-migrate-command-combobox-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
