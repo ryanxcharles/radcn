@@ -229,6 +229,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 49: Migrate Breadcrumb + Pagination together to Tailwind utilities](49-migrate-breadcrumb-pagination-to-tailwind.md)
   — **Pass**
+- [Experiment 50: Migrate Toast/Sonner to Tailwind utilities](50-migrate-toast-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
