@@ -220,7 +220,7 @@ a dependency listed in package manifests.
 - [Experiment 44: Migrate Toggle (button surface) to Tailwind utilities](44-migrate-toggle-to-tailwind.md)
   — **Fail** (reverted; Toggle + ToggleGroupItem share `.radcn-toggle` rules — migrate together)
 - [Experiment 45: Migrate Toggle + ToggleGroup together to Tailwind utilities](45-migrate-toggle-and-group-to-tailwind.md)
-  — **Designed**
+  — **Partial** (reverted; variant-less outline item border resolves to currentColor — needs variant/size propagation, not the CSS cascade)
 
 ## Learnings
 
@@ -818,6 +818,18 @@ From Experiment 44 (Toggle button alone — Fail, reverted):
   and its reusing siblings TOGETHER (the Exp-39 pattern).
 - A review scoped to the primary component + its fixtures can miss a sibling's
   raw-class reuse; the reviewer brief must say "grep EVERY component file."
+
+From Experiment 45 (Toggle + ToggleGroup together — Partial, reverted):
+
+- A kept bespoke parent->child CASCADE that overrides a child UTILITY is reliable
+  for some properties (min-height worked) but yielded an unexplained `currentColor`
+  for border-color on the migrated item (the `var()` resolved invalid despite the
+  token being defined). Do NOT assume a retained `:not([data-X])` cascade will
+  drive a property the migrated child no longer sets. For group->item size/variant
+  inheritance, the robust pattern is to PROPAGATE the resolved size/variant onto
+  each item (component prop injection or enhance-time data attributes) so every
+  item emits its OWN utility — no cascade. Toggle + ToggleGroup remain open for a
+  propagation-based re-attempt.
 
 ## Completion Criteria
 

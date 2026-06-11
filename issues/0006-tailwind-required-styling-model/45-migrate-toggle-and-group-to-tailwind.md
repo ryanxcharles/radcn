@@ -1,5 +1,29 @@
 # Experiment 45: Migrate Toggle + ToggleGroup together to Tailwind utilities
 
+> **Result: Partial (reverted).** The combined migration is correct for the
+> Toggle button, the size cascade (size-less items in sm/lg groups → 32px/44px,
+> `:174`/`:178` PASS), the group container (orientation, gap), and items with
+> their OWN variant (the custom-token group, `:199-201` PASS). The ONE blocker:
+> a variant-LESS item in an OUTLINE group (`toggle-group/demo`, `:158`) — its
+> `border-left-color` must come from the bespoke variant CASCADE
+> (`.radcn-toggle-group[data-variant="outline"] .radcn-toggle-group-item:not([data-variant])`
+> → `var(--radcn-toggle-border, var(--radcn-border))` = `#e4e4e7`). With the
+> migrated item it instead computes to `currentColor` (`rgb(24,24,27)` =
+> foreground), as if that `var()` were invalid — even though `--radcn-border` IS
+> defined in `radcnStyles` and the cascade rule IS retained byte-identically.
+> Removing the competing default `border-transparent` utility moved it from
+> transparent → currentColor (so the cascade applies but its value resolves to
+> currentColor). The size cascade (min-height) works under the same structure, so
+> the asymmetry (size cascade wins, variant cascade yields currentColor) is an
+> unresolved CSS layer/`var()` interaction that needs browser-DevTools inspection
+> of the computed border-color sources — not resolvable by static analysis.
+> Reverted to the clean Exp-43/44 state (toggle 7/7 green, byte-identical). A
+> future experiment should either (a) propagate the group's variant/size to items
+> in the component/enhance layer so each item emits its own variant utility (no
+> cascade), or (b) diagnose the cascade/layer interaction in the browser. Moving
+> on to a tractable component per the issue directive. The design below is sound
+> in structure; see the Result for the blocker.
+
 ## Description
 
 Exp 44 established that Toggle and ToggleGroupItem share the `.radcn-toggle*`
@@ -175,3 +199,56 @@ Exp 38/41/42.
 Approval result: approved (lead-agent judgment) — the design is complete and the
 size cascade is provably correct; the variant-cascade/pressed interaction is an
 explicit empirical-verify item the gate will catch, with a documented fallback.
+
+## Result
+
+**Result:** Partial (implemented, 1 blocker, reverted)
+
+Implemented as designed. The gate caught a single deterministic failure:
+`toggle.spec.ts:158` — a variant-less item in the outline `toggle-group/demo`
+group has `border-left-color` `rgb(24,24,27)` (currentColor/foreground) instead
+of `rgb(228,228,231)` (`--border`). The pressed/custom-token interaction I flagged
+did NOT occur (the custom-token group items have their OWN `variant="outline"`,
+so they use the variant utility directly and `:199-201` pass). The size cascade
+passed (`:174`/`:178`). An attempted fix (emit the variant utility only when the
+item has its own variant, letting the cascade drive variant-less items) moved the
+border from `transparent` → `currentColor` but did not produce `--border`: the
+bespoke variant cascade applies but its `var(--radcn-toggle-border,
+var(--radcn-border))` resolves to currentColor under the migrated item, despite
+`--radcn-border: #e4e4e7` being defined in `radcnStyles` and the rule retained
+byte-identically. The size cascade (min-height) works under the identical
+selector structure, so this is an unresolved layer/`var()` asymmetry needing
+browser inspection.
+
+Action: reverted `toggle.tsx`/`toggle-group.tsx`/`tokens.css`/`index.ts` to the
+clean state (toggle 7/7, byte-identical). No code ships from this experiment.
+
+## Conclusion
+
+The combined Toggle + ToggleGroup migration is structurally correct (button +
+size cascade + container + own-variant items all verified) but blocked by one
+CSS cascade interaction: a variant-less group item in an outline group does not
+pick up the bespoke variant cascade's border-color (computes currentColor). This
+is the first migration blocked by a cascade/layer subtlety rather than a
+mapping/conflict error, and it resists static analysis.
+
+Recommended next attempt (a separate future experiment): rather than rely on the
+bespoke variant/size cascade for size/variant-LESS items, have ToggleGroup
+propagate its `size`/`variant` to its items so each item ALWAYS emits an explicit
+variant/size utility (no `:not([data-X])` cascade) — either by injecting the
+props in the component, or by having `setupToggleGroup` stamp the resolved
+size/variant onto each item's data attributes/classes at enhance time. That makes
+every item self-styled by utilities and removes the fragile cascade entirely.
+
+Per the issue directive ("if you can't solve a problem ... move onto a different
+problem you can solve"), proceeding to a tractable component next; Toggle +
+ToggleGroup remains open for the propagation-based re-attempt.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A bespoke parent→child CASCADE rule that overrides a child utility is RELIABLE
+  for some properties (min-height worked) but exhibited an unresolved currentColor
+  result for border-color on a migrated element — do NOT assume a kept cascade
+  will drive a property the migrated child no longer sets. The robust pattern for
+  group→item inheritance is to PROPAGATE the resolved size/variant to each item
+  (so it emits its own utility) rather than rely on a `:not([data-X])` CSS cascade.
