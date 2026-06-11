@@ -98,6 +98,51 @@ Fail criteria: a tabs assertion regresses; an active/hover/focus state or the
 vertical layout breaks; the custom list bg fails; `tokens.css`/`index.ts`
 diverge.
 
+## Result
+
+**Result:** Pass
+
+Tabs is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0 (the `data-[state=active]:`/`hover:`/`focus-visible:`
+   variants + `grid-cols-[max-content_minmax(0,1fr)]` + `color-mix` shadows
+   compile).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no migrated `.radcn-tabs*` CLASS
+   rule remains (count 0); the vertical-list `[data-orientation]` rule present;
+   `.radcn-fixture-custom-tabs` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `tabs.spec.ts` in isolation **7 passed** —
+   incl. activation, keyboard nav, `data-orientation='vertical'`, the active-tab
+   custom bg `rgb(15,118,110)`, and the custom-token list bg `rgb(204,251,241)`.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   four expected files changed (incl. `tabs.spec.ts`).
+
+Deviation from the design (improvement): the `radcn-tabs--vertical` class
+assertion at `tabs.spec.ts:199` was REMOVED rather than rewritten — the line
+immediately above it (198) already asserts `data-orientation='vertical'`, so the
+class assertion was redundant.
+
+## Conclusion
+
+Tabs is migrated: root (+ orientation `Record`), list, trigger (with its
+hover/focus/active/disabled states as Tailwind variants on the retained
+`data-state`/`data-disabled`), and content render from token-referencing
+utilities (the custom-tabs fixture works unchanged); the vertical root's effect
+on the descendant list stays a bespoke rule keyed on `[data-orientation]`.
+Twenty-four components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Interactive-element states (`:hover`, `:focus-visible`, `[data-state="active"]`,
+  `:disabled`/`[data-disabled]`) migrate to the matching Tailwind variants
+  (`hover:`, `focus-visible:`, `data-[state=active]:`, `disabled:`/
+  `data-[disabled=true]:`) on the retained data attributes — the shadcn idiom,
+  and exactly how RadCN's state-driven triggers should be expressed.
+- When a spec already asserts the data attribute that replaces a dropped class
+  (here `data-orientation` one line above the `radcn-tabs--vertical` class
+  check), just delete the redundant class assertion rather than duplicate it.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -131,3 +176,30 @@ gate that follows implementation.
 Approval result: approved — self-contained migration; the orientation Record +
 the kept vertical-list descendant rule + the state-variant trigger + the
 token-referencing utilities are sound.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed tabs.tsx emits the utility-const strings (no `radcn-tabs*`
+classes) with the orientation `Record`, the trigger's `hover:`/`focus-visible:`/
+`data-[state=active]:`/`disabled:`/`data-[disabled=true]:` variants, and all data
+attributes kept; tokens.css has ZERO migrated `.radcn-tabs*` class rules, the
+`[data-radcn-tabs][data-orientation="vertical"] [data-radcn-tabs-list]`
+flex-direction rule, and the retained `.radcn-fixture-custom-tabs`;
+byte-identical `index.ts`; `tabs.spec.ts:198` asserts `data-orientation='vertical'`
+with the redundant class assertion correctly removed and no other `radcn-tabs--`
+class assertion anywhere. It re-ran both `styles:build`, the three typechecks,
+the docs suite (2/2 = 11), the fixture suite (2/2 = 1191), and `tabs.spec.ts` in
+isolation (7 — activation, keyboard, `data-orientation='vertical'`, active-tab bg
+`rgb(15,118,110)`, custom list bg `rgb(204,251,241)`). It judged the migration
+faithful, the trigger states correct via variants, the orientation Record + kept
+vertical-list rule sound, the custom tokens held via token-referencing utilities,
+and the assertion-removal correct. Verdict: APPROVED.
+
+Approval result: approved with no blockers — Tabs is migrated (24 components).

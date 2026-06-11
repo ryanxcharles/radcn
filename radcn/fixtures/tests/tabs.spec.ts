@@ -196,7 +196,6 @@ test('candidate tabs supports vertical keyboard orientation and custom tokens', 
   await page.goto(`${candidate}/fixtures/tabs/vertical`)
 
   await expect(tabsRoot(page)).toHaveAttribute('data-orientation', 'vertical')
-  await expect(tabsRoot(page)).toHaveClass(/radcn-tabs--vertical/)
   await expect(trigger(page, 'password')).toHaveAttribute('aria-selected', 'true')
   await trigger(page, 'password').focus()
   await page.keyboard.press('ArrowDown')

@@ -198,7 +198,7 @@ a dependency listed in package manifests.
 - [Experiment 33: Migrate ScrollArea surfaces to Tailwind utilities](33-migrate-scroll-area-to-tailwind.md)
   — **Pass**
 - [Experiment 34: Migrate Tabs surfaces to Tailwind utilities](34-migrate-tabs-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -676,6 +676,15 @@ From Experiment 33 (ScrollArea surfaces — Pass):
 - A parent orientation/state that styles a CHILD (scrollbar orientation → thumb
   min-size) stays a bespoke descendant rule keyed on the parent's `data-*`; only
   the parent's own geometry maps to a component `Record`.
+
+From Experiment 34 (Tabs surfaces — Pass):
+
+- Interactive-element states (`:hover`, `:focus-visible`, `[data-state=active]`,
+  `:disabled`/`[data-disabled]`) migrate to the matching Tailwind variants
+  (`hover:`, `focus-visible:`, `data-[state=active]:`, `disabled:`/
+  `data-[disabled=true]:`) on the retained data attributes — the shadcn idiom.
+- When a spec already asserts the data attribute that replaces a dropped class,
+  delete the redundant class assertion rather than duplicate it.
 
 ## Completion Criteria
 
