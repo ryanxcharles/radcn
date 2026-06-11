@@ -172,6 +172,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 21: Migrate Progress to Tailwind utilities](21-migrate-progress-to-tailwind.md)
   — **Pass**
+- [Experiment 22: Migrate Spinner to Tailwind utilities](22-migrate-spinner-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
