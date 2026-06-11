@@ -1110,66 +1110,15 @@
  * fixture below still feeds --radcn-typography-h1-size / --radcn-typography-muted
  * to the token-referencing utilities.
  */
-.radcn-native-select-wrapper {
-  position: relative;
-  display: inline-flex;
-  width: fit-content;
-  min-width: 14rem;
-  align-items: center;
-  font-family: var(--radcn-font);
-}
-
-.radcn-native-select-wrapper:has(.radcn-native-select:disabled) {
-  opacity: 0.5;
-}
-
-.radcn-native-select {
-  width: 100%;
-  min-height: var(--radcn-control-height);
-  appearance: none;
-  border: 1px solid var(--radcn-native-select-border, var(--radcn-input));
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-native-select-bg, var(--radcn-background));
-  color: var(--radcn-native-select-fg, var(--radcn-foreground));
-  padding: 0 2.25rem 0 0.75rem;
-  font: 400 0.875rem/1.35 var(--radcn-font);
-  outline: none;
-  transition: border-color 120ms ease, box-shadow 120ms ease;
-}
-
-.radcn-native-select--sm {
-  min-height: 2rem;
-  padding-left: 0.625rem;
-  font-size: 0.8125rem;
-}
-
-.radcn-native-select:focus-visible {
-  border-color: var(--radcn-ring);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
-.radcn-native-select:disabled {
-  cursor: not-allowed;
-}
-
-.radcn-native-select[aria-invalid="true"] {
-  border-color: var(--radcn-native-select-invalid, var(--radcn-destructive));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-native-select-invalid, var(--radcn-destructive)) 20%, transparent);
-}
-
-.radcn-native-select-icon {
-  pointer-events: none;
-  position: absolute;
-  right: 0.75rem;
-  color: var(--radcn-muted-foreground);
-  font: 600 0.75rem/1 var(--radcn-font);
-}
-
-.radcn-native-select-option,
-.radcn-native-select-optgroup {
-  background: Canvas;
-  color: CanvasText;
-}
+/*
+ * NativeSelect surfaces (wrapper, select, size, icon, option/optgroup) are
+ * migrated to Tailwind utilities (Issue 6, Experiment 43); the component emits
+ * utilities (+ a size Record for the conflicting min-height/padding/font-size).
+ * The select keeps a style-less radcn-native-select--{size} marker class only as
+ * a test hook (the fixture asserts it via toHaveClass). No bespoke rules remain;
+ * the custom-native-select fixture below still feeds the --radcn-native-select-*
+ * tokens to the token-referencing utilities.
+ */
 
 /*
  * Checkbox + RadioGroup surfaces are migrated to Tailwind utilities (Issue 6,

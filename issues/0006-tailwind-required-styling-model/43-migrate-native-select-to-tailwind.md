@@ -107,6 +107,46 @@ Fail criteria: the `--sm` class assertion or custom border regresses; a size/sta
 breaks; a min-h/pl/font-size conflict collapses the sizes; `tokens.css`/`index.ts`
 diverge.
 
+## Result
+
+**Result:** Pass
+
+NativeSelect is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0; the utilities generate.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css` (node formula); no `.radcn-native-select*`
+   CLASS rule remains (the `--sm` marker is now style-less); the custom fixture
+   retained; no junk ellipsis utility (0). The icon's `text-[0.75rem]` emits
+   `font-size: 0.75rem` (generated CSS line 1133 — NOT `color`; the design-review
+   icon-ambiguity flag confirmed a FALSE POSITIVE for literal lengths).
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `native-select.spec.ts` in isolation **4
+   passed** — incl. the `radcn-native-select--sm` marker class (`:94`), the custom
+   border `rgb(15,118,110)` (`:99`), the size/focus/disabled/invalid states, icon,
+   options.
+6. `git diff --check` clean; `vendor/` untouched; the three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+NativeSelect is migrated: the wrapper/select/icon/option render from Tailwind
+utilities; the conflicting min-height/padding/font-size live only in the size
+`Record`; the `radcn-native-select--{size}` class is retained as a style-less
+test-hook marker (the fixture asserts it); the custom border holds via the
+token-referencing utility. THIRTY-FOUR components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- When a fixture asserts a bespoke class via `toHaveClass(/--x/)`, KEEP that class
+  as a style-less marker (a test hook, like a data attribute) and move its styling
+  to a utility `Record` — the migration goal is satisfied (styles → utilities) and
+  the assertion stays green.
+- A LITERAL arbitrary length (`text-[0.75rem]`) is unambiguously inferred as
+  `font-size`; the Exp-42 `text-[var()]`→`color` ambiguity is var-specific. (Don't
+  over-apply the lesson — confirmed by the generated CSS.)
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -138,3 +178,29 @@ icon utility; if it somehow did not, the fallback is `[font-size:0.75rem]`.
 Approval result: approved (lead-agent judgment) — the five cruxes hold; the
 icon-font-size blocker is overruled with evidence + an added empirical build
 check.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed all five cruxes: (1) the base has NO min-h/pl/font-size and
+the size Record owns all three (no Exp-41 conflict); (2) the `<select>` retains
+`radcn-native-select--{size}` as the only `radcn` class, style-less, for the
+`:94` `toHaveClass` assertion; the `wrapper--{size}` is dropped; (3) the icon's
+`text-[0.75rem]` generates `font-size: 0.75rem` (NOT `color` — the design-review
+flag confirmed a false positive for literal lengths); (4) the
+`focus-visible:`/`aria-invalid:`/`disabled:`/`has-[select:disabled]:` variants are
+correct; (5) the custom border `rgb(15,118,110)` holds via the token-reading
+utility. tokens.css has ZERO `.radcn-native-select*` style rules with the custom
+fixture retained; byte-identical index.ts; no junk ellipsis utility. It re-ran
+the three typechecks, the docs suite (11), `native-select.spec.ts` in isolation
+(4 — incl. both critical assertions), and the full fixture suite (1191 ×2).
+Verdict: APPROVED.
+
+Approval result: approved with no blockers — NativeSelect is migrated (34
+components).

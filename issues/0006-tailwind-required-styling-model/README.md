@@ -216,7 +216,7 @@ a dependency listed in package manifests.
 - [Experiment 42: Migrate Typography to Tailwind utilities](42-migrate-typography-to-tailwind.md)
   — **Pass**
 - [Experiment 43: Migrate NativeSelect to Tailwind utilities](43-migrate-native-select-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -793,6 +793,16 @@ From Experiment 42 (Typography — Pass, after two caught-and-fixed bugs):
   look complete (balanced braces, byte-identical) while the SERVED CSS is
   truncated — only the running suite catches it; `git stash` to isolate, then
   grep the generated CSS for junk rules.
+
+From Experiment 43 (NativeSelect — Pass):
+
+- When a fixture asserts a bespoke class via `toHaveClass(/--x/)`, KEEP that class
+  as a style-less MARKER (a test hook, like a data attribute) and move its styling
+  to a utility `Record` — the migration goal (styles -> utilities) is met and the
+  assertion stays green.
+- A LITERAL arbitrary length (`text-[0.75rem]`) is unambiguously inferred as
+  `font-size`; the Exp-42 `text-[var()]`->`color` ambiguity is var-specific (don't
+  over-apply it — confirmed via the generated CSS).
 
 ## Completion Criteria
 
