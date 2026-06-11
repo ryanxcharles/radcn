@@ -163,7 +163,7 @@ a dependency listed in package manifests.
 - [Experiment 16: Add the default border-color base rule](16-default-border-color-base.md)
   — **Pass**
 - [Experiment 17: Re-attempt the Card migration](17-re-attempt-card-migration.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -392,6 +392,18 @@ From Experiment 16 (default border-color base rule):
   (shadcn parity). Migrated components using the `border` utility get the
   `--border` color for free; this unblocks bordered-component migration. It is
   a theme-CONTRACT edit (separate from the `tokens.css` ↔ `index.ts` sync).
+
+From Experiment 17 (Card re-attempt — Pass):
+
+- Card is migrated (after the Exp 16 foundation), handling all three Exp 15
+  gaps: border via `border` + the `--border` base; `radcn-fixture-custom-card`
+  translated to a direct `border-color`/`background-color` rule; and
+  `.radcn-chart-example-card .radcn-card-content` repointed to
+  `[data-radcn-card-content]`. The Fail→foundation→re-attempt arc is the model
+  when a migration reveals a missing prerequisite.
+- Card is the template for the remaining bordered/container components
+  (`border`+base-color, `@container` header, `has-[...]` layout, sub-part data
+  hooks, custom-token translation, cross-component selector repoint).
 
 ## Completion Criteria
 

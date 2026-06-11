@@ -140,6 +140,14 @@ test('candidate card exposes slot hooks and custom tokens', async ({ page }) => 
   await expect(page.locator('[data-radcn-card-content]')).toContainText('12 active members')
   await expect(page.locator('[data-radcn-card-footer]')).toHaveCount(1)
   await expect(page.locator('[data-radcn-card-action]')).toHaveCount(1)
+  // The card-header uses has-[[data-radcn-card-action]]:grid-cols-[1fr_auto];
+  // with a CardAction present it must resolve to a two-column grid (guards the
+  // has-selector at runtime). Resolved tracks are px, so assert >=2 tracks.
+  let cardHeader = page.locator('[data-radcn-card-header]')
+  await expect(cardHeader).toHaveCSS('display', 'grid')
+  expect(
+    (await cardHeader.evaluate((el) => getComputedStyle(el).gridTemplateColumns)).trim().split(/\s+/).length,
+  ).toBeGreaterThanOrEqual(2)
 
   await page.goto(`${candidate}/fixtures/card/custom-token`)
   let custom = page.locator('[data-radcn-card]')

@@ -708,7 +708,7 @@
   width: min(100%, 34rem);
 }
 
-.radcn-chart-example-card .radcn-card-content {
+.radcn-chart-example-card [data-radcn-card-content] {
   display: grid;
   gap: 0.75rem;
 }
@@ -871,51 +871,14 @@
  * test/selector hooks.
  */
 
-.radcn-card {
-  display: flex;
-  flex-direction: column;
-  width: min(100%, 28rem);
-  border: 1px solid var(--radcn-card-border, var(--radcn-border));
-  border-radius: calc(var(--radcn-radius) + 0.125rem);
-  background: var(--radcn-card-bg, var(--radcn-background));
-  color: var(--radcn-card-fg, var(--radcn-foreground));
-  font-family: var(--radcn-font);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
-}
-
-.radcn-card--sm {
-  width: min(100%, 22rem);
-}
-
-.radcn-card-header {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.75rem;
-  padding: 1.25rem 1.25rem 0;
-}
-
-.radcn-card-title {
-  font: 600 1rem/1.3 var(--radcn-font);
-}
-
-.radcn-card-description {
-  margin-top: 0.25rem;
-  color: var(--radcn-muted-foreground);
-  font: 400 0.875rem/1.45 var(--radcn-font);
-}
-
-.radcn-card-content {
-  padding: 1rem 1.25rem;
-  color: var(--radcn-foreground);
-  font: 400 0.875rem/1.5 var(--radcn-font);
-}
-
-.radcn-card-footer {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0 1.25rem 1.25rem;
-}
+/*
+ * Card and its sub-components are migrated to Tailwind utilities (Issue 6,
+ * Experiment 17, after the Experiment 16 border-color base). Their bespoke
+ * rules were removed; the components emit shadcn v4 utility classes (the
+ * header's action layout via has-[[data-radcn-card-action]], its border via the
+ * border utility + the --border base). Data attributes remain as hooks; the
+ * size prop no longer sets a width (cards are container-sized).
+ */
 
 /*
  * Empty and its sub-components are migrated to Tailwind utilities (Issue 6,
@@ -982,8 +945,8 @@
 }
 
 .radcn-fixture-custom-card {
-  --radcn-card-bg: #faf5ff;
-  --radcn-card-border: #9333ea;
+  background-color: #faf5ff;
+  border-color: #9333ea;
 }
 
 .radcn-fixture-custom-spinner {

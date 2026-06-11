@@ -113,6 +113,61 @@ Fail criteria: any card assertion regresses (esp. the custom-card border-color
 or the header layout); a utility not generated; `tokens.css`/`index.ts`
 diverge.
 
+## Result
+
+**Result:** Pass
+
+Card is migrated; both suites are green and stable; the Experiment 15 dead-end
+is closed. Verification:
+
+1. Both `styles:build` exit 0; the card utilities generate (`rounded-xl`,
+   `bg-card`, `shadow-sm`, the `@container`/`has-[[data-radcn-card-action]]`/
+   `col-start-2` rules).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-card` rule selector
+   remains; the chart selector now targets
+   `.radcn-chart-example-card [data-radcn-card-content]` (line 711); and
+   `.radcn-fixture-custom-card` sets `background-color: #faf5ff;
+   border-color: #9333ea;` directly.
+4. Docs suite: **11 passed** ×2 — incl. the card-demo / card-with-form class
+   assertions and the card-content `grid gap-6`/`gap: 24px`.
+5. Fixture suite: **1191 passed** ×2 — incl. the custom-card border-color
+   (`rgb(147, 51, 234)`, now via the direct rule + Exp 16 base), the tabs
+   card-content gap, the chart card-content (repointed), and the new
+   card-header two-column-layout assertion (the `has-[...]` selector matched at
+   runtime).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   four expected files changed.
+
+No deviations from the approved design. All three Experiment 15 gaps are
+resolved.
+
+## Conclusion
+
+Card is migrated to shadcn v4 utilities, completing the dead-end Experiment 15
+identified. The migration succeeded only because Experiment 16 laid the
+default border-color base (Card's `border` now renders `--border`), and the two
+missed call-site dependencies were handled: the `radcn-fixture-custom-card`
+override translated to a direct `border-color`/`background-color` rule, and the
+`.radcn-chart-example-card .radcn-card-content` selector repointed to the
+`[data-radcn-card-content]` data hook. The card-header `@container` +
+`has-[[data-radcn-card-action]]` layout is verified active at runtime. Nine
+components are now migrated (Badge, Skeleton, Separator, Kbd, Empty, Label,
+AspectRatio, Card — plus their sub-components).
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- The Fail→foundation→re-attempt arc worked: Experiment 15 (Fail) surfaced the
+  missing border-color base, Experiment 16 built it, Experiment 17 consumed it
+  to migrate Card cleanly. When a migration reveals a missing foundation,
+  recording the Fail and building the foundation separately is cleaner than a
+  scope-expanded patch.
+- Card is the template for the remaining container/bordered components
+  (it exercises `border`+base-color, a `@container` header, a `has-[...]`
+  layout, sub-part data hooks, a custom-token translation, and a
+  cross-component selector repoint).
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -155,3 +210,28 @@ into "Why both suites stay green" above.
 
 Approval result: approved — design technically sound, all three Experiment 15
 gaps resolved, no substantive blocker.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, Experiments 15–17, and
+read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed card.tsx emits the verbatim shadcn strings (incl.
+`has-[[data-radcn-card-action]]`) with all data hooks + the commented `size`
+prop and no `radcn-card*` class; tokens.css has no `.radcn-card` rule, the chart
+selector repointed to `[data-radcn-card-content]`, and `.radcn-fixture-custom-card`
+setting `background-color`/`border-color` directly; the byte-identical
+`index.ts`; and the new header-layout assertion. It independently re-ran both
+`styles:build`, all three typechecks, the docs suite (2/2 = 11) and fixture
+suite (2/2 = 1191) — explicitly confirming the custom-card `rgb(147, 51, 234)`
+assertion (the Exp 15 failure) now passes, the header two-column layout asserts
+active, and the chart/tabs card-content assertions pass. It verified the
+four-file change set, clean hygiene, and that all three Experiment 15 gaps are
+resolved with no regression. Verdict: APPROVED.
+
+Approval result: approved with no blockers — the Experiment 15 dead-end is
+closed.
