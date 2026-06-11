@@ -245,6 +245,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 57: Migrate DatePicker surfaces to Tailwind utilities](57-migrate-date-picker-to-tailwind.md)
   — **Pass**
+- [Experiment 58: Migrate Calendar to Tailwind utilities](58-migrate-calendar-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
