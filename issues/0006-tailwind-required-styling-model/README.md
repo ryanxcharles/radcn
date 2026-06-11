@@ -176,6 +176,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 23: Add the animation-utilities foundation (tw-animate-css)](23-add-animation-utilities-foundation.md)
   — **Pass**
+- [Experiment 24: Migrate Tooltip (content + arrow) to Tailwind utilities](24-migrate-tooltip-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
