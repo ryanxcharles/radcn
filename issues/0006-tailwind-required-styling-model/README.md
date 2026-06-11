@@ -160,6 +160,8 @@ a dependency listed in package manifests.
 - [Experiment 15: Migrate Card to Tailwind utilities](15-migrate-card-to-tailwind.md)
   — **Fail** (reverted; surfaced the missing default border-color contract —
   see Experiment 16)
+- [Experiment 16: Add the default border-color base rule](16-default-border-color-base.md)
+  — **Designed**
 
 ## Learnings
 
