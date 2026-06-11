@@ -209,6 +209,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 39: Migrate Checkbox + RadioGroup to Tailwind utilities](39-migrate-checkbox-radio-to-tailwind.md)
   — **Pass**
+- [Experiment 40: Migrate Slider surfaces to Tailwind utilities](40-migrate-slider-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
