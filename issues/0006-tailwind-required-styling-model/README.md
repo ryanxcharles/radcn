@@ -167,7 +167,7 @@ a dependency listed in package manifests.
 - [Experiment 18: Migrate Input and Textarea to Tailwind utilities](18-migrate-input-textarea-to-tailwind.md)
   — **Pass**
 - [Experiment 19: Migrate Alert to Tailwind utilities](19-migrate-alert-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -422,6 +422,16 @@ From Experiment 18 (Input + Textarea migration — Pass):
 - When shadcn styling legitimately differs (file input: no element text color +
   `file:bg-transparent` vs RadCN's `--muted-foreground` + `--secondary`), update
   the affected test assertions to shadcn's computed values rather than diverging.
+
+From Experiment 19 (Alert migration — Pass):
+
+- A shadcn `cva` ports to a Remix 3 `Handle` component as a base constant + a
+  `Record<Variant, string>` class map keyed by the `variant` prop (no cva
+  runtime). A variant's `data-[slot=…]` child selector adapts to RadCN's boolean
+  attribute as `*:data-[radcn-…]:…`.
+- Prefix-sharing ≠ coupling: `.radcn-alert*` (Alert) vs `.radcn-alert-dialog*`
+  (AlertDialog) are separate components; grep-confirm no shared selector / no
+  cross-render before removing one's rules.
 
 ## Completion Criteria
 

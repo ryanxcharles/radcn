@@ -766,37 +766,14 @@
   --radcn-data-table-bg: #faf5ff;
 }
 
-.radcn-alert {
-  position: relative;
-  display: grid;
-  gap: 0.375rem;
-  width: 100%;
-  max-width: 34rem;
-  border: 1px solid var(--radcn-alert-border, var(--radcn-border));
-  border-radius: var(--radcn-radius);
-  padding: 1rem;
-  background: var(--radcn-alert-bg, var(--radcn-background));
-  color: var(--radcn-alert-fg, var(--radcn-foreground));
-  font-family: var(--radcn-font);
-}
-
-.radcn-alert--destructive {
-  --radcn-alert-border: color-mix(in srgb, var(--radcn-destructive) 40%, var(--radcn-border));
-  --radcn-alert-fg: var(--radcn-destructive);
-}
-
-.radcn-alert-title {
-  font: 600 0.9375rem/1.35 var(--radcn-font);
-}
-
-.radcn-alert-description {
-  color: color-mix(in srgb, var(--radcn-alert-fg, var(--radcn-foreground)) 72%, transparent);
-  font: 400 0.875rem/1.5 var(--radcn-font);
-}
-
-.radcn-alert-action {
-  margin-top: 0.25rem;
-}
+/*
+ * Alert and its sub-components (title, description, action) are migrated to
+ * Tailwind utilities (Issue 6, Experiment 19). Their bespoke rules were
+ * removed; the component emits shadcn v4 cva utilities (default/destructive
+ * variants; the destructive description tint via
+ * *:data-[radcn-alert-description]). Data attributes remain as hooks. The
+ * separate AlertDialog (.radcn-alert-dialog-*) is unaffected.
+ */
 
 /*
  * AspectRatio is unstyled (Issue 6, Experiment 14): its bespoke rules were
@@ -875,9 +852,9 @@
 }
 
 .radcn-fixture-custom-alert {
-  --radcn-alert-bg: #f0fdfa;
-  --radcn-alert-border: #0f766e;
-  --radcn-alert-fg: #134e4a;
+  background-color: #f0fdfa;
+  border-color: #0f766e;
+  color: #134e4a;
 }
 
 .radcn-fixture-custom-badge {

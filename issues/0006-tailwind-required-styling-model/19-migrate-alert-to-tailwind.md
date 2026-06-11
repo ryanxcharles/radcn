@@ -123,6 +123,55 @@ Fail criteria: any alert assertion regresses; AlertDialog styling breaks (a
 removal/translation hit a shared rule); a utility not generated;
 `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Alert is migrated; both suites are green and stable. Verification:
+
+1. Both `styles:build` exit 0; the alert utilities generate.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no base/title/description/action/
+   destructive `.radcn-alert` rule remains (grep excluding `alert-dialog` is
+   empty); `.radcn-fixture-custom-alert` sets `border-color: #0f766e` directly;
+   `.radcn-alert-dialog-*` and `.radcn-fixture-custom-alert-dialog` intact.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** on 3 of 4 runs; one run hit a single transient
+   failure in the positioned-overlay tests (the serial-load flake classified in
+   Experiment 9, unrelated to Alert). The Alert test itself
+   (`static-display.spec.ts` "candidate alert exposes role variant and custom
+   token hooks", incl. the custom-alert `border-color: rgb(15, 118, 110)` and
+   role/variant/title/description) passes deterministically — the static-display
+   suite is **12 passed** ×2 in isolation.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+Alert is migrated to shadcn v4 cva utilities — default/destructive variants via
+a per-variant class map, the icon grid (`has-[>svg]`, `[&>svg]`) and the
+destructive description tint (adapted to `*:data-[radcn-alert-description]`),
+with the RadCN-only AlertAction faithfully mapped (`mt-1`). The custom-token
+override was translated to a direct rule, and AlertDialog (a separate component)
+was confirmed independent and left untouched. Twelve components are now migrated
+(Badge, Skeleton, Separator, Kbd, Empty, Label, AspectRatio, Card, Input,
+Textarea, Alert — plus sub-components).
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- A shadcn `cva` with variants ports to a Remix 3 `Handle` component as a base
+  constant + a `Record<Variant, string>` class map, selected by the `variant`
+  prop (no cva runtime needed).
+- A variant's child-targeting selector keyed on `data-[slot=…]` adapts to the
+  RadCN boolean attribute as `*:data-[radcn-…]:…` (validated to generate
+  `&[data-radcn-…]`).
+- Prefix-sharing is not coupling: `.radcn-alert*` (Alert) and
+  `.radcn-alert-dialog*` (AlertDialog) are separate components — grep-confirm no
+  shared selector and no cross-render before removing one's rules.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -169,3 +218,27 @@ Approval result: approved (round 2). Design correct and complete; the shadcn
 mappings, the destructive selector adaptation, the custom-alert translation,
 AlertDialog isolation, and the dual-suite gate are all sound. No substantive
 blocker remains.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed alert.tsx emits the verbatim shadcn base + variant map
+(destructive via `*:data-[radcn-alert-description]`, AlertAction `col-start-2
+mt-1`) with all data hooks/role and no `radcn-alert*` class; tokens.css has no
+base `.radcn-alert*` rule (alert-dialog intact), `.radcn-fixture-custom-alert`
+translated to direct border/bg/color, and byte-identical `index.ts`. It
+independently re-ran both `styles:build`, the three typechecks, the docs suite
+(2/2 = 11), the static-display suite in isolation (2/2 = 12 — the alert test
+incl. the custom-alert `rgb(15, 118, 110)` border-color passes
+deterministically), and the AlertDialog tests (modal-variants.spec.ts = 8
+passed, proving AlertDialog unaffected). It judged the migration faithful, the
+custom-token translation correct, and AlertDialog provably independent. Verdict:
+APPROVED.
+
+Approval result: approved with no blockers.
