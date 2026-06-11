@@ -212,7 +212,7 @@ a dependency listed in package manifests.
 - [Experiment 40: Migrate Slider surfaces to Tailwind utilities](40-migrate-slider-to-tailwind.md)
   — **Pass**
 - [Experiment 41: Migrate Item surfaces to Tailwind utilities](41-migrate-item-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -761,6 +761,19 @@ From Experiment 40 (Slider surfaces — Pass; native-input control family comple
 - Slider is self-contained (unlike the shared Switch/Checkbox/Radio rules) —
   always verify shared-vs-standalone (read the FULL rule) before remove-wholesale
   vs split.
+
+From Experiment 41 (Item surfaces — Pass, after a caught-and-fixed utility conflict):
+
+- NEVER set a property in a component's BASE utility string that a variant/size
+  `Record` also overrides — two conflicting utilities on ONE element resolve by
+  Tailwind's generated source order (often the base wins), so the variant silently
+  doesn't apply. Put the FULL set of that property in the variant `Record`
+  (incl. the default value); leave the base without it. (Bespoke `--variant`
+  selectors overrode the base via specificity/order; flat utilities on one element
+  do NOT.) The Item `sm`/`xs` padding collapsed to the base `p-3.5` until fixed.
+- A `toBeGreaterThan(X)` returning exactly `X` can be a real signal (two sizes
+  collapsing to equal), not just a flake; identify the EXACT failing assertion
+  (the `--reporter=line` progress line can interleave with a prior test's error).
 
 ## Completion Criteria
 

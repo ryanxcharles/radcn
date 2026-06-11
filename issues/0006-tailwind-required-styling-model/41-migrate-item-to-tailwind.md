@@ -100,6 +100,60 @@ variants/sizes/media/layout + the `img` styling hold; BOTH suites green;
 Fail criteria: an item assertion regresses; a variant/size/media/header layout
 breaks; the img styling fails; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass (after a real utility-conflict bug, caught + fixed)
+
+Item is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0; the item utilities generate.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css` (node formula); no `.radcn-item*`
+   CLASS rule remains; the bespoke descendant `img` rule present (keyed on the
+   data attributes).
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2 (after the fix below); the Item-using
+   `navigation-collection.spec.ts` in isolation **9 passed** (incl. the
+   default-vs-`sm` item-height assertion at :220).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+In-flight bug (a real regression caught by the gate, NOT a flake): the first
+implementation put `p-3.5` in `itemBaseClass` AND `p-2.5`/`px-2 py-1.5` in the
+size `Record`. Both are `padding` utilities — when an element carries two, the
+winner is Tailwind's source order (in the generated stylesheet), NOT the
+class-attribute order. The base `p-3.5` won, so the `sm`/`xs` items rendered the
+SAME padding as default → `navigation-collection.spec.ts:220`
+(`defaultBox.height > smallBox.height`) failed with both heights equal
+(`70.375 === 70.375`). The bespoke `.radcn-item--sm { padding }` rule had worked
+because a separate selector overrides the base; utilities on one element do not.
+Fix: padding lives ONLY in the size `Record` (base has none; default `p-3.5`, sm
+`p-2.5`, xs `px-2 py-1.5`) — no conflict, distinct heights. Re-verified green
+(navigation-collection 9/9; fixture 1191 ×2). (The initial diagnostic
+misattributed the error to a static-display line via interleaved reporter
+output; the real failing assertion was navigation-collection:220.)
+
+## Conclusion
+
+Item is migrated: the layout surfaces render from Tailwind utilities (variant/
+size/media-variant Records, combined-rule folding for actions/header/footer), the
+descendant `<img>` stays a bespoke rule keyed on the data attributes, and the
+font is preserved explicitly. THIRTY-TWO components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- NEVER set a property in a component's BASE utility string that a variant/size
+  `Record` also overrides — two conflicting utilities on one element resolve by
+  Tailwind's generated source order (often the base wins), so the variant won't
+  take effect. Put the FULL set of the conflicting property in the variant Record
+  (e.g. ALL padding values, including the default), leaving the base without it.
+  (Bespoke `--variant` selectors overrode the base via specificity/order; flat
+  utilities on one element do not.)
+- A `toBeGreaterThan(X)` returning exactly `X` is a real signal, not always a
+  flake — here it exposed two sizes collapsing to equal. Identify the EXACT
+  failing test (`--reporter=line` can interleave a progress line with a prior
+  test's error — confirm via the assertion text + grep, not the printed line).
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -128,3 +182,29 @@ in fixtures; NO cross-component reuse). Two genuine BLOCKERS, both fixed:
 Approval result: approved (with the two fixes) — self-contained, assertion-clean
 layout migration; the combined-rule folding, variant/size/media Records, the
 bespoke descendant img rule, and the explicit font preservation are sound.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed item.tsx emits the utility-const strings (no `radcn-item*`
+classes) and CRUCIALLY verified the padding-conflict fix: `itemBaseClass` has NO
+padding and `itemSizeClass = {default:'p-3.5', sm:'p-2.5', xs:'px-2 py-1.5
+text-[0.8125rem]'}` (padding only in the Record); the media icon uses
+`rounded-[999px]`; the font is preserved via `[font-family:var(--radcn-font)]` on
+group/title/description; the header is `items-stretch`; all data attributes kept.
+tokens.css has ZERO `.radcn-item*` class rules and the bespoke descendant `img`
+rule (keyed on the data attributes); byte-identical `index.ts`. It re-ran both
+`styles:build`, the three typechecks, the docs suite (11),
+`navigation-collection.spec.ts` in isolation (9 — confirming the default item
+height > `sm` item height at :220, i.e. the fix holds), `static-display.spec.ts`
+(12), and the full fixture suite (1191). It judged the padding-conflict fix
+correct (distinct sizes), the migration otherwise faithful, and the img rule +
+font + media-icon-radius correct. Verdict: APPROVED.
+
+Approval result: approved with no blockers — Item is migrated (32 components).
