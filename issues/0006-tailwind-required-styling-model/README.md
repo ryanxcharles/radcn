@@ -234,7 +234,7 @@ a dependency listed in package manifests.
 - [Experiment 51: Migrate DropdownMenu + ContextMenu together to Tailwind utilities](51-migrate-dropdown-context-menu-to-tailwind.md)
   — **Pass**
 - [Experiment 52: Migrate Menubar + NavigationMenu together to Tailwind utilities](52-migrate-menubar-navigation-menu-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -913,6 +913,16 @@ From Experiment 51 (DropdownMenu + ContextMenu together — Pass):
 - `[&[hidden]]:hidden` reproduces `.x[hidden]{display:none}` when the base utility
   sets `display:grid` (which beats the browser `[hidden]` default) — used across all
   positioned-overlay content surfaces.
+
+From Experiment 52 (Menubar + NavigationMenu together — Pass):
+
+- When a parent->child orientation cascade would change a migrated child's
+  `display`/`align-items`/etc., propagate ALL changing properties via vars and have
+  the child READ them with arbitrary-property utilities (`[display:var(--x,flex)]`
+  etc.). Do NOT keep both a base `flex`/`items-center` utility AND a var-read of the
+  same property (conflict) — use only the var-read.
+- A combined rule whose kept selector is ALREADY fully covered by a standalone rule
+  (`.radcn-menu-sub-caret`, kept from Exp 51) is DELETED outright, not split.
 
 ## Remaining Component Migration Map
 

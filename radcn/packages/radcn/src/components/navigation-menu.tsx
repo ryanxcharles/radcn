@@ -1,6 +1,25 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+import { menubarTriggerActive, menubarTriggerBase } from './menubar.tsx'
+
+// NavigationMenu surfaces as Tailwind utilities (Issue 6, Experiment 52). Shares
+// the trigger base/active with Menubar (imported). The list orientation propagates
+// via CSS vars the root SETS (data-[orientation=vertical]:[--radcn-nav-list-*]) and
+// the list READS (a parent->child cascade on the migrated list fails, Exp 47). The
+// link keeps the radcn-navigation-menu-link MARKER (asserted). Comments are ASCII.
+const navLinkActive =
+  'aria-[current=page]:bg-[var(--radcn-menubar-highlight-bg,var(--radcn-secondary))] aria-[current=page]:text-[var(--radcn-menubar-highlight-fg,var(--radcn-foreground))]'
+const navMenuRootClass =
+  '[font-family:var(--radcn-font)] relative grid w-[min(100%,var(--radcn-navigation-menu-width,42rem))] gap-2 text-[var(--radcn-navigation-menu-fg,var(--radcn-foreground))] data-[orientation=vertical]:[--radcn-nav-list-display:inline-grid] data-[orientation=vertical]:[--radcn-nav-list-align:stretch] data-[orientation=vertical]:[--radcn-nav-list-justify:start]'
+const navMenuListClass =
+  '[display:var(--radcn-nav-list-display,flex)] flex-wrap gap-1 list-none m-0 p-1 border border-[var(--radcn-navigation-menu-border,var(--radcn-border))] rounded-md bg-[var(--radcn-navigation-menu-bg,var(--radcn-background))] [align-items:var(--radcn-nav-list-align,center)] [justify-self:var(--radcn-nav-list-justify,auto)]'
+const navMenuContentClass =
+  'grid min-w-72 gap-2 border border-[var(--radcn-navigation-menu-border,var(--radcn-border))] rounded-md bg-[var(--radcn-navigation-menu-panel-bg,var(--radcn-popover))] text-[var(--radcn-navigation-menu-panel-fg,var(--radcn-popover-foreground))] p-4 shadow-[0_18px_48px_rgb(0_0_0_/_0.14)] [&[hidden]]:hidden'
+const navMenuViewportClass =
+  'w-[var(--radcn-navigation-menu-viewport-width,18rem)] h-[var(--radcn-navigation-menu-viewport-height,8rem)] rounded-md pointer-events-none [&[hidden]]:hidden'
+const navMenuIndicatorClass =
+  'absolute top-[2.6rem] left-[var(--radcn-navigation-menu-indicator-left,1rem)] w-3 h-3 [transform:translateX(-50%)_rotate(45deg)] bg-[var(--radcn-navigation-menu-panel-bg,var(--radcn-popover))] border-l border-t border-[var(--radcn-navigation-menu-border,var(--radcn-border))] [&[hidden]]:hidden'
 
 export type NavigationMenuOrientation = 'horizontal' | 'vertical'
 
@@ -220,55 +239,55 @@ export function NavigationMenu(handle: Handle<NavigationMenuProps>) {
   return () => {
     let { ariaLabel = 'Main navigation', children, class: className, defaultValue, delayDuration = 100, id, orientation = 'horizontal', skipDelayDuration = 150, style, value } = handle.props
     let initialValue = value ?? defaultValue ?? ''
-    return <nav aria-label={ariaLabel} class={classes('radcn-navigation-menu', className)} data-delay-duration={String(delayDuration)} data-orientation={orientation} data-radcn-navigation-menu data-skip-delay-duration={String(skipDelayDuration)} data-value={initialValue} id={id} style={style}>{children}</nav>
+    return <nav aria-label={ariaLabel} class={classes(navMenuRootClass, className)} data-delay-duration={String(delayDuration)} data-orientation={orientation} data-radcn-navigation-menu data-skip-delay-duration={String(skipDelayDuration)} data-value={initialValue} id={id} style={style}>{children}</nav>
   }
 }
 
 export function NavigationMenuList(handle: Handle<NavigationMenuPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <ul class={classes('radcn-navigation-menu-list', className)} data-radcn-navigation-menu-list style={style}>{children}</ul>
+    return <ul class={classes(navMenuListClass, className)} data-radcn-navigation-menu-list style={style}>{children}</ul>
   }
 }
 
 export function NavigationMenuItem(handle: Handle<NavigationMenuItemProps>) {
   return () => {
     let { children, class: className, disabled, style, value } = handle.props
-    return <li class={classes('radcn-navigation-menu-item', className)} data-active="false" data-disabled={disabled ? 'true' : undefined} data-radcn-navigation-menu-item data-state="closed" data-value={value} style={style}>{children}</li>
+    return <li class={classes('relative', className)} data-active="false" data-disabled={disabled ? 'true' : undefined} data-radcn-navigation-menu-item data-state="closed" data-value={value} style={style}>{children}</li>
   }
 }
 
 export function NavigationMenuTrigger(handle: Handle<NavigationMenuPartProps>) {
   return () => {
     let { children, class: className, disabled, style } = handle.props
-    return <button aria-disabled={disabled ? 'true' : undefined} aria-expanded="false" class={classes('radcn-navigation-menu-trigger', className)} data-disabled={disabled ? 'true' : undefined} data-radcn-navigation-menu-trigger data-state="closed" disabled={disabled} type="button" style={style}>{children}</button>
+    return <button aria-disabled={disabled ? 'true' : undefined} aria-expanded="false" class={classes(menubarTriggerBase, menubarTriggerActive, className)} data-disabled={disabled ? 'true' : undefined} data-radcn-navigation-menu-trigger data-state="closed" disabled={disabled} type="button" style={style}>{children}</button>
   }
 }
 
 export function NavigationMenuContent(handle: Handle<NavigationMenuPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-navigation-menu-content', className)} data-radcn-navigation-menu-content data-state="closed" hidden style={style}>{children}</div>
+    return <div class={classes(navMenuContentClass, className)} data-radcn-navigation-menu-content data-state="closed" hidden style={style}>{children}</div>
   }
 }
 
 export function NavigationMenuLink(handle: Handle<NavigationMenuLinkProps>) {
   return () => {
     let { children, class: className, current, disabled, href = '#', style } = handle.props
-    return <a aria-current={current ? 'page' : undefined} aria-disabled={disabled ? 'true' : undefined} class={classes('radcn-navigation-menu-link', className)} data-disabled={disabled ? 'true' : undefined} data-radcn-navigation-menu-link href={disabled ? undefined : href} style={style}>{children}</a>
+    return <a aria-current={current ? 'page' : undefined} aria-disabled={disabled ? 'true' : undefined} class={classes(menubarTriggerBase, navLinkActive, 'radcn-navigation-menu-link', className)} data-disabled={disabled ? 'true' : undefined} data-radcn-navigation-menu-link href={disabled ? undefined : href} style={style}>{children}</a>
   }
 }
 
 export function NavigationMenuIndicator(handle: Handle<NavigationMenuPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div aria-hidden="true" class={classes('radcn-navigation-menu-indicator', className)} data-radcn-navigation-menu-indicator data-state="hidden" hidden style={style}>{children}</div>
+    return <div aria-hidden="true" class={classes(navMenuIndicatorClass, className)} data-radcn-navigation-menu-indicator data-state="hidden" hidden style={style}>{children}</div>
   }
 }
 
 export function NavigationMenuViewport(handle: Handle<NavigationMenuPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div aria-hidden="true" class={classes('radcn-navigation-menu-viewport', className)} data-motion="idle" data-radcn-navigation-menu-viewport data-state="closed" hidden style={style}>{children}</div>
+    return <div aria-hidden="true" class={classes(navMenuViewportClass, className)} data-motion="idle" data-radcn-navigation-menu-viewport data-state="closed" hidden style={style}>{children}</div>
   }
 }

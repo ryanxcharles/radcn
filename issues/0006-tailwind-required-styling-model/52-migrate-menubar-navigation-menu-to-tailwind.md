@@ -154,7 +154,60 @@ Fail criteria: a menubar-navigation assertion regresses (custom borders, link
 marker, highlight, orientation); the content positioning/animation drifts;
 `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Menubar + NavigationMenu migrated; both suites green. Verification:
+
+1. Both `styles:build` exit 0; no junk ellipsis (0). The nav-list propagation
+   utilities all compile (verified in the generated CSS): the 3 reads
+   (`display: var(--radcn-nav-list-display,flex)`, `align-items: var(--radcn-nav-list-align,center)`,
+   `justify-self: var(--radcn-nav-list-justify,auto)`) AND the 3 var-sets
+   (`--radcn-nav-list-display: inline-grid` / `-align: stretch` / `-justify: start`);
+   the `[&[hidden]]:hidden`, `[transform:translateX(-50%)_rotate(45deg)]`,
+   `animate-[radcn-select-in_120ms_ease-out]`, `data-[orientation=vertical]:inline-grid`
+   compile too.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; ZERO migrated menubar/navmenu rules
+   remain (incl. the deleted `menubar-shortcut/sub-caret` rule + the replaced
+   nav-vertical cascade); the family `radcn-menu-*` helpers + both custom fixtures +
+   `.radcn-fixture-navigation-panel` + `@keyframes radcn-select-in` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `menubar-navigation.spec.ts` in isolation
+   **7 passed** — incl. the menubar custom border `rgb(15,118,110)`, open/close,
+   items/highlight, the navmenu custom class + LIST border `rgb(15,118,110)`, the
+   nav-link `radcn-navigation-menu-link` marker, triggers, content panels,
+   orientation, keyboard nav. DropdownMenu/ContextMenu (the family helpers) stay
+   green (in the full suite).
+6. `git diff --check` clean; `vendor/` untouched; the four expected files changed.
+
+No deviations from the (review-corrected) design.
+
+## Conclusion
+
+Menubar + NavigationMenu render from Tailwind utilities (shared trigger base/active
+exported from `menubar.tsx`, reused by `navigation-menu.tsx`); the shared
+trigger/font/disabled/`[hidden]` rules dropped (both migrated together). The
+NavigationMenu list orientation propagates via the `--radcn-nav-list-*` vars (the
+Exp-47-safe replacement for the parent→child cascade); the `menubar-shortcut/sub-caret`
+combined rule was deleted (sub-caret stays covered by the Exp-51 standalone rule);
+the nav-link keeps its `radcn-navigation-menu-link` marker. The family `radcn-menu-*`
+helpers stay bespoke (Menubar + dropdown/context still emit them). FORTY-FOUR
+components are now migrated; the menu trio (dropdown/context/menubar) is done, with
+NavigationMenu added.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- When a parent→child orientation cascade would change a migrated child's
+  `display`/`align-items`, propagate ALL the changing properties via vars and have
+  the child READ them with arbitrary-property utilities
+  (`[display:var(--x,flex)]`/`[align-items:var(--x,center)]`/`[justify-self:var(--x,auto)]`)
+  — do NOT mix a base `flex`/`items-center` utility with a var-read of the same
+  property (they would conflict); use only the var-read.
+- A combined rule whose kept selector is ALREADY covered by a standalone rule
+  (here `.radcn-menu-sub-caret`, kept from Exp 51) is DELETED outright, not split —
+  no duplication.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -190,3 +243,30 @@ variant responds (standard).
 Approval result: approved after the two fixes — the propagation replaces the
 unreliable cascade, the redundant sub-caret rule is cleanly deleted, and the
 shared-rule together-migration + family-helper/marker carve-outs are sound.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed menubar.tsx exports `menubarTriggerBase`+`menubarTriggerActive`
+and uses the menubar consts; navigation-menu.tsx imports them and defines the nav
+consts incl. the `--radcn-nav-list-*` var-sets (root) + the `[display:var()]`/
+`[align-items:var()]`/`[justify-self:var()]` reads (list) with NO base-vs-var
+conflict; the nav-link keeps the `radcn-navigation-menu-link` marker; both keep the
+family `radcn-menu-*` helper classes. tokens.css has ZERO migrated menubar/navmenu
+rules, the `menubar-shortcut/sub-caret` combined rule DELETED, the nav-vertical
+cascade gone; the family helpers (incl. the standalone `.radcn-menu-sub-caret` with
+`margin-left:auto`), both custom fixtures, `.radcn-fixture-navigation-panel`, and
+`@keyframes radcn-select-in` retained; byte-identical `index.ts`. It rebuilt +
+confirmed the 3 nav-list reads + 3 var-sets generate (no junk), re-ran the three
+typechecks, the docs suite (11), `menubar-navigation.spec.ts` (7 — menubar + navmenu
+custom borders, nav-link marker, orientation), and the full fixture suite (1191×2,
+menu family stays green). Verdict: APPROVED.
+
+Approval result: approved with no blockers — Menubar + NavigationMenu migrated (44
+components); the menu trio (dropdown/context/menubar) complete.
