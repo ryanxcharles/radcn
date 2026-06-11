@@ -249,6 +249,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 59: Migrate InputOTP to Tailwind utilities](59-migrate-input-otp-to-tailwind.md)
   — **Pass**
+- [Experiment 60: Migrate Carousel to Tailwind utilities](60-migrate-carousel-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
