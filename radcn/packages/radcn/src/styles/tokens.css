@@ -175,28 +175,10 @@
   font: 500 0.8125rem/1.4 var(--radcn-font);
 }
 
-.radcn-form {
-  display: grid;
-  gap: 1rem;
-  width: min(100%, var(--radcn-form-width, 26rem));
-  color: var(--radcn-foreground);
-  font-family: var(--radcn-font);
-}
-
-.radcn-form-field,
-.radcn-form-item {
-  display: grid;
-  gap: 0.5rem;
-}
-
 .radcn-form-label[data-error="true"],
 .radcn-form-field[data-invalid="true"] .radcn-form-label,
 .radcn-form-item[data-invalid="true"] .radcn-form-label {
   color: var(--radcn-field-error, var(--radcn-destructive));
-}
-
-.radcn-form-control {
-  display: contents;
 }
 
 /*

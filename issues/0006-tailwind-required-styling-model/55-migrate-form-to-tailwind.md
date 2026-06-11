@@ -70,6 +70,40 @@ label-error hook + form-message color hold; BOTH suites green; byte-identical.
 Fail criteria: the form-message color or label-error regresses; the layout drifts;
 `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Form container surfaces migrated; both suites green. Verification:
+1. Both `styles:build` exit 0; the `w-[min(100%,var(--radcn-form-width,26rem))]`,
+   `gap-4`, `gap-2`, `contents` utilities compile; no junk ellipsis.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; the `.radcn-form`/`-field`/`-item`/
+   `-control` rules removed; the `.radcn-form-label[...]` error-color rule retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: `form-input-cluster.spec.ts` in isolation **11 passed** (the
+   form-message color `rgb(124,58,237)` `:264`, the form layout, the label error
+   state, field/item invalid). Full fixture suite **1191 passed** (run 2 clean);
+   run 1 had the known intermittent serial-load flake (passes on re-run — isolation
+   is 11/11, run 2 is 1191).
+6. `git diff --check` clean; `vendor/` untouched; the three expected files changed.
+
+## Conclusion
+
+Form's container surfaces (root/field/item/control) render from Tailwind utilities;
+the `.radcn-form-label[data-error]` / field-or-item `[data-invalid] .radcn-form-label`
+error-color rule stays bespoke (it colors the Label component; entangling it with
+Label's color utilities is not worth the risk — a documented label-error hook). The
+form-message/description colors come from Field (Exp 37). FORTY-EIGHT components are
+now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A thin layout-wrapper component (Form) migrates its container surfaces cleanly;
+  keep a small cross-component CASCADE that colors an already-migrated child
+  (`.radcn-form-label` = a Label) bespoke rather than entangle with that child's own
+  color utilities — the completion criteria allow bespoke rules "reduced to hooks".
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -89,3 +123,22 @@ label dual-class semantics hold (the kept bespoke rule, not a Label color util).
 
 Approval result: approved — the container surfaces migrate cleanly, the label-error
 hook + the Field-provided message color are unaffected.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes.
+
+Findings: none (no Blocker, Major, or Minor). The reviewer confirmed the three
+container consts (root/field+item/control) emit the right utilities, the FormLabel
+keeps `radcn-form-label`+`radcn-label`+`data-error`, the field/item keep
+`data-invalid`, the description/message keep the Field classes + data attrs;
+tokens.css removed the three container rules and KEPT the `.radcn-form-label[...]`
+error rule; byte-identical `index.ts`. It rebuilt (utilities compile, no junk),
+re-ran the three typechecks, the docs suite (11), `form-input-cluster.spec.ts` (11
+— the `:264` message color `rgb(124,58,237)` from Field), and the full fixture
+suite (1191). Verdict: APPROVED.
+
+Approval result: approved with no blockers — Form container surfaces migrated (48
+components).

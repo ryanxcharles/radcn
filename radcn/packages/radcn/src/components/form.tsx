@@ -2,6 +2,17 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Form container surfaces as Tailwind utilities (Issue 6, Experiment 55). Only the
+// layout containers migrate; the `.radcn-form-label[data-error]` / field-or-item
+// `[data-invalid] .radcn-form-label` error-color rule stays bespoke (it colors the
+// Label component, whose own color utilities it must not conflict with) — the
+// component keeps emitting radcn-form-label + the field/item keep data-invalid.
+// form-message/description styling comes from Field (radcn-field-error/-description).
+// Comments here are ASCII.
+const formRootClass = 'grid gap-4 w-[min(100%,var(--radcn-form-width,26rem))] text-foreground [font-family:var(--radcn-font)]'
+const formFieldClass = 'grid gap-2'
+const formControlClass = 'contents'
+
 export type FormMethod = 'get' | 'post' | 'dialog'
 export type FormEncType = 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain'
 export type FormTarget = '_self' | '_blank' | '_parent' | '_top'
@@ -87,7 +98,7 @@ export function Form(handle: Handle<FormProps>) {
     return (
       <form
         action={action}
-        class={classes('radcn-form', className)}
+        class={classes(formRootClass, className)}
         data-radcn-form
         enctype={encType}
         id={id}
@@ -108,7 +119,7 @@ export function FormField(handle: Handle<FormFieldProps>) {
 
     return (
       <div
-        class={classes('radcn-form-field', className)}
+        class={classes(formFieldClass, className)}
         data-invalid={invalid ? 'true' : undefined}
         data-name={name}
         data-radcn-form-field
@@ -127,7 +138,7 @@ export function FormItem(handle: Handle<FormFieldProps>) {
 
     return (
       <div
-        class={classes('radcn-form-item', className)}
+        class={classes(formFieldClass, className)}
         data-invalid={invalid ? 'true' : undefined}
         data-name={name}
         data-radcn-form-item
@@ -168,7 +179,7 @@ export function FormControl(handle: Handle<FormControlProps>) {
       <div
         aria-describedby={ariaDescribedBy}
         aria-invalid={ariaInvalid ? 'true' : undefined}
-        class={classes('radcn-form-control', className)}
+        class={classes(formControlClass, className)}
         data-radcn-form-control
         id={id}
         style={style}

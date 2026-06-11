@@ -240,7 +240,7 @@ a dependency listed in package manifests.
 - [Experiment 54: Migrate Select content surfaces to Tailwind utilities](54-migrate-select-to-tailwind.md)
   — **Pass**
 - [Experiment 55: Migrate Form container surfaces to Tailwind utilities](55-migrate-form-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -950,6 +950,13 @@ From Experiment 54 (Select content surfaces — Pass):
 - The Exp-51 ButtonGroup-coupled-trigger carve-out generalizes to Select: migrate
   the content surfaces, keep the trigger + its state rules bespoke until ButtonGroup
   migrates.
+
+From Experiment 55 (Form container surfaces — Pass):
+
+- A thin layout-wrapper (Form) migrates its container surfaces cleanly; keep a small
+  cross-component CASCADE that colors an already-migrated child (`.radcn-form-label`
+  is a Label) bespoke rather than entangle with that child's own color utilities
+  (the criteria allow bespoke rules reduced to hooks).
 
 ## Remaining Component Migration Map
 
