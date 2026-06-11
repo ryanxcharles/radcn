@@ -74,7 +74,30 @@ the trigger + content override hooks hold; BOTH suites green; byte-identical.
 Fail criteria: a date-picker assertion regresses; the trigger/content rendering
 drifts; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+DatePicker root/icon/preset-select migrated; both suites green. All three
+`styles:build`/typechecks pass; byte-identical `index.ts`; the 3 rules removed, the
+trigger + content override-hooks + fixture retained; docs 11 ×2;
+`calendar-date-picker.spec.ts` isolation 6 passed; fixture 1191 (run 2 clean; run 1
+had the known serial-load flake — isolation 6/6 + run 2 1191); `git diff --check`
+clean; three files changed.
+
+## Conclusion
+
+DatePicker's root/icon/preset-select render from Tailwind utilities; the trigger
+(borrows the kept Button raw-class API + its `radcn-date-picker-trigger` override)
+and the `radcn-date-picker-content` (overrides the migrated Popover content) stay
+bespoke override-hooks. FIFTY components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A composite (DatePicker) that wraps already-migrated components (Popover) + a
+  raw-class API (Button) keeps its OVERRIDE rules bespoke + unlayered (they reliably
+  beat the migrated component's @layer utilities / would lose as appended utilities);
+  migrate only its standalone surfaces (root/icon/preset-select).
 
 Reviewer: fresh Claude subagent (Explore agent, Haiku, spawned via the Agent tool).
 Fresh context: yes.
@@ -92,3 +115,18 @@ blockers — implementation is the next step).
 
 Approval result: approved — the override-hook carve-outs (trigger/content) +
 the three clean surface migrations are sound; the dual-suite gate decides.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed the three migrated consts
+map exactly, the trigger keeps `radcn-button … radcn-date-picker-trigger`, the
+PopoverContent keeps `radcn-date-picker-content`, the data attributes + fixture
+intact; tokens.css removed the 3 rules and kept the trigger/content overrides + the
+Button raw API; byte-identical `index.ts`; the dual-suite gate
+(calendar-date-picker 6, docs 11, fixture 1191×2) green. Verdict: APPROVED.
+
+Approval result: approved with no blockers — DatePicker surfaces migrated (50
+components).

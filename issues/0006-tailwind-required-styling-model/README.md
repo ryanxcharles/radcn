@@ -244,7 +244,7 @@ a dependency listed in package manifests.
 - [Experiment 56: Migrate DirectionProvider to Tailwind utilities](56-migrate-direction-to-tailwind.md)
   — **Pass**
 - [Experiment 57: Migrate DatePicker surfaces to Tailwind utilities](57-migrate-date-picker-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -961,6 +961,13 @@ From Experiment 55 (Form container surfaces — Pass):
   cross-component CASCADE that colors an already-migrated child (`.radcn-form-label`
   is a Label) bespoke rather than entangle with that child's own color utilities
   (the criteria allow bespoke rules reduced to hooks).
+
+From Experiment 57 (DatePicker surfaces — Pass):
+
+- A composite that wraps already-migrated components (Popover) + a raw-class API
+  (Button) keeps its OVERRIDE rules bespoke + unlayered (they reliably beat the
+  migrated @layer utilities / would lose as appended utilities); migrate only its
+  standalone surfaces (root/icon/preset-select).
 
 ## Remaining Component Migration Map
 
