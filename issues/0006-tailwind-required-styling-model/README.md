@@ -157,6 +157,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 14: Migrate AspectRatio to Tailwind utilities](14-migrate-aspect-ratio-to-tailwind.md)
   — **Pass**
+- [Experiment 15: Migrate Card to Tailwind utilities](15-migrate-card-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
