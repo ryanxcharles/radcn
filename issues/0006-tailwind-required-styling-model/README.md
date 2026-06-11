@@ -166,6 +166,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 18: Migrate Input and Textarea to Tailwind utilities](18-migrate-input-textarea-to-tailwind.md)
   — **Pass**
+- [Experiment 19: Migrate Alert to Tailwind utilities](19-migrate-alert-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
