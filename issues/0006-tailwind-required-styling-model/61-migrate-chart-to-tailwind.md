@@ -108,7 +108,40 @@ green; byte-identical.
 Fail criteria: a data-display assertion regresses; an SVG stroke/fill or the svg bg
 drifts; a swatch-variant conflict; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Chart migrated; both suites green (both fixture runs clean). All three
+`styles:build`/typechecks pass; the SVG arbitrary-property utilities
+(`[stroke:var(--radcn-chart-axis…)]`, `[fill:var(--radcn-chart-series…)]`,
+`[aspect-ratio:var(--radcn-chart-aspect…,16/9)]`, `[stroke-linecap:round]`) +
+`tabular-nums` + the swatch variants compile (no junk); `index.ts` byte-identical;
+the chart component rules removed while the docs demo classes
+(`docs-grid`/`example-card`/`tooltip-demo`) + the fixture are kept; docs 11 ×2;
+`data-display.spec.ts` isolation 7 passed (chart custom class, svg bg
+`rgb(240,253,250)`, bars/lines/points, axis/grid, legend, tooltip + swatches);
+fixture 1191 ×2 (both clean); `git diff --check` clean; three files changed.
+
+## Conclusion
+
+Chart renders from Tailwind utilities — including the SVG presentation properties
+(stroke/fill/stroke-width/stroke-linecap/aspect-ratio) via arbitrary-property
+utilities, and the tooltip swatch selected per-indicator (dot/line/dashed) to avoid
+an Exp-41 base-vs-variant conflict. The docs demo classes
+(`radcn-chart-docs-grid`/`-example-card`/`-tooltip-demo`) + the custom-chart fixture
+stay bespoke. FIFTY-FOUR components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- SVG components migrate cleanly via arbitrary-property utilities: `[stroke:var(…)]`,
+  `[fill:var(…)]`, `[stroke-width:N]`, `[stroke-linecap:round]`,
+  `[aspect-ratio:var(…,16/9)]` (and a `color-mix(in_srgb,…)` inside a var fallback)
+  all compile in Tailwind v4. A bar's inline `fill="…"` attribute is unaffected
+  (the `[fill:…]` utility is the same CSS the original class applied).
+- When a base + variant conflict on multiple props (the chart swatch's
+  w/h/rounded/bg), SELECT a full per-variant const (dot/line/dashed) in the component
+  rather than base+append (Exp-41).
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
 context: yes.
@@ -130,3 +163,21 @@ the original `.radcn-chart-bar` rule, identical behavior).
 Approval result: approved — the SVG arbitrary-property migration + the per-indicator
 swatch composition + the docs/fixture carve-outs are sound. Key implementation gate:
 swatch per-indicator const selection.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed the SVG elements emit the
+`[stroke:var(…)]`/`[fill:var(…)]`/`[stroke-width:…]` consts; the svg emits
+`[aspect-ratio:var(…,16/9)]` + `bg-[var(--radcn-chart-bg,…)]`; the tooltip swatch is
+SELECTED per-indicator (dot/line/dashed, not base+append); the legend-swatch =
+chartSwatchDot; the tooltip-value span has the utility class; the tooltip-item has
+`justify-between` + `data-[indicator=none]:pl-0`; tokens.css has ZERO chart component
+rules with the docs demo classes + fixture kept; byte-identical `index.ts`. It rebuilt
+(the SVG arbitrary properties + tabular-nums generate, no junk), re-ran the three
+typechecks, the docs suite (11), `data-display.spec.ts` (7 — `:55` class, `:56` svg
+bg), and the full fixture suite (1191). Verdict: APPROVED.
+
+Approval result: approved with no blockers — Chart migrated (54 components).

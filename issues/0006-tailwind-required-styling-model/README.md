@@ -252,7 +252,7 @@ a dependency listed in package manifests.
 - [Experiment 60: Migrate Carousel to Tailwind utilities](60-migrate-carousel-to-tailwind.md)
   — **Pass**
 - [Experiment 61: Migrate Chart to Tailwind utilities](61-migrate-chart-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1004,6 +1004,16 @@ From Experiment 60 (Carousel — Pass):
 - Scroll containers migrate fully: `[overflow:var(--x,auto_hidden)]`,
   `[scroll-snap-type:var(--x,y_mandatory)]`, `[scrollbar-width:none]`,
   `[&::-webkit-scrollbar]:hidden` all compile.
+
+From Experiment 61 (Chart — Pass):
+
+- SVG components migrate via arbitrary-property utilities: `[stroke:var(…)]`,
+  `[fill:var(…)]`, `[stroke-width:N]`, `[stroke-linecap:round]`,
+  `[aspect-ratio:var(…,16/9)]`, and a `color-mix(in_srgb,…)` inside a var fallback all
+  compile. An inline SVG `fill="…"` attribute is unaffected (the `[fill:…]` utility is
+  the same CSS the original class applied).
+- When a base + variant conflict on multiple props (the chart swatch's w/h/rounded/bg),
+  SELECT a full per-variant const in the component rather than base+append (Exp-41).
 
 ## Remaining Component Migration Map
 

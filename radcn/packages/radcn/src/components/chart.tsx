@@ -2,6 +2,43 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Chart surfaces as Tailwind utilities (Issue 6, Experiment 61). SVG presentation
+// properties (stroke/fill/stroke-width/stroke-linecap/aspect-ratio) use arbitrary-
+// property utilities. The tooltip swatch is selected per-indicator (dot/line/dashed)
+// to avoid an Exp-41 base-vs-variant conflict. The docs demo classes (docs-grid/
+// example-card/tooltip-demo) are kept bespoke (applied by docs, not the component).
+// Comments here are ASCII; no bracketed class-like tokens.
+const chartRootClass = 'grid w-[min(100%,var(--radcn-chart-width,34rem))] gap-3 text-foreground [font-family:var(--radcn-font)]'
+const chartTitleClass = 'text-[0.9375rem] font-semibold leading-[1.3] [font-family:var(--radcn-font)]'
+const chartDescriptionClass =
+  '-mt-2 mx-0 mb-0 text-muted-foreground text-[0.8125rem] font-normal leading-[1.4] [font-family:var(--radcn-font)]'
+const chartSvgClass =
+  'block w-full [aspect-ratio:var(--radcn-chart-aspect-ratio,16/9)] border border-[var(--radcn-chart-border,var(--radcn-border))] rounded-md bg-[var(--radcn-chart-bg,var(--radcn-background))] overflow-visible'
+const chartAxisClass = '[stroke:var(--radcn-chart-axis,var(--radcn-border))] [stroke-width:1]'
+const chartGridLineClass =
+  '[stroke:var(--radcn-chart-grid,color-mix(in_srgb,var(--radcn-border)_72%,transparent))] [stroke-width:1]'
+const chartTickClass =
+  '[fill:var(--radcn-muted-foreground)] text-[0.6875rem] font-normal leading-none [font-family:var(--radcn-font)]'
+const chartBarClass = '[fill:var(--radcn-chart-series-color,var(--radcn-primary))]'
+const chartBarGroupClass = 'text-foreground'
+const chartLineClass =
+  '[stroke:var(--radcn-chart-series-color,var(--radcn-primary))] [stroke-width:3] [stroke-linecap:round] [stroke-linejoin:round]'
+const chartPointClass = '[stroke:var(--radcn-chart-bg,var(--radcn-background))] [stroke-width:2]'
+const chartLegendClass =
+  'flex flex-wrap gap-3 text-muted-foreground text-[0.8125rem] font-normal leading-[1.4] [font-family:var(--radcn-font)]'
+const chartLegendItemClass = 'inline-flex items-center gap-1.5'
+const chartSwatchDot =
+  'w-2.5 h-2.5 rounded-[999px] bg-[var(--radcn-chart-item-color,var(--radcn-chart-series-color,var(--radcn-primary)))]'
+const chartSwatchLine =
+  'w-1 h-[1.125rem] rounded-[999px] bg-[var(--radcn-chart-item-color,var(--radcn-chart-series-color,var(--radcn-primary)))]'
+const chartSwatchDashed =
+  'w-0 h-[1.125rem] border-l-2 border-dashed border-[var(--radcn-chart-item-color,var(--radcn-chart-series-color,var(--radcn-primary)))] bg-transparent'
+const chartTooltipClass =
+  'grid w-max min-w-36 gap-1.5 border border-[var(--radcn-chart-tooltip-border,var(--radcn-border))] rounded-md p-2.5 bg-[var(--radcn-chart-tooltip-bg,var(--radcn-background))] shadow-[0_10px_32px_rgb(0_0_0_/_0.12)] text-[0.8125rem] font-normal leading-[1.35] [font-family:var(--radcn-font)]'
+const chartTooltipLabelClass = 'font-semibold'
+const chartTooltipItemClass = 'inline-flex items-center gap-1.5 justify-between data-[indicator=none]:pl-0'
+const chartTooltipValueClass = 'ml-auto tabular-nums font-semibold'
+
 export interface ChartSeriesConfig {
   color?: string
   label: string
@@ -131,14 +168,14 @@ export function ChartContainer(handle: Handle<ChartContainerProps>) {
         aria-describedby={ariaDescribedBy}
         aria-label={ariaLabelledby ? undefined : ariaLabel}
         aria-labelledby={ariaLabelledby}
-        class={classes('radcn-chart', className)}
+        class={classes(chartRootClass, className)}
         data-radcn-chart
         id={id}
         role="img"
         style={mergedStyle}
       >
-        {title ? <figcaption class="radcn-chart-title" data-radcn-chart-title>{title}</figcaption> : undefined}
-        {description ? <p class="radcn-chart-description" data-radcn-chart-description>{description}</p> : undefined}
+        {title ? <figcaption class={chartTitleClass} data-radcn-chart-title>{title}</figcaption> : undefined}
+        {description ? <p class={chartDescriptionClass} data-radcn-chart-description>{description}</p> : undefined}
         {children}
       </figure>
     )
@@ -178,7 +215,7 @@ export function ChartBarSeries(handle: Handle<ChartBarSeriesProps>) {
     return (
       <svg
         aria-hidden="true"
-        class={classes('radcn-chart-svg', className)}
+        class={classes(chartSvgClass, className)}
         data-radcn-chart-svg
         data-series={chartSeries.map((item) => item.name).join(' ')}
         viewBox={`0 0 ${width} ${height}`}
@@ -188,7 +225,7 @@ export function ChartBarSeries(handle: Handle<ChartBarSeriesProps>) {
               let y = paddingTop + (innerHeight / gridLines) * index
               return (
                 <line
-                  class="radcn-chart-grid-line"
+                  class={chartGridLineClass}
                   data-radcn-chart-grid
                   key={`grid-${index}`}
                   x1={paddingX}
@@ -199,11 +236,11 @@ export function ChartBarSeries(handle: Handle<ChartBarSeriesProps>) {
               )
             })
           : undefined}
-        <line class="radcn-chart-axis" x1={paddingX} x2={width - paddingX} y1={baseline} y2={baseline} />
+        <line class={chartAxisClass} x1={paddingX} x2={width - paddingX} y1={baseline} y2={baseline} />
         {Array.from({ length: pointCount }, (_, pointIndex) => {
           let groupX = paddingX + pointIndex * (groupWidth + groupGap)
           return (
-            <g class="radcn-chart-bar-group" data-label={pointLabel(labels, pointIndex)} data-radcn-chart-bar-group key={`group-${pointIndex}`}>
+            <g class={chartBarGroupClass} data-label={pointLabel(labels, pointIndex)} data-radcn-chart-bar-group key={`group-${pointIndex}`}>
               {chartSeries.map((item, seriesIndex) => {
                 let value = item.values[pointIndex] ?? 0
                 let normalized = Math.max(0, value) / max
@@ -214,7 +251,7 @@ export function ChartBarSeries(handle: Handle<ChartBarSeriesProps>) {
                 return (
                   <rect
                     aria-label={`${item.label ?? item.name} ${pointLabel(labels, pointIndex)} ${value}`}
-                    class="radcn-chart-bar"
+                    class={chartBarClass}
                     data-label={pointLabel(labels, pointIndex)}
                     data-radcn-chart-bar
                     data-series={item.name}
@@ -231,7 +268,7 @@ export function ChartBarSeries(handle: Handle<ChartBarSeriesProps>) {
               })}
               {showXAxis ? (
                 <text
-                  class="radcn-chart-tick"
+                  class={chartTickClass}
                   data-radcn-chart-tick
                   text-anchor="middle"
                   x={groupX + groupWidth / 2}
@@ -266,14 +303,14 @@ export function ChartLineSeries(handle: Handle<ChartLineSeriesProps>) {
     return (
       <svg
         aria-hidden="true"
-        class={classes('radcn-chart-svg', className)}
+        class={classes(chartSvgClass, className)}
         data-radcn-chart-svg
         data-series={name}
         viewBox={`0 0 ${width} ${height}`}
       >
-        <line class="radcn-chart-axis" x1={padding} x2={width - padding} y1={height - padding} y2={height - padding} />
+        <line class={chartAxisClass} x1={padding} x2={width - padding} y1={height - padding} y2={height - padding} />
         <polyline
-          class="radcn-chart-line"
+          class={chartLineClass}
           data-radcn-chart-line
           fill="none"
           points={pointString}
@@ -282,7 +319,7 @@ export function ChartLineSeries(handle: Handle<ChartLineSeriesProps>) {
         {points.map((point, index) => (
           <circle
             aria-label={`${point.label} ${point.value}`}
-            class="radcn-chart-point"
+            class={chartPointClass}
             cx={point.x}
             cy={point.y}
             data-label={point.label}
@@ -302,7 +339,7 @@ export function ChartLegend(handle: Handle<ChartLegendProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <div class={classes('radcn-chart-legend', className)} data-radcn-chart-legend style={style}>{children}</div>
+    return <div class={classes(chartLegendClass, className)} data-radcn-chart-legend style={style}>{children}</div>
   }
 }
 
@@ -312,8 +349,8 @@ export function ChartLegendItem(handle: Handle<ChartLegendItemProps>) {
     let mergedStyle = [color ? `--radcn-chart-item-color: ${color}` : undefined, style].filter(Boolean).join('; ') || undefined
 
     return (
-      <span class={classes('radcn-chart-legend-item', className)} data-name={name} data-radcn-chart-legend-item style={mergedStyle}>
-        <span aria-hidden="true" class="radcn-chart-legend-swatch" data-radcn-chart-legend-swatch />
+      <span class={classes(chartLegendItemClass, className)} data-name={name} data-radcn-chart-legend-item style={mergedStyle}>
+        <span aria-hidden="true" class={chartSwatchDot} data-radcn-chart-legend-swatch />
         {children ?? name}
       </span>
     )
@@ -325,8 +362,8 @@ export function ChartTooltip(handle: Handle<ChartTooltipProps>) {
     let { children, class: className, hideLabel = false, label, style } = handle.props
 
     return (
-      <div class={classes('radcn-chart-tooltip', className)} data-radcn-chart-tooltip data-hide-label={hideLabel ? 'true' : undefined} style={style}>
-        {label && !hideLabel ? <div class="radcn-chart-tooltip-label" data-radcn-chart-tooltip-label>{label}</div> : undefined}
+      <div class={classes(chartTooltipClass, className)} data-radcn-chart-tooltip data-hide-label={hideLabel ? 'true' : undefined} style={style}>
+        {label && !hideLabel ? <div class={chartTooltipLabelClass} data-radcn-chart-tooltip-label>{label}</div> : undefined}
         {children}
       </div>
     )
@@ -341,7 +378,7 @@ export function ChartTooltipItem(handle: Handle<ChartTooltipItemProps>) {
 
     return (
       <div
-        class={classes('radcn-chart-tooltip-item', className)}
+        class={classes(chartTooltipItemClass, className)}
         data-indicator={resolvedIndicator}
         data-name={name}
         data-radcn-chart-tooltip-item
@@ -350,12 +387,12 @@ export function ChartTooltipItem(handle: Handle<ChartTooltipItemProps>) {
         {resolvedIndicator !== 'none' ? (
           <span
             aria-hidden="true"
-            class={classes('radcn-chart-tooltip-swatch', `radcn-chart-tooltip-swatch--${resolvedIndicator}`)}
+            class={classes(resolvedIndicator === 'dashed' ? chartSwatchDashed : resolvedIndicator === 'line' ? chartSwatchLine : chartSwatchDot)}
             data-radcn-chart-tooltip-swatch
           />
         ) : undefined}
         <span data-radcn-chart-tooltip-name>{label}</span>
-        <span data-radcn-chart-tooltip-value>{value}</span>
+        <span class={chartTooltipValueClass} data-radcn-chart-tooltip-value>{value}</span>
       </div>
     )
   }
