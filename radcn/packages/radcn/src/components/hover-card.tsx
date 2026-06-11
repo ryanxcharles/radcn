@@ -4,6 +4,14 @@ import { classes } from '../utils/classes.ts'
 import { setupPositionedOverlay } from '../utils/positioned-overlay.ts'
 import type { PopoverAlign, PopoverSide } from './popover.tsx'
 
+// HoverCardContent surface from shadcn/ui v4 (registry/new-york-v4/ui/
+// hover-card.tsx). See Issue 6, Experiment 26 (mirrors Popover, Experiment 25).
+// ENTER-only (the JS hides via the `hidden` attribute); the width default +
+// two-column profile layout + collision clamp + transform origin stay in the
+// [data-radcn-hover-card-content] bespoke rule.
+const hoverCardContentClass =
+  'z-50 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2'
+
 export interface HoverCardProps {
   children?: RemixNode
   class?: string
@@ -91,7 +99,7 @@ export function HoverCardContent(handle: Handle<HoverCardContentProps>) {
 
     return (
       <span
-        class={classes('radcn-hover-card-content', className)}
+        class={classes(hoverCardContentClass, className)}
         data-align={align}
         data-radcn-hover-card-content
         data-side={side}

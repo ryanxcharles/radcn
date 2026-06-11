@@ -2547,20 +2547,20 @@
  * Experiment 25); only its layout + positioning glue remains, keyed on the
  * data attribute (RadCN's dependency-free positioning system).
  */
-.radcn-hover-card-content {
-  z-index: var(--radcn-positioned-overlay-z, 50);
+/*
+ * HoverCard content is migrated to Tailwind utilities (Issue 6, Experiment 26,
+ * mirroring Popover). The surface (border/bg/radius/shadow/color/padding/z +
+ * enter-animation) moved to shadcn utilities on the component; only the RadCN
+ * layout + positioning glue remains here, keyed on the data attribute (the
+ * two-column profile grid, the default/collision width, the JS transform
+ * origin). The avatar/body composition-helper classes below are unchanged.
+ */
+[data-radcn-hover-card-content] {
   display: grid;
-  width: min(var(--radcn-overlay-width, 18rem), var(--radcn-overlay-available-width, calc(100vw - 1rem)));
+  grid-template-columns: auto 1fr;
   gap: 0.875rem;
-  border: 1px solid var(--radcn-overlay-border, var(--radcn-border));
-  border-radius: calc(var(--radcn-radius) + 0.125rem);
-  background: var(--radcn-overlay-bg, var(--radcn-background));
-  color: var(--radcn-overlay-fg, var(--radcn-foreground));
-  padding: 1rem;
-  box-shadow: 0 18px 48px rgb(0 0 0 / 0.16);
-  outline: none;
+  width: min(20rem, var(--radcn-overlay-available-width, calc(100vw - 1rem)));
   transform-origin: var(--radcn-overlay-transform-origin, center top);
-  animation: radcn-positioned-overlay-in 120ms ease-out;
 }
 
 [data-radcn-popover-content] {
@@ -2619,11 +2619,6 @@
   top: calc(50% - 0.25rem);
 }
 
-.radcn-hover-card-content {
-  grid-template-columns: auto 1fr;
-  width: min(var(--radcn-hover-card-width, 20rem), var(--radcn-overlay-available-width, calc(100vw - 1rem)));
-}
-
 .radcn-hover-card-avatar {
   display: inline-grid;
   width: 2.75rem;
@@ -2652,8 +2647,7 @@
   .radcn-alert-dialog-overlay,
   .radcn-alert-dialog-content,
   .radcn-sheet-overlay,
-  .radcn-sheet-content,
-  .radcn-hover-card-content {
+  .radcn-sheet-content {
     animation: none;
   }
 }
@@ -2817,9 +2811,9 @@
 }
 
 .radcn-fixture-custom-hover-card {
-  --radcn-overlay-border: #0f766e;
-  --radcn-overlay-bg: #f0fdfa;
-  --radcn-overlay-fg: #134e4a;
+  border-color: #0f766e;
+  background-color: #f0fdfa;
+  color: #134e4a;
   --radcn-hover-card-avatar-bg: #0f766e;
   --radcn-hover-card-avatar-fg: #ffffff;
 }

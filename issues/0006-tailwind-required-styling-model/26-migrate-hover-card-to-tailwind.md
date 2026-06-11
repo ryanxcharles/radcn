@@ -117,7 +117,55 @@ intact; BOTH suites green and stable; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: a hover-card assertion regresses; the custom border/bg fail; the
 profile two-column layout breaks; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+HoverCard's content surface is migrated; both suites are green and stable.
+Verification:
+
+1. Both `styles:build` exit 0; the hover-card utilities generate (`bg-popover`,
+   `text-popover-foreground`, `shadow-md`, the `data-[side]:slide` + `animate-in`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-hover-card-content`
+   CLASS rule remains (count 0); the `[data-radcn-hover-card-content]` layout
+   rule (with `grid-template-columns: auto 1fr`) is present; the `@media`
+   reduced-motion rule no longer lists hover-card; `.radcn-fixture-custom-hover-card`
+   sets `border-color`/`background-color`/`color` directly + keeps the avatar
+   tokens.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `positioned-overlays.spec.ts` in
+   isolation **9 passed** — incl. the hover-card visibility/`data-side`/trigger/
+   demo-profile and the custom-token content `border-color: rgb(15, 118, 110)` +
+   `background-color: rgb(240, 253, 250)`.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+HoverCard is the third migrated overlay, completing the Popover/HoverCard
+surface-sharing pair: its content surface renders from shadcn utilities, the
+two `.radcn-hover-card-content` rules merged into one
+`[data-radcn-hover-card-content]` layout/positioning rule (preserving the
+two-column profile grid), the `@media` reduced-motion entry was removed, and the
+custom-token surface override is a direct rule (avatar tokens kept for the
+un-migrated avatar helper). The avatar/body composition-helper classes + the
+Button-coupled trigger are retained. Eighteen components are now migrated (…
+Tooltip, Popover, HoverCard — plus sub-parts). With both surface-sharers
+migrated, the `--radcn-overlay-bg/border/fg/width` surface tokens are now unused
+(harmless; a future cleanup).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A surface-sharing overlay pair (Popover+HoverCard) migrates in two steps:
+  split the shared rule (Exp 25, giving the sibling a standalone copy), then
+  migrate the sibling (Exp 26) — collapsing its standalone surface + its own
+  layout-override rules into one data-keyed layout rule.
+- Once all sharers of a token group migrate, the group's surface tokens
+  (`--radcn-overlay-bg/border/fg/width`) fall out of use — note them for a later
+  dead-token cleanup rather than chasing them mid-migration.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -149,3 +197,32 @@ already-passed Popover exactly), now addressed.
 
 Approval result: approved — design sound, mirrors the proven Popover pattern,
 all assertions verified to survive; the clarifications are folded in.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed hover-card.tsx emits `hoverCardContentClass` (no
+`radcn-hover-card-content` class) with all data attributes kept and trigger/
+avatar/body unchanged; tokens.css has ZERO `.radcn-hover-card-content {` class
+rules, exactly one `[data-radcn-hover-card-content]` rule (display:grid +
+grid-template-columns:auto 1fr + gap + width min(20rem) + transform-origin) with
+the override rule merged in, the `@media` reduced-motion rule without hover-card
+(only dialog/alert-dialog/sheet remain), the avatar/body helper rules untouched,
+and the direct `.radcn-fixture-custom-hover-card` rule keeping the avatar tokens;
+byte-identical `index.ts`. It re-ran both `styles:build`, the three typechecks,
+the docs suite (2/2 = 11), the fixture suite (2/2 = 1191), and
+`positioned-overlays.spec.ts` in isolation (9) — confirming the hover-card
+visibility/`data-side`/trigger/demo-profile + the custom-token content
+`rgb(15,118,110)`/`rgb(240,253,250)`, and that the popover tests are not
+regressed. It judged the migration faithful, the custom override winning, the
+two-rule merge correct (two-column grid preserved), and avatar/body intact.
+Verdict: APPROVED.
+
+Approval result: approved with no blockers — the Popover/HoverCard
+surface-sharing pair is complete.

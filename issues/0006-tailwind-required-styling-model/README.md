@@ -181,7 +181,7 @@ a dependency listed in package manifests.
 - [Experiment 25: Migrate Popover content surface to Tailwind utilities](25-migrate-popover-to-tailwind.md)
   — **Pass**
 - [Experiment 26: Migrate HoverCard content surface to Tailwind utilities](26-migrate-hover-card-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -529,6 +529,16 @@ From Experiment 25 (Popover content surface — second overlay — Pass):
   migrated overlays is shadcn-faithful.
 - The popover width-320px assertion was INLINE-backed (`style="width:20rem"`) —
   always read the full test for inline/variable-based assertions.
+
+From Experiment 26 (HoverCard content surface — third overlay — Pass):
+
+- A surface-sharing overlay pair migrates in two steps: split the shared rule
+  (giving the sibling a standalone copy), then migrate the sibling — collapsing
+  its standalone surface + its own layout-override rules into one data-keyed
+  layout rule (HoverCard's two `.radcn-hover-card-content` rules → one).
+- Once all sharers of a `--radcn-*` token group migrate, that group's tokens
+  (`--radcn-overlay-bg/border/fg/width`) fall out of use — note for a later
+  dead-token cleanup rather than chasing mid-migration.
 
 ## Completion Criteria
 
