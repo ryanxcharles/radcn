@@ -237,6 +237,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 53: Migrate Command + Combobox together to Tailwind utilities](53-migrate-command-combobox-to-tailwind.md)
   — **Pass**
+- [Experiment 54: Migrate Select content surfaces to Tailwind utilities](54-migrate-select-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
