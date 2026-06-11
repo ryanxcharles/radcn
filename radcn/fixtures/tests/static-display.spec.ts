@@ -72,7 +72,6 @@ test('candidate aspect ratio renders named image demo parity', async ({ page }) 
   let root = page.locator('[data-radcn-aspect-ratio]')
   let image = page.locator('[data-radcn-fixture-aspect-ratio-image]')
 
-  await expect(root).toHaveClass(/radcn-aspect-ratio/)
   await expect(root).toHaveClass(/rounded-lg/)
   await expect(root).toHaveClass(/bg-muted/)
   await expect(root).toHaveCSS('width', '420px')

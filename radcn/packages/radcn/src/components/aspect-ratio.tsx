@@ -14,8 +14,12 @@ export function AspectRatio(handle: Handle<AspectRatioProps>) {
     let { children, class: className, ratio = '16 / 9', style } = handle.props
     let mergedStyle = style ? `aspect-ratio:${ratio};${style}` : `aspect-ratio:${ratio}`
 
+    // Unstyled (Issue 6, Experiment 14): the only intrinsic behavior is the
+    // inline CSS aspect-ratio (RadCN's dependency-free equivalent of shadcn's
+    // Radix AspectRatio). Appearance (radius, background, overflow, sizing) is
+    // consumer-owned via the class/style props, as shadcn expects.
     return (
-      <div class={classes('radcn-aspect-ratio', className)} data-radcn-aspect-ratio style={mergedStyle}>
+      <div class={classes(className)} data-radcn-aspect-ratio style={mergedStyle}>
         {children}
       </div>
     )

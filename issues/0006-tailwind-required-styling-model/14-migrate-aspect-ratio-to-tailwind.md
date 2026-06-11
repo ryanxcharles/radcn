@@ -98,7 +98,49 @@ Fail criteria: any aspect-ratio assertion regresses beyond the removed
 class-presence one; a usage relying on the base `width:100%`/child-sizing
 breaks; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+AspectRatio is migrated to an unstyled component; both suites are green and
+stable. Verification:
+
+1. Both `styles:build` exit 0; `overflow-hidden` is generated in both pipelines.
+2. All three typechecks pass (the docs components.tsx unused-import lints for
+   Calendar*/Combobox* are pre-existing, editor-only, not flagged by tsc).
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-aspect-ratio` rule
+   remains; the component emits no `radcn-aspect-ratio` class.
+4. Docs suite: **11 passed** ×2 — incl. the aspect-ratio `overflow: hidden`
+   (now from the consumer `overflow-hidden`) and image assertions.
+5. Fixture suite: **1191 passed** ×2 — incl. the aspect-ratio demo assertions
+   (class-presence assertion removed; `overflow: hidden`, `height: 236.25px`
+   from inline aspect-ratio, and consumer-class assertions all pass).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   six expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+AspectRatio now matches shadcn's model: an unstyled wrapper whose only intrinsic
+behavior is the (RadCN dependency-free) inline CSS aspect-ratio; appearance is
+consumer-owned. Its bespoke CSS is removed; `data-radcn-aspect-ratio` remains as
+a hook. The base-provided `overflow: hidden` moved to the consumer call sites
+(fixture demo + docs preview), and the user-facing docs example string was
+updated to stay correct. Eight components are now migrated (Badge, Skeleton,
+Separator, Kbd, Empty, Label, AspectRatio — plus their sub-components).
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- Some shadcn components are intentionally UNSTYLED (AspectRatio); the faithful
+  migration removes the bespoke base entirely and moves any base-provided
+  appearance (here `overflow: hidden`, radius, background, sizing) to consumer
+  call sites. Update the user-facing docs EXAMPLE STRING too so copied code
+  still works under the unstyled component.
+- The base `> *` child-sizing and `width: 100%` were already overridden by
+  inline styles at every call site, so removing them was safe — always confirm
+  each call site sets the property it relied on before deleting a base rule.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -127,3 +169,25 @@ safe and correct). Verdict: APPROVED.
 
 Approval result: approved with no blockers (advisory minors covered by
 verification).
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed the unstyled component (`classes(className)`, inline
+aspect-ratio retained, data hook kept), the removed tokens.css rules with a
+literal-free comment, the byte-identical `index.ts`, `overflow-hidden` added to
+both the fixture demo and the docs preview AND the user-facing source string
+(consistent), and the removed class-presence assertion; independently re-ran
+both `styles:build` (`.overflow-hidden` present), all three typechecks
+(confirming the Calendar*/Combobox* unused-import lints are pre-existing and
+not tsc errors), the docs suite (2/2 = 11) and fixture suite (2/2 = 1191). It
+judged the unstyled migration faithful (not masking) and the docs example edit
+appropriate. Verdict: APPROVED.
+
+Approval result: approved with no blockers.

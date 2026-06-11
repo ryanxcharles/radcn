@@ -175,7 +175,7 @@ export function renderAspectRatioFixture(fixture: FixtureScenario) {
     return (
       <div data-radcn-theme="dark">
         <style>{'[data-radcn-theme="dark"] .radcn-fixture-aspect-ratio-demo-image{filter:brightness(0.2) grayscale(1)}'}</style>
-        <AspectRatio class="rounded-lg bg-muted radcn-fixture-aspect-ratio-demo" ratio="16 / 9" style="width:420px">
+        <AspectRatio class="overflow-hidden rounded-lg bg-muted radcn-fixture-aspect-ratio-demo" ratio="16 / 9" style="width:420px">
           <img
             alt="Photo by Drew Beamer"
             class="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale radcn-fixture-aspect-ratio-demo-image"

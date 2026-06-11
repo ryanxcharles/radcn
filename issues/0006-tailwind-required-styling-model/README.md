@@ -156,7 +156,7 @@ a dependency listed in package manifests.
 - [Experiment 13: Align Issue 5 install-flow docs with Tailwind-required](13-align-issue5-install-flow-tailwind-required.md)
   — **Pass**
 - [Experiment 14: Migrate AspectRatio to Tailwind utilities](14-migrate-aspect-ratio-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -349,6 +349,19 @@ From Experiment 13 (align Issue 5 docs with Tailwind-required):
 - A doc-only experiment editing an open issue's spine needs no Playwright run;
   verify doc consistency with the deciding issue, preserved frontmatter, and a
   stable regenerated issues index.
+
+From Experiment 14 (AspectRatio migration — unstyled component):
+
+- Some shadcn components are intentionally UNSTYLED (AspectRatio is a Radix
+  passthrough; RadCN's equivalent is just inline CSS aspect-ratio). The
+  faithful migration removes the bespoke base entirely and moves any
+  base-provided appearance (overflow, radius, background, sizing) to consumer
+  call sites — and updates the user-facing docs EXAMPLE STRING so copied code
+  still works.
+- Confirm each call site already sets a property before deleting the base rule
+  that provided it (here every AspectRatio usage set width inline and the child
+  img sized via inline styles, so removing base `width:100%` and `> *` was
+  safe).
 
 ## Completion Criteria
 

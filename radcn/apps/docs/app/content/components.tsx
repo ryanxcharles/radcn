@@ -567,7 +567,7 @@ const imageSrc =
 
 export function AspectRatioDemo() {
   return (
-    <AspectRatio class="rounded-lg bg-muted" ratio="16 / 9">
+    <AspectRatio class="overflow-hidden rounded-lg bg-muted" ratio="16 / 9">
       <img
         alt="Photo by Drew Beamer"
         class="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
@@ -6161,7 +6161,7 @@ function AlertDialogDemoPreview() {
 function AspectRatioDemoPreview() {
   return () => (
     <div data-radcn-docs-aspect-ratio-family="aspect-ratio-demo" data-radcn-theme="dark" mix={aspectRatioDemoStyle}>
-      <AspectRatio class="rounded-lg bg-muted radcn-docs-aspect-ratio-demo" ratio="16 / 9" style="width:100%;">
+      <AspectRatio class="overflow-hidden rounded-lg bg-muted radcn-docs-aspect-ratio-demo" ratio="16 / 9" style="width:100%;">
         <img
           alt="Photo by Drew Beamer"
           class="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
