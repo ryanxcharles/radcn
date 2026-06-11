@@ -218,7 +218,7 @@ a dependency listed in package manifests.
 - [Experiment 43: Migrate NativeSelect to Tailwind utilities](43-migrate-native-select-to-tailwind.md)
   — **Pass**
 - [Experiment 44: Migrate Toggle (button surface) to Tailwind utilities](44-migrate-toggle-to-tailwind.md)
-  — **Designed**
+  — **Fail** (reverted; Toggle + ToggleGroupItem share `.radcn-toggle` rules — migrate together)
 
 ## Learnings
 
@@ -805,6 +805,17 @@ From Experiment 43 (NativeSelect — Pass):
 - A LITERAL arbitrary length (`text-[0.75rem]`) is unambiguously inferred as
   `font-size`; the Exp-42 `text-[var()]`->`color` ambiguity is var-specific (don't
   over-apply it — confirmed via the generated CSS).
+
+From Experiment 44 (Toggle button alone — Fail, reverted):
+
+- Before removing a component's bespoke rules, grep ALL `src/components/*.tsx`
+  (not just the obvious file + fixtures) for the class. `ToggleGroupItem` reuses
+  `radcn-toggle` (base/states) and resolves size/variant via the group cascade, so
+  migrating Toggle alone broke the group-item pressed background. A composite
+  "item" sub-component often renders the base component's class — migrate the base
+  and its reusing siblings TOGETHER (the Exp-39 pattern).
+- A review scoped to the primary component + its fixtures can miss a sibling's
+  raw-class reuse; the reviewer brief must say "grep EVERY component file."
 
 ## Completion Criteria
 

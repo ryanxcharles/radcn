@@ -1,5 +1,19 @@
 # Experiment 44: Migrate Toggle (button surface) to Tailwind utilities
 
+> **Result: Fail (dead end — reverted).** Toggle's `.radcn-toggle*` rules are
+> SHARED: `ToggleGroupItem` (in `toggle-group.tsx`) emits `radcn-toggle` +
+> `radcn-toggle--{variant}`/`--{size}` and relies on those rules for its base,
+> states, and (via the group cascade) size/variant. Removing the `.radcn-toggle`
+> rules to migrate Toggle ALONE broke the group-item pressed background
+> (`toggle.spec.ts:199`). Toggle and ToggleGroupItem must be migrated TOGETHER (the
+> Exp-39 sibling-sharing lesson). The change was reverted to the clean Exp-43
+> state (toggle 7/7 green, byte-identical restored); the next experiment migrates
+> Toggle + ToggleGroup together. The design below is retained as the (incomplete)
+> starting point; see the Result for the full analysis. The design review missed
+> the share because it inspected `toggle.tsx` + the fixture but not
+> `toggle-group.tsx` — reinforcing: grep ALL `src/components/*.tsx` for the class
+> before dropping its rule.
+
 ## Description
 
 Toggle is a pressable button (`data-state` on/off, variant default/outline, size
@@ -148,3 +162,52 @@ Custom fixture retained; comments to stay ASCII.
 
 Approval result: approved — the button surface migrates cleanly with conflict-free
 Records, retained markers, and a bespoke repointed icon; ToggleGroup deferred.
+
+(Note: this approval — and the implementation — both MISSED that `ToggleGroupItem`
+reuses the `.radcn-toggle` rules. The review checked `toggle.tsx` and the fixture
+markup, but not `toggle-group.tsx`. See the Result.)
+
+## Result
+
+**Result:** Fail (reverted to the clean Exp-43 state)
+
+Implemented as designed (Toggle button → utilities; icon kept bespoke; `.radcn-toggle`
+button rules removed). The Toggle-only assertions passed, BUT the full suite showed
+a deterministic regression: `toggle.spec.ts:199` (ToggleGroup custom tokens) — a
+group-item's pressed `background-color` was `rgba(0,0,0,0)` instead of
+`rgb(15,118,110)`. Diagnosis: `ToggleGroupItem` (`toggle-group.tsx:240-246`) emits
+`radcn-toggle` + `radcn-toggle-group-item` + `radcn-toggle--{variant}`/`--{size}`,
+so it draws its base/hover/focus/pressed/disabled + (when its own size/variant are
+absent) the group-cascade styling from the SAME `.radcn-toggle*` rules. Removing
+those rules to migrate Toggle alone stripped the group-item's pressed background
+(no `.radcn-toggle-group-item[data-state="on"]` background rule exists — only an
+icon one). There is no clean "Toggle button only" migration: the `.radcn-toggle*`
+rules are shared with `ToggleGroupItem`, which additionally resolves size/variant
+through the bespoke group-cascade rules (`.radcn-toggle-group[data-size=…]
+.radcn-toggle-group-item:not([data-size])`).
+
+Action: reverted `toggle.tsx`/`tokens.css`/`index.ts` to the Exp-43 commit
+(`fb357d2`); `toggle.spec.ts` back to 7/7, `tokens.css`/`index.ts` byte-identical,
+`.radcn-toggle` rule restored. No code change ships from this experiment.
+
+## Conclusion
+
+Toggle and ToggleGroup are a single migration unit (they share `.radcn-toggle*`
+rules, with the group cascading size/variant to its items). The next experiment
+migrates them TOGETHER: the Toggle button + ToggleGroupItem both emit the shared
+base/variant/size utilities (the conflict-free Records from this design carry
+over), the `.radcn-toggle*` rules are fully removed, and the group-specific pieces
+(`.radcn-toggle-group*`: orientation, the joined border-radius, the
+size/variant cascade to size/variant-less items, and the two raw-class icon APIs
+`.radcn-toggle-icon`/`.radcn-toggle-group-icon`) are handled — the cascade likely
+stays bespoke (parent-data-attr keyed), the icons stay bespoke (raw-class APIs).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Before removing a component's bespoke rules, grep ALL `src/components/*.tsx`
+  (not just the obvious file + fixtures) for the class — `ToggleGroupItem` reused
+  `radcn-toggle`. A composite "item" sub-component frequently renders the base
+  component's class; migrate the base + its reusing siblings TOGETHER (Exp-39).
+- A design/completion review scoped to the primary component + its fixtures can
+  miss a sibling component's raw-class reuse; the reviewer brief must explicitly
+  list "grep every component file for the class."
