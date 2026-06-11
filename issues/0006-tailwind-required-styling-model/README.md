@@ -253,6 +253,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 61: Migrate Chart to Tailwind utilities](61-migrate-chart-to-tailwind.md)
   — **Pass**
+- [Experiment 62: Migrate Sidebar to Tailwind utilities](62-migrate-sidebar-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
