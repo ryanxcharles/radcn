@@ -100,11 +100,11 @@ import {
 } from 'radcn'
 
 function SlashGlyph() {
-  return <span aria-hidden="true" class="radcn-breadcrumb-glyph">/</span>
+  return <span aria-hidden="true" class="radcn-breadcrumb-glyph inline-flex w-4 h-4 items-center justify-center text-current text-[0.875rem] leading-none">/</span>
 }
 
 function ChevronGlyph() {
-  return <span aria-hidden="true" class="radcn-breadcrumb-glyph">⌄</span>
+  return <span aria-hidden="true" class="radcn-breadcrumb-glyph inline-flex w-4 h-4 items-center justify-center text-current text-[0.875rem] leading-none">⌄</span>
 }
 
 function BreadcrumbDropdownMenu({ label, trigger }: { label?: string; trigger: string }) {

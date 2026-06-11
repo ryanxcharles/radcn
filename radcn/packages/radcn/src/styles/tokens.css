@@ -475,17 +475,6 @@
   outline: none;
 }
 
-.radcn-breadcrumb-glyph {
-  display: inline-flex;
-  width: 1rem;
-  height: 1rem;
-  align-items: center;
-  justify-content: center;
-  color: currentColor;
-  font-size: 0.875rem;
-  line-height: 1;
-}
-
 .radcn-breadcrumb-truncate {
   max-width: var(--radcn-breadcrumb-truncate-width, 5rem);
   overflow: hidden;
@@ -794,15 +783,6 @@
   color: var(--radcn-toggle-icon-on-fg, currentColor);
 }
 
-.radcn-toggle-group {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: var(--radcn-toggle-group-gap, 0.25rem);
-  border-radius: var(--radcn-radius);
-  font-family: var(--radcn-font);
-}
-
 .radcn-toggle-group[data-disabled="true"] {
   opacity: 0.55;
 }
@@ -814,15 +794,6 @@
 
 .radcn-toggle-group-item[data-group-disabled="true"] {
   pointer-events: none;
-}
-
-.radcn-toggle-group-icon {
-  display: inline-grid;
-  width: var(--radcn-toggle-icon-size, 1rem);
-  height: var(--radcn-toggle-icon-size, 1rem);
-  place-items: center;
-  color: var(--radcn-toggle-icon-fg, currentColor);
-  font: 700 0.75rem/1 var(--radcn-font);
 }
 
 .radcn-toggle-group-item[data-state="on"] .radcn-toggle-group-icon {

@@ -63,6 +63,38 @@ removed; BOTH suites green; byte-identical. Clears 3 rules (≈12 remain).
 
 Fail criteria: the icon color assertions regress; a utility doesn't generate; divergence.
 
+## Result
+
+**Result:** Pass
+
+Both consumer-site migrations + the dead-rule removal landed; both suites green (both
+fixture runs clean). All three `styles:build`/typechecks pass; the consumer-site icon/
+glyph utilities GENERATE (count 5 incl. the `--radcn-toggle-icon-size`/`-fg` reads); no
+junk; `index.ts` byte-identical; the 3 base rules removed with the on-state icon
+cascade kept; `toggle.spec.ts` isolation **7 passed** (incl. the icon color `:190/:192`
+`rgb(202,138,4)`/`rgb(220,38,38)` via the kept on-state cascade) + `navigation-collection.spec.ts`
+**9 passed**; docs 11 ×2; fixture 1191 ×2 (both clean); `git diff --check` clean; five
+files changed.
+
+## Conclusion
+
+`toggle-group-icon` (23 raw sites) + `breadcrumb-glyph` (6) now render from utilities
+appended at the consumer sites (markers kept); the dead `.radcn-toggle-group` base rule
+(superseded by the component's `toggleGroupClass` at Exp 47) is removed; the on-state
+icon-color cascade is preserved (drives the assertions). Clears 3 rules. ~12 visual-debt
+rules remain — the **Button keystone** (`radcn-button*`, ~95 raw sites/13 files/27
+class-presence assertions) and its coupled **triggers/closes** (dialog/drawer/dropdown/
+select trigger, popover-close), all now migratable via this proven (battle-tested over
+Exps 68–69) consumer-site pattern.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A many-site raw-class primitive (the 23 toggle-icon sites) migrates by a single
+  uniform literal find/replace (append utilities, keep marker) across the fixture +
+  docs — the consumer-site pattern scales. A component-state cascade that targets the
+  marker (`[data-state=on] .icon`) stays bespoke + reliably overrides the migrated base
+  (unlayered > @layer), so the marker MUST be kept.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
@@ -85,3 +117,18 @@ tokens.css removal targets ONLY the line-start base rules, NOT the
 
 Approval result: approved — dead-rule removal + the two consumer-site migrations are
 sound; the kept on-state cascade preserves the icon color assertions.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed all 23 icon + 6 glyph raw sites
+migrated (markers kept, no bare literals remain); the 3 base rules removed with the
+on-state icon cascade kept; byte-identical `index.ts`. It rebuilt both pipelines
+(the icon `place-items:center`/`--radcn-toggle-icon-size` width + glyph `w-4` GENERATE,
+no junk), re-ran the three typechecks, docs (11), `toggle.spec.ts` (7 — incl. the icon
+colors `:190/:192` via the kept on-state cascade) + `navigation-collection.spec.ts` (9),
+and the full fixture suite (1191). Verdict: APPROVED.
+
+Approval result: approved with no blockers — 27 of the 39 visual-debt rules cleared.
