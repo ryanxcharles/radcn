@@ -43,13 +43,36 @@ export interface FieldErrorProps {
   style?: string
 }
 
+// Field surfaces as Tailwind utilities (Issue 6, Experiment 37). Token-
+// referencing utilities keep the custom-field fixture working. The invalid
+// parent-state → label color (incl. the Label `[data-radcn-label]` cross-ref)
+// and the consumer-applied `.radcn-field--choice-card` modifier stay bespoke in
+// tokens.css.
+const fieldRootClass = 'grid gap-2 max-w-96 text-foreground'
+const fieldOrientationClass: Record<FieldOrientation, string> = {
+  vertical: '',
+  horizontal: 'grid-cols-[auto_minmax(0,1fr)] items-center',
+  responsive: 'grid-cols-[minmax(0,12rem)_minmax(0,1fr)] items-start gap-x-4 gap-y-3 max-w-3xl max-[640px]:grid-cols-1',
+}
+const fieldSetClass = 'grid gap-3 min-w-0 m-0 border-0 p-0 text-foreground'
+const fieldLegendClass = 'text-foreground text-[0.9375rem] font-semibold leading-[1.2] mb-1 p-0'
+const fieldLegendVariantClass: Record<FieldLegendVariant, string> = {
+  default: '',
+  label: 'text-sm font-medium',
+}
+const fieldGroupClass = 'grid gap-4 min-w-0'
+const fieldContentClass = 'grid gap-1.5 min-w-0'
+const fieldLabelClass = 'text-foreground text-sm font-medium leading-[1.2] data-[disabled=true]:text-muted-foreground'
+const fieldTitleClass = 'text-foreground text-sm font-medium leading-[1.2]'
+const fieldSeparatorClass = 'h-px w-full m-0 border-0 bg-border'
+
 export function Field(handle: Handle<FieldProps>) {
   return () => {
     let { children, class: className, invalid, orientation = 'vertical', style } = handle.props
 
     return (
       <div
-        class={classes('radcn-field', `radcn-field--${orientation}`, className)}
+        class={classes(fieldRootClass, fieldOrientationClass[orientation], className)}
         data-invalid={invalid ? 'true' : undefined}
         data-orientation={orientation}
         data-radcn-field
@@ -67,7 +90,7 @@ export function FieldLabel(handle: Handle<FieldLabelProps>) {
 
     return (
       <label
-        class={classes('radcn-field-label', className)}
+        class={classes(fieldLabelClass, className)}
         data-disabled={disabled ? 'true' : undefined}
         data-radcn-field-label
         for={htmlFor}
@@ -85,7 +108,7 @@ export function FieldSet(handle: Handle<FieldPartProps>) {
     let { children, class: className, id, style } = handle.props
 
     return (
-      <fieldset class={classes('radcn-field-set', className)} data-radcn-field-set id={id} style={style}>
+      <fieldset class={classes(fieldSetClass, className)} data-radcn-field-set id={id} style={style}>
         {children}
       </fieldset>
     )
@@ -97,7 +120,7 @@ export function FieldLegend(handle: Handle<FieldLegendProps>) {
     let { children, class: className, id, style, variant = 'default' } = handle.props
 
     return (
-      <legend class={classes('radcn-field-legend', `radcn-field-legend--${variant}`, className)} data-radcn-field-legend data-variant={variant} id={id} style={style}>
+      <legend class={classes(fieldLegendClass, fieldLegendVariantClass[variant], className)} data-radcn-field-legend data-variant={variant} id={id} style={style}>
         {children}
       </legend>
     )
@@ -109,7 +132,7 @@ export function FieldGroup(handle: Handle<FieldPartProps>) {
     let { children, class: className, id, style } = handle.props
 
     return (
-      <div class={classes('radcn-field-group', className)} data-radcn-field-group id={id} style={style}>
+      <div class={classes(fieldGroupClass, className)} data-radcn-field-group id={id} style={style}>
         {children}
       </div>
     )
@@ -121,7 +144,7 @@ export function FieldContent(handle: Handle<FieldPartProps>) {
     let { children, class: className, id, style } = handle.props
 
     return (
-      <div class={classes('radcn-field-content', className)} data-radcn-field-content id={id} style={style}>
+      <div class={classes(fieldContentClass, className)} data-radcn-field-content id={id} style={style}>
         {children}
       </div>
     )
@@ -133,7 +156,7 @@ export function FieldTitle(handle: Handle<FieldPartProps>) {
     let { children, class: className, id, style } = handle.props
 
     return (
-      <div class={classes('radcn-field-title', className)} data-radcn-field-title id={id} style={style}>
+      <div class={classes(fieldTitleClass, className)} data-radcn-field-title id={id} style={style}>
         {children}
       </div>
     )
@@ -145,7 +168,7 @@ export function FieldSeparator(handle: Handle<FieldPartProps>) {
     let { class: className, id, style } = handle.props
 
     return (
-      <hr aria-hidden="true" class={classes('radcn-field-separator', className)} data-radcn-field-separator id={id} style={style} />
+      <hr aria-hidden="true" class={classes(fieldSeparatorClass, className)} data-radcn-field-separator id={id} style={style} />
     )
   }
 }

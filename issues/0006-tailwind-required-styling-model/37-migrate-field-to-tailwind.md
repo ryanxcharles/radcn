@@ -106,6 +106,58 @@ error color hold; BOTH suites green; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: a Field-using fixture regresses; the invalid label color or a
 layout breaks; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass (one in-flight scope correction during verification)
+
+Field is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0 (the field utilities incl.
+   `grid-cols-[auto_minmax(0,1fr)]`, `max-[640px]:grid-cols-1`,
+   `data-[disabled=true]:text-muted-foreground` compile).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; the migrated `.radcn-field*` rules
+   removed; the invalid parent-state rule present (keyed on `[data-radcn-field]
+   [data-invalid]`); `.radcn-field--choice-card` (consumer modifier) +
+   `.radcn-field-description` + `.radcn-field-error` (shared with Form) retained;
+   `.radcn-fixture-custom-field` + `.radcn-form*` untouched.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2 — incl. the Field-using suites
+   (native-controls/native-state/native-select = 19 in isolation) AND
+   `form-input-cluster.spec.ts` (the form-message custom error color
+   `rgb(124,58,237)`).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+In-flight correction: the first full run failed `form-input-cluster.spec.ts:236`
+— the Form component reuses `radcn-field-error` AND `radcn-field-description` as
+RAW classes (`<p class="radcn-form-message radcn-field-error">` /
+`radcn-form-description`), so dropping those two bespoke rules lost the
+form-message custom error color (`rgb(124,58,237)` → default). Fix: reverted
+`FieldError`/`FieldDescription` to keep emitting their classes, and KEPT
+`.radcn-field-error` + `.radcn-field-description` as bespoke rules (shared with
+the un-migrated Form component). The other 8 field parts migrated cleanly.
+
+## Conclusion
+
+Field's surfaces (root + orientation Record, set, group, content, label, legend
++ variant, title, separator) render from token-referencing Tailwind utilities;
+the invalid parent-state (incl. the Label `[data-radcn-label]` cross-ref) and the
+`choice-card` consumer modifier stay bespoke. Twenty-seven components are now
+migrated. Two field text classes (`field-error`, `field-description`) stay
+bespoke because the Form component reuses them raw — they migrate when Form does
+(a documented follow-up, like the Button raw-call-site decomposition).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Before migrating a component's class, grep ALL `src/components/*.tsx` (not just
+  fixtures) for raw reuse of its classes — the Form component reuses
+  `radcn-field-error`/`radcn-field-description` raw, so those must stay bespoke
+  (and class-emitting) until Form migrates. Same lesson as the Button 95-site
+  finding, but cross-COMPONENT (not just fixtures).
+- A `@media (max-width: 640px)` rule maps to the EXACT `max-[640px]:` arbitrary
+  variant, not `max-sm:` (which is 639.98px).
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -138,3 +190,33 @@ Approval result: approved (with the two clarity/exactness fixes) —
 self-contained migration; orientation Record + the exact responsive breakpoint,
 the invalid parent-state + Label cross-ref kept bespoke, the choice-card consumer
 modifier kept + documented, custom token read in place.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer verified all 12 migrated field surfaces emit utility-const strings
+(root + orientation Record with the exact `max-[640px]:grid-cols-1`, set, group,
+content, label, legend + variant Record, title, separator); confirmed
+FieldDescription + FieldError INTENTIONALLY keep emitting `radcn-field-description`/
+`radcn-field-error` (the Form component reuses them raw at form.tsx:187/203, so
+the bespoke rules + class emission are correctly retained — the in-flight fix);
+confirmed tokens.css removed the migrated rules except `.radcn-field--choice-card`
++ the two shared text rules, repointed the invalid rule to
+`[data-radcn-field][data-invalid]` (incl. the `[data-radcn-label]` cross-ref),
+and left `.radcn-fixture-custom-field` + `.radcn-form*` untouched; byte-identical
+`index.ts`. It re-ran both `styles:build`, the three typechecks, the docs suite
+(2/2 = 11), the fixture suite (2/2 = 1191), and the Field-using suites — incl.
+`form-input-cluster.spec.ts` (the form-message custom error color
+`rgb(124,58,237)`, the regression that was fixed) and native-controls/state/
+select. It judged the migration faithful, the shared-class fix correct, and the
+orientation/invalid/choice-card/custom-token all handled. Verdict: APPROVED.
+
+Approval result: approved with no blockers — Field is migrated (27 components);
+`field-error`/`field-description` stay bespoke (shared with Form) as a documented
+follow-up.

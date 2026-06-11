@@ -140,83 +140,18 @@
   padding: 0;
 }
 
-.radcn-field {
-  display: grid;
-  gap: 0.5rem;
-  max-width: 24rem;
-  color: var(--radcn-foreground);
-  font-family: var(--radcn-font);
-}
-
-.radcn-field--horizontal {
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-}
-
-.radcn-field--responsive {
-  grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
-  align-items: start;
-  gap: 0.75rem 1rem;
-  max-width: 48rem;
-}
-
-.radcn-field-set {
-  display: grid;
-  gap: 0.75rem;
-  min-width: 0;
-  margin: 0;
-  border: 0;
-  padding: 0;
-  color: var(--radcn-foreground);
-  font-family: var(--radcn-font);
-}
-
-.radcn-field-group {
-  display: grid;
-  gap: 1rem;
-  min-width: 0;
-}
-
-.radcn-field-content {
-  display: grid;
-  gap: 0.375rem;
-  min-width: 0;
-}
-
-.radcn-field-label,
-.radcn-field-legend,
-.radcn-field-title {
-  color: var(--radcn-foreground);
-  font: 500 0.875rem/1.2 var(--radcn-font);
-}
-
-.radcn-field-legend {
-  margin-bottom: 0.25rem;
-  padding: 0;
-  font-size: 0.9375rem;
-  font-weight: 600;
-}
-
-.radcn-field-legend--label {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.radcn-field-label[data-disabled="true"] {
-  color: var(--radcn-muted-foreground);
-}
-
-.radcn-field[data-invalid="true"] .radcn-field-label,
-.radcn-field[data-invalid="true"] [data-radcn-label] {
+/*
+ * Field surfaces are migrated to Tailwind utilities (Issue 6, Experiment 37);
+ * the components emit token-referencing utilities. What remains: the invalid
+ * parent-state -> label color (a child can't read the parent's [data-invalid]
+ * via a utility; this also crosses to the Label component's [data-radcn-label]
+ * hook), and the .radcn-field--choice-card consumer modifier (applied by
+ * consumers as a class, never emitted by the component, so there is no element
+ * to host utilities).
+ */
+[data-radcn-field][data-invalid="true"] [data-radcn-field-label],
+[data-radcn-field][data-invalid="true"] [data-radcn-label] {
   color: var(--radcn-field-error, var(--radcn-destructive));
-}
-
-.radcn-field-separator {
-  height: 1px;
-  width: 100%;
-  margin: 0;
-  border: 0;
-  background: var(--radcn-border);
 }
 
 .radcn-field--choice-card {
@@ -225,10 +160,19 @@
   padding: 0.875rem;
 }
 
-@media (max-width: 640px) {
-  .radcn-field--responsive {
-    grid-template-columns: 1fr;
-  }
+/* Shared error/description text styles: reused by the Form component as raw
+ * classes (radcn-form-message / radcn-form-description), so they stay bespoke
+ * until Form is migrated (Field's own FieldError/FieldDescription emit them). */
+.radcn-field-description {
+  margin: 0;
+  color: var(--radcn-muted-foreground);
+  font: 400 0.8125rem/1.4 var(--radcn-font);
+}
+
+.radcn-field-error {
+  margin: 0;
+  color: var(--radcn-field-error, var(--radcn-destructive));
+  font: 500 0.8125rem/1.4 var(--radcn-font);
 }
 
 .radcn-form {
@@ -271,18 +215,6 @@
  * attributes remain as hooks; InputGroup/ButtonGroup target them via
  * [data-radcn-input]/[data-radcn-textarea] below.
  */
-
-.radcn-field-description {
-  margin: 0;
-  color: var(--radcn-muted-foreground);
-  font: 400 0.8125rem/1.4 var(--radcn-font);
-}
-
-.radcn-field-error {
-  margin: 0;
-  color: var(--radcn-field-error, var(--radcn-destructive));
-  font: 500 0.8125rem/1.4 var(--radcn-font);
-}
 
 .radcn-input-group {
   display: flex;

@@ -204,7 +204,7 @@ a dependency listed in package manifests.
 - [Experiment 36: Migrate Collapsible surfaces to Tailwind utilities](36-migrate-collapsible-to-tailwind.md)
   — **Pass**
 - [Experiment 37: Migrate Field surfaces to Tailwind utilities](37-migrate-field-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -703,6 +703,18 @@ From Experiment 35 (Accordion surfaces — Pass):
 - Parent-state→child effects on a native `<details>` (`item[open]`→icon,
   `item[data-disabled]`→trigger) stay bespoke rules keyed on the data attribute
   ancestor + the state attribute (`[open]` is native; `[data-disabled]`).
+
+From Experiment 37 (Field surfaces — Pass, one in-flight fix):
+
+- Before dropping a component's class, grep ALL `src/components/*.tsx` (not just
+  fixtures) for raw reuse — the Form component reuses `radcn-field-error`/
+  `radcn-field-description` as raw classes, so those stay bespoke + class-emitting
+  until Form migrates (cross-COMPONENT raw reuse, the Button-finding lesson
+  applied to components).
+- `@media (max-width: 640px)` → the EXACT `max-[640px]:` arbitrary variant, NOT
+  `max-sm:` (639.98px).
+- A consumer-applied modifier class the component never emits
+  (`radcn-field--choice-card`) stays bespoke (no element to host utilities).
 
 ## Completion Criteria
 
