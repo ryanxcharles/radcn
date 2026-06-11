@@ -158,7 +158,8 @@ a dependency listed in package manifests.
 - [Experiment 14: Migrate AspectRatio to Tailwind utilities](14-migrate-aspect-ratio-to-tailwind.md)
   — **Pass**
 - [Experiment 15: Migrate Card to Tailwind utilities](15-migrate-card-to-tailwind.md)
-  — **Designed**
+  — **Fail** (reverted; surfaced the missing default border-color contract —
+  see Experiment 16)
 
 ## Learnings
 
@@ -364,6 +365,21 @@ From Experiment 14 (AspectRatio migration — unstyled component):
   that provided it (here every AspectRatio usage set width inline and the child
   img sized via inline styles, so removing base `width:100%` and `> *` was
   safe).
+
+From Experiment 15 (Card migration — FAILED, reverted; useful dead-end):
+
+- **Bordered components need a default `border-color: var(--border)` base rule
+  in the theme contract BEFORE migration.** shadcn's `border` utility sets only
+  border-width and relies on a base `@layer base { *,::before,::after { @apply
+  border-border } }`. RadCN's theme.css lacks it, so a migrated `border`
+  renders currentColor (`--foreground`), not `--border`. Card surfaced this
+  (Empty's `border-dashed` was width-0 and hid it). Build this base rule first
+  (Experiment 16), then migrate visible-border components.
+- Grep `tokens.css` (not just fixture `.tsx`) for `--radcn-X-*` custom-token
+  override classes AND for cross-component selectors using sub-part classes
+  (`.radcn-X-content`, etc.) before removing a component's classes — Card's
+  design missed both `radcn-fixture-custom-card` and
+  `.radcn-chart-example-card .radcn-card-content`.
 
 ## Completion Criteria
 

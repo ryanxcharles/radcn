@@ -131,6 +131,79 @@ Fail criteria: any card assertion regresses; a utility (esp. the `@container`
 or `has-[...]` ones) is not generated; a usage relied on the base
 width/bg/border in a tested way; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Fail (reverted; useful — see Conclusion)
+
+Implementing the migration and running the fixture suite revealed prerequisites
+the design (and its reviews) missed. The Card implementation was reverted to
+keep `main` green; the experiment is recorded as Fail.
+
+What went wrong:
+
+1. **Missing default border-color contract (foundational).** shadcn cards use
+   `border` (border-WIDTH only) and rely on a base layer setting
+   `border-color: var(--border)` globally (shadcn's
+   `@layer base { *,::before,::after { @apply border-border } }`). RadCN's
+   `theme.css` has NO such rule (grep for `border-color`/`@layer base`/
+   `border-border` in theme.css returned nothing). So the migrated card's
+   `border` rendered `border-color: rgb(24, 24, 27)` (currentColor =
+   `--foreground`), not the `--border` token. The fixture custom-card
+   assertion failed: `static-display.spec.ts:155` expected
+   `border-color: rgb(147, 51, 234)`, got `rgb(24, 24, 27)`. This affects
+   EVERY bordered component (Input, Dialog, …), not just Card. Empty
+   (Experiment 10) used `border-dashed` (width 0, invisible) so it never
+   surfaced this.
+2. **Custom-token scenario missed.** `radcn-fixture-custom-card` sets
+   `--radcn-card-bg`/`--radcn-card-border` (tokens.css), and
+   `static-display.spec.ts:155` asserts the resulting border-color. The design
+   checked fixture *source* for `--radcn-card-*` (found none) but the override
+   lives in `tokens.css`, so it was missed. The migrated card ignores those
+   vars, so the override must be translated to a direct class rule (like
+   Badge's custom-class), and only works once (1) is fixed.
+3. **Cross-component selector missed.** `tokens.css:711`
+   `.radcn-chart-example-card .radcn-card-content` styles card-content inside a
+   chart example; removing the `radcn-card-content` class would strand it. It
+   must be repointed to `[data-radcn-card-content]` (the Label→Field pattern
+   from Experiment 11). The design's cross-selector grep missed it.
+
+The header-layout migration itself (the `@container`/`has-[[data-radcn-card-action]]`
+utilities, validated by the probe) worked — the failure is the missing
+border-color foundation and the two missed call-site dependencies, not the
+shadcn mapping.
+
+## Conclusion
+
+Card cannot be faithfully migrated until the theme contract provides a default
+`border-color: var(--border)` for the `border` utility — a foundational piece
+Experiments 2 and 9 did not set up and that Card (the first visible-border
+component) surfaced. This Fail eliminates the assumption that bordered
+components migrate cleanly on the current contract.
+
+Next steps (separate, reviewed experiments):
+
+1. Add the default border-color base rule to `radcn/packages/radcn/src/styles/theme.css`
+   (`@layer base { *, ::before, ::after { border-color: var(--border) } }`,
+   shadcn's approach) so `border` renders `--border`. Verify it does not shift
+   existing border-color assertions (existing components use bespoke `radcn-*`
+   border CSS with explicit colors; the rule only affects utility `border`).
+2. Re-attempt Card, now also: translating `radcn-fixture-custom-card` to a
+   direct `border-color`/`background-color` rule, and repointing
+   `.radcn-chart-example-card .radcn-card-content` to `[data-radcn-card-content]`.
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- Bordered-component migration needs a default `border-color: var(--border)`
+  base rule in the theme contract (shadcn's `@apply border-border` base);
+  without it, the `border` utility renders currentColor. Build this BEFORE
+  migrating any visible-border component.
+- When checking a component for custom-token override scenarios, grep
+  `tokens.css` (where fixture override classes set `--radcn-*` vars), not just
+  the fixture `.tsx` source — the override CSS lives in `tokens.css`.
+- Cross-component selector grep must include sub-part classes
+  (`.radcn-X-content` etc.), not just the base class.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -182,3 +255,32 @@ new blocker. Verdict: APPROVED.
 Approval result: approved (round 3). The two real round-1 syntax blockers are
 resolved by the recorded probe; round-2 asks addressed; round-2's
 implementation-stage misread overruled by lead judgment. No blockers remain.
+
+(Note: the design was approved, but implementation then surfaced three
+prerequisites the design and all three review rounds missed — see Result. The
+experiment is recorded Fail and reverted; the gaps are addressed by
+Experiment 16 onward.)
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none — the Fail is correctly recorded.
+
+The reviewer confirmed the Card implementation is FULLY reverted (card.tsx,
+tokens.css, index.ts, static-display.spec.ts all back to original; `git status`
+shows only the experiment file + README changed), independently verified all
+three documented gaps are real (theme.css has no default border-color base
+rule; tokens.css:711 `.radcn-chart-example-card .radcn-card-content`
+cross-selector; `radcn-fixture-custom-card` sets `--radcn-card-border` with a
+tested border-color assertion), re-ran the FULL fixture suite (1191) and docs
+suite (11) confirming `main` is restored green, and judged recording Fail (vs.
+a scope-expanded unreviewed fix touching the theme contract) the correct
+workflow call for a foundational dead-end. Verdict: APPROVED (the Fail
+recording).
+
+Approval result: approved — Fail accurately diagnosed, revert complete, main
+green, next steps sound.
