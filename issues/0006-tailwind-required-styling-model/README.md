@@ -182,6 +182,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 26: Migrate HoverCard content surface to Tailwind utilities](26-migrate-hover-card-to-tailwind.md)
   — **Pass**
+- [Experiment 27: Migrate Dialog overlay + content surface to Tailwind utilities](27-migrate-dialog-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
