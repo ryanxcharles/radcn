@@ -1,6 +1,12 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+
+// Overlay content sub-elements as Tailwind utilities (Issue 6, Experiment 64). Pure
+// layout/typography; marker classes kept. ASCII comments; no bracketed class-like tokens.
+const popoverHeaderClass = 'grid gap-1'
+const popoverTitleClass = 'm-0 font-semibold text-[0.9375rem] leading-[1.3] [font-family:var(--radcn-font)]'
+const popoverDescriptionClass = 'm-0 text-muted-foreground text-[0.8125rem] leading-[1.45] [font-family:var(--radcn-font)]'
 import { setupPositionedOverlay } from '../utils/positioned-overlay.ts'
 
 export type PopoverSide = 'top' | 'right' | 'bottom' | 'left'
@@ -150,7 +156,7 @@ export function PopoverHeader(handle: Handle<PopoverPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <div class={classes('radcn-popover-header', className)} data-radcn-popover-header style={style}>{children}</div>
+    return <div class={classes('radcn-popover-header', popoverHeaderClass, className)} data-radcn-popover-header style={style}>{children}</div>
   }
 }
 
@@ -158,7 +164,7 @@ export function PopoverTitle(handle: Handle<PopoverPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <h2 class={classes('radcn-popover-title', className)} data-radcn-popover-title style={style}>{children}</h2>
+    return <h2 class={classes('radcn-popover-title', popoverTitleClass, className)} data-radcn-popover-title style={style}>{children}</h2>
   }
 }
 
@@ -166,6 +172,6 @@ export function PopoverDescription(handle: Handle<PopoverPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <p class={classes('radcn-popover-description', className)} data-radcn-popover-description style={style}>{children}</p>
+    return <p class={classes('radcn-popover-description', popoverDescriptionClass, className)} data-radcn-popover-description style={style}>{children}</p>
   }
 }

@@ -2,6 +2,13 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Overlay content sub-elements as Tailwind utilities (Issue 6, Experiment 64). Pure
+// layout/typography; marker classes kept. ASCII comments; no bracketed class-like tokens.
+const dialogHeaderClass = 'grid gap-1.5'
+const dialogFooterClass = 'flex flex-row-reverse gap-2'
+const dialogTitleClass = 'm-0 font-semibold text-[1.125rem] leading-[1.25] [font-family:var(--radcn-font)]'
+const dialogDescriptionClass = 'm-0 text-muted-foreground text-[0.875rem] leading-[1.5] [font-family:var(--radcn-font)]'
+
 // Dialog overlay + content surface from shadcn/ui v4 (registry/new-york-v4/ui/
 // dialog.tsx). See Issue 6, Experiment 27. ENTER-only (the modal JS hides via
 // the `hidden` attribute, so shadcn's exit utilities + duration are omitted).
@@ -357,7 +364,7 @@ export function DialogHeader(handle: Handle<DialogPartProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <div class={classes('radcn-dialog-header', className)} data-radcn-dialog-header style={style}>
+      <div class={classes('radcn-dialog-header', dialogHeaderClass, className)} data-radcn-dialog-header style={style}>
         {children}
       </div>
     )
@@ -369,7 +376,7 @@ export function DialogFooter(handle: Handle<DialogPartProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <div class={classes('radcn-dialog-footer', className)} data-radcn-dialog-footer style={style}>
+      <div class={classes('radcn-dialog-footer', dialogFooterClass, className)} data-radcn-dialog-footer style={style}>
         {children}
       </div>
     )
@@ -381,7 +388,7 @@ export function DialogTitle(handle: Handle<DialogPartProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <h2 class={classes('radcn-dialog-title', className)} data-radcn-dialog-title style={style}>
+      <h2 class={classes('radcn-dialog-title', dialogTitleClass, className)} data-radcn-dialog-title style={style}>
         {children}
       </h2>
     )
@@ -393,7 +400,7 @@ export function DialogDescription(handle: Handle<DialogPartProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <p class={classes('radcn-dialog-description', className)} data-radcn-dialog-description style={style}>
+      <p class={classes('radcn-dialog-description', dialogDescriptionClass, className)} data-radcn-dialog-description style={style}>
         {children}
       </p>
     )

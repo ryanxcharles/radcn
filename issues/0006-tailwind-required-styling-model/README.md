@@ -258,7 +258,7 @@ a dependency listed in package manifests.
 - [Experiment 63: Migrate ButtonGroup + InputGroup to Tailwind utilities](63-migrate-button-group-input-group-to-tailwind.md)
   — **Pass**
 - [Experiment 64: Migrate overlay-family content sub-elements to Tailwind utilities](64-migrate-overlay-content-subelements-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 

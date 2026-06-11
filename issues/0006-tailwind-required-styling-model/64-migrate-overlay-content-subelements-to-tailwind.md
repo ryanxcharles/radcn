@@ -90,6 +90,43 @@ visual-debt from 39 toward the Button-coupled remainder.
 Fail criteria: an overlay spec regresses; a sub-element utility doesn't compile;
 `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+The overlay content sub-elements migrated; both suites green (both fixture runs
+clean). All three `styles:build`/typechecks pass; the utilities compile faithfully
+(verified in the generated CSS: `padding: 1rem 1rem 0.5rem` for the drawer header,
+`place-items: center` + `border-radius: 999px` for the alert-dialog media,
+`flex-direction: row-reverse` for the footers); no junk; `index.ts` byte-identical;
+the 16 rules removed while the `[data-size=sm] .radcn-alert-dialog-footer` grid
+cascade is retained. Isolation: `dialog` 6, `drawer` 6, `modal-variants` 8,
+`positioned-overlays` 9 — all passed. Docs 11 ×2; fixture 1191 ×2 (both clean); `git
+diff --check` clean; seven files changed (5 components + tokens.css + index.ts).
+
+## Conclusion
+
+The Dialog/Sheet/Drawer/Popover header/footer/title/description + the AlertDialog
+media (and the Sheet/AlertDialog combined sub-elements, migrated on both components)
+now render from Tailwind utilities; the alert-dialog `[data-size=sm]` footer-grid
+cascade stays bespoke (reliably overriding the migrated footer's flex). This clears
+16 of the 39 genuine visual-debt rules from the README audit. Remaining (~23):
+the Button keystone (the ~95-site raw-class blast radius), the overlay/select
+triggers + close buttons (Button-coupled), and a few primitives
+(`toggle-group`/`toggle-icon`, `field-error`/`-description`, `breadcrumb-glyph`,
+`menu-sub-caret`/`menu-item-indicator`, `hover-card-avatar`/`-body`,
+`date-picker-content`).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Composite/overlay components were migrated PRIMARY-surface-first; their content
+  sub-elements (header/footer/title/description) are a separate, tractable batch —
+  pure layout/typography, component-emitted, no blast radius, no computed assertions.
+- Sibling overlays sharing a combined selector rule (`.radcn-alert-dialog-X,
+  .radcn-sheet-X`) must be migrated on BOTH components at once (emit the same utility
+  const on each); a parent-state override on one (`[data-size=sm] .footer`) stays
+  bespoke and reliably wins (unlayered radcnStyles > @layer).
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
@@ -111,3 +148,20 @@ are kept (zero dropped-class risk).
 Approval result: approved — the layout/typography mappings are exact, no blast radius,
 no computed assertions; the combined Sheet/AlertDialog rules are migrated on both
 components with the size-state footer cascade kept.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed all 5 component files emit the
+utility consts (values byte-for-byte matching the design) while keeping the marker
+classes; the 16 rules removed (incl. the 4 combined alert-dialog/sheet rules, migrated
+on both components) with the `[data-size=sm]` footer-grid cascade kept; byte-identical
+`index.ts`. It rebuilt (confirmed `padding: 1rem 1rem 0.5rem`, `place-items: center`,
+`border-radius: 999px`, `flex-direction: row-reverse` present, no junk), re-ran the
+three typechecks, the docs suite (11), the overlay isolation specs (dialog/drawer/
+modal-variants/positioned-overlays), and the full fixture suite (1191). Verdict:
+APPROVED.
+
+Approval result: approved with no blockers — 16 of the 39 visual-debt rules cleared.

@@ -1,6 +1,13 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+
+// Overlay content sub-elements as Tailwind utilities (Issue 6, Experiment 64). Pure
+// layout/typography; marker classes kept. ASCII comments; no bracketed class-like tokens.
+const drawerHeaderClass = 'grid gap-1.5 [padding:1rem_1rem_0.5rem] text-center'
+const drawerFooterClass = 'grid gap-2 mt-auto p-4'
+const drawerTitleClass = 'm-0 text-[var(--radcn-drawer-title-fg,var(--radcn-foreground))] font-semibold text-[1.125rem] leading-[1.2] [font-family:var(--radcn-font)]'
+const drawerDescriptionClass = 'm-0 text-muted-foreground text-[0.875rem] leading-[1.4] [font-family:var(--radcn-font)]'
 import { setupModal } from './dialog.tsx'
 
 // Drawer overlay backdrop as Tailwind utilities (Issue 6, Experiment 30).
@@ -240,7 +247,7 @@ export function DrawerHeader(handle: Handle<DrawerPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <div class={classes('radcn-drawer-header', className)} data-radcn-drawer-header style={style}>{children}</div>
+    return <div class={classes('radcn-drawer-header', drawerHeaderClass, className)} data-radcn-drawer-header style={style}>{children}</div>
   }
 }
 
@@ -248,7 +255,7 @@ export function DrawerFooter(handle: Handle<DrawerPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <div class={classes('radcn-drawer-footer', className)} data-radcn-drawer-footer style={style}>{children}</div>
+    return <div class={classes('radcn-drawer-footer', drawerFooterClass, className)} data-radcn-drawer-footer style={style}>{children}</div>
   }
 }
 
@@ -256,7 +263,7 @@ export function DrawerTitle(handle: Handle<DrawerPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <h2 class={classes('radcn-drawer-title', className)} data-radcn-drawer-title style={style}>{children}</h2>
+    return <h2 class={classes('radcn-drawer-title', drawerTitleClass, className)} data-radcn-drawer-title style={style}>{children}</h2>
   }
 }
 
@@ -264,6 +271,6 @@ export function DrawerDescription(handle: Handle<DrawerPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <p class={classes('radcn-drawer-description', className)} data-radcn-drawer-description style={style}>{children}</p>
+    return <p class={classes('radcn-drawer-description', drawerDescriptionClass, className)} data-radcn-drawer-description style={style}>{children}</p>
   }
 }

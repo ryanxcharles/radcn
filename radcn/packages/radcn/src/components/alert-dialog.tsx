@@ -1,6 +1,14 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+
+// Overlay content sub-elements as Tailwind utilities (Issue 6, Experiment 64). Pure
+// layout/typography; marker classes kept. ASCII comments; no bracketed class-like tokens.
+const alertDialogHeaderClass = 'grid gap-1.5'
+const alertDialogFooterClass = 'flex flex-row-reverse gap-2'
+const alertDialogMediaClass = 'grid w-10 h-10 place-items-center rounded-[999px] bg-[var(--radcn-alert-dialog-media-bg,var(--radcn-secondary))] text-[var(--radcn-alert-dialog-media-fg,var(--radcn-foreground))] font-bold text-base leading-none [font-family:var(--radcn-font)]'
+const alertDialogTitleClass = 'm-0 font-semibold text-[1.125rem] leading-[1.25] [font-family:var(--radcn-font)]'
+const alertDialogDescriptionClass = 'm-0 text-muted-foreground text-[0.875rem] leading-[1.5] [font-family:var(--radcn-font)]'
 import { setupModal } from './dialog.tsx'
 
 // AlertDialog overlay + content surface from shadcn/ui v4. See Issue 6,
@@ -151,7 +159,7 @@ export function AlertDialogHeader(handle: Handle<AlertDialogPartProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <div class={classes('radcn-alert-dialog-header', className)} data-radcn-alert-dialog-header style={style}>
+      <div class={classes('radcn-alert-dialog-header', alertDialogHeaderClass, className)} data-radcn-alert-dialog-header style={style}>
         {children}
       </div>
     )
@@ -163,7 +171,7 @@ export function AlertDialogFooter(handle: Handle<AlertDialogPartProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <div class={classes('radcn-alert-dialog-footer', className)} data-radcn-alert-dialog-footer style={style}>
+      <div class={classes('radcn-alert-dialog-footer', alertDialogFooterClass, className)} data-radcn-alert-dialog-footer style={style}>
         {children}
       </div>
     )
@@ -175,7 +183,7 @@ export function AlertDialogMedia(handle: Handle<AlertDialogPartProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <div class={classes('radcn-alert-dialog-media', className)} data-radcn-alert-dialog-media style={style}>
+      <div class={classes('radcn-alert-dialog-media', alertDialogMediaClass, className)} data-radcn-alert-dialog-media style={style}>
         {children}
       </div>
     )
@@ -187,7 +195,7 @@ export function AlertDialogTitle(handle: Handle<AlertDialogPartProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <h2 class={classes('radcn-alert-dialog-title', className)} data-radcn-alert-dialog-title style={style}>
+      <h2 class={classes('radcn-alert-dialog-title', alertDialogTitleClass, className)} data-radcn-alert-dialog-title style={style}>
         {children}
       </h2>
     )
@@ -199,7 +207,7 @@ export function AlertDialogDescription(handle: Handle<AlertDialogPartProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <p class={classes('radcn-alert-dialog-description', className)} data-radcn-alert-dialog-description style={style}>
+      <p class={classes('radcn-alert-dialog-description', alertDialogDescriptionClass, className)} data-radcn-alert-dialog-description style={style}>
         {children}
       </p>
     )

@@ -1,6 +1,13 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+
+// Overlay content sub-elements as Tailwind utilities (Issue 6, Experiment 64). Pure
+// layout/typography; marker classes kept. ASCII comments; no bracketed class-like tokens.
+const sheetHeaderClass = 'grid gap-1.5'
+const sheetFooterClass = 'flex flex-row-reverse gap-2'
+const sheetTitleClass = 'm-0 font-semibold text-[1.125rem] leading-[1.25] [font-family:var(--radcn-font)]'
+const sheetDescriptionClass = 'm-0 text-muted-foreground text-[0.875rem] leading-[1.5] [font-family:var(--radcn-font)]'
 import { setupModal } from './dialog.tsx'
 
 // Sheet overlay + content surface as Tailwind utilities. See Issue 6,
@@ -149,7 +156,7 @@ export function SheetHeader(handle: Handle<SheetPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <div class={classes('radcn-sheet-header', className)} data-radcn-sheet-header style={style}>{children}</div>
+    return <div class={classes('radcn-sheet-header', sheetHeaderClass, className)} data-radcn-sheet-header style={style}>{children}</div>
   }
 }
 
@@ -157,7 +164,7 @@ export function SheetFooter(handle: Handle<SheetPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <div class={classes('radcn-sheet-footer', className)} data-radcn-sheet-footer style={style}>{children}</div>
+    return <div class={classes('radcn-sheet-footer', sheetFooterClass, className)} data-radcn-sheet-footer style={style}>{children}</div>
   }
 }
 
@@ -165,7 +172,7 @@ export function SheetTitle(handle: Handle<SheetPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <h2 class={classes('radcn-sheet-title', className)} data-radcn-sheet-title style={style}>{children}</h2>
+    return <h2 class={classes('radcn-sheet-title', sheetTitleClass, className)} data-radcn-sheet-title style={style}>{children}</h2>
   }
 }
 
@@ -173,6 +180,6 @@ export function SheetDescription(handle: Handle<SheetPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <p class={classes('radcn-sheet-description', className)} data-radcn-sheet-description style={style}>{children}</p>
+    return <p class={classes('radcn-sheet-description', sheetDescriptionClass, className)} data-radcn-sheet-description style={style}>{children}</p>
   }
 }
