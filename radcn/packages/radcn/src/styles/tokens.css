@@ -1427,71 +1427,14 @@
   }
 }
 
-.radcn-slider {
-  position: relative;
-  display: block;
-  width: min(100%, 20rem);
-  height: 1.25rem;
-  color: var(--radcn-slider-fg, var(--radcn-primary));
-  font-family: var(--radcn-font);
-}
-
-.radcn-slider[data-disabled="true"] {
-  opacity: 0.5;
-}
-
-.radcn-slider-input {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.radcn-slider-input:disabled {
-  cursor: not-allowed;
-}
-
-.radcn-slider-track {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  display: block;
-  height: 0.5rem;
-  overflow: hidden;
-  border-radius: 999px;
-  background: var(--radcn-slider-track-bg, var(--radcn-secondary));
-  transform: translateY(-50%);
-}
-
-.radcn-slider-range {
-  display: block;
-  width: var(--radcn-slider-percent, 0%);
-  height: 100%;
-  border-radius: inherit;
-  background: var(--radcn-slider-range-bg, var(--radcn-primary));
-}
-
-.radcn-slider-thumb {
-  position: absolute;
-  top: 50%;
-  left: var(--radcn-slider-percent, 0%);
-  z-index: 1;
-  width: 1rem;
-  height: 1rem;
-  border: 2px solid var(--radcn-slider-thumb-border, var(--radcn-primary));
-  border-radius: 999px;
-  background: var(--radcn-slider-thumb-bg, var(--radcn-background));
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-}
-
-.radcn-slider:has(.radcn-slider-input:focus-visible) .radcn-slider-thumb {
+/*
+ * Slider surfaces are migrated to Tailwind utilities (Issue 6, Experiment 40);
+ * the wrapper/input/track/range/thumb emit token-referencing utilities (the
+ * range width + thumb left read the JS-set inline --radcn-slider-percent). What
+ * remains: the thumb focus ring (parent-state->child), kept bespoke keyed on the
+ * data attributes.
+ */
+[data-radcn-slider]:has([data-radcn-slider-input]:focus-visible) [data-radcn-slider-thumb] {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
 }
 

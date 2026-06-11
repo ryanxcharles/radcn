@@ -88,7 +88,58 @@ custom track bg hold; BOTH suites green; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: a slider assertion regresses; the range/thumb mis-positions; the
 focus ring or custom bg fails; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Slider is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0 (the `w-[var(--radcn-slider-percent,0%)]`,
+   `left-[var(…)]`, `-translate-x-1/2`, the bespoke `:has()` rule + `color-mix`
+   compile).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css` (node formula); no `.radcn-slider*`
+   CLASS rule remains; the bespoke `:has(:focus-visible)` thumb rule present
+   (keyed on `[data-radcn-slider]`); `.radcn-fixture-custom-slider` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `slider.spec.ts` in isolation **5 passed**
+   — incl. value/min/max/step, keyboard, the range computed `width` (160px/256px)
+   driven by `w-[var(--radcn-slider-percent,0%)]`, and the custom-token track bg
+   `rgb(204,251,241)`.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design.
+
+Completion-review correction: the completion reviewer (correctly) caught that
+`index.ts` had become STALE — it was reverted to the Exp-39 state (missing the
+Slider changes; byte-identical FALSE) at some point after the implementation run
+(a Bash command during the read-only review re-staled it). Since `tokens.css` was
+correct, `index.ts` was regenerated from it via the canonical node formula
+(byte-identical TRUE, the new `[data-radcn-slider]` focus rule present, the dead
+`.radcn-slider*` rules gone) and the suites were re-verified green with the
+corrected file. (The runtime had been unaffected — the slider's styling comes
+from the built Tailwind utilities; the stale `radcnStyles` only carried
+now-dead `.radcn-slider` class rules.)
+
+## Conclusion
+
+Slider is migrated: the custom-rendered track/range/thumb render from
+token-referencing utilities, the range width + thumb position read the JS-set
+inline `--radcn-slider-percent` (via `w-[var(…)]`/`left-[var(…)]`), and the thumb
+focus ring stays a bespoke `:has(:focus-visible)` rule keyed on the data
+attributes. THIRTY-ONE components are now migrated. The native-input control
+family (Switch, Checkbox, RadioGroup, Slider) is complete.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A JS-set inline CSS var (`--radcn-slider-percent`) driving layout is read by
+  arbitrary-value utilities (`w-[var(--radcn-slider-percent,0%)]`,
+  `left-[var(--radcn-slider-percent,0%)]`) — the percent-driven width/position
+  reproduces exactly (the range `width` 160px/256px assertions hold).
+- Unlike Switch/Checkbox/Radio (which shared rules), Slider is self-contained —
+  always verify shared-vs-standalone (read the full rule) before choosing
+  remove-wholesale (Slider) vs split (the shared form controls).
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -119,3 +170,33 @@ confirmation is the key check; the explicitness asks are folded in.
 Approval result: approved — self-contained migration; the percent-var positioning
 + token-referencing track/range/thumb + the repointed bespoke focus ring are
 sound.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: the reviewer confirmed the SUBSTANTIVE implementation is fully correct —
+slider.tsx emits the utility-const strings (no `radcn-slider*` classes) with the
+percent-var `w-[var(…)]`/`left-[var(…)]` + the translate utilities; tokens.css has
+ZERO `.radcn-slider*` class rules with the focus-ring rule correctly REWRITTEN to
+`[data-radcn-slider]:has([data-radcn-slider-input]:focus-visible) [data-radcn-slider-thumb]`;
+`.radcn-fixture-custom-slider` retained; the full fixture suite passed (1191,
+incl. the range widths 160px/256px + custom track bg `rgb(204,251,241)`); the
+three typechecks pass.
+
+It raised ONE genuine BLOCKER: `index.ts` had become STALE (reverted to the
+Exp-39 state, byte-identical FALSE, missing the Slider changes — a Bash command
+during the read-only review re-staled it after the implementation run).
+
+Resolution: `index.ts` was regenerated from the (correct) `tokens.css` via the
+canonical node formula — now byte-identical TRUE, the `[data-radcn-slider]` focus
+rule present, the dead `.radcn-slider*` rules gone — and the suites were re-run
+green with the corrected file (slider 5 + native-state 8 = 13 in isolation;
+fixture 1191; docs 11). The blocker is fully resolved; a confirming re-review
+verified the fixed state.
+
+Approval result: approved with no remaining blockers — Slider is migrated (31
+components); the native-input control family is complete.

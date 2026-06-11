@@ -210,7 +210,7 @@ a dependency listed in package manifests.
 - [Experiment 39: Migrate Checkbox + RadioGroup to Tailwind utilities](39-migrate-checkbox-radio-to-tailwind.md)
   — **Pass**
 - [Experiment 40: Migrate Slider surfaces to Tailwind utilities](40-migrate-slider-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -749,6 +749,16 @@ From Experiment 39 (Checkbox + RadioGroup — Pass; form-control cluster complet
 - The `:has()` native-input form-control pattern (wrapper has-variants for its
   own state + bespoke `[data-wrapper]:has([data-input]:checked) [data-child]`
   reveal) generalizes across Switch / Checkbox / RadioGroup.
+
+From Experiment 40 (Slider surfaces — Pass; native-input control family complete):
+
+- A JS-set inline CSS var driving layout (`--radcn-slider-percent`) is read by
+  arbitrary-value utilities (`w-[var(--radcn-slider-percent,0%)]`,
+  `left-[var(--radcn-slider-percent,0%)]`) — the percent-driven width/position
+  reproduces exactly (the asserted range widths hold).
+- Slider is self-contained (unlike the shared Switch/Checkbox/Radio rules) —
+  always verify shared-vs-standalone (read the FULL rule) before remove-wholesale
+  vs split.
 
 ## Completion Criteria
 
