@@ -196,7 +196,7 @@ a dependency listed in package manifests.
 - [Experiment 32: Migrate Avatar surfaces to Tailwind utilities](32-migrate-avatar-to-tailwind.md)
   — **Pass**
 - [Experiment 33: Migrate ScrollArea surfaces to Tailwind utilities](33-migrate-scroll-area-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -663,6 +663,17 @@ From Experiment 32 (Avatar surfaces — Pass):
 - Token-referencing utilities (`bg-[var(--radcn-avatar-fallback-bg,…)]`)
   reproduce a custom-token fixture's overrides with NO translation — the
   fixture's `--radcn-*` tokens stay and the utilities read them.
+
+From Experiment 33 (ScrollArea surfaces — Pass):
+
+- Native-scrollbar CSS (`scrollbar-width`/`scrollbar-color`) and a `color-mix`
+  focus shadow migrate as arbitrary-property/arbitrary-value utilities
+  (`[scrollbar-width:thin]`, `[scrollbar-color:var(--x)_transparent]`,
+  `shadow-[inset_0_0_0_3px_color-mix(in_srgb,var(--x)_35%,transparent)]`) — they
+  compile and resolve.
+- A parent orientation/state that styles a CHILD (scrollbar orientation → thumb
+  min-size) stays a bespoke descendant rule keyed on the parent's `data-*`; only
+  the parent's own geometry maps to a component `Record`.
 
 ## Completion Criteria
 

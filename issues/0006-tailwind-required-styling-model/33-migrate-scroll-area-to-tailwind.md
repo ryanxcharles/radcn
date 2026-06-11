@@ -88,6 +88,51 @@ BOTH suites green; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: a scroll-area assertion regresses; the custom thumb bg fails; an
 orientation position/size drifts; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+ScrollArea surfaces are migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0 (the `color-mix` arbitrary focus-shadow + the
+   `[scrollbar-width:thin]`/`[scrollbar-color:…]` arbitrary properties compile).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no migrated `.radcn-scroll-area*`
+   CLASS rule remains (count 0); the two `[data-orientation]` thumb min-size
+   rules present; `.radcn-fixture-custom-scroll-area` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `avatar-scroll-area.spec.ts` in isolation
+   **7 passed** — incl. native vertical/horizontal scroll, focus + customization
+   hooks, the Tags/artwork demos, and the custom-token thumb bg
+   `rgb(15,118,110)`.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design (the `color-mix` arbitrary syntax — the
+one flagged minor — compiled cleanly).
+
+## Conclusion
+
+ScrollArea is migrated: root/viewport/scrollbar/thumb/corner render from
+token-referencing Tailwind utilities (the custom-scroll-area fixture works
+unchanged), the scrollbar orientation is a `Record` (keeping `data-orientation`),
+and the orientation-dependent thumb min-size stays a bespoke rule keyed on
+`[data-orientation]`. Twenty-three components are now migrated. The
+arbitrary-property utilities (`[scrollbar-width:thin]`, `[scrollbar-color:…]`)
++ the `color-mix` arbitrary shadow are confirmed working.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Native-scrollbar CSS (`scrollbar-width`, `scrollbar-color`) and a `color-mix`
+  focus shadow migrate cleanly as arbitrary-property/arbitrary-value utilities
+  (`[scrollbar-width:thin]`, `[scrollbar-color:var(--x)_transparent]`,
+  `shadow-[inset_0_0_0_3px_color-mix(in_srgb,var(--x)_35%,transparent)]`) — the
+  build compiles them and the served CSS resolves them.
+- An orientation/state on a PARENT that styles a CHILD (scrollbar orientation →
+  thumb min-size) stays a bespoke descendant rule keyed on the parent's
+  `data-*`; only the parent's own orientation geometry maps to a component
+  `Record`.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -115,3 +160,31 @@ Tailwind v4. Verdict: APPROVED.
 Approval result: approved — self-contained migration; the orientation Record +
 the kept orientation-dependent thumb-size rule + token-referencing utilities are
 sound.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer verified, string by string, that scroll-area.tsx emits the
+utility-const strings (no `radcn-scroll-area*` classes) with all six data
+attributes + `data-orientation` retained, the orientation `Record` maps
+vertical/horizontal correctly, and the viewport carries the
+`[scrollbar-width:thin]`/`[scrollbar-color:…]`/`color-mix` focus-shadow
+arbitrary utilities; tokens.css has ZERO migrated `.radcn-scroll-area*` class
+rules, only the two `[data-orientation]` thumb min-size rules + the retained
+`.radcn-fixture-custom-scroll-area`; byte-identical `index.ts`; the three
+typechecks pass; both `styles:build` succeed; the docs suite passes (11); and
+the fixture run-status confirms passing (the implementation session’s own runs
+recorded fixture 1191 ×2 + `avatar-scroll-area.spec.ts` 7/7 incl. the custom
+thumb bg `rgb(15,118,110)`). It judged the migration faithful, the custom thumb
+bg held via the token-referencing utility (no translation), the orientation
+Record + kept thumb-size rule correct, and the arbitrary scrollbar/color-mix
+utilities valid. Verdict: APPROVED.
+
+Approval result: approved with no blockers — ScrollArea is migrated (23
+components).
