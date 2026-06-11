@@ -1094,6 +1094,38 @@ that depend on the bespoke rules (the Experiment 31 blast-radius finding), then 
 issue can be closed. The byte-identical/dual-suite gate and the per-experiment review
 discipline still apply.
 
+### Progress update (after Experiment 66)
+
+Experiments 64–66 cleared the **21 component-emitted, no-blast-radius** debt rules
+(every one dual-suite-green + adversarially reviewed):
+
+- Exp 64 — overlay-family content sub-elements (Dialog/Sheet/Drawer/Popover
+  header/footer/title/description + AlertDialog media): 16 rules.
+- Exp 65 — Field/Form message (`field-description`/`-error`) + ToggleGroup item: 3.
+- Exp 66 — menu-family helpers (`menu-sub-caret`/`menu-item-indicator`): 2.
+
+The remaining **~18 visual-debt rules ALL require coordinated CONSUMER-SITE
+migration** — removing the bespoke rule breaks raw `radcn-*` class strings
+hand-written in the fixtures AND the large `apps/docs/app/content/components.tsx`
+demo file, so each experiment must add the equivalent utilities to those raw sites
+(or route them through the component) while keeping the asserted marker classes. This
+is the Experiment-31 blast-radius work, now mapped per item:
+
+- **Button keystone** (`.radcn-button` + `--{variant}`/`--{size}`): ~95 raw sites
+  across 13 fixture/docs files + 27 spec class-presence assertions. The dominant
+  piece; Exp 31 deliberately deferred it as unsafe to do atomically.
+- **Button-coupled triggers / closes** (`dialog-trigger`, `drawer-trigger`,
+  `dropdown-menu-trigger`, `select-trigger`, `popover-close`): full button-style
+  surfaces, several hand-written raw + Button-variant-coupled.
+- **Raw-class primitives**: `toggle-group` + `toggle-group-icon` (~20+ raw sites in
+  docs `components.tsx` + the toggle fixture), `breadcrumb-glyph` (~5 docs + 2
+  fixture), `hover-card-avatar` + `hover-card-body` (positioned-overlays fixture +
+  docs).
+
+Recommended order: the smaller primitives first (toggle-group/-icon, breadcrumb-glyph,
+hover-card) to establish the consumer-site migration pattern on a contained blast
+radius, then the Button keystone + its triggers as the final coordinated experiment(s).
+
 ## Remaining Component Migration Map
 
 As of Experiment 51 (42 components migrated), the remaining components are
