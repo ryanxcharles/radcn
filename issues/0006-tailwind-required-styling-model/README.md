@@ -280,6 +280,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 74: Migrate Select and DatePicker trigger cluster](74-migrate-select-datepicker-trigger-cluster.md)
   — **Pass**
+- [Experiment 75: Migrate Field, Form, and InputGroup residuals](75-migrate-field-form-inputgroup-residuals.md)
+  — **Designed**
 
 ## Learnings
 
