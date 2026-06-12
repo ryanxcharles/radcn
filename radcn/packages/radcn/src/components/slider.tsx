@@ -2,13 +2,13 @@ import type { Handle } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
-// Slider surfaces as Tailwind utilities (Issue 6, Experiment 40). A custom-
+// Slider surfaces as Tailwind utilities (Issue 6, Experiments 40 and 76). A custom-
 // rendered range (hidden native input + visual track/range/thumb); the JS sets
 // --radcn-slider-percent inline on the wrapper, which the range width + thumb
-// left read. Self-contained (no shared rules). The :has(:focus-visible) thumb
-// focus ring stays a bespoke parent-state->child rule in tokens.css.
+// left read. The thumb focus ring emits from the root as a parent-state
+// descendant utility.
 const sliderWrapperClass =
-  'relative block w-[min(100%,20rem)] h-5 text-[var(--radcn-slider-fg,var(--radcn-primary))] data-[disabled=true]:opacity-50'
+  'relative block w-[min(100%,20rem)] h-5 text-[var(--radcn-slider-fg,var(--radcn-primary))] data-[disabled=true]:opacity-50 has-[:focus-visible]:[&_[data-radcn-slider-thumb]]:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)]'
 const sliderInputClass = 'absolute inset-0 z-[2] size-full m-0 opacity-0 cursor-pointer disabled:cursor-not-allowed'
 const sliderTrackClass =
   'absolute top-1/2 left-0 right-0 block h-2 overflow-hidden rounded-[999px] bg-[var(--radcn-slider-track-bg,var(--radcn-secondary))] -translate-y-1/2'

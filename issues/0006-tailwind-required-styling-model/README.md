@@ -283,7 +283,7 @@ a dependency listed in package manifests.
 - [Experiment 75: Migrate Field, Form, and InputGroup residuals](75-migrate-field-form-inputgroup-residuals.md)
   — **Pass**
 - [Experiment 76: Migrate state-indicator residuals](76-migrate-state-indicator-residuals.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1246,12 +1246,10 @@ surface styling or docs/fixture/demo presentation classes.
 
 Remaining migration clusters, in recommended order:
 
-1. State-indicator residuals: Checkbox, RadioGroup, Switch, Slider, Command,
-   menu helpers, and Toggle icon/group state.
-2. Modal/drawer layout residuals: AlertDialog size/footer, Sheet side geometry,
+1. Modal/drawer layout residuals: AlertDialog size/footer, Sheet side geometry,
    and Drawer static surface/handle/close geometry while retaining drag/portal
    behavior.
-3. Docs/fixture/demo CSS evacuation: fixture custom classes, non-custom fixture
+2. Docs/fixture/demo CSS evacuation: fixture custom classes, non-custom fixture
    helpers (`radcn-fixture-rounded-button`, `radcn-fixture-aspect-media`,
    `radcn-fixture-navigation-panel`, `radcn-fixture-panel`), chart/data-table
    docs helpers, breadcrumb raw compositions, carousel example classes,
@@ -1290,6 +1288,27 @@ Two patterns are now established for later residual clusters:
   should keep the marker for tests/docs but add the equivalent utilities at the
   scanned call site, as with `radcn-field--choice-card` and raw
   `radcn-input-group-button--{size}` overlay triggers.
+
+### Progress update (after Experiment 76) — State-indicator residuals cleared
+
+Experiment 76 moved Checkbox, RadioGroup, Switch, Slider, Command,
+menu-family helper, Toggle icon, and ToggleGroup state residuals out of
+package CSS and into Tailwind-scanned utilities.
+
+Durable patterns:
+
+- Parent-state-to-child indicator styling can live on the owning component as
+  arbitrary descendant utilities, including `has-[:checked]` reveal rules and
+  data-state icon color propagation.
+- Menu inset/destructive/disabled visual helpers should be driven by explicit
+  data attributes (`data-inset`, `data-variant`, `data-disabled`) while keeping
+  the old marker classes as hooks.
+- Consumer-only toggle icon markers need utilities at each scanned raw call
+  site; selected-state icon color still belongs on the owning Toggle or
+  ToggleGroupItem parent.
+
+Remaining Issue 6 work is now the modal/drawer layout residual cluster and the
+docs/fixture/demo CSS evacuation cluster from the Experiment 73 map.
 
 ## Superseded Remaining Map
 

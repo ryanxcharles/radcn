@@ -162,3 +162,79 @@ Fixes:
 
 Re-review result: approved. The reviewer confirmed both prior findings are
 resolved and no new blocker was introduced.
+
+## Result
+
+**Result:** Pass
+
+Implemented the state-indicator residual migration:
+
+- Checkbox and RadioGroup indicator visibility now comes from wrapper
+  `has-[:checked]` and data-state descendant utilities; the indicator markers
+  remain available.
+- Switch thumb sizing and checked translation now come from wrapper-emitted
+  Tailwind utilities.
+- Slider thumb focus ring now comes from the slider root's focus-visible
+  descendant utility.
+- Command unchecked indicator visibility now uses an item-emitted opacity
+  utility, preserving the old layout behavior.
+- DropdownMenu, ContextMenu, and Menubar inset/destructive/disabled visual
+  helper styles now come from data-attribute utilities while retaining marker
+  classes.
+- Toggle and ToggleGroup icon sizing/color and group disabled/vertical/item
+  state now come from component utilities or explicit raw call-site utilities in
+  the fixture and docs source.
+- The migrated package CSS cascades were removed from `tokens.css`, and
+  `styles/index.ts` was regenerated from it.
+
+Verification:
+
+- `pnpm --dir radcn/fixtures/candidate-remix styles:build` — passed.
+- `pnpm --dir radcn/apps/docs styles:build` — passed.
+- `pnpm radcn:typecheck` — passed.
+- `pnpm fixtures:candidate:typecheck` — passed.
+- `pnpm fixtures:reference:typecheck` — passed.
+- `pnpm --dir radcn/apps/docs typecheck` — passed.
+- Generated CSS evidence checks found representative migrated utilities for
+  Checkbox, RadioGroup, Switch, Slider, Command, menu helpers, Toggle, and
+  ToggleGroup in both the candidate fixture and docs output.
+- Removed-selector scan confirmed `tokens.css` no longer contains the migrated
+  visual cascades.
+- `styles/index.ts` sync check — passed.
+- Focused fixture Playwright gate — 65 passed.
+- Docs Playwright gate — 11 passed.
+- First `pnpm fixtures:artifacts` run — 1190 passed, 1 unrelated hover-card
+  timing failure.
+- Isolated hover-card rerun — passed.
+- Second `pnpm fixtures:artifacts` run — 1191 passed.
+- `git diff --check` — passed.
+- `git status --short` — showed only the expected Experiment 76 modified files
+  before result commit.
+- `git diff --name-only | rg '^vendor/'` — no matches.
+
+## Completion Review
+
+Reviewer: Planck (`019ebe41-b7e4-7960-a97e-f8be5dc32dae`), fresh Codex
+subagent with `fork_context: false`.
+
+Findings:
+
+- Minor: the result recorded `git diff --check` and the vendor cleanliness
+  check, but omitted the required `git status --short` check from the written
+  result.
+
+Fixes:
+
+- Added the `git status --short` check summary to the Verification evidence in
+  this Result section.
+
+Approval result: approved. The reviewer found no blocker or major issues and
+confirmed the result commit had not been made before completion review.
+
+## Conclusion
+
+State-indicator residuals are cleared. The migration confirmed that Tailwind v4
+can cover this cluster with parent-owned arbitrary descendant utilities and
+explicit data attributes without keeping package CSS visual cascades. The
+remaining Issue 6 work is modal/drawer layout residuals followed by
+docs/fixture/demo CSS evacuation.

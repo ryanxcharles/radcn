@@ -6,12 +6,12 @@ import { sharedContentStructure, sharedEmpty, sharedGroup, sharedIndicator, shar
 // Command surfaces as Tailwind utilities (Issue 6, Experiment 53). Shares the
 // control/input/content/list/item structure with Combobox (imported). The command
 // root + input-wrapper carry their RESOLVED state directly (no shared-vs-override
-// conflict, Exp-41). The item-indicator keeps its class for the kept
-// [data-checked=false] cascade. Comments are ASCII.
+// conflict, Exp-41). The item-indicator keeps its marker class while unchecked
+// hiding emits from the item utility string. Comments are ASCII.
 const commandRootClass = `${sharedContentStructure} bg-[var(--radcn-command-bg,var(--radcn-background))] text-[var(--radcn-command-fg,var(--radcn-foreground))] [font-family:var(--radcn-font)] w-[min(100%,var(--radcn-command-width,26rem))]`
 const commandInputWrapperClass =
   'flex w-full min-h-[var(--radcn-control-height)] items-center border-x-0 border-t-0 border-b rounded-none border-[color:var(--radcn-command-border,var(--radcn-border))] bg-[var(--radcn-command-bg,var(--radcn-background))] text-[var(--radcn-combobox-trigger-fg,var(--radcn-foreground))]'
-const commandItemClass = `${sharedItemStructure} grid-cols-[minmax(0,1fr)_auto_auto]`
+const commandItemClass = `${sharedItemStructure} grid-cols-[minmax(0,1fr)_auto_auto] data-[checked=false]:[&_.radcn-command-item-indicator]:opacity-0`
 const commandGroupHeadingClass =
   'px-2 pt-1.5 pb-1 text-muted-foreground font-semibold text-[0.75rem] leading-[1.2] [font-family:var(--radcn-font)]'
 const commandShortcutClass = 'text-muted-foreground font-medium text-[0.75rem] leading-none [font-family:var(--radcn-font)]'

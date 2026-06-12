@@ -4,7 +4,7 @@ import { classes } from '../utils/classes.ts'
 import { toggleBaseClass } from './toggle.tsx'
 import type { ToggleSize, ToggleVariant } from './toggle.tsx'
 
-// ToggleGroup surfaces as Tailwind utilities (Issue 6, Experiment 47). The
+// ToggleGroup surfaces as Tailwind utilities (Issue 6, Experiments 47 and 76). The
 // container migrates to utilities (orientation via the data-orientation variant,
 // keeping the radcn-toggle-group--{orientation} marker the suite asserts). Each
 // item reuses the shared Toggle button utilities; a variant-LESS item inherits
@@ -252,6 +252,7 @@ export function ToggleGroupItem(handle: Handle<ToggleGroupItemProps>) {
           'radcn-toggle-group-item',
           'shrink-0',
           'data-[group-disabled=true]:pointer-events-none',
+          'data-[state=on]:[&_.radcn-toggle-group-icon]:text-[var(--radcn-toggle-icon-on-fg,currentColor)]',
           variant && `radcn-toggle--${variant}`,
           size && `radcn-toggle--${size}`,
           className,

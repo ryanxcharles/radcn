@@ -4,11 +4,11 @@ import { Toggle, ToggleGroup, ToggleGroupItem } from 'radcn'
 const row = 'display:flex;align-items:center;gap:8px;flex-wrap:wrap'
 
 function glyph(label: string, style?: string) {
-  return <span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]" style={style}>{label}</span>
+  return <span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]" style={style}>{label}</span>
 }
 
 function toggleGlyph(label: string, style?: string) {
-  return <span aria-hidden="true" class="radcn-toggle-icon" style={style}>{label}</span>
+  return <span aria-hidden="true" class="radcn-toggle-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]" style={style}>{label}</span>
 }
 
 export function renderToggleFixture(fixture: FixtureScenario) {

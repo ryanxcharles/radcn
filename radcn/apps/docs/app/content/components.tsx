@@ -2395,7 +2395,7 @@ export function EmptyPreview() {
 const toggleGroupSource = `import { ToggleGroup, ToggleGroupItem } from 'radcn/toggle-group'
 
 function Icon({ label }: { label: string }) {
-  return <span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">{label}</span>
+  return <span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">{label}</span>
 }
 
 export function ToggleGroupPreview() {
@@ -2426,7 +2426,7 @@ function Icon({ label, color }: { label: string; color?: string }) {
   return (
     <span
       aria-hidden="true"
-      class="radcn-toggle-icon"
+      class="radcn-toggle-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]"
       style={color ? \`--radcn-toggle-icon-on-fg:\${color}\` : undefined}
     >
       {label}
@@ -5729,7 +5729,7 @@ function EmptyPreview() {
 }
 
 function toggleIcon(label: string, style?: string) {
-  return <span aria-hidden="true" class="radcn-toggle-icon" style={style}>{label}</span>
+  return <span aria-hidden="true" class="radcn-toggle-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]" style={style}>{label}</span>
 }
 
 function TogglePreview() {
@@ -5838,57 +5838,57 @@ function ToggleGroupPreview() {
     <div mix={previewStackStyle} style="width: min(100%, 42rem);">
       <div data-radcn-docs-toggle-group-family="demo" mix={previewRowStyle}>
         <ToggleGroup type="multiple" variant="outline">
-          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">B</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">I</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">U</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">U</span></ToggleGroupItem>
         </ToggleGroup>
       </div>
 
       <div data-radcn-docs-toggle-group-family="single" mix={previewRowStyle}>
         <ToggleGroup defaultValue="italic" type="single">
-          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">B</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">I</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">U</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">U</span></ToggleGroupItem>
         </ToggleGroup>
       </div>
 
       <div data-radcn-docs-toggle-group-family="disabled" mix={previewRowStyle}>
         <ToggleGroup disabled defaultValue={['bold']} type="multiple">
-          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">B</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">I</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">U</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">U</span></ToggleGroupItem>
         </ToggleGroup>
       </div>
 
       <div data-radcn-docs-toggle-group-family="lg" mix={previewRowStyle}>
         <ToggleGroup size="lg" type="multiple">
-          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">B</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">I</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">U</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">U</span></ToggleGroupItem>
         </ToggleGroup>
       </div>
 
       <div data-radcn-docs-toggle-group-family="sm" mix={previewRowStyle}>
         <ToggleGroup size="sm" type="single">
-          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">B</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">I</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">U</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">U</span></ToggleGroupItem>
         </ToggleGroup>
       </div>
 
       <div data-radcn-docs-toggle-group-family="outline" mix={previewRowStyle}>
         <ToggleGroup type="multiple" variant="outline">
-          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">B</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">I</span></ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]">U</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]">U</span></ToggleGroupItem>
         </ToggleGroup>
       </div>
 
       <div data-radcn-docs-toggle-group-family="spacing" mix={previewRowStyle}>
         <ToggleGroup defaultValue={['star']} size="sm" spacing={2} type="multiple" variant="outline">
-          <ToggleGroupItem ariaLabel="Toggle star" value="star"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]" style="--radcn-toggle-icon-on-fg:#ca8a04">S</span> Star</ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle heart" value="heart"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]" style="--radcn-toggle-icon-on-fg:#dc2626">H</span> Heart</ToggleGroupItem>
-          <ToggleGroupItem ariaLabel="Toggle bookmark" value="bookmark"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-bold text-[0.75rem] leading-none [font-family:var(--radcn-font)]" style="--radcn-toggle-icon-on-fg:#2563eb">B</span> Bookmark</ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle star" value="star"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]" style="--radcn-toggle-icon-on-fg:#ca8a04">S</span> Star</ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle heart" value="heart"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]" style="--radcn-toggle-icon-on-fg:#dc2626">H</span> Heart</ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle bookmark" value="bookmark"><span aria-hidden="true" class="radcn-toggle-group-icon inline-grid w-[var(--radcn-toggle-icon-size,1rem)] h-[var(--radcn-toggle-icon-size,1rem)] flex-none place-items-center text-[var(--radcn-toggle-icon-fg,currentColor)] font-semibold text-[0.6875rem] leading-none [font-family:var(--radcn-font)] transition-[color,transform] duration-[120ms]" style="--radcn-toggle-icon-on-fg:#2563eb">B</span> Bookmark</ToggleGroupItem>
         </ToggleGroup>
       </div>
     </div>

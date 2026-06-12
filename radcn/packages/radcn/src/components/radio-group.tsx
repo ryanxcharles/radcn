@@ -2,14 +2,12 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
-// RadioGroup surfaces as Tailwind utilities (Issue 6, Experiment 39). The item
-// shares the native-input control base/state with Checkbox (both migrated in
-// Exp 39 → the shared rules are fully removed); the item styles itself from its
-// input via has-[…]: variants reading --radcn-control-* tokens. The checked-dot
-// reveal stays a bespoke parent-state->child rule in tokens.css.
+// RadioGroup surfaces as Tailwind utilities (Issue 6, Experiments 39 and 76).
+// The item styles itself from its input via has-[...] variants reading
+// --radcn-control-* tokens, including checked-dot reveal.
 const radioGroupClass = 'grid gap-3'
 const radioItemClass =
-  'relative inline-flex shrink-0 items-center justify-center size-4 rounded-full border border-[var(--radcn-control-border,var(--radcn-input))] bg-[var(--radcn-control-bg,var(--radcn-background))] text-[var(--radcn-control-fg,var(--radcn-primary-foreground))] outline-none transition-[border-color,background-color,box-shadow] has-[:focus-visible]:border-[var(--radcn-ring)] has-[:focus-visible]:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] has-[:checked]:border-[var(--radcn-control-checked-bg,var(--radcn-primary))] has-[:checked]:bg-[var(--radcn-control-checked-bg,var(--radcn-primary))] data-[invalid=true]:border-[var(--radcn-control-invalid,var(--radcn-destructive))] data-[invalid=true]:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-control-invalid,var(--radcn-destructive))_20%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50'
+  'relative inline-flex shrink-0 items-center justify-center size-4 rounded-full border border-[var(--radcn-control-border,var(--radcn-input))] bg-[var(--radcn-control-bg,var(--radcn-background))] text-[var(--radcn-control-fg,var(--radcn-primary-foreground))] outline-none transition-[border-color,background-color,box-shadow] has-[:focus-visible]:border-[var(--radcn-ring)] has-[:focus-visible]:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] has-[:checked]:border-[var(--radcn-control-checked-bg,var(--radcn-primary))] has-[:checked]:bg-[var(--radcn-control-checked-bg,var(--radcn-primary))] has-[:checked]:[&_[data-radcn-radio-indicator]]:opacity-100 data-[invalid=true]:border-[var(--radcn-control-invalid,var(--radcn-destructive))] data-[invalid=true]:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-control-invalid,var(--radcn-destructive))_20%,transparent)] data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50'
 const radioInputClass = 'absolute inset-0 m-0 opacity-0 cursor-pointer'
 const radioIndicatorClass = 'size-1.5 rounded-full bg-current opacity-0 pointer-events-none'
 

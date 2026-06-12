@@ -384,40 +384,9 @@
  */
 
 /*
- * Checkbox + RadioGroup surfaces are migrated to Tailwind utilities (Issue 6,
- * Experiment 39); both controls emit has-[…]: state utilities, so the six
- * formerly-shared control rules (base/input/:has() states) are fully removed.
- * What remains: the indicator reveals (parent-state->child), kept bespoke keyed
- * on the data attributes.
+ * Checkbox, RadioGroup, and Switch state indicators migrated to Tailwind
+ * utilities (Issue 6, Experiment 76). Marker data attributes remain as hooks.
  */
-[data-radcn-checkbox-wrapper]:has([data-radcn-checkbox-input]:checked) [data-radcn-checkbox-indicator]::before {
-  content: "x";
-}
-
-[data-radcn-radio-item]:has([data-radcn-radio-input]:checked) [data-radcn-radio-indicator] {
-  opacity: 1;
-}
-
-/*
- * Switch is migrated to Tailwind utilities (Issue 6, Experiment 38): the wrapper
- * (incl. its has-[:checked]:/has-[:focus-visible]: state styling) + input +
- * thumb-base emit utilities. The base/input/state rules were SHARED with
- * Checkbox + RadioGroup above; only the .radcn-switch-* selector was removed
- * from each (checkbox/radio kept, un-migrated). What remains here is the knob's
- * size + slide -- parent-state->child, keyed on the data attributes.
- */
-[data-radcn-switch-wrapper][data-size="sm"] [data-radcn-switch-thumb] {
-  width: 0.625rem;
-  height: 0.625rem;
-}
-
-[data-radcn-switch-wrapper]:has([data-radcn-switch-input]:checked) [data-radcn-switch-thumb] {
-  transform: translateX(1rem);
-}
-
-[data-radcn-switch-wrapper][data-size="sm"]:has([data-radcn-switch-input]:checked) [data-radcn-switch-thumb] {
-  transform: translateX(0.875rem);
-}
 
 /*
  * Progress is migrated to Tailwind utilities (Issue 6, Experiment 21). The
@@ -447,15 +416,11 @@
 }
 
 /*
- * Slider surfaces are migrated to Tailwind utilities (Issue 6, Experiment 40);
- * the wrapper/input/track/range/thumb emit token-referencing utilities (the
- * range width + thumb left read the JS-set inline --radcn-slider-percent). What
- * remains: the thumb focus ring (parent-state->child), kept bespoke keyed on the
- * data attributes.
+ * Slider surfaces are migrated to Tailwind utilities (Issue 6, Experiments 40
+ * and 76); the wrapper/input/track/range/thumb emit token-referencing utilities,
+ * including the thumb focus ring. The range width + thumb left read the JS-set
+ * inline --radcn-slider-percent.
  */
-[data-radcn-slider]:has([data-radcn-slider-input]:focus-visible) [data-radcn-slider-thumb] {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
 
 /*
  * Accordion surfaces (root, item, trigger + summary-marker hiding, icon,
@@ -506,45 +471,9 @@
 }
 
 /*
- * Toggle + ToggleGroup button surfaces are migrated to Tailwind utilities (Issue
- * 6, Experiment 47): the Toggle button and ToggleGroupItem emit the shared base +
- * variant Record + size Record (radcn-toggle--{variant}/{size} kept as style-less
- * markers). The icon rules below stay bespoke (raw-class APIs). The group->item
- * SIZE cascade (literal values) is kept; the VARIANT cascade is kept with its
- * outline border fallback switched from var(--radcn-border) to the Tailwind theme
- * var(--border) (the former resolved to currentColor on the migrated item).
+ * Toggle + ToggleGroup state/icon residuals migrated to Tailwind utilities
+ * (Issue 6, Experiment 76). Marker classes remain as hooks.
  */
-.radcn-toggle-icon {
-  display: inline-grid;
-  width: var(--radcn-toggle-icon-size, 1rem);
-  height: var(--radcn-toggle-icon-size, 1rem);
-  flex: none;
-  place-items: center;
-  color: var(--radcn-toggle-icon-fg, currentColor);
-  font: 600 0.6875rem/1 var(--radcn-font);
-  transition: color 120ms ease, transform 120ms ease;
-}
-
-[data-radcn-toggle][data-state="on"] .radcn-toggle-icon {
-  color: var(--radcn-toggle-icon-on-fg, currentColor);
-}
-
-.radcn-toggle-group[data-disabled="true"] {
-  opacity: 0.55;
-}
-
-.radcn-toggle-group--vertical {
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.radcn-toggle-group-item[data-group-disabled="true"] {
-  pointer-events: none;
-}
-
-.radcn-toggle-group-item[data-state="on"] .radcn-toggle-group-icon {
-  color: var(--radcn-toggle-icon-on-fg, currentColor);
-}
 
 /*
  * Avatar surfaces (avatar + ::after ring, image, fallback, badge, group,
@@ -939,19 +868,10 @@
   --radcn-hover-card-avatar-fg: #ffffff;
 }
 
-.radcn-menu-item--inset,
-.radcn-menu-label--inset {
-  padding-left: 2rem;
-}
-
-.radcn-menu-item--destructive {
-  color: var(--radcn-menu-destructive-fg, var(--radcn-destructive));
-}
-
-[data-radcn-menu-item][data-disabled="true"] {
-  color: var(--radcn-muted-foreground);
-  opacity: 0.5;
-}
+/*
+ * Menu helper inset/destructive/disabled residuals migrated to Tailwind
+ * utilities (Issue 6, Experiment 76). Marker classes remain as hooks.
+ */
 
 .radcn-fixture-custom-menu {
   --radcn-menu-border: #7c3aed;
@@ -1124,14 +1044,10 @@
  * Experiment 53). The components emit utilities; the shared control/input/content/
  * list/item rules dropped (both migrated together, with the content bg/fg + item
  * grid-cols split per component to avoid conflicts). The combobox control
- * invalid/disabled propagates via --radcn-combobox-control-* vars (root sets, control
- * reads). KEPT below: the command checked-indicator cascade. The fixture +
- * @keyframes radcn-select-in are unchanged.
+ * invalid/disabled propagates via --radcn-combobox-control-* vars (root sets,
+ * control reads). Command checked-indicator visibility migrated in Experiment
+ * 76. The fixture + @keyframes radcn-select-in are unchanged.
  */
-.radcn-command-item[data-checked="false"] .radcn-command-item-indicator {
-  opacity: 0;
-}
-
 .radcn-fixture-custom-combobox,
 .radcn-fixture-custom-command {
   --radcn-combobox-border: #0f766e;

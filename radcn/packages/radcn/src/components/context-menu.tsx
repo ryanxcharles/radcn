@@ -105,7 +105,7 @@ export function ContextMenuItem(handle: Handle<DropdownMenuItemProps>) {
   return () => {
     let { children, class: className, disabled, inset, style, textValue, variant = 'default' } = handle.props
 
-    return <button aria-disabled={disabled ? 'true' : undefined} class={classes(menuItemClass, `radcn-menu-item--${variant}`, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-context-menu-item data-radcn-menu-item data-text={textValue} data-variant={variant} role="menuitem" style={style} tabIndex={-1} type="button">{children}</button>
+    return <button aria-disabled={disabled ? 'true' : undefined} class={classes(menuItemClass, `radcn-menu-item--${variant}`, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-inset={inset ? 'true' : undefined} data-highlighted="false" data-radcn-context-menu-item data-radcn-menu-item data-text={textValue} data-variant={variant} role="menuitem" style={style} tabIndex={-1} type="button">{children}</button>
   }
 }
 
@@ -113,7 +113,7 @@ export function ContextMenuCheckboxItem(handle: Handle<DropdownMenuItemProps & {
   return () => {
     let { checked, children, class: className, disabled, inset, style, textValue } = handle.props
 
-    return <button aria-checked={checked ? 'true' : 'false'} aria-disabled={disabled ? 'true' : undefined} class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-checked={checked ? 'true' : 'false'} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-context-menu-checkbox-item data-radcn-menu-checkbox-item="true" data-radcn-menu-item data-state={checked ? 'checked' : 'unchecked'} data-text={textValue} role="menuitemcheckbox" style={style} tabIndex={-1} type="button"><span class={menuItemIndicatorClass} data-radcn-menu-item-indicator hidden={!checked}>✓</span>{children}</button>
+    return <button aria-checked={checked ? 'true' : 'false'} aria-disabled={disabled ? 'true' : undefined} class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-checked={checked ? 'true' : 'false'} data-inset={inset ? 'true' : undefined} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-context-menu-checkbox-item data-radcn-menu-checkbox-item="true" data-radcn-menu-item data-state={checked ? 'checked' : 'unchecked'} data-text={textValue} role="menuitemcheckbox" style={style} tabIndex={-1} type="button"><span class={menuItemIndicatorClass} data-radcn-menu-item-indicator hidden={!checked}>✓</span>{children}</button>
   }
 }
 
@@ -129,7 +129,7 @@ export function ContextMenuRadioItem(handle: Handle<DropdownMenuRadioItemProps>)
   return () => {
     let { children, class: className, disabled, inset, style, textValue, value } = handle.props
 
-    return <button aria-checked="false" aria-disabled={disabled ? 'true' : undefined} class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-context-menu-radio-item data-radcn-menu-item data-radcn-menu-radio-item="true" data-state="unchecked" data-text={textValue} data-value={value} role="menuitemradio" style={style} tabIndex={-1} type="button"><span class={menuItemIndicatorClass} data-radcn-menu-item-indicator hidden>●</span>{children}</button>
+    return <button aria-checked="false" aria-disabled={disabled ? 'true' : undefined} class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-inset={inset ? 'true' : undefined} data-highlighted="false" data-radcn-context-menu-radio-item data-radcn-menu-item data-radcn-menu-radio-item="true" data-state="unchecked" data-text={textValue} data-value={value} role="menuitemradio" style={style} tabIndex={-1} type="button"><span class={menuItemIndicatorClass} data-radcn-menu-item-indicator hidden>●</span>{children}</button>
   }
 }
 
@@ -162,7 +162,7 @@ export function ContextMenuSubTrigger(handle: Handle<DropdownMenuItemProps>) {
     let { children, class: className, disabled, inset, style, textValue } = handle.props
     let id = `radcn-context-sub-${Math.random().toString(36).slice(2)}`
 
-    return <button aria-controls={id} aria-disabled={disabled ? 'true' : undefined} aria-expanded="false" aria-haspopup="menu" class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-context-menu-sub-trigger data-radcn-menu-item data-radcn-menu-sub-trigger="true" data-state="closed" data-text={textValue} role="menuitem" style={style} tabIndex={-1} type="button">{children}<span class={menuSubCaretClass} aria-hidden="true">›</span></button>
+    return <button aria-controls={id} aria-disabled={disabled ? 'true' : undefined} aria-expanded="false" aria-haspopup="menu" class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-inset={inset ? 'true' : undefined} data-highlighted="false" data-radcn-context-menu-sub-trigger data-radcn-menu-item data-radcn-menu-sub-trigger="true" data-state="closed" data-text={textValue} role="menuitem" style={style} tabIndex={-1} type="button">{children}<span class={menuSubCaretClass} aria-hidden="true">›</span></button>
   }
 }
 
