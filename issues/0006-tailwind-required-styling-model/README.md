@@ -276,6 +276,8 @@ a dependency listed in package manifests.
   — **Fail** (re-scope: cluster more entangled than the single-class audit; audit undercounted)
 - [Experiment 72: Migrate the overlay trigger/close cluster (cohesive)](72-migrate-overlay-trigger-close-cluster.md)
   — **Pass**
+- [Experiment 73: Audit remaining Tailwind debt](73-audit-remaining-tailwind-debt.md)
+  — **Designed**
 
 ## Learnings
 
