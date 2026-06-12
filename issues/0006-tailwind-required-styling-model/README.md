@@ -273,7 +273,7 @@ a dependency listed in package manifests.
 - [Experiment 70: Migrate the Button keystone to Tailwind utilities](70-migrate-button-keystone.md)
   — **Pass**
 - [Experiment 71: Migrate the trigger/close cluster + drawer surfaces to Tailwind](71-migrate-trigger-close-cluster.md)
-  — **Designed**
+  — **Fail** (re-scope: cluster more entangled than the single-class audit; audit undercounted)
 
 ## Learnings
 
@@ -1174,6 +1174,12 @@ worked-out approach for the final Button experiment(s):
   (markers kept); any computed button color/size assertions hold via the var reads.
   The Button-coupled triggers/closes (dialog/drawer/dropdown/select-trigger,
   popover-close) follow the same consumer-site pattern, several reusing `buttonBase`.
+
+**Exp 71 correction:** the trigger/close cluster is more entangled than the
+single-class audit showed (combined-selector structure rules, `:focus-visible`, drawer
+`[data-direction]`/position cascades) — the audit UNDERCOUNTED. The finish must re-audit
+INCLUDING combined + `:state`/`[data-*]` rules and migrate each overlay component's
+trigger/close as a cohesive unit (split shared selectors). See Experiment 71's Fail.
 
 **CORRECTION (Experiment 67's blocker was retracted):** the Experiment-67 claim that
 "consumer files are not Tailwind-scanned" was a FALSE NEGATIVE — the probe used a

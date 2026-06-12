@@ -106,3 +106,58 @@ kept. The one note: the select-trigger has `text-[var(--…-fg,…)]` (color) +
 
 Approval result: approved — exact mappings, component-only (no raw sites), no computed
 assertions, button-group cascades + drawer direction marker kept.
+
+## Result
+
+**Result:** Fail (re-scope — the naive single-rule plan was wrong; valuable finding)
+
+Implementation revealed the trigger/close/drawer surfaces are FAR more entangled than
+the single-class debt audit (and this plan) assumed, so "remove 10 base rules + one
+const each" is incorrect. A full rule-ref audit found:
+
+- `.radcn-popover-close` is in a COMBINED rule with `.radcn-tooltip-trigger` +
+  `.radcn-hover-card-trigger` (shared overlay-trigger structure) + a popover-close
+  override (`--radcn-popover-close-bg/-border/-fg` WIN over the shared overlay-trigger
+  bg) + a combined `:focus-visible`.
+- `.radcn-alert-dialog-action` + `.radcn-alert-dialog-cancel` SHARE a combined structure
+  rule + each has its own override + a combined `:focus-visible`.
+- `.radcn-dialog-trigger`, `.radcn-drawer-trigger` each have a (combined) `:focus-visible`.
+- `.radcn-drawer-content` has the base + `[hidden]` + FOUR `[data-direction]`
+  positioning rules + a `> .radcn-drawer-close` position cascade.
+- `.radcn-drawer-close` has the base + `:focus-visible` + the content-position cascade.
+
+So each surface needs its FULL rule-set migrated (base + combined-structure SPLIT +
+`:focus-visible` + state + the drawer direction/position rules), not a base→const swap.
+The consts wired reproduced only the BASE rules — incomplete. ALL changes were REVERTED
+(the 6 component files restored; tokens.css/index.ts never written — verified unchanged
++ byte-identical). No source landed; both suites remain green at the Exp-70 state.
+
+**Audit-undercount finding:** the README "39 visual-debt rules" audit used a
+single-class, non-combined, non-`:state` regex, so it UNDERCOUNTED. The overlay-trigger
+cluster (tooltip-trigger / hover-card-trigger / popover-close / popover-trigger), the
+alert action/cancel combined structure, the per-surface `:focus-visible` rules, and the
+drawer direction/position rules are ADDITIONAL bespoke styling the count missed. The
+true remaining debt is somewhat larger than "the 11 single-class rules."
+
+## Conclusion
+
+This Fail eliminates the naive single-rule dead-end. The correct approach for the
+next experiment(s): migrate each overlay component's trigger/close as a COHESIVE unit
+— a const reproducing base + the (split) combined structure + the `:focus-visible`
+shadow + (drawer) the direction/position rules (as own `data-[direction]` variants or
+kept descendant cascades) — and SPLIT the combined selectors so each component owns its
+utilities. Group by shared rule: (a) the overlay-trigger cluster (tooltip-trigger +
+hover-card-trigger + popover-close + popover-trigger + focus-visible); (b) the
+alert-dialog action/cancel pair; (c) the dialog/drawer/dropdown/select triggers (+ each
+focus-visible); (d) the drawer-content/handle/close (+ direction/position). FIRST
+re-audit INCLUDING combined selectors + `:state`/`[data-*]` rules to get the true
+count. The Button keystone (Exp 70) — the dominant debt — remains done + green; this
+cluster is the genuine, more-intricate-than-counted remainder.
+
+Learning (also copied to the issue README): the single-class debt audit UNDERCOUNTED —
+trigger/close/overlay surfaces carry combined-selector structure rules + `:focus-visible`
++ state/direction rules a `^\.radcn-X \{` scan misses. Re-audit including combined +
+`:state`/`[data-*]` rules before scoping the finish; migrate entangled clusters as
+units, splitting shared selectors.
+
+## Design Review (pre-implementation; the plan it approved was later found mis-scoped)
