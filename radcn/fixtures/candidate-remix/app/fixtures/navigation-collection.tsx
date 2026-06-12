@@ -384,7 +384,7 @@ export function renderButtonGroupFixture(fixture: FixtureScenario) {
             <InputGroupInput disabled name="message" placeholder="Record and send audio..." />
             <InputGroupAddon align="inline-end">
               <Tooltip defaultOpen>
-                <TooltipTrigger ariaLabel="Voice Mode" class="radcn-input-group-button radcn-input-group-button--icon-xs" style="background: var(--radcn-muted); color: var(--radcn-foreground);">≋</TooltipTrigger>
+                <TooltipTrigger ariaLabel="Voice Mode" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0" style="background: var(--radcn-muted); color: var(--radcn-foreground);">≋</TooltipTrigger>
                 <TooltipPortal><TooltipContent>Voice Mode</TooltipContent></TooltipPortal>
               </Tooltip>
             </InputGroupAddon>

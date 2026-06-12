@@ -5,20 +5,30 @@ import type { InputProps, InputType } from './input.tsx'
 import type { TextareaProps } from './textarea.tsx'
 import { classes } from '../utils/classes.ts'
 
-// InputGroup own surfaces as Tailwind utilities (Issue 6, Experiment 63). The
-// `radcn-input-group` marker class is KEPT: the cross-component reset of the nested
-// migrated Input/Textarea (.radcn-input-group [data-radcn-input] { border:0; ... })
-// references it and (being unlayered radcnStyles) reliably overrides the child's
-// @layer-utilities border/shadow. That reset + the addon-align + button-size variant
-// rules stay bespoke. Comments here are ASCII; no bracketed class-like tokens.
+// InputGroup own surfaces as Tailwind utilities (Issue 6, Experiments 63 and 75).
+// Marker classes stay available for tests, docs, and raw overlay trigger sites.
+// Comments here are ASCII; no bracketed class-like tokens.
 const inputGroupClass =
   'flex w-full max-w-[var(--radcn-input-group-width,24rem)] min-h-[var(--radcn-control-height)] flex-wrap items-stretch border border-[var(--radcn-input-group-border,var(--radcn-input))] rounded-md bg-[var(--radcn-input-group-bg,var(--radcn-background))] text-foreground [font-family:var(--radcn-font)] outline-none focus-within:border-[var(--radcn-ring)] focus-within:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] data-[invalid=true]:border-[var(--radcn-field-error,var(--radcn-destructive))] data-[invalid=true]:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-field-error,var(--radcn-destructive))_20%,transparent)] has-[[aria-invalid=true]]:border-[var(--radcn-field-error,var(--radcn-destructive))] has-[[aria-invalid=true]]:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-field-error,var(--radcn-destructive))_20%,transparent)] data-[disabled=true]:opacity-60 has-[:disabled]:opacity-60'
 const inputGroupAddonClass =
   'inline-flex min-h-[calc(var(--radcn-control-height)-2px)] items-center justify-center gap-1.5 px-3 text-[var(--radcn-input-group-addon-fg,var(--radcn-muted-foreground))] cursor-text text-[0.875rem] font-normal leading-[1.35] [font-family:var(--radcn-font)] select-none'
-const inputGroupInputClass = 'min-w-0 flex-[1_1_10rem] bg-transparent'
-const inputGroupTextareaClass = 'min-w-0 flex-[1_1_10rem] bg-transparent min-h-[5.5rem]'
+const inputGroupAddonAlignClass: Record<InputGroupAddonAlign, string> = {
+  'inline-start': 'order-[-1] border-r border-[var(--radcn-input-group-border,var(--radcn-input))]',
+  'inline-end': 'order-1 border-l border-[var(--radcn-input-group-border,var(--radcn-input))]',
+  'block-start': 'order-[-2] w-full justify-start border-[var(--radcn-input-group-border,var(--radcn-input))] border-b',
+  'block-end': 'order-2 w-full justify-start border-[var(--radcn-input-group-border,var(--radcn-input))] border-t',
+}
+const inputGroupControlResetClass = 'border-0 rounded-[calc(var(--radcn-radius)-1px)] shadow-none focus-visible:ring-0 focus-visible:shadow-none'
+const inputGroupInputClass = `min-w-0 flex-[1_1_10rem] bg-transparent ${inputGroupControlResetClass}`
+const inputGroupTextareaClass = `min-w-0 flex-[1_1_10rem] bg-transparent min-h-[5.5rem] ${inputGroupControlResetClass}`
 const inputGroupTextClass = 'inline-flex items-center gap-1'
 const inputGroupButtonClass = 'min-h-7 px-2 py-1 shadow-none'
+export const inputGroupButtonSizeClass: Record<InputGroupButtonSize, string> = {
+  xs: '',
+  sm: 'min-h-8',
+  'icon-xs': 'w-7 p-0',
+  'icon-sm': 'w-8 min-h-8 p-0',
+}
 
 export type InputGroupAddonAlign = 'inline-start' | 'inline-end' | 'block-start' | 'block-end'
 export type InputGroupButtonSize = 'xs' | 'sm' | 'icon-xs' | 'icon-sm'
@@ -111,7 +121,7 @@ export function InputGroupAddon(handle: Handle<InputGroupAddonProps>) {
 
     return (
       <div
-        class={classes('radcn-input-group-addon', inputGroupAddonClass, `radcn-input-group-addon--${align}`, className)}
+        class={classes('radcn-input-group-addon', inputGroupAddonClass, inputGroupAddonAlignClass[align], `radcn-input-group-addon--${align}`, className)}
         data-align={align}
         data-radcn-input-group-addon
         role="group"
@@ -144,7 +154,7 @@ export function InputGroupButton(handle: Handle<InputGroupButtonProps>) {
       <Button
         ariaDisabled={ariaDisabled}
         ariaLabel={ariaLabel}
-        class={classes('radcn-input-group-button', inputGroupButtonClass, `radcn-input-group-button--${size}`, className)}
+        class={classes('radcn-input-group-button', inputGroupButtonClass, inputGroupButtonSizeClass[size], `radcn-input-group-button--${size}`, className)}
         disabled={disabled}
         name={name}
         size={buttonSize}

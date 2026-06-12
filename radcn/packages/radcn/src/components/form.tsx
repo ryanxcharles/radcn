@@ -3,15 +3,14 @@ import type { Handle, RemixNode } from 'remix/ui'
 import { classes } from '../utils/classes.ts'
 import { fieldDescriptionClass, fieldErrorClass } from './field.tsx'
 
-// Form container surfaces as Tailwind utilities (Issue 6, Experiment 55). Only the
-// layout containers migrate; the `.radcn-form-label[data-error]` / field-or-item
-// `[data-invalid] .radcn-form-label` error-color rule stays bespoke (it colors the
-// Label component, whose own color utilities it must not conflict with) — the
-// component keeps emitting radcn-form-label + the field/item keep data-invalid.
-// form-message/description styling comes from Field (radcn-field-error/-description).
-// Comments here are ASCII.
+// Form container surfaces as Tailwind utilities (Issue 6, Experiments 55 and 75).
+// Invalid label color now emits through parent/self-state utilities. form-message/
+// description styling comes from Field (radcn-field-error/-description). Comments here
+// are ASCII.
 const formRootClass = 'grid gap-4 w-[min(100%,var(--radcn-form-width,26rem))] text-foreground [font-family:var(--radcn-font)]'
-const formFieldClass = 'grid gap-2'
+const formFieldClass =
+  'grid gap-2 data-[invalid=true]:[&_.radcn-form-label]:text-[var(--radcn-field-error,var(--radcn-destructive))]'
+const formLabelClass = 'data-[error=true]:text-[var(--radcn-field-error,var(--radcn-destructive))]'
 const formControlClass = 'contents'
 
 export type FormMethod = 'get' | 'post' | 'dialog'
@@ -158,7 +157,7 @@ export function FormLabel(handle: Handle<FormLabelProps>) {
 
     return (
       <label
-        class={classes('radcn-form-label', 'radcn-label', className)}
+        class={classes('radcn-form-label', 'radcn-label', formLabelClass, className)}
         data-disabled={disabled ? 'true' : undefined}
         data-error={error ? 'true' : undefined}
         data-radcn-form-label

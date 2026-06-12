@@ -50,12 +50,12 @@ export interface FieldErrorProps {
   style?: string
 }
 
-// Field surfaces as Tailwind utilities (Issue 6, Experiment 37). Token-
-// referencing utilities keep the custom-field fixture working. The invalid
-// parent-state → label color (incl. the Label `[data-radcn-label]` cross-ref)
-// and the consumer-applied `.radcn-field--choice-card` modifier stay bespoke in
-// tokens.css.
+// Field surfaces as Tailwind utilities (Issue 6, Experiments 37 and 75).
+// Token-referencing utilities keep the custom-field fixture working, including
+// invalid descendant labels. Marker classes stay available for tests and docs.
 const fieldRootClass = 'grid gap-2 max-w-96 text-foreground'
+const fieldInvalidLabelClass =
+  'data-[invalid=true]:[&_[data-radcn-field-label]]:text-[var(--radcn-field-error,var(--radcn-destructive))] data-[invalid=true]:[&_[data-radcn-label]]:text-[var(--radcn-field-error,var(--radcn-destructive))]'
 const fieldOrientationClass: Record<FieldOrientation, string> = {
   vertical: '',
   horizontal: 'grid-cols-[auto_minmax(0,1fr)] items-center',
@@ -79,7 +79,7 @@ export function Field(handle: Handle<FieldProps>) {
 
     return (
       <div
-        class={classes(fieldRootClass, fieldOrientationClass[orientation], className)}
+        class={classes(fieldRootClass, fieldInvalidLabelClass, fieldOrientationClass[orientation], className)}
         data-invalid={invalid ? 'true' : undefined}
         data-orientation={orientation}
         data-radcn-field

@@ -48,33 +48,9 @@
 }
 
 /*
- * Field surfaces are migrated to Tailwind utilities (Issue 6, Experiment 37);
- * the components emit token-referencing utilities. What remains: the invalid
- * parent-state -> label color (a child can't read the parent's [data-invalid]
- * via a utility; this also crosses to the Label component's [data-radcn-label]
- * hook), and the .radcn-field--choice-card consumer modifier (applied by
- * consumers as a class, never emitted by the component, so there is no element
- * to host utilities).
+ * Field/Form residual label and choice-card surfaces migrated to Tailwind
+ * utilities (Issue 6, Experiment 75). Marker classes and data hooks remain.
  */
-[data-radcn-field][data-invalid="true"] [data-radcn-field-label],
-[data-radcn-field][data-invalid="true"] [data-radcn-label] {
-  color: var(--radcn-field-error, var(--radcn-destructive));
-}
-
-.radcn-field--choice-card {
-  border: 1px solid var(--radcn-field-choice-border, var(--radcn-border));
-  border-radius: var(--radcn-radius);
-  padding: 0.875rem;
-}
-
-/* Shared error/description text styles: reused by the Form component as raw
- * classes (radcn-form-message / radcn-form-description), so they stay bespoke
- * until Form is migrated (Field's own FieldError/FieldDescription emit them). */
-.radcn-form-label[data-error="true"],
-.radcn-form-field[data-invalid="true"] .radcn-form-label,
-.radcn-form-item[data-invalid="true"] .radcn-form-label {
-  color: var(--radcn-field-error, var(--radcn-destructive));
-}
 
 /*
  * Label is migrated to Tailwind utilities (Issue 6, Experiment 11). Its
@@ -89,63 +65,9 @@
  * Experiment 18). Their shared base + state rules (border via border-input,
  * placeholder/focus-visible/disabled/aria-invalid, the file selector-button)
  * were removed; the components emit shadcn v4 utility classes. Their data
- * attributes remain as hooks; InputGroup/ButtonGroup target them via
- * [data-radcn-input]/[data-radcn-textarea] below.
+ * attributes remain as hooks; InputGroup/ButtonGroup target them through
+ * component-emitted Tailwind utilities.
  */
-
-.radcn-input-group [data-radcn-input],
-.radcn-input-group [data-radcn-textarea] {
-  border: 0;
-  border-radius: calc(var(--radcn-radius) - 1px);
-  box-shadow: none;
-}
-
-.radcn-input-group [data-radcn-input]:focus-visible,
-.radcn-input-group [data-radcn-textarea]:focus-visible {
-  box-shadow: none;
-}
-
-.radcn-input-group-addon--inline-start {
-  order: -1;
-  border-right: 1px solid var(--radcn-input-group-border, var(--radcn-input));
-}
-
-.radcn-input-group-addon--inline-end {
-  order: 1;
-  border-left: 1px solid var(--radcn-input-group-border, var(--radcn-input));
-}
-
-.radcn-input-group-addon--block-start,
-.radcn-input-group-addon--block-end {
-  width: 100%;
-  justify-content: flex-start;
-  border-color: var(--radcn-input-group-border, var(--radcn-input));
-}
-
-.radcn-input-group-addon--block-start {
-  order: -2;
-  border-bottom: 1px solid var(--radcn-input-group-border, var(--radcn-input));
-}
-
-.radcn-input-group-addon--block-end {
-  order: 2;
-  border-top: 1px solid var(--radcn-input-group-border, var(--radcn-input));
-}
-
-.radcn-input-group-button--sm {
-  min-height: 2rem;
-}
-
-.radcn-input-group-button--icon-xs,
-.radcn-input-group-button--icon-sm {
-  width: 1.75rem;
-  padding: 0;
-}
-
-.radcn-input-group-button--icon-sm {
-  width: 2rem;
-  min-height: 2rem;
-}
 
 /*
  * InputOTP surfaces are migrated to Tailwind utilities (Issue 6, Experiment 59):
@@ -417,68 +339,6 @@
   .radcn-breadcrumb-truncate {
     max-width: none;
   }
-}
-
-.radcn-button-group--vertical {
-  flex-direction: column;
-}
-
-.radcn-button-group > .radcn-button-group {
-  gap: 0;
-}
-
-.radcn-button-group--clustered {
-  gap: 0.5rem;
-}
-
-.radcn-button-group > .radcn-button,
-.radcn-button-group > [data-radcn-input],
-.radcn-button-group > .radcn-input-group {
-  min-width: 0;
-}
-
-.radcn-button-group > [data-radcn-input],
-.radcn-button-group > .radcn-input-group {
-  flex: 1 1 auto;
-}
-
-.radcn-button-group > .radcn-button:not(:first-child),
-.radcn-button-group > [data-radcn-input]:not(:first-child),
-.radcn-button-group > .radcn-input-group:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  margin-left: -1px;
-}
-
-.radcn-button-group > .radcn-button:not(:last-child),
-.radcn-button-group > [data-radcn-input]:not(:last-child),
-.radcn-button-group > .radcn-input-group:not(:last-child) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.radcn-button-group--vertical > .radcn-button:not(:first-child),
-.radcn-button-group--vertical > [data-radcn-input]:not(:first-child),
-.radcn-button-group--vertical > .radcn-input-group:not(:first-child) {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  margin-top: -1px;
-  margin-left: 0;
-}
-
-.radcn-button-group--vertical > .radcn-button:not(:last-child),
-.radcn-button-group--vertical > [data-radcn-input]:not(:last-child),
-.radcn-button-group--vertical > .radcn-input-group:not(:last-child) {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.radcn-button-group-separator--vertical {
-  width: 1px;
-}
-
-.radcn-button-group-separator--horizontal {
-  height: 1px;
 }
 
 /*

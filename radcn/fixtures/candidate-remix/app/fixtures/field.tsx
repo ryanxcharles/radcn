@@ -221,7 +221,7 @@ export function renderFieldFixture(fixture: FixtureScenario) {
       return (
         <RadioGroup name="hosting">
           <FieldGroup>
-            <Field class="radcn-field--choice-card" orientation="horizontal">
+            <Field class="radcn-field--choice-card border border-[var(--radcn-field-choice-border,var(--radcn-border))] rounded-md p-[0.875rem]" orientation="horizontal">
               <RadioGroupItem checked id="candidate-field-choice-hobby" name="hosting" value="hobby" />
               <FieldContent>
                 <FieldLabel for="candidate-field-choice-hobby">
@@ -230,7 +230,7 @@ export function renderFieldFixture(fixture: FixtureScenario) {
                 <FieldDescription>Best for prototypes and small demos.</FieldDescription>
               </FieldContent>
             </Field>
-            <Field class="radcn-field--choice-card" orientation="horizontal">
+            <Field class="radcn-field--choice-card border border-[var(--radcn-field-choice-border,var(--radcn-border))] rounded-md p-[0.875rem]" orientation="horizontal">
               <RadioGroupItem id="candidate-field-choice-pro" name="hosting" value="pro" />
               <FieldContent>
                 <FieldLabel for="candidate-field-choice-pro">

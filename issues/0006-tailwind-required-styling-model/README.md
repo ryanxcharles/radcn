@@ -281,7 +281,7 @@ a dependency listed in package manifests.
 - [Experiment 74: Migrate Select and DatePicker trigger cluster](74-migrate-select-datepicker-trigger-cluster.md)
   — **Pass**
 - [Experiment 75: Migrate Field, Form, and InputGroup residuals](75-migrate-field-form-inputgroup-residuals.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1244,13 +1244,12 @@ surface styling or docs/fixture/demo presentation classes.
 
 Remaining migration clusters, in recommended order:
 
-1. Field/Form/InputGroup residuals.
-2. State-indicator residuals: Checkbox, RadioGroup, Switch, Slider, Command,
+1. State-indicator residuals: Checkbox, RadioGroup, Switch, Slider, Command,
    menu helpers, and Toggle icon/group state.
-3. Modal/drawer layout residuals: AlertDialog size/footer, Sheet side geometry,
+2. Modal/drawer layout residuals: AlertDialog size/footer, Sheet side geometry,
    and Drawer static surface/handle/close geometry while retaining drag/portal
    behavior.
-4. Docs/fixture/demo CSS evacuation: fixture custom classes, non-custom fixture
+3. Docs/fixture/demo CSS evacuation: fixture custom classes, non-custom fixture
    helpers (`radcn-fixture-rounded-button`, `radcn-fixture-aspect-media`,
    `radcn-fixture-navigation-panel`, `radcn-fixture-panel`), chart/data-table
    docs helpers, breadcrumb raw compositions, carousel example classes,
@@ -1272,6 +1271,23 @@ coupling into the parent component's emitted arbitrary descendant utilities, and
 delete only the matching bespoke CSS selectors. The Button/Input/InputGroup
 grouping selectors intentionally remain for the next Field/Form/InputGroup
 residual cluster.
+
+### Progress update (after Experiment 75) — Field/Form/InputGroup residuals cleared
+
+Experiment 75 moved Field/Form invalid label color, Field choice-card
+presentation, InputGroup nested control/addon/button sizing, and the remaining
+ButtonGroup Button/Input/InputGroup coupling out of package CSS and into
+Tailwind-scanned utilities.
+
+Two patterns are now established for later residual clusters:
+
+- Parent-owned grouping or state propagation can live on the parent component as
+  arbitrary descendant utilities, as with Field invalid labels and ButtonGroup
+  child coupling.
+- Consumer-only marker classes that package components do not emit directly
+  should keep the marker for tests/docs but add the equivalent utilities at the
+  scanned call site, as with `radcn-field--choice-card` and raw
+  `radcn-input-group-button--{size}` overlay triggers.
 
 ## Superseded Remaining Map
 

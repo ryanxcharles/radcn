@@ -56,7 +56,7 @@ export function renderInputGroupFixture(fixture: FixtureScenario) {
             <InputGroupAddon align="inline-end">
               <InputGroupButton ariaLabel="Copy URL" size="icon-xs">⧉</InputGroupButton>
               <Popover>
-                <PopoverTrigger ariaLabel="Explain clone URL" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</PopoverTrigger>
+                <PopoverTrigger ariaLabel="Explain clone URL" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0">?</PopoverTrigger>
                 <PopoverPortal>
                   <PopoverContent align="end">
                     <PopoverTitle>Clone URL</PopoverTitle>
@@ -114,7 +114,7 @@ export function renderInputGroupFixture(fixture: FixtureScenario) {
             <InputGroupInput id="candidate-input-group-demo-url" name="url" type="url" value="radcn.dev" />
             <InputGroupAddon align="inline-end">
               <Tooltip defaultOpen>
-                <TooltipTrigger ariaLabel="URL help" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</TooltipTrigger>
+                <TooltipTrigger ariaLabel="URL help" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0">?</TooltipTrigger>
                 <TooltipPortal><TooltipContent>Use a routable domain.</TooltipContent></TooltipPortal>
               </Tooltip>
             </InputGroupAddon>
@@ -124,7 +124,7 @@ export function renderInputGroupFixture(fixture: FixtureScenario) {
             <InputGroupAddon align="block-end">
               <InputGroupButton ariaLabel="Add attachment" size="icon-xs">+</InputGroupButton>
               <DropdownMenu defaultOpen>
-                <DropdownMenuTrigger ariaLabel="Insert command" class="radcn-input-group-button radcn-input-group-button--sm">Commands</DropdownMenuTrigger>
+                <DropdownMenuTrigger ariaLabel="Insert command" class="radcn-input-group-button radcn-input-group-button--sm min-h-8">Commands</DropdownMenuTrigger>
                 {MenuItems()}
               </DropdownMenu>
               <Separator orientation="vertical" />
@@ -146,7 +146,7 @@ export function renderInputGroupFixture(fixture: FixtureScenario) {
             <InputGroupInput id="candidate-input-group-dropdown" name="query" value="button" />
             <InputGroupAddon align="inline-end">
               <DropdownMenu defaultOpen>
-                <DropdownMenuTrigger ariaLabel="Search scope" class="radcn-input-group-button radcn-input-group-button--sm">Docs</DropdownMenuTrigger>
+                <DropdownMenuTrigger ariaLabel="Search scope" class="radcn-input-group-button radcn-input-group-button--sm min-h-8">Docs</DropdownMenuTrigger>
                 {MenuItems()}
               </DropdownMenu>
             </InputGroupAddon>
@@ -179,7 +179,7 @@ export function renderInputGroupFixture(fixture: FixtureScenario) {
             <InputGroupAddon align="block-start">
               <Label for="candidate-input-group-label-block">API token</Label>
               <Tooltip defaultOpen>
-                <TooltipTrigger ariaLabel="Token help" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</TooltipTrigger>
+                <TooltipTrigger ariaLabel="Token help" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0">?</TooltipTrigger>
                 <TooltipPortal><TooltipContent>Tokens are submitted as native form values.</TooltipContent></TooltipPortal>
               </Tooltip>
             </InputGroupAddon>
@@ -272,7 +272,7 @@ export function renderInputGroupFixture(fixture: FixtureScenario) {
             <InputGroupInput id="candidate-input-group-password" name="password" type="password" value="radical-secret" />
             <InputGroupAddon align="inline-end">
               <Tooltip defaultOpen>
-                <TooltipTrigger ariaLabel="Password requirements" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</TooltipTrigger>
+                <TooltipTrigger ariaLabel="Password requirements" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0">?</TooltipTrigger>
                 <TooltipPortal><TooltipContent>Use at least twelve characters.</TooltipContent></TooltipPortal>
               </Tooltip>
             </InputGroupAddon>
@@ -281,7 +281,7 @@ export function renderInputGroupFixture(fixture: FixtureScenario) {
             <InputGroupInput id="candidate-input-group-tooltip-email" name="owner" type="email" value="owner@radcn.dev" />
             <InputGroupAddon align="inline-end">
               <Tooltip defaultOpen>
-                <TooltipTrigger ariaLabel="Owner help" class="radcn-input-group-button radcn-input-group-button--icon-xs">i</TooltipTrigger>
+                <TooltipTrigger ariaLabel="Owner help" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0">i</TooltipTrigger>
                 <TooltipPortal><TooltipContent>Owner receives key rotation notices.</TooltipContent></TooltipPortal>
               </Tooltip>
             </InputGroupAddon>

@@ -1348,7 +1348,7 @@ export function FieldPreview() {
         </FieldSet>
 
         <RadioGroup name="plan">
-          <Field class="radcn-field--choice-card" orientation="horizontal">
+          <Field class="radcn-field--choice-card border border-[var(--radcn-field-choice-border,var(--radcn-border))] rounded-md p-[0.875rem]" orientation="horizontal">
             <RadioGroupItem checked id="plan-pro" name="plan" value="pro" />
             <FieldContent>
               <FieldLabel for="plan-pro"><FieldTitle>Pro</FieldTitle></FieldLabel>
@@ -2775,7 +2775,7 @@ function ButtonGroupPreview() {
             <InputGroupInput disabled name="message" placeholder="Record and send audio..." />
             <InputGroupAddon align="inline-end">
               <Tooltip defaultOpen>
-                <TooltipTrigger ariaLabel="Voice Mode" class="radcn-input-group-button radcn-input-group-button--icon-xs">≋</TooltipTrigger>
+                <TooltipTrigger ariaLabel="Voice Mode" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0">≋</TooltipTrigger>
                 <TooltipPortal><TooltipContent>Voice Mode</TooltipContent></TooltipPortal>
               </Tooltip>
             </InputGroupAddon>
@@ -2873,7 +2873,7 @@ function InputGroupPreview() {
         <InputGroupAddon align="inline-end">
           <InputGroupButton ariaLabel="Copy URL" size="icon-xs">⧉</InputGroupButton>
           <Popover defaultOpen>
-            <PopoverTrigger ariaLabel="Explain clone URL" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</PopoverTrigger>
+            <PopoverTrigger ariaLabel="Explain clone URL" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0">?</PopoverTrigger>
             <PopoverPortal>
               <PopoverContent align="end">
                 <PopoverTitle>Clone URL</PopoverTitle>
@@ -2899,7 +2899,7 @@ function InputGroupPreview() {
         <InputGroupInput name="query" value="input group" />
         <InputGroupAddon align="inline-end">
           <DropdownMenu defaultOpen>
-            <DropdownMenuTrigger ariaLabel="Search scope" class="radcn-input-group-button radcn-input-group-button--sm">Docs</DropdownMenuTrigger>
+            <DropdownMenuTrigger ariaLabel="Search scope" class="radcn-input-group-button radcn-input-group-button--sm min-h-8">Docs</DropdownMenuTrigger>
             <DropdownMenuPortal>
               <DropdownMenuContent align="end">
                 <DropdownMenuGroup>
@@ -2916,7 +2916,7 @@ function InputGroupPreview() {
         <InputGroupAddon align="block-start">
           <Label for="docs-input-group-message">app/routes.ts</Label>
           <Tooltip defaultOpen>
-            <TooltipTrigger ariaLabel="File help" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</TooltipTrigger>
+            <TooltipTrigger ariaLabel="File help" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0">?</TooltipTrigger>
             <TooltipPortal><TooltipContent>Labels and help actions compose in addons.</TooltipContent></TooltipPortal>
           </Tooltip>
         </InputGroupAddon>
@@ -2939,7 +2939,7 @@ function InputGroupPreview() {
         <InputGroupInput name="password" type="password" value="radical-secret" />
         <InputGroupAddon align="inline-end">
           <Tooltip defaultOpen>
-            <TooltipTrigger ariaLabel="Password requirements" class="radcn-input-group-button radcn-input-group-button--icon-xs">?</TooltipTrigger>
+            <TooltipTrigger ariaLabel="Password requirements" class="radcn-input-group-button radcn-input-group-button--icon-xs w-7 p-0">?</TooltipTrigger>
             <TooltipPortal><TooltipContent>Use at least twelve characters.</TooltipContent></TooltipPortal>
           </Tooltip>
         </InputGroupAddon>
@@ -4248,7 +4248,7 @@ function FieldPreview() {
         </FieldSet>
 
         <RadioGroup name="plan">
-          <Field class="radcn-field--choice-card" orientation="horizontal">
+          <Field class="radcn-field--choice-card border border-[var(--radcn-field-choice-border,var(--radcn-border))] rounded-md p-[0.875rem]" orientation="horizontal">
             <RadioGroupItem checked id="docs-field-plan-pro" name="plan" value="pro" />
             <FieldContent>
               <FieldLabel for="docs-field-plan-pro"><FieldTitle>Pro</FieldTitle></FieldLabel>

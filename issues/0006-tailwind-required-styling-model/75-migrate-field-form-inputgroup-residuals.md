@@ -172,3 +172,94 @@ criteria and hygiene checks, no source implementation had started before the
 plan commit, and the technical scope matches the residual CSS and component
 structure for Field/Form invalid-label cascades, InputGroup residuals, and
 ButtonGroup child coupling.
+
+## Result
+
+**Result:** Pass
+
+The Field/Form/InputGroup residual cluster migrated successfully.
+
+Changes made:
+
+- `field.tsx` now emits invalid descendant label color through Tailwind
+  parent-state utilities on the Field root.
+- Field choice-card raw call sites in the candidate fixture and docs now carry
+  Tailwind border/radius/padding utilities beside the
+  `radcn-field--choice-card` marker.
+- `form.tsx` now emits self-state and parent-state Tailwind utilities for
+  `FormLabel(error)`, `FormField(invalid)`, and `FormItem(invalid)` label color
+  behavior.
+- `input-group.tsx` now emits nested Input/Textarea reset utilities, addon
+  align/border utility maps, and InputGroupButton size utility maps.
+- Raw InputGroup overlay trigger sites in docs and fixtures now include the
+  equivalent size utilities beside their existing
+  `radcn-input-group-button--{size}` marker classes.
+- `button-group.tsx` now emits the remaining ButtonGroup vertical, clustered,
+  nested, separator, Button, raw Input, and InputGroup coupling behavior through
+  Tailwind utilities.
+- `tokens.css` removed the migrated Field/Form/InputGroup/ButtonGroup rules and
+  `styles/index.ts` was regenerated from `tokens.css`.
+
+Verification run:
+
+- `pnpm --dir radcn/fixtures/candidate-remix styles:build` — pass.
+- `pnpm --dir radcn/apps/docs styles:build` — pass.
+- `pnpm radcn:typecheck` — pass.
+- `pnpm fixtures:candidate:typecheck` — pass.
+- `pnpm fixtures:reference:typecheck` — pass.
+- `pnpm --dir radcn/apps/docs typecheck` — pass.
+- Generated CSS evidence confirmed representative Field/Form invalid label
+  variants, choice-card utilities, InputGroup border/addon utilities, and
+  ButtonGroup descendant coupling utilities in the candidate fixture and docs
+  generated CSS.
+- Removed-rule checks confirmed `tokens.css` no longer contains the migrated
+  Field/Form invalid label selectors, `.radcn-field--choice-card`,
+  InputGroup nested control/addon/button-size selectors, or ButtonGroup child
+  coupling selectors.
+- Style sync check for `tokens.css` and `styles/index.ts` — pass,
+  `styles in sync`.
+- Focused fixture Playwright gate:
+  `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts tests/form-input-cluster.spec.ts tests/native-controls.spec.ts tests/native-state.spec.ts tests/static-display.spec.ts tests/navigation-collection.spec.ts`
+  — 47 passed.
+- Docs Playwright gate:
+  `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts` —
+  11 passed.
+- Full fixture artifact gate: `pnpm fixtures:artifacts` — 1191 passed.
+- `git diff --check` — pass.
+- `git status --short` — inspected before result commit; only Experiment 75
+  issue docs, package source/style files, and the planned docs/fixture raw
+  marker call sites were modified.
+- `git diff --name-only | rg '^vendor/'` — no matches.
+
+## Conclusion
+
+Experiment 75 clears the Field/Form/InputGroup residual cluster identified by
+Experiment 73. Tailwind v4 generated the parent-state descendant utilities
+needed for invalid Field/Form labels and the self/descendant utilities needed
+for ButtonGroup's remaining grouping behavior. For consumer-only marker classes
+that package components do not emit directly, such as choice-card examples and
+raw InputGroup overlay triggers, the reliable pattern is to keep the marker for
+tests/docs while adding the equivalent Tailwind utilities at the scanned call
+site.
+
+## Completion Review
+
+Reviewer: Hypatia (`019ebe2c-afc8-7751-aa3a-212d43323592`), fresh Codex
+subagent with `fork_context: false`.
+
+Findings:
+
+- Minor: the planned hygiene checks listed `git status --short`, but the result
+  evidence recorded only `git diff --check` and the vendor diff check.
+- Minor: a `tokens.css` comment still said InputGroup/ButtonGroup target
+  `[data-radcn-input]` and `[data-radcn-textarea]` rules "below", even though
+  the matching rules moved to component-emitted utilities.
+
+Fixes:
+
+- Added the `git status --short` evidence to the result record.
+- Updated the stale `tokens.css` comment and regenerated `styles/index.ts`.
+
+Approval result: approved. No blocker or major findings were reported. The
+reviewer also verified `git diff --check`, style sync, vendor cleanliness, and
+that the result commit had not yet been made.
