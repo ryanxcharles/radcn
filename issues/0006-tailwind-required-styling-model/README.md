@@ -286,6 +286,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 77: Migrate modal and drawer layout residuals](77-migrate-modal-drawer-layout-residuals.md)
   — **Pass**
+- [Experiment 78: Evacuate docs and fixture CSS from package styles](78-evacuate-docs-fixture-demo-css.md)
+  — **Designed**
 
 ## Learnings
 
