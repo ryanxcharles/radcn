@@ -121,3 +121,119 @@ Re-review:
 - Reviewer confirmed the prior minor finding is resolved and no new blocker was
   introduced.
 - Approval: approved with no blockers.
+
+## Result
+
+**Result:** Pass
+
+Experiment 1 implemented the local Button installation proof without publishing
+RadCN to npm.
+
+The implementation added a private workspace CLI package with a `radcn` bin, a
+private local registry package, and a disposable Remix 3 install-target fixture.
+The root `radcn` script now runs the local CLI. `radcn init --cwd
+radcn/fixtures/install-target --yes` writes `components.json`; `radcn add
+button --cwd radcn/fixtures/install-target --yes` resolves the local registry,
+installs the generated theme, utility helper, and Button source into the target
+app; and a repeated `add button` skips unchanged files.
+
+Generated install-target files are intentionally ignored:
+
+- `components.json`
+- `app/styles/radcn-theme.css`
+- `app/lib/utils/classes.ts`
+- `app/components/ui/button.tsx`
+- `app/assets/tailwind.generated.css`
+
+The checked-in fixture route imports `Button` from
+`../components/ui/button.tsx`, so the target typecheck and render test pass only
+after the local install flow has generated target-owned source. The generated
+Button imports its generated utility helper from `../../lib/utils/classes.ts`
+and does not import `radcn/button`.
+
+Verification was run with `npm exec --yes pnpm@11.5.2 -- ...` because this
+machine does not have a global `pnpm` binary. The commands exercised the pinned
+pnpm version from `packageManager`.
+
+Verification evidence:
+
+- `npm exec --yes pnpm@11.5.2 -- install --frozen-lockfile` passed.
+- Clean generated state reset, then `npm exec --yes pnpm@11.5.2 -- radcn init
+  --cwd radcn/fixtures/install-target --yes` passed and wrote
+  `components.json`.
+- `npm exec --yes pnpm@11.5.2 -- radcn add button --cwd
+  radcn/fixtures/install-target --yes` passed and wrote
+  `app/styles/radcn-theme.css`, `app/lib/utils/classes.ts`, and
+  `app/components/ui/button.tsx`.
+- Re-running the same `add button` command passed and skipped the unchanged
+  generated files.
+- `npm exec --yes pnpm@11.5.2 -- --dir radcn/fixtures/install-target
+  typecheck` passed.
+- `npm exec --yes pnpm@11.5.2 -- --dir radcn/fixtures/install-target
+  styles:build` passed and emitted Tailwind output containing Button utilities.
+  It printed the existing Remix/Node `module.register()` deprecation warning.
+- `npm exec --yes pnpm@11.5.2 -- --dir radcn/fixtures/install-target test`
+  passed. The fixture test resets generated output, runs `init`, runs
+  `add button`, verifies deterministic rerun skip behavior, verifies unsafe
+  alias writes are refused, builds Tailwind with the local Tailwind binary, and
+  renders the installed Button route.
+- `npm exec --yes pnpm@11.5.2 -- radcn:typecheck` passed.
+- `git diff --check` passed.
+- Vendor cleanliness check found no nested git checkouts at
+  `vendor/shadcn-ui`, `vendor/remix`, or `vendor/react-router` on this
+  machine, so there was no vendor worktree state to inspect.
+
+An earlier verification attempt ran target typecheck/style checks in parallel
+with the clean-state fixture test. That was invalid because the fixture test
+resets generated files at startup; serial reruns after generation passed.
+
+## Conclusion
+
+The local installation model is proven for the first Button slice. RadCN can now
+initialize a Remix 3 target app, write a shadcn-style `components.json`, resolve
+a local structured registry item with recursive dependencies, copy
+target-owned source, enforce safe write targets, require Tailwind v4 in the
+target, compile the installed Button utilities, and render the installed Button
+without publishing to npm.
+
+Durable decisions from this experiment:
+
+- Default install paths for the local proof are:
+  - components: `app/components`
+  - UI components: `app/components/ui`
+  - utilities: `app/lib/utils`
+  - hooks: `app/hooks`
+  - Tailwind source: `app/styles/tailwind.css`
+- Local registry addressing is recorded in `components.json` as
+  `workspace:@radcn/registry/{name}` for this pre-publication proof.
+- Generated output is not checked into the install target; tests reset and
+  regenerate it to prove the clean install flow.
+- Publication remains a later distribution issue. The remaining publication
+  work is to choose public package names, host or publish registry data, and
+  translate the local workspace registry address into a public registry source
+  without changing the user-facing `radcn init` / `radcn add button` command
+  shape.
+
+## Completion Review
+
+Reviewer: Codex subagent `Galileo` / `Cairn`.
+
+Fresh context: yes (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Review notes:
+
+- The reviewer verified the workflow contract, completed experiment record,
+  Issue 5 README, issue index, package metadata, diff, ignored/generated state,
+  vendor state, and relevant CLI, registry, and fixture files.
+- The reviewer confirmed the result commit had not been made before completion
+  review.
+- The reviewer confirmed generated fixture outputs were ignored and not commit
+  candidates.
+
+Approval: approved with no blockers.
