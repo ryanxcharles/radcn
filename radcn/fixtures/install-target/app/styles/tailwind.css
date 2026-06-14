@@ -1,0 +1,8 @@
+@source '../actions/**/*.tsx';
+@source '../components/**/*.tsx';
+@source '../ui/**/*.tsx';
+
+@import 'tailwindcss/theme';
+@import 'tailwindcss/preflight';
+@import './radcn-theme.css';
+@import 'tailwindcss/utilities';
