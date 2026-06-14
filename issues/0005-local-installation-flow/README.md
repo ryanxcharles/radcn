@@ -35,6 +35,25 @@ The local proof may use workspace commands, local package paths, packed tarballs
 or a local registry file/server, as long as the behavior proves the real
 installation model without depending on public npm publication.
 
+Publishing to npm is not the critical next puzzle piece. The critical work is
+to prove the installation contract locally first, so publication later becomes a
+distribution problem instead of a place where unresolved CLI, registry, config,
+and generated-source decisions surface for the first time.
+
+The proof should have two layers:
+
+1. A disposable consumer app that behaves like an outside user's Remix 3
+   project. This app should start without copied RadCN component source, then
+   receive generated config and components through the local CLI.
+2. Automated install verification that can be repeated from a clean state. The
+   verification should run the local `radcn init` and `radcn add button`
+   commands, typecheck the target app, build its Tailwind output, and render a
+   route that imports Button from the target app's own generated source.
+
+Manual browser testing is useful as a sanity check, but it is not the durable
+proof. The durable proof is a fixture plus deterministic commands and tests
+that can run before RadCN is published anywhere.
+
 ## ShadCN Reference Findings
 
 The vendored shadcn CLI lives at `vendor/shadcn-ui/packages/shadcn/src/`.
@@ -138,6 +157,14 @@ fixture app.
   at `radcn/fixtures/install-target/`. This fixture is not the docs app and is
   not RadCN package source; it exists only to prove that RadCN can initialize
   and install components into an external target app.
+- The first proof should concentrate on Button only. It should prove the
+  command shape, config file, local registry item, copied source ownership,
+  Tailwind v4 requirement, idempotent re-run behavior, and Remix 3 render path
+  before expanding to more components.
+- The fixture route must import Button from generated target-owned source, not
+  from `radcn/button`. Package imports can remain an internal source/template
+  implementation detail only if the experiment records why that does not weaken
+  the copied-source model.
 
 ## Scope
 
@@ -160,12 +187,19 @@ In scope:
   flow.
 - Tests or deterministic checks that verify generated files, config, imports,
   dependencies, and Remix 3 usability.
+- An automated clean-state verification path for the install target, including
+  local `init`, local `add button`, target typecheck, Tailwind style build, and
+  browser or route-level rendering of the installed Button.
+- A deterministic re-run check for `radcn add button` showing that unchanged
+  files are skipped or that overwrite behavior is explicit and safe.
 
 Out of scope:
 
 - Publishing any package to npm.
 - Designing the final public package names or npm release automation beyond
   what is needed to keep the local proof realistic.
+- Treating a published package as the proof of the installation model.
+- Relying on manual browser testing as the only verification.
 - Plain JavaScript output or JavaScript-only target projects.
 - Reopening closed parity issues or modifying historical closed issue records.
 - Installing from `vendor/` as a dependency. Vendor remains reference-only.
@@ -207,7 +241,23 @@ The likely architecture mirrors shadcn/ui:
     the RadCN docs app;
   - runs the local CLI against the app;
   - imports the installed Button from the generated local path;
-  - renders and verifies the Button in a browser or deterministic route test.
+  - renders and verifies the Button in a browser or deterministic route test;
+  - can be reset or recreated by tests so the install flow is proven from a
+    clean target state, not from checked-in generated leftovers.
+
+The first successful proof should be expressible as a small command sequence in
+the repository, conceptually:
+
+```bash
+pnpm radcn init --cwd radcn/fixtures/install-target --yes
+pnpm radcn add button --cwd radcn/fixtures/install-target --yes
+pnpm --dir radcn/fixtures/install-target typecheck
+pnpm --dir radcn/fixtures/install-target styles:build
+pnpm --dir radcn/fixtures/install-target test
+```
+
+The exact package scripts may differ once the implementation exists, but the
+verification needs to prove those same behaviors.
 
 ## Key Questions
 
@@ -218,6 +268,12 @@ The likely architecture mirrors shadcn/ui:
   local files, plain names, namespaced `@radcn/button`, URLs, or all of them?
 - Which exact Remix 3 default paths should `components.json` write for
   components, utilities, styles, and hooks?
+- Should the install-target fixture keep generated files checked in as expected
+  outputs, generate them into a disposable temporary copy during tests, or use a
+  hybrid approach?
+- What is the clearest failure mode when the target app is missing Tailwind v4:
+  `init` failure, `add` failure, style-build failure with a RadCN diagnostic,
+  or some combination?
 
 ## Completion Criteria
 
@@ -238,6 +294,9 @@ This issue is complete when:
   overwrite behavior is explicit and tested;
 - the installed Button can be imported and rendered from the target Remix 3
   fixture from its own generated local source;
+- the verification runs from a clean target state and proves generated output,
+  target typecheck, Tailwind output, and Button rendering without manual-only
+  steps;
 - the flow does not read from or install dependencies from `vendor/`;
 - verification proves the flow works without npm publication;
 - the local flow maps directly to the eventual published flow without changing
