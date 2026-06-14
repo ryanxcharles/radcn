@@ -275,6 +275,11 @@ verification needs to prove those same behaviors.
   `init` failure, `add` failure, style-build failure with a RadCN diagnostic,
   or some combination?
 
+## Experiments
+
+- [Experiment 1: Prove the Button install flow](01-prove-button-install-flow.md)
+  — **Designed**
+
 ## Completion Criteria
 
 This issue is complete when:
